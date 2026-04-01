@@ -99,10 +99,10 @@ def test_softtf_idf_corpus():
     assert cmp_q3_08.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.383052250)
 
     # These values won't be stable, so we just use Greater/Less
-    assert cmp_q3_03.sim('Nigel' > 'Niall', 0.5)
-    assert cmp_q3_03.sim('Niall' > 'Nigel', 0.5)
-    assert cmp_q3_03.sim('Colin' > 'Coiln', 0.5)
-    assert cmp_q3_03.sim('Coiln' > 'Colin', 0.5)
+    assert cmp_q3_03.sim('Nigel', 'Niall') > 0.5
+    assert cmp_q3_03.sim('Niall', 'Nigel') > 0.5
+    assert cmp_q3_03.sim('Colin', 'Coiln') > 0.5
+    assert cmp_q3_03.sim('Coiln', 'Colin') > 0.5
 
     assert cmp_q3_08.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.391157328)
     assert cmp_q3_08.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.391157328)
@@ -110,7 +110,7 @@ def test_softtf_idf_corpus():
     assert cmp_q3_08.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.616947750)
 
     # These values won't be stable, so we just use Greater/Less
-    assert cmp_q3_03.dist('Nigel' < 'Niall', 0.5)
-    assert cmp_q3_03.dist('Niall' < 'Nigel', 0.5)
-    assert cmp_q3_03.dist('Colin' < 'Coiln', 0.5)
-    assert cmp_q3_03.dist('Coiln' < 'Colin', 0.5)
+    assert cmp_q3_03.dist('Nigel', 'Niall') < 0.5
+    assert cmp_q3_03.dist('Niall', 'Nigel') < 0.5
+    assert cmp_q3_03.dist('Colin', 'Coiln') < 0.5
+    assert cmp_q3_03.dist('Coiln', 'Colin') < 0.5
