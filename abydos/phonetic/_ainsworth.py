@@ -266,6 +266,8 @@ class Ainsworth(_Phonetic):
         .. versionadded:: 0.4.1
 
         """
+        self._validate_word(word)
+
         # lowercase
         word = word.lower()
         pron = []

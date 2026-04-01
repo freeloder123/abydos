@@ -19,64 +19,52 @@
 This module contains unit tests for abydos.tokenizer.VCClusterTokenizer
 """
 
-import unittest
 
 from abydos.tokenizer import VCClusterTokenizer
 
 
-class VCClusterTokenizerTestCases(unittest.TestCase):
+def test_vc_cluster_tokenizer():
     """Test abydos.tokenizer.VCClusterTokenizer."""
+    assert sorted(VCClusterTokenizer().tokenize('').get_list()) == []
+    assert sorted(VCClusterTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_vc_cluster_tokenizer(self):
-        """Test abydos.tokenizer.VCClusterTokenizer."""
-        self.assertEqual(
-            sorted(VCClusterTokenizer().tokenize('').get_list()), []
-        )
-        self.assertEqual(
-            sorted(VCClusterTokenizer().tokenize('a').get_list()), ['a']
-        )
+    tok = VCClusterTokenizer()
 
-        tok = VCClusterTokenizer()
+    assert (
+        sorted(tok.tokenize('nelson').get_list())
+        == sorted(['n', 'els', 'on'])
+    )
+    assert (
+        sorted(tok.tokenize('neilson').get_list())
+        == sorted(['n', 'eils', 'on'])
+    )
+    assert (
+        sorted(tok.tokenize('peninsular').get_list())
+        == sorted(['p', 'en', 'ins', 'ul', 'ar'])
+    )
+    assert (
+        sorted(tok.tokenize('spectacular').get_list())
+        == sorted(['sp', 'ect', 'ac', 'ul', 'ar'])
+    )
+    assert (
+        sorted(tok.tokenize('sufficiently').get_list())
+        == sorted(['s', 'uff', 'ic', 'ientl', 'y'])
+    )
+    assert (
+        sorted(tok.tokenize('yachting').get_list())
+        == sorted(['yacht', 'ing'])
+    )
+    assert (
+        sorted(tok.tokenize('caterpillars').get_list())
+        == sorted(['c', 'at', 'erp', 'ill', 'ars'])
+    )
+    assert (
+        sorted(tok.tokenize('Götterdämmerung').get_list())
+        == sorted(['G', 'ött', 'erd', 'ämm', 'er', 'ung'])
+    )
 
-        self.assertEqual(
-            sorted(tok.tokenize('nelson').get_list()),
-            sorted(['n', 'els', 'on']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('neilson').get_list()),
-            sorted(['n', 'eils', 'on']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('peninsular').get_list()),
-            sorted(['p', 'en', 'ins', 'ul', 'ar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('spectacular').get_list()),
-            sorted(['sp', 'ect', 'ac', 'ul', 'ar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('sufficiently').get_list()),
-            sorted(['s', 'uff', 'ic', 'ientl', 'y']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('yachting').get_list()),
-            sorted(['yacht', 'ing']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('caterpillars').get_list()),
-            sorted(['c', 'at', 'erp', 'ill', 'ars']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('Götterdämmerung').get_list()),
-            sorted(['G', 'ött', 'erd', 'ämm', 'er', 'ung']),
-        )
-
-        tok = VCClusterTokenizer(consonants='ptkbdgmn', vowels='aeiouwy')
-        self.assertEqual(
-            sorted(tok.tokenize('#winning #losing').get_list()),
-            sorted(['#', 'winn', 'ing', '#', 'losing']),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    tok = VCClusterTokenizer(consonants='ptkbdgmn', vowels='aeiouwy')
+    assert (
+        sorted(tok.tokenize('#winning #losing').get_list())
+        == sorted(['#', 'winn', 'ing', '#', 'losing'])
+    )

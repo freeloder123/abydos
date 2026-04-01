@@ -19,113 +19,69 @@
 This module contains unit tests for abydos.distance.Ozbay
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Ozbay
 
 
-class OzbayTestCases(unittest.TestCase):
-    """Test Ozbay metric functions.
-
-    abydos.distance.Ozbay
-    """
-
-    cmp = Ozbay()
-
-    def test_ozbay_dist_abs(self):
-        """Test abydos.distance.Ozbay.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('piccadilly', 'bandage'), 73.63636363636363
-        )
-        self.assertAlmostEqual(self.cmp.dist_abs('abcd', 'efgh'), 16)
-
-        # Test cases from https://github.com/hakanozbay/ozbay-metric
-        self.assertEqual(self.cmp.dist_abs('ban', 'ban'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist_abs('ban', 'bane'), 0.3333333333)
-        self.assertAlmostEqual(self.cmp.dist_abs('ban', 'band'), 0.3333333333)
-        self.assertEqual(self.cmp.dist_abs('ban', 'bat'), 0.75)
-        self.assertAlmostEqual(self.cmp.dist_abs('ban', 'bands'), 1.3333333333)
-        self.assertEqual(self.cmp.dist_abs('ban', 'banana'), 2.0)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ban', 'bandana'), 2.3333333333
-        )
-        self.assertEqual(self.cmp.dist_abs('ban', 'bandit'), 3.0)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ban', 'bandage'), 4.6666666666
-        )
-
-        self.assertEqual(self.cmp.dist_abs('piccadilly', 'piccadilly'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('piccadilly', 'piccadilyl'), 0.25)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('piccadilly', 'piccadlily'), 0.3333333333
-        )
-        self.assertEqual(self.cmp.dist_abs('piccadilly', 'picacdilly'), 0.4)
-        self.assertEqual(self.cmp.dist_abs('piccadilly', 'picadily'), 0.4)
-        self.assertEqual(self.cmp.dist_abs('picadily', 'piccadilly'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('piccadilly', 'picacdlily'), 1.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ipcacdily', 'piccadilly'), 1.4814814814814814
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('piccadilly', 'ipcacdily'), 1.333333333
-        )
-        self.assertEqual(self.cmp.dist_abs('piccadilly', 'pcicadlyil'), 2.0)
-
-    def test_ozbay_dist(self):
-        """Test abydos.distance.Ozbay.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-
-        self.assertAlmostEqual(
-            self.cmp.dist('piccadilly', 'bandage'), 0.9467532467532467
-        )
-        self.assertAlmostEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        # Test cases from https://github.com/hakanozbay/ozbay-metric
-        self.assertEqual(self.cmp.dist('ban', 'ban'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp.dist('ban', 'bane'), 0.006944444444444444
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('ban', 'band'), 0.006944444444444444
-        )
-        self.assertEqual(self.cmp.dist('ban', 'bat'), 0.02777777777777778)
-        self.assertAlmostEqual(
-            self.cmp.dist('ban', 'bands'), 0.03555555555555556
-        )
-        self.assertEqual(self.cmp.dist('ban', 'banana'), 0.05555555555555555)
-        self.assertAlmostEqual(
-            self.cmp.dist('ban', 'bandana'), 0.0634920634920635
-        )
-        self.assertEqual(self.cmp.dist('ban', 'bandit'), 0.08333333333333333)
-        self.assertAlmostEqual(
-            self.cmp.dist('ban', 'bandage'), 0.126984126984127
-        )
-
-        self.assertEqual(self.cmp.dist('piccadilly', 'piccadilly'), 0.0)
-        self.assertEqual(
-            self.cmp.dist('piccadilly', 'piccadilyl'), 0.0004999999999999999
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('piccadilly', 'piccadlily'), 0.0013333333333333335
-        )
-        self.assertEqual(self.cmp.dist('piccadilly', 'picacdilly'), 0.002)
-        self.assertEqual(self.cmp.dist('piccadilly', 'picadily'), 0.0025)
-        self.assertEqual(self.cmp.dist('picadily', 'piccadilly'), 0.003125)
-        self.assertAlmostEqual(
-            self.cmp.dist('piccadilly', 'picacdlily'), 0.009333333333333334
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('ipcacdily', 'piccadilly'), 0.011522633744855966
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('piccadilly', 'ipcacdily'), 0.01037037037037037
-        )
-        self.assertEqual(self.cmp.dist('piccadilly', 'pcicadlyil'), 0.014)
+cmp = Ozbay()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_ozbay_dist_abs():
+    """Test abydos.distance.Ozbay.dist_abs."""
+    assert cmp.dist_abs('', '') == 0.0
+
+    assert cmp.dist_abs('piccadilly', 'bandage') == pytest.approx(abs=1e-7, expected=73.63636363636363)
+    assert cmp.dist_abs('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=16)
+
+    # Test cases from https://github.com/hakanozbay/ozbay-metric
+    assert cmp.dist_abs('ban', 'ban') == 0.0
+    assert cmp.dist_abs('ban', 'bane') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist_abs('ban', 'band') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist_abs('ban', 'bat') == 0.75
+    assert cmp.dist_abs('ban', 'bands') == pytest.approx(abs=1e-7, expected=1.3333333333)
+    assert cmp.dist_abs('ban', 'banana') == 2.0
+    assert cmp.dist_abs('ban', 'bandana') == pytest.approx(abs=1e-7, expected=2.3333333333)
+    assert cmp.dist_abs('ban', 'bandit') == 3.0
+    assert cmp.dist_abs('ban', 'bandage') == pytest.approx(abs=1e-7, expected=4.6666666666)
+
+    assert cmp.dist_abs('piccadilly', 'piccadilly') == 0.0
+    assert cmp.dist_abs('piccadilly', 'piccadilyl') == 0.25
+    assert cmp.dist_abs('piccadilly', 'piccadlily') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist_abs('piccadilly', 'picacdilly') == 0.4
+    assert cmp.dist_abs('piccadilly', 'picadily') == 0.4
+    assert cmp.dist_abs('picadily', 'piccadilly') == 0.5
+    assert cmp.dist_abs('piccadilly', 'picacdlily') == pytest.approx(abs=1e-7, expected=1.3333333333)
+    assert cmp.dist_abs('ipcacdily', 'piccadilly') == pytest.approx(abs=1e-7, expected=1.4814814814814814)
+    assert cmp.dist_abs('piccadilly', 'ipcacdily') == pytest.approx(abs=1e-7, expected=1.333333333)
+    assert cmp.dist_abs('piccadilly', 'pcicadlyil') == 2.0
+
+def test_ozbay_dist():
+    """Test abydos.distance.Ozbay.dist."""
+    assert cmp.dist('', '') == 0
+
+    assert cmp.dist('piccadilly', 'bandage') == pytest.approx(abs=1e-7, expected=0.9467532467532467)
+    assert cmp.dist('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=1.0)
+
+    # Test cases from https://github.com/hakanozbay/ozbay-metric
+    assert cmp.dist('ban', 'ban') == 0.0
+    assert cmp.dist('ban', 'bane') == pytest.approx(abs=1e-7, expected=0.006944444444444444)
+    assert cmp.dist('ban', 'band') == pytest.approx(abs=1e-7, expected=0.006944444444444444)
+    assert cmp.dist('ban', 'bat') == 0.02777777777777778
+    assert cmp.dist('ban', 'bands') == pytest.approx(abs=1e-7, expected=0.03555555555555556)
+    assert cmp.dist('ban', 'banana') == 0.05555555555555555
+    assert cmp.dist('ban', 'bandana') == pytest.approx(abs=1e-7, expected=0.0634920634920635)
+    assert cmp.dist('ban', 'bandit') == 0.08333333333333333
+    assert cmp.dist('ban', 'bandage') == pytest.approx(abs=1e-7, expected=0.126984126984127)
+
+    assert cmp.dist('piccadilly', 'piccadilly') == 0.0
+    assert cmp.dist('piccadilly', 'piccadilyl') == 0.0004999999999999999
+    assert cmp.dist('piccadilly', 'piccadlily') == pytest.approx(abs=1e-7, expected=0.0013333333333333335)
+    assert cmp.dist('piccadilly', 'picacdilly') == 0.002
+    assert cmp.dist('piccadilly', 'picadily') == 0.0025
+    assert cmp.dist('picadily', 'piccadilly') == 0.003125
+    assert cmp.dist('piccadilly', 'picacdlily') == pytest.approx(abs=1e-7, expected=0.009333333333333334)
+    assert cmp.dist('ipcacdily', 'piccadilly') == pytest.approx(abs=1e-7, expected=0.011522633744855966)
+    assert cmp.dist('piccadilly', 'ipcacdily') == pytest.approx(abs=1e-7, expected=0.01037037037037037)
+    assert cmp.dist('piccadilly', 'pcicadlyil') == 0.014

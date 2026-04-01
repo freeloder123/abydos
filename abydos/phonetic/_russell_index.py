@@ -81,6 +81,8 @@ class RussellIndex(_Phonetic):
             Made return a str
 
         """
+        self._validate_word(word)
+
         word = unicode_normalize('NFKD', word.upper())
         word = word.replace('GH', '')  # discard gh (rule 3)
         word = word.rstrip('SZ')  # discard /[sz]$/ (rule 3)

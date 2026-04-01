@@ -148,6 +148,8 @@ class RethSchek(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         # Uppercase
         word = word.upper()
 

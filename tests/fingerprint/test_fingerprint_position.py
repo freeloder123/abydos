@@ -19,41 +19,28 @@
 This module contains unit tests for abydos.fingerprint.Position
 """
 
-import unittest
 
 from abydos.fingerprint import Position
 
 
-class PositionFingerprintTestCases(unittest.TestCase):
-    """Test Cisłak & Grabowski's position fingerprint functions.
-
-    abydos.fingerprint.Position
-    """
-
-    fp = Position()
-
-    def test_position_fingerprint(self):
-        """Test abydos.fingerprint.Position."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '1111111111111111')
-
-        # https://arxiv.org/pdf/1711.08475.pdf
-        self.assertEqual(self.fp.fingerprint('instance'), '1110111001110001')
-
-        self.assertEqual(self.fp.fingerprint('instance'), '1110111001110001')
-        self.assertEqual(
-            Position(15).fingerprint('instance'), '111011100111000'
-        )
-        self.assertEqual(
-            Position(32).fingerprint('instance'),
-            '11101110011100000101011111111111',
-        )
-        self.assertEqual(
-            Position(64).fingerprint('instance'),
-            '11101110011100000101011111111111'
-            + '11101111111111111111111111111111',
-        )
+fp = Position()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_position_fingerprint():
+    """Test abydos.fingerprint.Position."""
+    # Base case
+    assert fp.fingerprint('') == '1111111111111111'
+
+    # https://arxiv.org/pdf/1711.08475.pdf
+    assert fp.fingerprint('instance') == '1110111001110001'
+
+    assert fp.fingerprint('instance') == '1110111001110001'
+    assert Position(15).fingerprint('instance') == '111011100111000'
+    assert (
+        Position(32).fingerprint('instance')
+        == '11101110011100000101011111111111'
+    )
+    assert (
+        Position(64).fingerprint('instance')
+        == '11101110011100000101011111111111' + '11101111111111111111111111111111'
+    )

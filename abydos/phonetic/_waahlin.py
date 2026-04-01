@@ -195,6 +195,8 @@ class Waahlin(_Phonetic):
         .. versionadded:: 0.4.0
 
         """
+        self._validate_word(word)
+
         # uppercase, normalize, decompose, and filter non-A-Z out
         word = unicode_normalize('NFC', word.upper())
         if not word:

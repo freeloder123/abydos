@@ -19,54 +19,44 @@
 This module contains unit tests for abydos.phonetic.PSHPSoundexFirst
 """
 
-import unittest
-
 from abydos.phonetic import PSHPSoundexFirst
 
 
-class PSHPSoundexTestCases(unittest.TestCase):
-    """Test PSHP Soundex functions.
+pa = PSHPSoundexFirst()
 
-    test cases for abydos.phonetic.PSHPSoundexFirst
-    """
+pa_german = PSHPSoundexFirst(german=True)
 
-    pa = PSHPSoundexFirst()
-    pa_german = PSHPSoundexFirst(german=True)
-    pa_unl = PSHPSoundexFirst(max_length=-1)
+pa_unl = PSHPSoundexFirst(max_length=-1)
 
-    def test_pshp_soundex_first(self):
-        """Test abydos.phonetic.PSHPSoundexFirst."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '0000')
+def test_pshp_soundex_first():
+    """Test abydos.phonetic.PSHPSoundexFirst."""
+    # Base case
+    assert pa.encode('') == '0000'
 
-        # Examples given in defining paper (Hershberg, et al. 1976)
-        self.assertEqual(self.pa.encode('JAMES'), 'J700')
-        self.assertEqual(self.pa.encode('JOHN'), 'J500')
-        self.assertEqual(self.pa.encode('PAT'), 'P700')
-        self.assertEqual(self.pa.encode('PETER'), 'P300')
+    # Examples given in defining paper (Hershberg, et al. 1976)
+    assert pa.encode('JAMES') == 'J700'
+    assert pa.encode('JOHN') == 'J500'
+    assert pa.encode('PAT') == 'P700'
+    assert pa.encode('PETER') == 'P300'
 
-        # Additions for coverage
-        self.assertEqual(self.pa.encode('Giles'), 'J400')
-        self.assertEqual(self.pa.encode('Cy'), 'S000')
-        self.assertEqual(self.pa.encode('Chris'), 'K500')
-        self.assertEqual(self.pa.encode('Caleb'), 'K400')
-        self.assertEqual(self.pa.encode('Knabe'), 'N100')
-        self.assertEqual(self.pa.encode('Phil'), 'F400')
-        self.assertEqual(self.pa.encode('Wieland'), 'V400')
-        self.assertEqual(self.pa_german.encode('Wayne'), 'V500')
-        self.assertEqual(self.pa_unl.encode('Christopher'), 'K5')
-        self.assertEqual(self.pa_unl.encode('Asdaananndsjsjasd'), 'A23553223')
-        self.assertEqual(self.pa.encode('Asdaananndsjsjasd'), 'A235')
+    # Additions for coverage
+    assert pa.encode('Giles') == 'J400'
+    assert pa.encode('Cy') == 'S000'
+    assert pa.encode('Chris') == 'K500'
+    assert pa.encode('Caleb') == 'K400'
+    assert pa.encode('Knabe') == 'N100'
+    assert pa.encode('Phil') == 'F400'
+    assert pa.encode('Wieland') == 'V400'
+    assert pa_german.encode('Wayne') == 'V500'
+    assert pa_unl.encode('Christopher') == 'K5'
+    assert pa_unl.encode('Asdaananndsjsjasd') == 'A23553223'
+    assert pa.encode('Asdaananndsjsjasd') == 'A235'
 
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('JAMES'), 'JN')
-        self.assertEqual(self.pa.encode_alpha('JOHN'), 'JN')
-        self.assertEqual(self.pa.encode_alpha('PAT'), 'PT')
-        self.assertEqual(self.pa.encode_alpha('PETER'), 'PT')
-        self.assertEqual(self.pa.encode_alpha('Knabe'), 'NP')
-        self.assertEqual(self.pa.encode_alpha('Phil'), 'FL')
-        self.assertEqual(self.pa.encode_alpha('Wieland'), 'VL')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('JAMES') == 'JN'
+    assert pa.encode_alpha('JOHN') == 'JN'
+    assert pa.encode_alpha('PAT') == 'PT'
+    assert pa.encode_alpha('PETER') == 'PT'
+    assert pa.encode_alpha('Knabe') == 'NP'
+    assert pa.encode_alpha('Phil') == 'FL'
+    assert pa.encode_alpha('Wieland') == 'VL'

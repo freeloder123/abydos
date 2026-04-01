@@ -19,39 +19,29 @@
 This module contains unit tests for abydos.distance.HornMorisita
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import HornMorisita
 
 
-class HornMorisitaTestCases(unittest.TestCase):
-    """Test HornMorisita functions.
-
-    abydos.distance.HornMorisita
-    """
-
-    cmp = HornMorisita()
-
-    def test_horn_morisita_sim(self):
-        """Test abydos.distance.HornMorisita.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 0.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.6666666666667
-        )
+cmp = HornMorisita()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_horn_morisita_sim():
+    """Test abydos.distance.HornMorisita.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 0.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6666666666667)

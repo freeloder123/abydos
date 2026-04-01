@@ -19,34 +19,20 @@
 This module contains unit tests for abydos.fingerprint.BWTRLEF
 """
 
-import unittest
 
 from abydos.fingerprint import BWTRLEF
 
 
-class BWTRLEFTestCases(unittest.TestCase):
-    """Test BWT+RLE fingerprint.
+bwtrle = BWTRLEF()
 
-    abydos.fingerprint.BWTRLEF
-    """
-
-    bwtrle = BWTRLEF()
-
-    bws = 'WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWBWWWWWWWWWWWWWW'
-
-    def test_consonant_bwtrlef(self):
-        """Test abydos.fingerprint.BWTRLEF."""
-        # Base case
-        self.assertEqual(self.bwtrle.fingerprint(''), '\x00')
-
-        self.assertEqual(self.bwtrle.fingerprint('banana'), 'annb\x00aa')
-        self.assertEqual(
-            self.bwtrle.fingerprint(self.bws), 'WWBWWB45WB\x003WB10WB'
-        )
-        self.assertEqual(
-            self.bwtrle.fingerprint('Schifffahrt'), 't\x00fSfficahhr'
-        )
+bws = 'WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWBWWWWWWWWWWWWWW'
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_consonant_bwtrlef():
+    """Test abydos.fingerprint.BWTRLEF."""
+    # Base case
+    assert bwtrle.fingerprint('') == '\x00'
+
+    assert bwtrle.fingerprint('banana') == 'annb\x00aa'
+    assert bwtrle.fingerprint(bws) == 'WWBWWB45WB\x003WB10WB'
+    assert bwtrle.fingerprint('Schifffahrt') == 't\x00fSfficahhr'

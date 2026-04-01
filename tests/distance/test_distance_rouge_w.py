@@ -19,82 +19,65 @@
 This module contains unit tests for abydos.distance.RougeW
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import RougeW
 
 
-class RougeWTestCases(unittest.TestCase):
-    """Test RougeW functions.
+cmp = RougeW()
 
-    abydos.distance.RougeW
-    """
-
-    cmp = RougeW()
-    cmp_cubed = RougeW(f_func=lambda x: x ** 3, f_inv=lambda x: x ** (1 / 3))
-
-    def test_rouge_w_sim(self):
-        """Test abydos.distance.RougeW.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.4472135955)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.4472135955)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.4898979486)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.4898979486)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.548566506
-        )
-
-        # Examples from paper
-        self.assertEqual(round(self.cmp.sim('ABCDEFG', 'ABCDHIK'), 3), 0.571)
-        self.assertEqual(round(self.cmp.sim('ABCDEFG', 'AHBKCID'), 3), 0.286)
-
-        # Coverage
-        self.assertAlmostEqual(
-            self.cmp_cubed.sim('Nigel', 'Niall'), 0.4160167646
-        )
-        self.assertAlmostEqual(
-            self.cmp_cubed.sim('Colin', 'Coiln'), 0.4308869380
-        )
-        self.assertAlmostEqual(
-            self.cmp_cubed.sim('ATCAACGAGT', 'AACGATTAG'), 0.5125114739
-        )
-
-    def test_rouge_w_dist(self):
-        """Test abydos.distance.RougeW.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.5527864045)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.5527864045)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.5101020514)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.5101020514)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.451433494
-        )
-
-    def test_rouge_w_wlcs(self):
-        """Test abydos.distance.RougeW.wlcs."""
-        self.assertEqual(self.cmp.wlcs('', ''), 0)
-        self.assertEqual(self.cmp.wlcs('a', ''), 0)
-        self.assertEqual(self.cmp.wlcs('', 'a'), 0)
-        self.assertEqual(self.cmp.wlcs('abc', ''), 0)
-        self.assertEqual(self.cmp.wlcs('', 'abc'), 0)
-        self.assertEqual(self.cmp.wlcs('abc', 'abc'), 9)
+cmp_cubed = RougeW(f_func=lambda x: x ** 3, f_inv=lambda x: x ** (1 / 3))
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_rouge_w_sim():
+    """Test abydos.distance.RougeW.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4472135955)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4472135955)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4898979486)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.4898979486)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.548566506)
+
+    # Examples from paper
+    assert round(cmp.sim('ABCDEFG', 'ABCDHIK'), 3) == 0.571
+    assert round(cmp.sim('ABCDEFG', 'AHBKCID'), 3) == 0.286
+
+    # Coverage
+    assert cmp_cubed.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4160167646)
+    assert cmp_cubed.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4308869380)
+    assert cmp_cubed.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5125114739)
+
+def test_rouge_w_dist():
+    """Test abydos.distance.RougeW.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5527864045)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5527864045)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5101020514)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5101020514)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.451433494)
+
+def test_rouge_w_wlcs():
+    """Test abydos.distance.RougeW.wlcs."""
+    assert cmp.wlcs('', '') == 0
+    assert cmp.wlcs('a', '') == 0
+    assert cmp.wlcs('', 'a') == 0
+    assert cmp.wlcs('abc', '') == 0
+    assert cmp.wlcs('', 'abc') == 0
+    assert cmp.wlcs('abc', 'abc') == 9

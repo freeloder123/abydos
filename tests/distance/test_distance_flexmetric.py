@@ -19,86 +19,74 @@
 This module contains unit tests for abydos.distance.FlexMetric
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import FlexMetric
 
 
-class FlexMetricTestCases(unittest.TestCase):
-    """Test FlexMetric functions.
+cmp = FlexMetric()
 
-    abydos.distance.FlexMetric
-    """
+cmp_custom = FlexMetric(
 
-    cmp = FlexMetric()
-    cmp_custom = FlexMetric(
-        indel_costs=[(set('aeiou'), 0.1), (set('bcdfghjklmnpqrstvwxyz'), 0.9)],
-        subst_costs=[(set('aeiou'), 0.1), (set('bcdfghjklmnpqrstvwxyz'), 0.9)],
+
+    indel_costs=[(set('aeiou'), 0.1), (set('bcdfghjklmnpqrstvwxyz'), 0.9)],
+    subst_costs=[(set('aeiou'), 0.1), (set('bcdfghjklmnpqrstvwxyz'), 0.9)],
     )
 
-    def test_flexmetric_dist(self):
-        """Test abydos.distance.FlexMetric.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertAlmostEqual(self.cmp.dist('abc', ''), 0.7999999999999999)
-        self.assertAlmostEqual(self.cmp.dist('', 'abc'), 0.7999999999999999)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('abcd', 'efgh'), 0.925)
+def test_flexmetric_dist():
+    """Test abydos.distance.FlexMetric.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == pytest.approx(abs=1e-7, expected=0.7999999999999999)
+    assert cmp.dist('', 'abc') == pytest.approx(abs=1e-7, expected=0.7999999999999999)
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.925)
 
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.3)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.3)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.26)
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.26)
 
-    def test_flexmetric_sim(self):
-        """Test abydos.distance.FlexMetric.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim('abc', ''), 0.20000000000000007)
-        self.assertAlmostEqual(self.cmp.sim('', 'abc'), 0.20000000000000007)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('abcd', 'efgh'), 0.075)
+def test_flexmetric_sim():
+    """Test abydos.distance.FlexMetric.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == pytest.approx(abs=1e-7, expected=0.20000000000000007)
+    assert cmp.sim('', 'abc') == pytest.approx(abs=1e-7, expected=0.20000000000000007)
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.075)
 
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.7)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.7)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.74)
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.7)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.7)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.74)
 
-    def test_flexmetric_dist_abs(self):
-        """Test abydos.distance.FlexMetric.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 2.4)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 2.4)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('abcd', 'efgh'), 3.6999999999999997
-        )
+def test_flexmetric_dist_abs():
+    """Test abydos.distance.FlexMetric.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0
+    assert cmp.dist_abs('a', '') == 1.0
+    assert cmp.dist_abs('', 'a') == 1.0
+    assert cmp.dist_abs('abc', '') == 2.4
+    assert cmp.dist_abs('', 'abc') == 2.4
+    assert cmp.dist_abs('abc', 'abc') == 0
+    assert cmp.dist_abs('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=3.6999999999999997)
 
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 1.5)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 1.5)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 2.0)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 2.0)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 2.6
-        )
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1.5)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.5)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=2.0)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=2.0)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=2.6)
 
-        self.assertAlmostEqual(self.cmp_custom.dist_abs('Nigel', 'Niall'), 1.0)
-        self.assertAlmostEqual(self.cmp_custom.dist_abs('Niall', 'Nigel'), 1.0)
-        self.assertAlmostEqual(self.cmp_custom.dist_abs('Colin', 'Coiln'), 0.2)
-        self.assertAlmostEqual(self.cmp_custom.dist_abs('Coiln', 'Colin'), 0.2)
-        self.assertAlmostEqual(
-            self.cmp_custom.dist_abs('ATCAACGAGT', 'AACGATTAG'), 3.7
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert cmp_custom.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp_custom.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp_custom.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.2)
+    assert cmp_custom.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.2)
+    assert cmp_custom.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=3.7)

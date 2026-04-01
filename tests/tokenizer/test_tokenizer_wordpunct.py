@@ -19,66 +19,27 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import WordpunctTokenizer
 
 
-class WordpunctTokenizerTestCases(unittest.TestCase):
+def test_wordpunct_tokenizer():
     """Test abydos.tokenizer.WordpunctTokenizer."""
+    assert sorted(WordpunctTokenizer().tokenize('').get_list()) == []
+    assert sorted(WordpunctTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_wordpunct_tokenizer(self):
-        """Test abydos.tokenizer.WordpunctTokenizer."""
-        self.assertEqual(
-            sorted(WordpunctTokenizer().tokenize('').get_list()), []
-        )
-        self.assertEqual(
-            sorted(WordpunctTokenizer().tokenize('a').get_list()), ['a']
-        )
+    assert (
+        sorted(WordpunctTokenizer().tokenize('NELSON').get_list())
+        == sorted(['NELSON'])
+    )
+    assert (
+        sorted(WordpunctTokenizer().tokenize('NEILSEN').get_list())
+        == sorted(['NEILSEN'])
+    )
 
-        self.assertEqual(
-            sorted(WordpunctTokenizer().tokenize('NELSON').get_list()),
-            sorted(['NELSON']),
-        )
-        self.assertEqual(
-            sorted(WordpunctTokenizer().tokenize('NEILSEN').get_list()),
-            sorted(['NEILSEN']),
-        )
-
-        tweet = 'I got a chance to catch up with the @Space_Station crew\
-        today. Nothing like a call to space on #AstronomyNight!'
-        self.assertEqual(
-            sorted(WordpunctTokenizer().tokenize(tweet).get_list()),
-            sorted(
-                [
-                    'I',
-                    'got',
-                    'a',
-                    'chance',
-                    'to',
-                    'catch',
-                    'up',
-                    'with',
-                    'the',
-                    '@',
-                    'Space_Station',
-                    'crew',
-                    'today',
-                    '.',
-                    'Nothing',
-                    'like',
-                    'a',
-                    'call',
-                    'to',
-                    'space',
-                    'on',
-                    '#',
-                    'AstronomyNight',
-                    '!',
-                ]
-            ),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    tweet = 'I got a chance to catch up with the @Space_Station crew\
+    today. Nothing like a call to space on #AstronomyNight!'
+    assert (
+        sorted(WordpunctTokenizer().tokenize(tweet).get_list())
+        == sorted( [ 'I', 'got', 'a', 'chance', 'to', 'catch', 'up', 'with', 'the', '@', 'Space_Station', 'crew', 'today', '.', 'Nothing', 'like', 'a', 'call', 'to', 'space', 'on', '#', 'AstronomyNight', '!', ] )
+    )

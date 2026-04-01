@@ -19,43 +19,29 @@
 This module contains unit tests for abydos.distance.LIG3
 """
 
-import unittest
 
 from abydos.distance import LIG3
 
 
-class LIG3TestCases(unittest.TestCase):
-    """Test LIG3 functions.
-
-    abydos.distance.LIG3
-    """
-
-    cmp = LIG3()
-
-    def test_lig3_sim(self):
-        """Test abydos.distance.LIG3.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        # Testcases from paper
-        self.assertEqual(self.cmp.sim('Glavin', 'Glawyn'), 0.8)
-        self.assertEqual(
-            self.cmp.sim('Williams', 'Vylliems'), 0.7692307692307693
-        )
-        self.assertEqual(self.cmp.sim('Lewis', 'Louis'), 0.75)
-        self.assertEqual(self.cmp.sim('Alex', 'Alexander'), 0.6153846153846154)
-        self.assertEqual(self.cmp.sim('Wild', 'Wildsmith'), 0.6153846153846154)
-        self.assertEqual(
-            self.cmp.sim('Bram', 'Bramberley'), 0.5714285714285714
-        )
+cmp = LIG3()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_lig3_sim():
+    """Test abydos.distance.LIG3.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    # Testcases from paper
+    assert cmp.sim('Glavin', 'Glawyn') == 0.8
+    assert cmp.sim('Williams', 'Vylliems') == 0.7692307692307693
+    assert cmp.sim('Lewis', 'Louis') == 0.75
+    assert cmp.sim('Alex', 'Alexander') == 0.6153846153846154
+    assert cmp.sim('Wild', 'Wildsmith') == 0.6153846153846154
+    assert cmp.sim('Bram', 'Bramberley') == 0.5714285714285714

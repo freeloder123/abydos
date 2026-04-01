@@ -19,64 +19,54 @@
 This module contains unit tests for abydos.distance.Guth
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Guth
 
 
-class GuthTestCases(unittest.TestCase):
-    """Test Guth functions.
-
-    abydos.distance.Guth
-    """
-
-    cmp = Guth()
-
-    def test_guth_sim_score(self):
-        """Test abydos.distance.Guth.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 1.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 0.0)
-
-        # Testcases from paper
-        self.assertEqual(self.cmp.sim_score('Glawyn', 'Glavin'), 1.0)
-        self.assertEqual(self.cmp.sim_score('Smears', 'Smares'), 1.0)
-        self.assertEqual(self.cmp.sim_score('Giddings', 'Gittins'), 1.0)
-        self.assertEqual(self.cmp.sim_score('Bokenham', 'Buckingham'), 0.0)
-
-        # coverage
-        self.assertAlmostEqual(
-            Guth(qval=2).sim_score('Giddings', 'Gittins'), 0.0
-        )
-
-    def test_guth_sim(self):
-        """Test abydos.distance.Guth.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        # Testcases from paper
-        self.assertAlmostEqual(self.cmp.sim('Glawyn', 'Glavin'), 0.8)
-        self.assertAlmostEqual(self.cmp.sim('Smears', 'Smares'), 0.86666666666)
-        self.assertAlmostEqual(self.cmp.sim('Giddings', 'Gittins'), 0.8)
-        self.assertAlmostEqual(self.cmp.sim('Bokenham', 'Buckingham'), 0.65)
-
-        # coverage
-        self.assertAlmostEqual(Guth(qval=2).sim('Giddings', 'Gittins'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('abcfefed', 'abcfed'), 0.7)
+cmp = Guth()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_guth_sim_score():
+    """Test abydos.distance.Guth.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == 1.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('a', 'a') == 1.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == 1.0
+    assert cmp.sim_score('abcd', 'efgh') == 0.0
+
+    # Testcases from paper
+    assert cmp.sim_score('Glawyn', 'Glavin') == 1.0
+    assert cmp.sim_score('Smears', 'Smares') == 1.0
+    assert cmp.sim_score('Giddings', 'Gittins') == 1.0
+    assert cmp.sim_score('Bokenham', 'Buckingham') == 0.0
+
+    # coverage
+    assert Guth(qval=2).sim_score('Giddings', 'Gittins') == pytest.approx(abs=1e-7, expected=0.0)
+
+def test_guth_sim():
+    """Test abydos.distance.Guth.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    # Testcases from paper
+    assert cmp.sim('Glawyn', 'Glavin') == pytest.approx(abs=1e-7, expected=0.8)
+    assert cmp.sim('Smears', 'Smares') == pytest.approx(abs=1e-7, expected=0.86666666666)
+    assert cmp.sim('Giddings', 'Gittins') == pytest.approx(abs=1e-7, expected=0.8)
+    assert cmp.sim('Bokenham', 'Buckingham') == pytest.approx(abs=1e-7, expected=0.65)
+
+    # coverage
+    assert Guth(qval=2).sim('Giddings', 'Gittins') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('abcfefed', 'abcfed') == pytest.approx(abs=1e-7, expected=0.7)

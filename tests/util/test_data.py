@@ -19,10 +19,11 @@
 This module contains unit tests for abydos.util._prod
 """
 
+import pytest
+
 import shutil
 import tempfile
 import urllib.error
-import unittest
 
 from abydos.util._data import (
     download_package,
@@ -32,7 +33,7 @@ from abydos.util._data import (
 )
 
 
-class DataTestCases(unittest.TestCase):
+class TestData:
     """Test cases for abydos.util._prod."""
 
     DEFAULT_URL = 'https://raw.githubusercontent.com/chrislit/'
@@ -40,20 +41,18 @@ class DataTestCases(unittest.TestCase):
 
     def test_data(self):
         """Test abydos.util._data."""
-        self.assertTrue(isinstance(list_installed_packages(), list))
+        assert isinstance(list_installed_packages(), list)
         try:
             available = list_available_packages()
             default_available = list_available_packages(url=self.DEFAULT_URL)
         except urllib.error.URLError as exc:
-            self.skipTest('abydos-data index unavailable: {}'.format(exc))
-        self.assertTrue(isinstance(available, tuple))
-        self.assertTrue(isinstance(default_available, tuple))
+            pytest.skip('abydos-data index unavailable: {}'.format(exc))
+        assert isinstance(available, tuple)
+        assert isinstance(default_available, tuple)
 
         download_package('all')
-        self.assertEqual(
-            package_path('wikitext_qgram')[-14:], 'wikitext_qgram'
-        )
-        with self.assertRaises(FileNotFoundError):
+        assert package_path('wikitext_qgram')[-14:] == 'wikitext_qgram'
+        with pytest.raises(FileNotFoundError):
             package_path('not_a_real_package')
 
         temppath = tempfile.mkdtemp()
@@ -61,9 +60,5 @@ class DataTestCases(unittest.TestCase):
         download_package('wikitext_qgram', data_path=temppath)
         shutil.rmtree(temppath)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             list_available_packages(url='file:///etc/passwd')
-
-
-if __name__ == '__main__':
-    unittest.main()

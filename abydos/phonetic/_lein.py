@@ -124,6 +124,8 @@ class LEIN(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         # uppercase, normalize, decompose, and filter non-A-Z out
         word = unicode_normalize('NFKD', word.upper())
         word = ''.join(c for c in word if c in self._uc_set)

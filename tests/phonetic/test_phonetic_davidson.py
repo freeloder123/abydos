@@ -19,49 +19,37 @@
 This module contains unit tests for abydos.phonetic.Davidson
 """
 
-import unittest
-
 from abydos.phonetic import Davidson
 
 
-class DavidsonTestCases(unittest.TestCase):
-    """Test class Davidson functions.
+pa = Davidson(omit_fname=True)
 
-    test cases for abydos.phonetic.Davidson
-    """
+def test_davidson_encode():
+    """Test abydos.phonetic.Davidson."""
+    # Base cases
+    assert pa.encode('') == '    '
+    assert Davidson().encode('') == '    .'
 
-    pa = Davidson(omit_fname=True)
-
-    def test_davidson_encode(self):
-        """Test abydos.phonetic.Davidson."""
-        # Base cases
-        self.assertEqual(self.pa.encode(''), '    ')
-        self.assertEqual(Davidson().encode(''), '    .')
-
-        # Test cases from Gadd (1988) "'Fisching fore werds': phonetic
-        # retrieval of written text in information systems." Program,
-        # 22(3). 222--237.
-        # doi:10.1108/eb046999
-        test_cases = (
-            ('WAIT', 'WT  '),
-            ('WEIGHT', 'WGT '),
-            ('KNIGHT', 'KNGT'),
-            ('NIGHT', 'NGT '),
-            ('NITE', 'NT  '),
-            ('GNOME', 'GNM '),
-            ('NOAM', 'NM  '),
-            ('SMIDT', 'SMDT'),
-            ('SMIT', 'SMT '),
-            ('SMITH', 'SMT '),
-            ('SCHMIT', 'SCMT'),
-            ('CRAFT', 'CRFT'),
-            ('KRAFT', 'KRFT'),
-            ('REES', 'RS  '),
-            ('REECE', 'RC  '),
-        )
-        for word, encoding in test_cases:
-            self.assertEqual(self.pa.encode(word), encoding)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # Test cases from Gadd (1988) "'Fisching fore werds': phonetic
+    # retrieval of written text in information systems." Program,
+    # 22(3). 222--237.
+    # doi:10.1108/eb046999
+    test_cases = (
+        ('WAIT', 'WT  '),
+        ('WEIGHT', 'WGT '),
+        ('KNIGHT', 'KNGT'),
+        ('NIGHT', 'NGT '),
+        ('NITE', 'NT  '),
+        ('GNOME', 'GNM '),
+        ('NOAM', 'NM  '),
+        ('SMIDT', 'SMDT'),
+        ('SMIT', 'SMT '),
+        ('SMITH', 'SMT '),
+        ('SCHMIT', 'SCMT'),
+        ('CRAFT', 'CRFT'),
+        ('KRAFT', 'KRFT'),
+        ('REES', 'RS  '),
+        ('REECE', 'RC  '),
+    )
+    for word, encoding in test_cases:
+        assert pa.encode(word) == encoding

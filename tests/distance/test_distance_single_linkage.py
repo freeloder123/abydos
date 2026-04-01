@@ -19,73 +19,66 @@
 This module contains unit tests for abydos.distance.SingleLinkage
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import JaroWinkler, SingleLinkage
 
 
-class SingleLinkageTestCases(unittest.TestCase):
-    """Test SingleLinkage functions.
+cmp = SingleLinkage()
 
-    abydos.distance.SingleLinkage
-    """
-
-    cmp = SingleLinkage()
-    cmp_jw = SingleLinkage(metric=JaroWinkler())
-
-    def test_single_linkage_dist(self):
-        """Test abydos.distance.SingleLinkage.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 1.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 0.5)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.0)
-
-    def test_single_linkage_sim(self):
-        """Test abydos.distance.SingleLinkage.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 0.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.5)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 1.0)
-
-    def test_single_linkage_dist_abs(self):
-        """Test abydos.distance.SingleLinkage.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), float('inf'))
-        self.assertEqual(self.cmp.dist_abs('a', ''), float('inf'))
-        self.assertEqual(self.cmp.dist_abs('', 'a'), float('inf'))
-        self.assertEqual(self.cmp.dist_abs('abc', ''), float('inf'))
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), float('inf'))
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 1)
-
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 0)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 0)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 0)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 0)
-        self.assertAlmostEqual(self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 0)
-
-        self.assertAlmostEqual(self.cmp_jw.dist_abs('abcd', 'dj'), 1 / 3)
+cmp_jw = SingleLinkage(metric=JaroWinkler())
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_single_linkage_dist():
+    """Test abydos.distance.SingleLinkage.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 1.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 0.5
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.0)
+
+def test_single_linkage_sim():
+    """Test abydos.distance.SingleLinkage.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 0.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.5
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1.0)
+
+def test_single_linkage_dist_abs():
+    """Test abydos.distance.SingleLinkage.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == float('inf')
+    assert cmp.dist_abs('a', '') == float('inf')
+    assert cmp.dist_abs('', 'a') == float('inf')
+    assert cmp.dist_abs('abc', '') == float('inf')
+    assert cmp.dist_abs('', 'abc') == float('inf')
+    assert cmp.dist_abs('abc', 'abc') == 0
+    assert cmp.dist_abs('abcd', 'efgh') == 1
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0)
+
+    assert cmp_jw.dist_abs('abcd', 'dj') == pytest.approx(abs=1e-7, expected=1 / 3)

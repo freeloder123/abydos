@@ -19,124 +19,81 @@
 This module contains unit tests for abydos.distance.MutualInformation
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import MutualInformation
 
 
-class MutualInformationTestCases(unittest.TestCase):
-    """Test MutualInformation functions.
+cmp = MutualInformation()
 
-    abydos.distance.MutualInformation
-    """
-
-    cmp = MutualInformation()
-    cmp_no_d = MutualInformation(alphabet=0)
-
-    def test_mutual_information_sim(self):
-        """Test abydos.distance.MutualInformation.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 0.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(
-            self.cmp.sim('abcd', 'efgh'), 0.17522996523538537
-        )
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.9284965499)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.9284965499)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.9284965499)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.9284965499)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.9481813127
-        )
-
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('a', 'eh'), -0.9036774610288023
-        )
-
-    def test_mutual_information_dist(self):
-        """Test abydos.distance.MutualInformation.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 1.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp.dist('abcd', 'efgh'), 0.8247700347646146
-        )
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.0715034501)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.0715034501)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.0715034501)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.0715034501)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.0518186873
-        )
-
-    def test_mutual_information_sim_score(self):
-        """Test abydos.distance.MutualInformation.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp.sim_score('abc', 'abc'), 7.527706972593263
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('abcd', 'efgh'), -4.700439718141092
-        )
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Nigel', 'Niall'), 5.9908322396
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Niall', 'Nigel'), 5.9908322396
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Colin', 'Coiln'), 5.9908322396
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Coiln', 'Colin'), 5.9908322396
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 5.6279117576
-        )
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('abc', 'abc'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('abcd', 'efgh'), -4.700439718141092
-        )
-
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('Nigel', 'Niall'), -0.4020984436
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('Niall', 'Nigel'), -0.4020984436
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('Colin', 'Coiln'), -0.4020984436
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('Coiln', 'Colin'), -0.4020984436
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('ATCAACGAGT', 'AACGATTAG'), -0.1650592463
-        )
+cmp_no_d = MutualInformation(alphabet=0)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_mutual_information_sim():
+    """Test abydos.distance.MutualInformation.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 0.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.17522996523538537)
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.9284965499)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.9284965499)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9284965499)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9284965499)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.9481813127)
+
+    assert cmp_no_d.sim('a', 'eh') == pytest.approx(abs=1e-7, expected=-0.9036774610288023)
+
+def test_mutual_information_dist():
+    """Test abydos.distance.MutualInformation.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 1.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.8247700347646146)
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.0715034501)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.0715034501)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0715034501)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.0715034501)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.0518186873)
+
+def test_mutual_information_sim_score():
+    """Test abydos.distance.MutualInformation.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == 0.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == pytest.approx(abs=1e-7, expected=7.527706972593263)
+    assert cmp.sim_score('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=-4.700439718141092)
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=5.9908322396)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=5.9908322396)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=5.9908322396)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=5.9908322396)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=5.6279117576)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.sim_score('', '') == 0.0
+    assert cmp_no_d.sim_score('a', '') == 0.0
+    assert cmp_no_d.sim_score('', 'a') == 0.0
+    assert cmp_no_d.sim_score('abc', '') == 0.0
+    assert cmp_no_d.sim_score('', 'abc') == 0.0
+    assert cmp_no_d.sim_score('abc', 'abc') == 0.0
+    assert cmp_no_d.sim_score('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=-4.700439718141092)
+
+    assert cmp_no_d.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=-0.4020984436)
+    assert cmp_no_d.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=-0.4020984436)
+    assert cmp_no_d.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=-0.4020984436)
+    assert cmp_no_d.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=-0.4020984436)
+    assert cmp_no_d.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=-0.1650592463)

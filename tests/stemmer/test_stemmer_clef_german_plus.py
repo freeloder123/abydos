@@ -19,50 +19,40 @@
 This module contains unit tests for abydos.stemmer.CLEFGermanPlus
 """
 
-import unittest
 
 from abydos.stemmer import CLEFGermanPlus
 
 
-class CLEFTestCases(unittest.TestCase):
-    """Test CLEF German Plus functions.
-
-    abydos.stemmer.CLEFGermanPlus
-    """
-
-    stmr = CLEFGermanPlus()
-
-    def test_clef_german_plus(self):
-        """Test abydos.stemmer.CLEFGermanPlus."""
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
-
-        # len <= 2
-        self.assertEqual(self.stmr.stem('ä'), 'a')
-        self.assertEqual(self.stmr.stem('er'), 'er')
-        self.assertEqual(self.stmr.stem('es'), 'es')
-        self.assertEqual(self.stmr.stem('äh'), 'ah')
-
-        # len > 2
-        self.assertEqual(self.stmr.stem('deinen'), 'dein')
-        self.assertEqual(self.stmr.stem('können'), 'konn')
-        self.assertEqual(self.stmr.stem('Damen'), 'dam')
-        self.assertEqual(self.stmr.stem('kleines'), 'klein')
-        self.assertEqual(self.stmr.stem('Namen'), 'nam')
-        self.assertEqual(self.stmr.stem('Äpfel'), 'apfel')
-        self.assertEqual(self.stmr.stem('Jahre'), 'jahr')
-        self.assertEqual(self.stmr.stem('Mannes'), 'mann')
-        self.assertEqual(self.stmr.stem('Häuser'), 'haus')
-        self.assertEqual(self.stmr.stem('Motoren'), 'motor')
-        self.assertEqual(self.stmr.stem('kleine'), 'klein')
-        self.assertEqual(self.stmr.stem('Pfingsten'), 'pfing')
-        self.assertEqual(self.stmr.stem('lautest'), 'laut')
-        self.assertEqual(self.stmr.stem('lauteste'), 'laut')
-        self.assertEqual(self.stmr.stem('lautere'), 'laut')
-        self.assertEqual(self.stmr.stem('lautste'), 'laut')
-        self.assertEqual(self.stmr.stem('kleinen'), 'klein')
-        self.assertEqual(self.stmr.stem('Pfarrern'), 'pfarr')
+stmr = CLEFGermanPlus()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_clef_german_plus():
+    """Test abydos.stemmer.CLEFGermanPlus."""
+    # base case
+    assert stmr.stem('') == ''
+
+    # len <= 2
+    assert stmr.stem('ä') == 'a'
+    assert stmr.stem('er') == 'er'
+    assert stmr.stem('es') == 'es'
+    assert stmr.stem('äh') == 'ah'
+
+    # len > 2
+    assert stmr.stem('deinen') == 'dein'
+    assert stmr.stem('können') == 'konn'
+    assert stmr.stem('Damen') == 'dam'
+    assert stmr.stem('kleines') == 'klein'
+    assert stmr.stem('Namen') == 'nam'
+    assert stmr.stem('Äpfel') == 'apfel'
+    assert stmr.stem('Jahre') == 'jahr'
+    assert stmr.stem('Mannes') == 'mann'
+    assert stmr.stem('Häuser') == 'haus'
+    assert stmr.stem('Motoren') == 'motor'
+    assert stmr.stem('kleine') == 'klein'
+    assert stmr.stem('Pfingsten') == 'pfing'
+    assert stmr.stem('lautest') == 'laut'
+    assert stmr.stem('lauteste') == 'laut'
+    assert stmr.stem('lautere') == 'laut'
+    assert stmr.stem('lautste') == 'laut'
+    assert stmr.stem('kleinen') == 'klein'
+    assert stmr.stem('Pfarrern') == 'pfarr'

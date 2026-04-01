@@ -80,6 +80,8 @@ class Koelner(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
 
         def _after(word: str, pos: int, letters: Set[str]) -> bool:
             """Return True if word[pos] follows one of the supplied letters.

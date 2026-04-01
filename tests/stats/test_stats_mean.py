@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.stats mean functions
 """
 
-import unittest
+import pytest
+
 from math import isnan
 
 from abydos.stats import (
@@ -45,7 +46,7 @@ from abydos.stats import (
 )
 
 
-class MeansTestCases(unittest.TestCase):
+class TestMeans:
     """Test abydos.stats mean functions."""
 
     _ones = [1, 1, 1, 1, 1]
@@ -61,198 +62,189 @@ class MeansTestCases(unittest.TestCase):
 
     def test_means_amean(self):
         """Test abydos.stats.amean."""
-        self.assertAlmostEqual(amean(self._ones), 1)
-        self.assertAlmostEqual(amean(self._zeros), 0)
-        self.assertAlmostEqual(amean(self._one_to_five), 3)
-        self.assertAlmostEqual(amean(self._onethreefive), 3)
-        self.assertAlmostEqual(amean(self._floats), 0.37)
+        assert amean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert amean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert amean(self._one_to_five) == pytest.approx(abs=1e-7, expected=3)
+        assert amean(self._onethreefive) == pytest.approx(abs=1e-7, expected=3)
+        assert amean(self._floats) == pytest.approx(abs=1e-7, expected=0.37)
 
     def test_means_gmean(self):
         """Test abydos.stats.gmean."""
-        self.assertAlmostEqual(gmean(self._ones), 1)
-        self.assertAlmostEqual(gmean(self._zeros), 0)
-        self.assertAlmostEqual(gmean(self._one_to_five), 2.605171084697352)
-        self.assertAlmostEqual(gmean(self._onethreefive), 2.3714406097793117)
-        self.assertAlmostEqual(gmean(self._floats), 0.2885399811814427)
+        assert gmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert gmean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert gmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.605171084697352)
+        assert gmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=2.3714406097793117)
+        assert gmean(self._floats) == pytest.approx(abs=1e-7, expected=0.2885399811814427)
 
     def test_means_hmean(self):
         """Test abydos.stats.hmean."""
-        self.assertAlmostEqual(hmean(self._ones), 1)
-        self.assertAlmostEqual(hmean(self._zeros), 0)
-        self.assertAlmostEqual(hmean(self._one_to_five), 2.18978102189781)
-        self.assertAlmostEqual(hmean(self._onethreefive), 1.8292682926829265)
-        self.assertAlmostEqual(hmean(self._floats), 0.2247191011235955)
-        self.assertEqual(hmean([0, 1, 2]), 0)
-        self.assertEqual(hmean([1, 2, 3, 0]), 0)
-        self.assertTrue(isnan(hmean([0, 0, 1, 2])))
-        self.assertTrue(isnan(hmean([1, 0, 2, 0, 3])))
-        self.assertTrue(isnan(hmean([1, 0, 2, 0, 3, 0])))
-        self.assertTrue(isnan(hmean([1, 0, 2, 0, 3, 0, 0])))
-        self.assertEqual(hmean([0, 0]), 0)
-        self.assertEqual(hmean([5, 5, 5, 5, 5]), 5)
-        self.assertEqual(hmean([0]), 0)
-        self.assertEqual(hmean([8]), 8)
-        self.assertRaises(ValueError, hmean, ([]))
+        assert hmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert hmean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert hmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.18978102189781)
+        assert hmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=1.8292682926829265)
+        assert hmean(self._floats) == pytest.approx(abs=1e-7, expected=0.2247191011235955)
+        assert hmean([0, 1, 2]) == 0
+        assert hmean([1, 2, 3, 0]) == 0
+        assert isnan(hmean([0, 0, 1, 2]))
+        assert isnan(hmean([1, 0, 2, 0, 3]))
+        assert isnan(hmean([1, 0, 2, 0, 3, 0]))
+        assert isnan(hmean([1, 0, 2, 0, 3, 0, 0]))
+        assert hmean([0, 0]) == 0
+        assert hmean([5, 5, 5, 5, 5]) == 5
+        assert hmean([0]) == 0
+        assert hmean([8]) == 8
+        with pytest.raises(ValueError):
+            hmean(([]))
 
     def test_means_qmean(self):
         """Test abydos.stats.qmean."""
-        self.assertAlmostEqual(qmean(self._ones), 1)
-        self.assertAlmostEqual(qmean(self._zeros), 0)
-        self.assertAlmostEqual(qmean(self._one_to_five), 3.3166247903554)
-        self.assertAlmostEqual(qmean(self._onethreefive), 3.492849839314596)
-        self.assertAlmostEqual(qmean(self._floats), 0.4477722635447623)
+        assert qmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert qmean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert qmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=3.3166247903554)
+        assert qmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=3.492849839314596)
+        assert qmean(self._floats) == pytest.approx(abs=1e-7, expected=0.4477722635447623)
 
     def test_means_cmean(self):
         """Test abydos.stats.cmean."""
-        self.assertAlmostEqual(cmean(self._ones), 1)
-        self.assertAlmostEqual(cmean(self._one_to_five), 3.6666666666666665)
-        self.assertAlmostEqual(cmean(self._onethreefive), 4.066666666666666)
-        self.assertAlmostEqual(cmean(self._floats), 0.5418918918918919)
+        assert cmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert cmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=3.6666666666666665)
+        assert cmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=4.066666666666666)
+        assert cmean(self._floats) == pytest.approx(abs=1e-7, expected=0.5418918918918919)
 
     def test_means_lmean(self):
         """Test abydos.stats.lmean."""
-        self.assertAlmostEqual(lmean(self._one_to_five), 2.6739681320855766)
-        self.assertAlmostEqual(lmean(self._floats), 0.301387278840469)
-        self.assertEqual(lmean([1, 1]), 1.0)
-        self.assertEqual(lmean([2, 2]), 2.0)
-        self.assertEqual(lmean([2, 0]), 0.0)
-        self.assertAlmostEqual(lmean([1, 2]), 1.4426950408889634)
-        self.assertRaises(ValueError, lmean, (1, 1, 1))
-        self.assertRaises(ValueError, lmean, (0.15, 0.15, 1))
+        assert lmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.6739681320855766)
+        assert lmean(self._floats) == pytest.approx(abs=1e-7, expected=0.301387278840469)
+        assert lmean([1, 1]) == 1.0
+        assert lmean([2, 2]) == 2.0
+        assert lmean([2, 0]) == 0.0
+        assert lmean([1, 2]) == pytest.approx(abs=1e-7, expected=1.4426950408889634)
+        with pytest.raises(ValueError):
+            lmean((1, 1, 1))
+        with pytest.raises(ValueError):
+            lmean((0.15, 0.15, 1))
 
     def test_means_imean(self):
         """Test abydos.stats.imean."""
-        self.assertRaises(ValueError, imean, self._ones)
-        self.assertRaises(ValueError, imean, self._zeros)
-        self.assertRaises(ValueError, imean, self._one_to_five)
-        self.assertRaises(ValueError, imean, self._onethreefive)
-        self.assertRaises(ValueError, imean, self._floats)
-        self.assertAlmostEqual(imean(self._2ones), 1)
-        self.assertTrue(isnan(imean(self._2zeros)))
-        self.assertAlmostEqual(imean(self._onetwo), 1.4715177646857693)
-        self.assertAlmostEqual(imean(self._2floats), 0.36787944117144233)
-        self.assertEqual(imean([1]), 1)
-        self.assertEqual(imean([0.05]), 0.05)
+        with pytest.raises(ValueError):
+            imean(self._ones)
+        with pytest.raises(ValueError):
+            imean(self._zeros)
+        with pytest.raises(ValueError):
+            imean(self._one_to_five)
+        with pytest.raises(ValueError):
+            imean(self._onethreefive)
+        with pytest.raises(ValueError):
+            imean(self._floats)
+        assert imean(self._2ones) == pytest.approx(abs=1e-7, expected=1)
+        assert isnan(imean(self._2zeros))
+        assert imean(self._onetwo) == pytest.approx(abs=1e-7, expected=1.4715177646857693)
+        assert imean(self._2floats) == pytest.approx(abs=1e-7, expected=0.36787944117144233)
+        assert imean([1]) == 1
+        assert imean([0.05]) == 0.05
 
     def test_means_seiffert_mean(self):
         """Test abydos.stats.seiffert_mean."""
-        self.assertRaises(ValueError, seiffert_mean, self._ones)
-        self.assertRaises(ValueError, seiffert_mean, self._zeros)
-        self.assertRaises(ValueError, seiffert_mean, self._one_to_five)
-        self.assertRaises(ValueError, seiffert_mean, self._onethreefive)
-        self.assertRaises(ValueError, seiffert_mean, self._floats)
-        self.assertAlmostEqual(seiffert_mean(self._onetwo), 1.4712939827611637)
-        self.assertAlmostEqual(
-            seiffert_mean(self._2floats), 0.36782349569029094
-        )
-        self.assertEqual(seiffert_mean([1]), 1)
-        self.assertEqual(seiffert_mean([0.05]), 0.05)
-        self.assertTrue(isnan(seiffert_mean([1, 1])))
+        with pytest.raises(ValueError):
+            seiffert_mean(self._ones)
+        with pytest.raises(ValueError):
+            seiffert_mean(self._zeros)
+        with pytest.raises(ValueError):
+            seiffert_mean(self._one_to_five)
+        with pytest.raises(ValueError):
+            seiffert_mean(self._onethreefive)
+        with pytest.raises(ValueError):
+            seiffert_mean(self._floats)
+        assert seiffert_mean(self._onetwo) == pytest.approx(abs=1e-7, expected=1.4712939827611637)
+        assert seiffert_mean(self._2floats) == pytest.approx(abs=1e-7, expected=0.36782349569029094)
+        assert seiffert_mean([1]) == 1
+        assert seiffert_mean([0.05]) == 0.05
+        assert isnan(seiffert_mean([1, 1]))
 
     def test_means_lehmer_mean(self):
         """Test abydos.stats.lehmer_mean."""
-        self.assertAlmostEqual(lehmer_mean(self._ones), 1)
-        self.assertAlmostEqual(
-            lehmer_mean(self._one_to_five), 3.6666666666666665
-        )
-        self.assertAlmostEqual(
-            lehmer_mean(self._onethreefive), 4.066666666666666
-        )
-        self.assertAlmostEqual(lehmer_mean(self._floats), 0.5418918918918919)
+        assert lehmer_mean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert lehmer_mean(self._one_to_five) == pytest.approx(abs=1e-7, expected=3.6666666666666665)
+        assert lehmer_mean(self._onethreefive) == pytest.approx(abs=1e-7, expected=4.066666666666666)
+        assert lehmer_mean(self._floats) == pytest.approx(abs=1e-7, expected=0.5418918918918919)
 
     def test_means_heronian_mean(self):
         """Test abydos.stats.heronian_mean."""
-        self.assertAlmostEqual(heronian_mean(self._ones), 1)
-        self.assertAlmostEqual(heronian_mean(self._zeros), 0)
-        self.assertAlmostEqual(
-            heronian_mean(self._one_to_five), 2.8421165194322837
-        )
-        self.assertAlmostEqual(
-            heronian_mean(self._onethreefive), 2.7436226811701165
-        )
-        self.assertAlmostEqual(
-            heronian_mean(self._floats), 0.33526945542427006
-        )
+        assert heronian_mean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert heronian_mean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert heronian_mean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.8421165194322837)
+        assert heronian_mean(self._onethreefive) == pytest.approx(abs=1e-7, expected=2.7436226811701165)
+        assert heronian_mean(self._floats) == pytest.approx(abs=1e-7, expected=0.33526945542427006)
 
     def test_means_hoelder_mean(self):
         """Test abydos.stats.hoelder_mean."""
-        self.assertAlmostEqual(hoelder_mean(self._ones), 1)
-        self.assertAlmostEqual(hoelder_mean(self._zeros), 0)
-        self.assertAlmostEqual(
-            hoelder_mean(self._one_to_five), 3.3166247903554
-        )
-        self.assertAlmostEqual(
-            hoelder_mean(self._onethreefive), 3.492849839314596
-        )
-        self.assertAlmostEqual(hoelder_mean(self._floats), 0.4477722635447623)
-        self.assertAlmostEqual(
-            hoelder_mean(self._floats, 0), gmean(self._floats)
-        )
+        assert hoelder_mean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert hoelder_mean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert hoelder_mean(self._one_to_five) == pytest.approx(abs=1e-7, expected=3.3166247903554)
+        assert hoelder_mean(self._onethreefive) == pytest.approx(abs=1e-7, expected=3.492849839314596)
+        assert hoelder_mean(self._floats) == pytest.approx(abs=1e-7, expected=0.4477722635447623)
+        assert hoelder_mean(self._floats, 0) == pytest.approx(abs=1e-7, expected=gmean(self._floats))
 
     def test_means_agmean(self):
         """Test abydos.stats.agmean."""
-        self.assertAlmostEqual(agmean(self._ones), 1)
-        self.assertAlmostEqual(agmean(self._zeros), 0)
-        self.assertAlmostEqual(agmean(self._one_to_five), 2.799103662640505)
-        self.assertAlmostEqual(agmean(self._onethreefive), 2.6764865062631356)
-        self.assertAlmostEqual(agmean(self._floats), 0.32800436242611486)
-        self.assertTrue(isnan(agmean(self._has_inf)))
+        assert agmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert agmean(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert agmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.799103662640505)
+        assert agmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=2.6764865062631356)
+        assert agmean(self._floats) == pytest.approx(abs=1e-7, expected=0.32800436242611486)
+        assert isnan(agmean(self._has_inf))
 
     def test_means_ghmean(self):
         """Test abydos.stats.ghmean."""
-        self.assertAlmostEqual(ghmean(self._ones), 1)
-        self.assertAlmostEqual(ghmean(self._one_to_five), 2.3839666656453167)
-        self.assertAlmostEqual(ghmean(self._onethreefive), 2.0740491019412035)
-        self.assertAlmostEqual(ghmean(self._floats), 0.2536468771476393)
-        self.assertTrue(isnan(ghmean(self._has_inf)))
+        assert ghmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert ghmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.3839666656453167)
+        assert ghmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=2.0740491019412035)
+        assert ghmean(self._floats) == pytest.approx(abs=1e-7, expected=0.2536468771476393)
+        assert isnan(ghmean(self._has_inf))
 
     def test_means_aghmean(self):
         """Test abydos.stats.aghmean."""
-        self.assertAlmostEqual(aghmean(self._ones), 1)
-        self.assertAlmostEqual(aghmean(self._one_to_five), 2.5769530579812563)
-        self.assertAlmostEqual(aghmean(self._onethreefive), 2.3520502484275387)
-        self.assertAlmostEqual(aghmean(self._floats), 0.28841285333045547)
-        self.assertTrue(isnan(aghmean(self._has_inf)))
+        assert aghmean(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert aghmean(self._one_to_five) == pytest.approx(abs=1e-7, expected=2.5769530579812563)
+        assert aghmean(self._onethreefive) == pytest.approx(abs=1e-7, expected=2.3520502484275387)
+        assert aghmean(self._floats) == pytest.approx(abs=1e-7, expected=0.28841285333045547)
+        assert isnan(aghmean(self._has_inf))
 
     def test_means_midrange(self):
         """Test abydos.stats.midrange."""
-        self.assertAlmostEqual(midrange(self._ones), 1)
-        self.assertAlmostEqual(midrange(self._zeros), 0)
-        self.assertAlmostEqual(midrange(self._one_to_five), 3)
-        self.assertAlmostEqual(midrange(self._onethreefive), 3)
-        self.assertAlmostEqual(midrange(self._floats), 0.45)
+        assert midrange(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert midrange(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert midrange(self._one_to_five) == pytest.approx(abs=1e-7, expected=3)
+        assert midrange(self._onethreefive) == pytest.approx(abs=1e-7, expected=3)
+        assert midrange(self._floats) == pytest.approx(abs=1e-7, expected=0.45)
 
     def test_means_median(self):
         """Test abydos.stats.median."""
-        self.assertAlmostEqual(median(self._ones), 1)
-        self.assertAlmostEqual(median(self._zeros), 0)
-        self.assertAlmostEqual(median(self._one_to_five), 3)
-        self.assertAlmostEqual(median(self._onethreefive), 3)
-        self.assertAlmostEqual(median(self._floats), 0.25)
-        self.assertAlmostEqual(median([0, 2, 4, 8]), 3)
-        self.assertAlmostEqual(median([0.01, 0.2, 0.4, 5]), 0.3)
+        assert median(self._ones) == pytest.approx(abs=1e-7, expected=1)
+        assert median(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert median(self._one_to_five) == pytest.approx(abs=1e-7, expected=3)
+        assert median(self._onethreefive) == pytest.approx(abs=1e-7, expected=3)
+        assert median(self._floats) == pytest.approx(abs=1e-7, expected=0.25)
+        assert median([0, 2, 4, 8]) == pytest.approx(abs=1e-7, expected=3)
+        assert median([0.01, 0.2, 0.4, 5]) == pytest.approx(abs=1e-7, expected=0.3)
 
     def test_means_mode(self):
         """Test abydos.stats.mode."""
-        self.assertEqual(mode(self._ones), 1)
-        self.assertEqual(mode(self._zeros), 0)
-        self.assertEqual(mode([1, 1, 2, 2, 2]), 2)
-        self.assertEqual(mode([1, 5, 5, 2, 5, 2]), 5)
+        assert mode(self._ones) == 1
+        assert mode(self._zeros) == 0
+        assert mode([1, 1, 2, 2, 2]) == 2
+        assert mode([1, 5, 5, 2, 5, 2]) == 5
 
     def test_means_var(self):
         """Test abydos.stats.var."""
-        self.assertAlmostEqual(var(self._ones), 0)
-        self.assertAlmostEqual(var(self._zeros), 0)
-        self.assertAlmostEqual(var(self._one_to_five), 2)
-        self.assertAlmostEqual(var(self._onethreefive), 3.2)
+        assert var(self._ones) == pytest.approx(abs=1e-7, expected=0)
+        assert var(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert var(self._one_to_five) == pytest.approx(abs=1e-7, expected=2)
+        assert var(self._onethreefive) == pytest.approx(abs=1e-7, expected=3.2)
 
     def test_means_std(self):
         """Test abydos.stats.std."""
-        self.assertAlmostEqual(std(self._ones), 0)
-        self.assertAlmostEqual(std(self._zeros), 0)
-        self.assertAlmostEqual(std(self._one_to_five), 2 ** 0.5)
-        self.assertAlmostEqual(std(self._onethreefive), 3.2 ** 0.5)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert std(self._ones) == pytest.approx(abs=1e-7, expected=0)
+        assert std(self._zeros) == pytest.approx(abs=1e-7, expected=0)
+        assert std(self._one_to_five) == pytest.approx(abs=1e-7, expected=2 ** 0.5)
+        assert std(self._onethreefive) == pytest.approx(abs=1e-7, expected=3.2 ** 0.5)

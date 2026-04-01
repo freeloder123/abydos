@@ -19,60 +19,50 @@
 This module contains unit tests for abydos.stemmer.PaiceHusk
 """
 
-import unittest
 
 from abydos.stemmer import PaiceHusk
 
 from .. import _corpus_file
 
 
-class PaiceHuskTestCases(unittest.TestCase):
-    """Test Paice-Husk functions.
+stmr = PaiceHusk()
 
-    abydos.stemmer.PaiceHusk
+
+def test_paice_husk():
+    """Test abydos.stemmer.PaiceHusk."""
+    # base case
+    assert stmr.stem('') == ''
+
+    # cases copied from
+    # https://doi.org/10.1145/101306.101310
+    assert stmr.stem('maximum') == 'maxim'
+    assert stmr.stem('presumably') == 'presum'
+    assert stmr.stem('multiply') == 'multiply'
+    assert stmr.stem('provision') == 'provid'
+    assert stmr.stem('owed') == 'ow'
+    assert stmr.stem('owing') == 'ow'
+    assert stmr.stem('ear') == 'ear'
+    assert stmr.stem('saying') == 'say'
+    assert stmr.stem('crying') == 'cry'
+    assert stmr.stem('string') == 'string'
+    assert stmr.stem('meant') == 'meant'
+    assert stmr.stem('cement') == 'cem'
+
+def test_paice_husk_hopper_set():
+    """Test abydos.stemmer.PaiceHusk (Hopper262 testset).
+
+    Source:
+    https://raw.githubusercontent.com/Hopper262/paice-husk-stemmer/master/wordlist.txt
+
+    The only correction made from stemmed values in the Hopper262 set/
+    implementations were:
+     - ymca : ymc -> ymca
+     - yttrium : yttr -> yttri
+     - ywca : ywc -> ywca
+    The Pascal reference implementation does not consider 'y' in initial
+    position to be a vowel.
     """
-
-    stmr = PaiceHusk()
-
-    def test_paice_husk(self):
-        """Test abydos.stemmer.PaiceHusk."""
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
-
-        # cases copied from
-        # https://doi.org/10.1145/101306.101310
-        self.assertEqual(self.stmr.stem('maximum'), 'maxim')
-        self.assertEqual(self.stmr.stem('presumably'), 'presum')
-        self.assertEqual(self.stmr.stem('multiply'), 'multiply')
-        self.assertEqual(self.stmr.stem('provision'), 'provid')
-        self.assertEqual(self.stmr.stem('owed'), 'ow')
-        self.assertEqual(self.stmr.stem('owing'), 'ow')
-        self.assertEqual(self.stmr.stem('ear'), 'ear')
-        self.assertEqual(self.stmr.stem('saying'), 'say')
-        self.assertEqual(self.stmr.stem('crying'), 'cry')
-        self.assertEqual(self.stmr.stem('string'), 'string')
-        self.assertEqual(self.stmr.stem('meant'), 'meant')
-        self.assertEqual(self.stmr.stem('cement'), 'cem')
-
-    def test_paice_husk_hopper_set(self):
-        """Test abydos.stemmer.PaiceHusk (Hopper262 testset).
-
-        Source:
-        https://raw.githubusercontent.com/Hopper262/paice-husk-stemmer/master/wordlist.txt
-
-        The only correction made from stemmed values in the Hopper262 set/
-        implementations were:
-         - ymca : ymc -> ymca
-         - yttrium : yttr -> yttri
-         - ywca : ywc -> ywca
-        The Pascal reference implementation does not consider 'y' in initial
-        position to be a vowel.
-        """
-        with open(_corpus_file('paicehusk.csv')) as hopper_ts:
-            for hopper_line in hopper_ts:
-                (word, stem) = hopper_line.strip().split(',')
-                self.assertEqual(self.stmr.stem(word), stem)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    with open(_corpus_file('paicehusk.csv')) as hopper_ts:
+        for hopper_line in hopper_ts:
+            (word, stem) = hopper_line.strip().split(',')
+            assert stmr.stem(word) == stem

@@ -121,6 +121,8 @@ class Phonex(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         name = unicode_normalize('NFKD', word.upper())
 
         name_code = last = ''

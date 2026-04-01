@@ -19,60 +19,53 @@
 This module contains unit tests for abydos.distance.BISIM
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import BISIM
 
 
-class BISIMTestCases(unittest.TestCase):
-    """Test BISIM functions.
+cmp = BISIM()
 
-    abydos.distance.BISIM
-    """
-
-    cmp = BISIM()
-    cmp3 = BISIM(qval=3)
-
-    def test_bi_sim_sim(self):
-        """Test abydos.distance.BISIM.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.6)
-
-        # test cases from Kondrak and Dorr (2003)
-        self.assertAlmostEqual(self.cmp.sim('ara', 'ala'), 0.6666666667)
-        self.assertAlmostEqual(self.cmp.sim('atara', 'arata'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('amaryl', 'amikin'), 0.4166666667)
-        self.assertAlmostEqual(self.cmp.sim('amaryl', 'altoce'), 0.250)
-
-        # other examples from Kondrak and Dorr (2004)
-        self.assertAlmostEqual(self.cmp.sim('Zantac', 'Xanax'), 0.4166666667)
-        self.assertAlmostEqual(self.cmp.sim('Zantac', 'Contac'), 0.5833333333)
-        self.assertAlmostEqual(self.cmp.sim('Xanax', 'Contac'), 0.25)
-        self.assertAlmostEqual(self.cmp3.sim('Zantac', 'Xanax'), 0.333333333)
-        self.assertAlmostEqual(self.cmp3.sim('Zantac', 'Contac'), 0.5)
-        self.assertAlmostEqual(self.cmp3.sim('Xanax', 'Contac'), 0.166666667)
-
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Tramadol'), 0.6875)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Tobradex'), 0.6250)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Torecan'), 0.57142857)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Stadol'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Torsemide'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Theraflu'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Tegretol'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Toradol', 'Taxol'), 0.5)
+cmp3 = BISIM(qval=3)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_bi_sim_sim():
+    """Test abydos.distance.BISIM.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6)
+
+    # test cases from Kondrak and Dorr (2003)
+    assert cmp.sim('ara', 'ala') == pytest.approx(abs=1e-7, expected=0.6666666667)
+    assert cmp.sim('atara', 'arata') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('amaryl', 'amikin') == pytest.approx(abs=1e-7, expected=0.4166666667)
+    assert cmp.sim('amaryl', 'altoce') == pytest.approx(abs=1e-7, expected=0.250)
+
+    # other examples from Kondrak and Dorr (2004)
+    assert cmp.sim('Zantac', 'Xanax') == pytest.approx(abs=1e-7, expected=0.4166666667)
+    assert cmp.sim('Zantac', 'Contac') == pytest.approx(abs=1e-7, expected=0.5833333333)
+    assert cmp.sim('Xanax', 'Contac') == pytest.approx(abs=1e-7, expected=0.25)
+    assert cmp3.sim('Zantac', 'Xanax') == pytest.approx(abs=1e-7, expected=0.333333333)
+    assert cmp3.sim('Zantac', 'Contac') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp3.sim('Xanax', 'Contac') == pytest.approx(abs=1e-7, expected=0.166666667)
+
+    assert cmp.sim('Toradol', 'Tramadol') == pytest.approx(abs=1e-7, expected=0.6875)
+    assert cmp.sim('Toradol', 'Tobradex') == pytest.approx(abs=1e-7, expected=0.6250)
+    assert cmp.sim('Toradol', 'Torecan') == pytest.approx(abs=1e-7, expected=0.57142857)
+    assert cmp.sim('Toradol', 'Stadol') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Toradol', 'Torsemide') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Toradol', 'Theraflu') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Toradol', 'Tegretol') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Toradol', 'Taxol') == pytest.approx(abs=1e-7, expected=0.5)

@@ -19,64 +19,53 @@
 This module contains unit tests for abydos.phonetic.Waahlin
 """
 
-import unittest
-
 from abydos.phonetic import Soundex, Waahlin
 
 
-class WaahlinTestCases(unittest.TestCase):
-    """Test Wåhlin functions.
+pa = Waahlin()
 
-    test cases for abydos.phonetic.Waahlin
-    """
+pa_sdx = Waahlin(Soundex())
 
-    pa = Waahlin()
-    pa_sdx = Waahlin(Soundex())
+def test_waahlin():
+    """Test abydos.phonetic.Waahlin."""
+    assert pa.encode('') == ''
 
-    def test_waahlin(self):
-        """Test abydos.phonetic.Waahlin."""
-        self.assertEqual(self.pa.encode(''), '')
+    assert pa.encode('kjol') == '+OL'
+    assert pa.encode('stråken') == 'STRÅ+EN'
+    assert pa.encode('skytten') == '*YTTEN'
+    assert pa.encode('ljuden') == 'JUDEN'
+    assert pa.encode('högre') == 'HÖGRE'
+    assert pa.encode('först') == 'FÖRST'
+    assert pa.encode('hval') == 'VAL'
+    assert pa.encode('hrothgar') == 'ROTHGAR'
+    assert pa.encode('denna') == 'DENNA'
+    assert pa.encode('djur') == 'JUR'
+    assert pa.encode('hjärta') == 'JERTA'
+    assert pa.encode('STIEN') == '*EN'
+    assert pa.encode('SKJERN') == '*ERN'
+    assert pa.encode('HIELPA') == 'JELPA'
+    assert pa.encode('CEILA') == 'SEILA'
+    assert pa.encode('GELD') == 'JELD'
+    assert pa.encode('IERN') == 'JERN'
 
-        self.assertEqual(self.pa.encode('kjol'), '+OL')
-        self.assertEqual(self.pa.encode('stråken'), 'STRÅ+EN')
-        self.assertEqual(self.pa.encode('skytten'), '*YTTEN')
-        self.assertEqual(self.pa.encode('ljuden'), 'JUDEN')
-        self.assertEqual(self.pa.encode('högre'), 'HÖGRE')
-        self.assertEqual(self.pa.encode('först'), 'FÖRST')
-        self.assertEqual(self.pa.encode('hval'), 'VAL')
-        self.assertEqual(self.pa.encode('hrothgar'), 'ROTHGAR')
-        self.assertEqual(self.pa.encode('denna'), 'DENNA')
-        self.assertEqual(self.pa.encode('djur'), 'JUR')
-        self.assertEqual(self.pa.encode('hjärta'), 'JERTA')
-        self.assertEqual(self.pa.encode('STIEN'), '*EN')
-        self.assertEqual(self.pa.encode('SKJERN'), '*ERN')
-        self.assertEqual(self.pa.encode('HIELPA'), 'JELPA')
-        self.assertEqual(self.pa.encode('CEILA'), 'SEILA')
-        self.assertEqual(self.pa.encode('GELD'), 'JELD')
-        self.assertEqual(self.pa.encode('IERN'), 'JERN')
+    # encode_alpha
+    assert pa.encode_alpha('kjol') == 'ÇOL'
+    assert pa.encode_alpha('stråken') == 'STRÅÇEN'
+    assert pa.encode_alpha('skytten') == 'ŠYTTEN'
+    assert pa.encode_alpha('ljuden') == 'JUDEN'
 
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('kjol'), 'ÇOL')
-        self.assertEqual(self.pa.encode_alpha('stråken'), 'STRÅÇEN')
-        self.assertEqual(self.pa.encode_alpha('skytten'), 'ŠYTTEN')
-        self.assertEqual(self.pa.encode_alpha('ljuden'), 'JUDEN')
+def test_waahlin_soundex():
+    """Test abydos.phonetic.Waahlin with Soundex."""
+    assert pa_sdx.encode('') == ''
 
-    def test_waahlin_soundex(self):
-        """Test abydos.phonetic.Waahlin with Soundex."""
-        self.assertEqual(self.pa_sdx.encode(''), '')
-
-        self.assertEqual(self.pa_sdx.encode('kjol'), '+O400')
-        self.assertEqual(self.pa_sdx.encode('stråken'), 'ST625')
-        self.assertEqual(self.pa_sdx.encode('skytten'), '*Y350')
-        self.assertEqual(self.pa_sdx.encode('ljuden'), 'JU350')
-        self.assertEqual(self.pa_sdx.encode('högre'), 'HO260')
-        self.assertEqual(self.pa_sdx.encode('först'), 'FO623')
-        self.assertEqual(self.pa_sdx.encode('hval'), 'VA400')
-        self.assertEqual(self.pa_sdx.encode('hrothgar'), 'RO326')
-        self.assertEqual(self.pa_sdx.encode('denna'), 'DE500')
-        self.assertEqual(self.pa_sdx.encode('djur'), 'JU600')
-        self.assertEqual(self.pa_sdx.encode('hjärta'), 'JA630')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert pa_sdx.encode('kjol') == '+O400'
+    assert pa_sdx.encode('stråken') == 'ST625'
+    assert pa_sdx.encode('skytten') == '*Y350'
+    assert pa_sdx.encode('ljuden') == 'JU350'
+    assert pa_sdx.encode('högre') == 'HO260'
+    assert pa_sdx.encode('först') == 'FO623'
+    assert pa_sdx.encode('hval') == 'VA400'
+    assert pa_sdx.encode('hrothgar') == 'RO326'
+    assert pa_sdx.encode('denna') == 'DE500'
+    assert pa_sdx.encode('djur') == 'JU600'
+    assert pa_sdx.encode('hjärta') == 'JA630'

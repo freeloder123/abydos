@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.stats pairwise functions
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Jaccard, JaroWinkler
 from abydos.stats import (
@@ -67,192 +68,141 @@ NIALL_1WORD = (
 )
 
 
-class MPSTestCases(unittest.TestCase):
-    """Test mean pairwise similarity functions.
+def test_mean_pairwise_similarity():
+    """Test abydos.stats.mean_pairwise_similarity."""
+    assert mean_pairwise_similarity(NIALL) == pytest.approx(abs=1e-7, expected=0.29362587170180671)
+    assert mean_pairwise_similarity(NIALL, symmetric=True) == pytest.approx(abs=1e-7, expected=0.2936258717018066)
+    assert mean_pairwise_similarity(NIALL, mean_func=hmean) == pytest.approx(abs=1e-7, expected=0.29362587170180671)
+    assert mean_pairwise_similarity(NIALL, mean_func=hmean, symmetric=True) == pytest.approx(abs=1e-7, expected=0.2936258717018066)
+    assert mean_pairwise_similarity(NIALL, mean_func=gmean) == pytest.approx(abs=1e-7, expected=0.33747245800668441)
+    assert mean_pairwise_similarity(NIALL, mean_func=gmean, symmetric=True) == pytest.approx(abs=1e-7, expected=0.33747245800668441)
+    assert mean_pairwise_similarity(NIALL, mean_func=amean) == pytest.approx(abs=1e-7, expected=0.38009278711484601)
+    assert mean_pairwise_similarity(NIALL, mean_func=amean, symmetric=True) == pytest.approx(abs=1e-7, expected=0.38009278711484623)
 
-    abydos.stats.mean_pairwise_similarity
-    """
+    assert (
+        mean_pairwise_similarity(NIALL_1WORD)
+        == mean_pairwise_similarity(' '.join(NIALL_1WORD))
+    )
+    assert (
+        mean_pairwise_similarity(NIALL_1WORD, symmetric=True)
+        == mean_pairwise_similarity(' '.join(NIALL_1WORD), symmetric=True)
+    )
+    assert (
+        mean_pairwise_similarity(NIALL_1WORD, mean_func=gmean)
+        == mean_pairwise_similarity(' '.join(NIALL_1WORD), mean_func=gmean)
+    )
+    assert (
+        mean_pairwise_similarity(NIALL_1WORD, mean_func=amean)
+        == mean_pairwise_similarity(' '.join(NIALL_1WORD), mean_func=amean)
+    )
 
-    def test_mean_pairwise_similarity(self):
-        """Test abydos.stats.mean_pairwise_similarity."""
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL), 0.29362587170180671
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, symmetric=True), 0.2936258717018066
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, mean_func=hmean),
-            0.29362587170180671,
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, mean_func=hmean, symmetric=True),
-            0.2936258717018066,
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, mean_func=gmean),
-            0.33747245800668441,
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, mean_func=gmean, symmetric=True),
-            0.33747245800668441,
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, mean_func=amean),
-            0.38009278711484601,
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL, mean_func=amean, symmetric=True),
-            0.38009278711484623,
-        )
+    with pytest.raises(ValueError):
+        mean_pairwise_similarity(['a b c'])
+    with pytest.raises(ValueError):
+        mean_pairwise_similarity('abc')
+    with pytest.raises(ValueError):
+        mean_pairwise_similarity(0)
+    with pytest.raises(ValueError):
+        mean_pairwise_similarity(NIALL, mean_func='imaginary')
+    with pytest.raises(ValueError):
+        mean_pairwise_similarity(NIALL, metric='imaginary')
 
-        self.assertEqual(
-            mean_pairwise_similarity(NIALL_1WORD),
-            mean_pairwise_similarity(' '.join(NIALL_1WORD)),
-        )
-        self.assertEqual(
-            mean_pairwise_similarity(NIALL_1WORD, symmetric=True),
-            mean_pairwise_similarity(' '.join(NIALL_1WORD), symmetric=True),
-        )
-        self.assertEqual(
-            mean_pairwise_similarity(NIALL_1WORD, mean_func=gmean),
-            mean_pairwise_similarity(' '.join(NIALL_1WORD), mean_func=gmean),
-        )
-        self.assertEqual(
-            mean_pairwise_similarity(NIALL_1WORD, mean_func=amean),
-            mean_pairwise_similarity(' '.join(NIALL_1WORD), mean_func=amean),
-        )
-
-        self.assertRaises(ValueError, mean_pairwise_similarity, ['a b c'])
-        self.assertRaises(ValueError, mean_pairwise_similarity, 'abc')
-        self.assertRaises(ValueError, mean_pairwise_similarity, 0)
-        self.assertRaises(
-            ValueError, mean_pairwise_similarity, NIALL, mean_func='imaginary'
-        )
-        self.assertRaises(
-            ValueError, mean_pairwise_similarity, NIALL, metric='imaginary'
-        )
-
-        self.assertEqual(
-            mean_pairwise_similarity(NIALL),
-            mean_pairwise_similarity(tuple(NIALL)),
-        )
-        self.assertEqual(
-            mean_pairwise_similarity(NIALL),
-            mean_pairwise_similarity(list(NIALL)),
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL),
-            mean_pairwise_similarity(sorted(NIALL)),
-        )
-        self.assertAlmostEqual(
-            mean_pairwise_similarity(NIALL),
-            mean_pairwise_similarity(set(NIALL)),
-        )
+    assert (
+        mean_pairwise_similarity(NIALL)
+        == mean_pairwise_similarity(tuple(NIALL))
+    )
+    assert (
+        mean_pairwise_similarity(NIALL)
+        == mean_pairwise_similarity(list(NIALL))
+    )
+    assert mean_pairwise_similarity(NIALL) == pytest.approx(abs=1e-7, expected=mean_pairwise_similarity(sorted(NIALL)))
+    assert mean_pairwise_similarity(NIALL) == pytest.approx(abs=1e-7, expected=mean_pairwise_similarity(set(NIALL)))
 
 
-class PSSTestCases(unittest.TestCase):
-    """Test pairwise similarity statistics functions.
+def test_pairwise_similarity_statistics():
+    """Test abydos.stats.pairwise_similarity_statistics."""
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, NIALL
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=1.0)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.11764705882352944)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.4188369879201684)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.2265099631340623)
 
-    abydos.stats.pairwise_similarity_statistics
-    """
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, ('Kneal',)
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=0.8333333333333334)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.11764705882352944)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.30474877450980387)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.1842666797571549)
 
-    def test_pairwise_similarity_statistics(self):
-        """Test abydos.stats.pairwise_similarity_statistics."""
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, NIALL
-        )
-        self.assertAlmostEqual(pw_max, 1.0)
-        self.assertAlmostEqual(pw_min, 0.11764705882352944)
-        self.assertAlmostEqual(pw_mean, 0.4188369879201684)
-        self.assertAlmostEqual(pw_std, 0.2265099631340623)
+    # Test symmetric
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, NIALL, symmetric=True
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=1.0)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.11764705882352944)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.4188369879201679)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.22650996313406255)
 
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, ('Kneal',)
-        )
-        self.assertAlmostEqual(pw_max, 0.8333333333333334)
-        self.assertAlmostEqual(pw_min, 0.11764705882352944)
-        self.assertAlmostEqual(pw_mean, 0.30474877450980387)
-        self.assertAlmostEqual(pw_std, 0.1842666797571549)
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, ('Kneal',), symmetric=True
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=0.8333333333333334)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.11764705882352944)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.304748774509804)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.18426667975715486)
 
-        # Test symmetric
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, NIALL, symmetric=True
-        )
-        self.assertAlmostEqual(pw_max, 1.0)
-        self.assertAlmostEqual(pw_min, 0.11764705882352944)
-        self.assertAlmostEqual(pw_mean, 0.4188369879201679)
-        self.assertAlmostEqual(pw_std, 0.22650996313406255)
+    # Test with splittable strings
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        'The quick brown fox', 'jumped over the lazy dog.'
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=0.6666666666666667)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.0)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.08499999999999999)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.16132265804901677)
 
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, ('Kneal',), symmetric=True
-        )
-        self.assertAlmostEqual(pw_max, 0.8333333333333334)
-        self.assertAlmostEqual(pw_min, 0.11764705882352944)
-        self.assertAlmostEqual(pw_mean, 0.304748774509804)
-        self.assertAlmostEqual(pw_std, 0.18426667975715486)
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        'The', 'jumped'
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=0.16666666666666663)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.16666666666666663)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.16666666666666663)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.0)
 
-        # Test with splittable strings
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            'The quick brown fox', 'jumped over the lazy dog.'
-        )
-        self.assertAlmostEqual(pw_max, 0.6666666666666667)
-        self.assertAlmostEqual(pw_min, 0.0)
-        self.assertAlmostEqual(pw_mean, 0.08499999999999999)
-        self.assertAlmostEqual(pw_std, 0.16132265804901677)
+    # Test with a set metric
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, NIALL, metric=Jaccard().sim
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=1.0)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.0)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.23226906681010506)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.24747101181262784)
 
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            'The', 'jumped'
-        )
-        self.assertAlmostEqual(pw_max, 0.16666666666666663)
-        self.assertAlmostEqual(pw_min, 0.16666666666666663)
-        self.assertAlmostEqual(pw_mean, 0.16666666666666663)
-        self.assertAlmostEqual(pw_std, 0.0)
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, NIALL, metric=JaroWinkler().dist
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=1.0)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.0)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.3352660334967324)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.18394505847524578)
 
-        # Test with a set metric
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, NIALL, metric=Jaccard().sim
-        )
-        self.assertAlmostEqual(pw_max, 1.0)
-        self.assertAlmostEqual(pw_min, 0.0)
-        self.assertAlmostEqual(pw_mean, 0.23226906681010506)
-        self.assertAlmostEqual(pw_std, 0.24747101181262784)
+    # Test using hmean'
+    (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
+        NIALL, NIALL, mean_func=hmean
+    )
+    assert pw_max == pytest.approx(abs=1e-7, expected=1.0)
+    assert pw_min == pytest.approx(abs=1e-7, expected=0.11764705882352944)
+    assert pw_mean == pytest.approx(abs=1e-7, expected=0.30718771249150056)
+    assert pw_std == pytest.approx(abs=1e-7, expected=0.25253182790044676)
 
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, NIALL, metric=JaroWinkler().dist
-        )
-        self.assertAlmostEqual(pw_max, 1.0)
-        self.assertAlmostEqual(pw_min, 0.0)
-        self.assertAlmostEqual(pw_mean, 0.3352660334967324)
-        self.assertAlmostEqual(pw_std, 0.18394505847524578)
-
-        # Test using hmean'
-        (pw_max, pw_min, pw_mean, pw_std) = pairwise_similarity_statistics(
-            NIALL, NIALL, mean_func=hmean
-        )
-        self.assertAlmostEqual(pw_max, 1.0)
-        self.assertAlmostEqual(pw_min, 0.11764705882352944)
-        self.assertAlmostEqual(pw_mean, 0.30718771249150056)
-        self.assertAlmostEqual(pw_std, 0.25253182790044676)
-
-        # Test exceptions
-        self.assertRaises(
-            ValueError,
-            pairwise_similarity_statistics,
-            NIALL,
-            NIALL,
-            mean_func='mean',
-        )
-        self.assertRaises(
-            ValueError,
-            pairwise_similarity_statistics,
-            NIALL,
-            NIALL,
-            metric='Levenshtein',
-        )
-        self.assertRaises(ValueError, pairwise_similarity_statistics, 5, NIALL)
-        self.assertRaises(ValueError, pairwise_similarity_statistics, NIALL, 5)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # Test exceptions
+    with pytest.raises(ValueError):
+        pairwise_similarity_statistics(NIALL, NIALL, mean_func='mean')
+    with pytest.raises(ValueError):
+        pairwise_similarity_statistics(NIALL, NIALL, metric='Levenshtein')
+    with pytest.raises(ValueError):
+        pairwise_similarity_statistics(5, NIALL)
+    with pytest.raises(ValueError):
+        pairwise_similarity_statistics(NIALL, 5)

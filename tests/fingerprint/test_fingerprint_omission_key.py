@@ -19,39 +19,29 @@
 This module contains unit tests for abydos.fingerprint.OmissionKey
 """
 
-import unittest
 
 from abydos.fingerprint import OmissionKey
 
 
-class OmissionKeyTestCases(unittest.TestCase):
-    """Test OmissionKey functions.
-
-    abydos.fingerprint.OmissionKey
-    """
-
-    fp = OmissionKey()
-
-    def test_omission_key(self):
-        """Test abydos.fingerprint.OmissionKey."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
-
-        # http://dl.acm.org/citation.cfm?id=358048
-        self.assertEqual(self.fp.fingerprint('microelectronics'), 'MCLNTSRIOE')
-        self.assertEqual(self.fp.fingerprint('circumstantial'), 'MCLNTSRIUA')
-        self.assertEqual(self.fp.fingerprint('luminescent'), 'MCLNTSUIE')
-        self.assertEqual(self.fp.fingerprint('multinucleate'), 'MCLNTUIEA')
-        self.assertEqual(self.fp.fingerprint('multinucleon'), 'MCLNTUIEO')
-        self.assertEqual(self.fp.fingerprint('cumulene'), 'MCLNUE')
-        self.assertEqual(self.fp.fingerprint('luminance'), 'MCLNUIAE')
-        self.assertEqual(self.fp.fingerprint('coelomic'), 'MCLOEI')
-        self.assertEqual(self.fp.fingerprint('molecule'), 'MCLOEU')
-        self.assertEqual(self.fp.fingerprint('cameral'), 'MCLRAE')
-        self.assertEqual(self.fp.fingerprint('caramel'), 'MCLRAE')
-        self.assertEqual(self.fp.fingerprint('maceral'), 'MCLRAE')
-        self.assertEqual(self.fp.fingerprint('lacrimal'), 'MCLRAI')
+fp = OmissionKey()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_omission_key():
+    """Test abydos.fingerprint.OmissionKey."""
+    # Base case
+    assert fp.fingerprint('') == ''
+
+    # http://dl.acm.org/citation.cfm?id=358048
+    assert fp.fingerprint('microelectronics') == 'MCLNTSRIOE'
+    assert fp.fingerprint('circumstantial') == 'MCLNTSRIUA'
+    assert fp.fingerprint('luminescent') == 'MCLNTSUIE'
+    assert fp.fingerprint('multinucleate') == 'MCLNTUIEA'
+    assert fp.fingerprint('multinucleon') == 'MCLNTUIEO'
+    assert fp.fingerprint('cumulene') == 'MCLNUE'
+    assert fp.fingerprint('luminance') == 'MCLNUIAE'
+    assert fp.fingerprint('coelomic') == 'MCLOEI'
+    assert fp.fingerprint('molecule') == 'MCLOEU'
+    assert fp.fingerprint('cameral') == 'MCLRAE'
+    assert fp.fingerprint('caramel') == 'MCLRAE'
+    assert fp.fingerprint('maceral') == 'MCLRAE'
+    assert fp.fingerprint('lacrimal') == 'MCLRAI'

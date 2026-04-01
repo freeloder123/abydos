@@ -19,35 +19,23 @@
 This module contains unit tests for abydos.phonetic.ONCA
 """
 
-import unittest
-
 from abydos.phonetic import ONCA
 
 
-class ONCATestCases(unittest.TestCase):
-    """Test ONCA functions.
+pa = ONCA()
 
-    test cases for abydos.phonetic.ONCA
-    """
+def test_onca():
+    """Test abydos.phonetic.ONCA."""
+    # https://nces.ed.gov/FCSM/pdf/RLT97.pdf
+    assert pa.encode('HALL') == 'H400'
+    assert pa.encode('SMITH') == 'S530'
 
-    pa = ONCA()
+    # http://nchod.uhce.ox.ac.uk/NCHOD%20Oxford%20E5%20Report%201st%20Feb_VerAM2.pdf
+    assert pa.encode('HAWTON') == 'H350'
+    assert pa.encode('HORTON') == 'H635'
+    assert pa.encode('HOUGHTON') == 'H235'
 
-    def test_onca(self):
-        """Test abydos.phonetic.ONCA."""
-        # https://nces.ed.gov/FCSM/pdf/RLT97.pdf
-        self.assertEqual(self.pa.encode('HALL'), 'H400')
-        self.assertEqual(self.pa.encode('SMITH'), 'S530')
-
-        # http://nchod.uhce.ox.ac.uk/NCHOD%20Oxford%20E5%20Report%201st%20Feb_VerAM2.pdf
-        self.assertEqual(self.pa.encode('HAWTON'), 'H350')
-        self.assertEqual(self.pa.encode('HORTON'), 'H635')
-        self.assertEqual(self.pa.encode('HOUGHTON'), 'H235')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('HALL'), 'HL')
-        self.assertEqual(self.pa.encode_alpha('SMITH'), 'SNT')
-        self.assertEqual(self.pa.encode_alpha('HOUGHTON'), 'HKTN')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('HALL') == 'HL'
+    assert pa.encode_alpha('SMITH') == 'SNT'
+    assert pa.encode_alpha('HOUGHTON') == 'HKTN'

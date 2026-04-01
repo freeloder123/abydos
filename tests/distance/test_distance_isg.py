@@ -19,90 +19,57 @@
 This module contains unit tests for abydos.distance.ISG
 """
 
-import unittest
 
 from abydos.distance import ISG
 
 
-class ISGTestCases(unittest.TestCase):
-    """Test ISG functions.
+cmp = ISG()
 
-    abydos.distance.ISG
-    """
-
-    cmp = ISG()
-    cmp_full = ISG(full_guth=True)
-
-    def test_isg_sim(self):
-        """Test abydos.distance.ISG.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        # Testcases from paper
-        self.assertEqual(self.cmp.sim('alaire', 'alard'), 0.5714285714285714)
-        self.assertEqual(self.cmp.sim('georges', 'george'), 0.8571428571428571)
-        self.assertEqual(self.cmp.sim('emile', 'emilien'), 0.7142857142857143)
-        self.assertEqual(self.cmp.sim('blanchet', 'blanchette'), 0.8)
-        self.assertEqual(self.cmp.sim('marie', 'maria'), 0.6666666666666666)
-        self.assertEqual(self.cmp.sim('filion', 'filguion'), 0.75)
-        self.assertEqual(self.cmp.sim('daneau', 'dagneau'), 0.8571428571428571)
-        self.assertEqual(self.cmp.sim('larouche', 'laroche'), 0.875)
-        self.assertEqual(self.cmp.sim('alaire', 'dalaire'), 0.8571428571428571)
-        self.assertEqual(self.cmp.sim('donne', 'dionne'), 0.8333333333333334)
-        self.assertEqual(self.cmp.sim('audet', 'gaudet'), 0.8333333333333334)
-        self.assertEqual(self.cmp.sim('couet', 'caouet'), 0.8333333333333334)
-        self.assertEqual(self.cmp.sim('exulie', 'axilia'), 0.5)
-        self.assertEqual(self.cmp.sim('leon', 'noel'), 0.3333333333333333)
-        self.assertEqual(
-            self.cmp.sim('norbert', 'bertran'), 0.16666666666666666
-        )
-
-        # Full Guth ruleset tests
-        self.assertEqual(
-            self.cmp_full.sim('alaire', 'alard'), 0.8333333333333334
-        )
-        self.assertEqual(
-            self.cmp_full.sim('georges', 'george'), 0.8571428571428571
-        )
-        self.assertEqual(
-            self.cmp_full.sim('emile', 'emilien'), 0.7142857142857143
-        )
-        self.assertEqual(self.cmp_full.sim('blanchet', 'blanchette'), 0.8)
-        self.assertEqual(
-            self.cmp_full.sim('marie', 'maria'), 0.6666666666666666
-        )
-        self.assertEqual(self.cmp_full.sim('filion', 'filguion'), 0.75)
-        self.assertEqual(
-            self.cmp_full.sim('daneau', 'dagneau'), 0.8571428571428571
-        )
-        self.assertEqual(self.cmp_full.sim('larouche', 'laroche'), 0.875)
-        self.assertEqual(
-            self.cmp_full.sim('alaire', 'dalaire'), 0.8571428571428571
-        )
-        self.assertEqual(
-            self.cmp_full.sim('donne', 'dionne'), 0.8333333333333334
-        )
-        self.assertEqual(
-            self.cmp_full.sim('audet', 'gaudet'), 0.8333333333333334
-        )
-        self.assertEqual(
-            self.cmp_full.sim('couet', 'caouet'), 0.8333333333333334
-        )
-        self.assertEqual(
-            self.cmp_full.sim('exulie', 'axilia'), 0.7142857142857143
-        )
-        self.assertEqual(self.cmp_full.sim('leon', 'noel'), 0.3333333333333333)
-        self.assertEqual(
-            self.cmp_full.sim('norbert', 'bertran'), 0.5555555555555556
-        )
+cmp_full = ISG(full_guth=True)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_isg_sim():
+    """Test abydos.distance.ISG.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    # Testcases from paper
+    assert cmp.sim('alaire', 'alard') == 0.5714285714285714
+    assert cmp.sim('georges', 'george') == 0.8571428571428571
+    assert cmp.sim('emile', 'emilien') == 0.7142857142857143
+    assert cmp.sim('blanchet', 'blanchette') == 0.8
+    assert cmp.sim('marie', 'maria') == 0.6666666666666666
+    assert cmp.sim('filion', 'filguion') == 0.75
+    assert cmp.sim('daneau', 'dagneau') == 0.8571428571428571
+    assert cmp.sim('larouche', 'laroche') == 0.875
+    assert cmp.sim('alaire', 'dalaire') == 0.8571428571428571
+    assert cmp.sim('donne', 'dionne') == 0.8333333333333334
+    assert cmp.sim('audet', 'gaudet') == 0.8333333333333334
+    assert cmp.sim('couet', 'caouet') == 0.8333333333333334
+    assert cmp.sim('exulie', 'axilia') == 0.5
+    assert cmp.sim('leon', 'noel') == 0.3333333333333333
+    assert cmp.sim('norbert', 'bertran') == 0.16666666666666666
+
+    # Full Guth ruleset tests
+    assert cmp_full.sim('alaire', 'alard') == 0.8333333333333334
+    assert cmp_full.sim('georges', 'george') == 0.8571428571428571
+    assert cmp_full.sim('emile', 'emilien') == 0.7142857142857143
+    assert cmp_full.sim('blanchet', 'blanchette') == 0.8
+    assert cmp_full.sim('marie', 'maria') == 0.6666666666666666
+    assert cmp_full.sim('filion', 'filguion') == 0.75
+    assert cmp_full.sim('daneau', 'dagneau') == 0.8571428571428571
+    assert cmp_full.sim('larouche', 'laroche') == 0.875
+    assert cmp_full.sim('alaire', 'dalaire') == 0.8571428571428571
+    assert cmp_full.sim('donne', 'dionne') == 0.8333333333333334
+    assert cmp_full.sim('audet', 'gaudet') == 0.8333333333333334
+    assert cmp_full.sim('couet', 'caouet') == 0.8333333333333334
+    assert cmp_full.sim('exulie', 'axilia') == 0.7142857142857143
+    assert cmp_full.sim('leon', 'noel') == 0.3333333333333333
+    assert cmp_full.sim('norbert', 'bertran') == 0.5555555555555556

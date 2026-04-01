@@ -102,6 +102,8 @@ class NYSIIS(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
 
         word = ''.join(c for c in word.upper() if c.isalpha())
 

@@ -19,67 +19,57 @@
 This module contains unit tests for abydos.phonetic.PSHPSoundexLast
 """
 
-import unittest
-
 from abydos.phonetic import PSHPSoundexLast
 
 
-class PSHPSoundexLastTestCases(unittest.TestCase):
-    """Test PSHP Soundex functions.
+pa = PSHPSoundexLast()
 
-    test cases for abydos.phonetic.PSHPSoundexLast
-    """
+pa_german = PSHPSoundexLast(german=True)
 
-    pa = PSHPSoundexLast()
-    pa_german = PSHPSoundexLast(german=True)
-    pa_unl = PSHPSoundexLast(max_length=-1)
+pa_unl = PSHPSoundexLast(max_length=-1)
 
-    def test_pshp_soundex_last(self):
-        """Test abydos.phonetic.PSHPSoundexLast."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '0000')
+def test_pshp_soundex_last():
+    """Test abydos.phonetic.PSHPSoundexLast."""
+    # Base case
+    assert pa.encode('') == '0000'
 
-        self.assertEqual(self.pa.encode('JAMES'), 'J500')
-        self.assertEqual(self.pa.encode('JOHN'), 'J500')
-        self.assertEqual(self.pa.encode('PAT'), 'P300')
-        self.assertEqual(self.pa.encode('PETER'), 'P350')
+    assert pa.encode('JAMES') == 'J500'
+    assert pa.encode('JOHN') == 'J500'
+    assert pa.encode('PAT') == 'P300'
+    assert pa.encode('PETER') == 'P350'
 
-        self.assertEqual(self.pa.encode('Smith'), 'S530')
-        self.assertEqual(self.pa.encode('van Damme'), 'D500')
-        self.assertEqual(self.pa.encode('MacNeil'), 'M400')
-        self.assertEqual(self.pa.encode('McNeil'), 'M400')
-        self.assertEqual(self.pa.encode('Edwards'), 'A353')
-        self.assertEqual(self.pa.encode('Gin'), 'J500')
-        self.assertEqual(self.pa.encode('Cillian'), 'S450')
-        self.assertEqual(self.pa.encode('Christopher'), 'K523')
-        self.assertEqual(self.pa.encode('Carme'), 'K500')
-        self.assertEqual(self.pa.encode('Knight'), 'N230')
-        self.assertEqual(self.pa.encode('Phillip'), 'F410')
-        self.assertEqual(self.pa.encode('Wein'), 'V500')
-        self.assertEqual(self.pa_german.encode('Wagner'), 'V255')
-        self.assertEqual(self.pa.encode('Pence'), 'P500')
-        self.assertEqual(self.pa.encode('Less'), 'L000')
-        self.assertEqual(self.pa.encode('Simpson'), 'S525')
-        self.assertEqual(self.pa.encode('Samson'), 'S250')
-        self.assertEqual(self.pa.encode('Lang'), 'L500')
-        self.assertEqual(self.pa.encode('Hagan'), 'H500')
-        self.assertEqual(self.pa_german.encode('Cartes'), 'K500')
-        self.assertEqual(self.pa_german.encode('Kats'), 'K000')
-        self.assertEqual(self.pa_german.encode('Schultze'), 'S400')
-        self.assertEqual(self.pa_german.encode('Alze'), 'A400')
-        self.assertEqual(self.pa_german.encode('Galz'), 'G400')
-        self.assertEqual(self.pa_german.encode('Alte'), 'A400')
-        self.assertEqual(self.pa_unl.encode('Alte'), 'A43')
-        self.assertEqual(self.pa_unl.encode('Altemaier'), 'A4355')
+    assert pa.encode('Smith') == 'S530'
+    assert pa.encode('van Damme') == 'D500'
+    assert pa.encode('MacNeil') == 'M400'
+    assert pa.encode('McNeil') == 'M400'
+    assert pa.encode('Edwards') == 'A353'
+    assert pa.encode('Gin') == 'J500'
+    assert pa.encode('Cillian') == 'S450'
+    assert pa.encode('Christopher') == 'K523'
+    assert pa.encode('Carme') == 'K500'
+    assert pa.encode('Knight') == 'N230'
+    assert pa.encode('Phillip') == 'F410'
+    assert pa.encode('Wein') == 'V500'
+    assert pa_german.encode('Wagner') == 'V255'
+    assert pa.encode('Pence') == 'P500'
+    assert pa.encode('Less') == 'L000'
+    assert pa.encode('Simpson') == 'S525'
+    assert pa.encode('Samson') == 'S250'
+    assert pa.encode('Lang') == 'L500'
+    assert pa.encode('Hagan') == 'H500'
+    assert pa_german.encode('Cartes') == 'K500'
+    assert pa_german.encode('Kats') == 'K000'
+    assert pa_german.encode('Schultze') == 'S400'
+    assert pa_german.encode('Alze') == 'A400'
+    assert pa_german.encode('Galz') == 'G400'
+    assert pa_german.encode('Alte') == 'A400'
+    assert pa_unl.encode('Alte') == 'A43'
+    assert pa_unl.encode('Altemaier') == 'A4355'
 
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('Simpson'), 'SNKN')
-        self.assertEqual(self.pa.encode_alpha('Samson'), 'SKN')
-        self.assertEqual(self.pa.encode_alpha('Lang'), 'LN')
-        self.assertEqual(self.pa.encode_alpha('Hagan'), 'HN')
-        self.assertEqual(self.pa_german.encode_alpha('Cartes'), 'KN')
-        self.assertEqual(self.pa_german.encode_alpha('Kats'), 'K')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('Simpson') == 'SNKN'
+    assert pa.encode_alpha('Samson') == 'SKN'
+    assert pa.encode_alpha('Lang') == 'LN'
+    assert pa.encode_alpha('Hagan') == 'HN'
+    assert pa_german.encode_alpha('Cartes') == 'KN'
+    assert pa_german.encode_alpha('Kats') == 'K'

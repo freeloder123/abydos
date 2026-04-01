@@ -132,6 +132,8 @@ class PSHPSoundexLast(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(lname)
+
         lname = unicode_normalize('NFKD', lname.upper())
         lname = ''.join(c for c in lname if c in self._uc_set)
 

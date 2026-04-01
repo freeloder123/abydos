@@ -19,83 +19,57 @@
 This module contains unit tests for abydos.compression.RLE
 """
 
-import unittest
 
 from abydos.compression import BWT, RLE
 
 
-class RLETestCases(unittest.TestCase):
-    """Test abydos.compression.RLE.encode & .decode."""
+rle = RLE()
 
-    rle = RLE()
-    bwt = BWT()
+bwt = BWT()
 
-    bws = 'WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWBWWWWWWWWWWWWWW'
-
-    def test_rle_encode(self):
-        """Test abydos.compression.RLE.encode."""
-        self.assertEqual(self.rle.encode(''), '')
-        self.assertEqual(self.rle.encode(self.bwt.encode('')), '\x00')
-        self.assertEqual(self.rle.encode('banana'), 'banana')
-        self.assertEqual(
-            self.rle.encode(self.bwt.encode('banana')), 'annb\x00aa'
-        )
-        self.assertEqual(self.rle.encode(self.bws), '12WB12W3B24WB14W')
-        self.assertEqual(
-            self.rle.encode(self.bwt.encode(self.bws)), 'WWBWWB45WB\x003WB10WB'
-        )
-        self.assertEqual(self.rle.encode('Schifffahrt'), 'Schi3fahrt')
-
-    def test_rle_decode(self):
-        """Test abydos.compression.RLE.decode."""
-        self.assertEqual(self.rle.decode(''), '')
-        self.assertEqual(self.bwt.decode(self.rle.decode('\x00')), '')
-        self.assertEqual(self.rle.decode('banana'), 'banana')
-        self.assertEqual(
-            self.bwt.decode(self.rle.decode('annb\x00aa')), 'banana'
-        )
-        self.assertEqual(self.rle.decode('12WB12W3B24WB14W'), self.bws)
-        self.assertEqual(self.rle.decode('12W1B12W3B24W1B14W'), self.bws)
-        self.assertEqual(
-            self.bwt.decode(self.rle.decode('WWBWWB45WB\x003WB10WB')), self.bws
-        )
-        self.assertEqual(self.rle.decode('Schi3fahrt'), 'Schifffahrt')
-
-    def test_rle_roundtripping(self):
-        """Test abydos.compression.RLE.encode & .decode roundtripping."""
-        self.assertEqual(self.rle.decode(self.rle.encode('')), '')
-        self.assertEqual(
-            self.bwt.decode(
-                self.rle.decode(self.rle.encode(self.bwt.encode('')))
-            ),
-            '',
-        )
-        self.assertEqual(self.rle.decode(self.rle.encode('banana')), 'banana')
-        self.assertEqual(
-            self.bwt.decode(
-                self.rle.decode(self.rle.encode(self.bwt.encode('banana')))
-            ),
-            'banana',
-        )
-        self.assertEqual(self.rle.decode(self.rle.encode(self.bws)), self.bws)
-        self.assertEqual(
-            self.bwt.decode(
-                self.rle.decode(self.rle.encode(self.bwt.encode(self.bws)))
-            ),
-            self.bws,
-        )
-        self.assertEqual(
-            self.rle.decode(self.rle.encode('Schifffahrt')), 'Schifffahrt'
-        )
-        self.assertEqual(
-            self.bwt.decode(
-                self.rle.decode(
-                    self.rle.encode(self.bwt.encode('Schifffahrt'))
-                )
-            ),
-            'Schifffahrt',
-        )
+bws = 'WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWBWWWWWWWWWWWWWW'
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_rle_encode():
+    """Test abydos.compression.RLE.encode."""
+    assert rle.encode('') == ''
+    assert rle.encode(bwt.encode('')) == '\x00'
+    assert rle.encode('banana') == 'banana'
+    assert rle.encode(bwt.encode('banana')) == 'annb\x00aa'
+    assert rle.encode(bws) == '12WB12W3B24WB14W'
+    assert rle.encode(bwt.encode(bws)) == 'WWBWWB45WB\x003WB10WB'
+    assert rle.encode('Schifffahrt') == 'Schi3fahrt'
+
+def test_rle_decode():
+    """Test abydos.compression.RLE.decode."""
+    assert rle.decode('') == ''
+    assert bwt.decode(rle.decode('\x00')) == ''
+    assert rle.decode('banana') == 'banana'
+    assert bwt.decode(rle.decode('annb\x00aa')) == 'banana'
+    assert rle.decode('12WB12W3B24WB14W') == bws
+    assert rle.decode('12W1B12W3B24W1B14W') == bws
+    assert bwt.decode(rle.decode('WWBWWB45WB\x003WB10WB')) == bws
+    assert rle.decode('Schi3fahrt') == 'Schifffahrt'
+
+def test_rle_roundtripping():
+    """Test abydos.compression.RLE.encode & .decode roundtripping."""
+    assert rle.decode(rle.encode('')) == ''
+    assert (
+        bwt.decode( rle.decode(rle.encode(bwt.encode(''))) )
+        == ''
+    )
+    assert rle.decode(rle.encode('banana')) == 'banana'
+    assert (
+        bwt.decode( rle.decode(rle.encode(bwt.encode('banana'))) )
+        == 'banana'
+    )
+    assert rle.decode(rle.encode(bws)) == bws
+    assert (
+        bwt.decode( rle.decode(rle.encode(bwt.encode(bws))) )
+        == bws
+    )
+    assert rle.decode(rle.encode('Schifffahrt')) == 'Schifffahrt'
+    assert (
+        bwt.decode( rle.decode( rle.encode(bwt.encode('Schifffahrt')) ) )
+        == 'Schifffahrt'
+    )

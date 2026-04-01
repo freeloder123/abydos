@@ -19,12 +19,13 @@
 This module contains unit tests for abydos.distance.LCPrefix
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import LCPrefix
 
 
-class LCPrefixTestCases(unittest.TestCase):
+class TestLCPrefix:
     """Test LCPrefix functions.
 
     abydos.distance.LCPrefix
@@ -35,58 +36,54 @@ class LCPrefixTestCases(unittest.TestCase):
     def test_lcprefix_sim(self):
         """Test abydos.distance.LCPrefix.sim."""
         # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
+        assert self.cmp.sim('', '') == 1.0
+        assert self.cmp.sim('a', '') == 0.0
+        assert self.cmp.sim('', 'a') == 0.0
+        assert self.cmp.sim('abc', '') == 0.0
+        assert self.cmp.sim('', 'abc') == 0.0
+        assert self.cmp.sim('abc', 'abc') == 1.0
+        assert self.cmp.sim('abcd', 'efgh') == 0.0
 
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.4)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.4)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.4)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.4)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.1)
+        assert self.cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4)
+        assert self.cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4)
+        assert self.cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4)
+        assert self.cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.4)
+        assert self.cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.1)
 
     def test_lcprefix_dist(self):
         """Test abydos.distance.LCPrefix.dist."""
         # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
+        assert self.cmp.dist('', '') == 0.0
+        assert self.cmp.dist('a', '') == 1.0
+        assert self.cmp.dist('', 'a') == 1.0
+        assert self.cmp.dist('abc', '') == 1.0
+        assert self.cmp.dist('', 'abc') == 1.0
+        assert self.cmp.dist('abc', 'abc') == 0.0
+        assert self.cmp.dist('abcd', 'efgh') == 1.0
 
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.6)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.6)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.6)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.6)
-        self.assertAlmostEqual(self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.9)
+        assert self.cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.9)
 
     def test_lcprefix_dist_abs(self):
         """Test abydos.distance.LCPrefix.dist_abs."""
         # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 0)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 3)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 0)
+        assert self.cmp.dist_abs('', '') == 0
+        assert self.cmp.dist_abs('a', '') == 0
+        assert self.cmp.dist_abs('', 'a') == 0
+        assert self.cmp.dist_abs('abc', '') == 0
+        assert self.cmp.dist_abs('', 'abc') == 0
+        assert self.cmp.dist_abs('abc', 'abc') == 3
+        assert self.cmp.dist_abs('abcd', 'efgh') == 0
 
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 1)
+        assert self.cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=2)
+        assert self.cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=2)
+        assert self.cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=2)
+        assert self.cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=2)
+        assert self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1)
 
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall', 'Niel'), 2)
-        with self.assertRaises(TypeError):
+        assert self.cmp.dist_abs('Nigel', 'Niall', 'Niel') == pytest.approx(abs=1e-7, expected=2)
+        with pytest.raises(TypeError):
             self.cmp.dist_abs('Nigel', 'Niall', 5)
-
-
-if __name__ == '__main__':
-    unittest.main()

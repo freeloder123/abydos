@@ -19,28 +19,18 @@
 This module contains unit tests for abydos.fingerprint.LACSS
 """
 
-import unittest
 
 from abydos.fingerprint import LACSS
 
 
-class LACSSTestCases(unittest.TestCase):
-    """Test LACSS functions.
-
-    abydos.fingerprint.LACSS
-    """
-
-    fp = LACSS()
-
-    def test_lacss_fingerprint(self):
-        """Test abydos.fingerprint.LACSS."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '1732050')
-
-        # Test cases from paper
-        self.assertEqual(self.fp.fingerprint('Williams'), '8312716')
-        self.assertEqual(self.fp.fingerprint('2AB2'), '2449489')
+fp = LACSS()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_lacss_fingerprint():
+    """Test abydos.fingerprint.LACSS."""
+    # Base case
+    assert fp.fingerprint('') == '1732050'
+
+    # Test cases from paper
+    assert fp.fingerprint('Williams') == '8312716'
+    assert fp.fingerprint('2AB2') == '2449489'

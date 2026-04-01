@@ -19,42 +19,32 @@
 This module contains unit tests for abydos.distance.Inclusion
 """
 
-import unittest
 
 from abydos.distance import Inclusion
 
 
-class InclusionTestCases(unittest.TestCase):
-    """Test Inclusion functions.
-
-    abydos.distance.Inclusion
-    """
-
-    cmp = Inclusion()
-
-    def test_inclusion_dist(self):
-        """Test abydos.distance.Inclusion.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        # Testcases from paper
-        self.assertEqual(self.cmp.dist('ALINE', 'LINA'), 0.0)
-        self.assertEqual(self.cmp.dist('ADELINE', 'LINA'), 0.0)
-        self.assertEqual(self.cmp.dist('DIONNE', 'DONNE'), 0.0)
-        self.assertEqual(self.cmp.dist('ANGELINE', 'ADELINE'), 1.0)
-        self.assertEqual(self.cmp.dist('CASSEGRAIN', 'CASGRAIN'), 1.0)
-
-        # coverage
-        self.assertEqual(self.cmp.dist('abc', 'abcd'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'abc'), 0.0)
+cmp = Inclusion()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_inclusion_dist():
+    """Test abydos.distance.Inclusion.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('a', 'a') == 0.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    # Testcases from paper
+    assert cmp.dist('ALINE', 'LINA') == 0.0
+    assert cmp.dist('ADELINE', 'LINA') == 0.0
+    assert cmp.dist('DIONNE', 'DONNE') == 0.0
+    assert cmp.dist('ANGELINE', 'ADELINE') == 1.0
+    assert cmp.dist('CASSEGRAIN', 'CASGRAIN') == 1.0
+
+    # coverage
+    assert cmp.dist('abc', 'abcd') == 0.0
+    assert cmp.dist('abcd', 'abc') == 0.0

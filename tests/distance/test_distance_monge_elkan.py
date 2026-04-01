@@ -19,56 +19,51 @@
 This module contains unit tests for abydos.distance.MongeElkan
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Jaccard, MongeElkan
 
 
-class MongeElkanTestCases(unittest.TestCase):
-    """Test Monge-Elkan functions.
+cmp = MongeElkan()
 
-    abydos.distance.MongeElkan
-    """
+cmp_sym = MongeElkan(symmetric=True)
 
-    cmp = MongeElkan()
-    cmp_sym = MongeElkan(symmetric=True)
-    cmp_jac = MongeElkan(sim_func=Jaccard())
-    cmp_jac_sim = MongeElkan(sim_func=Jaccard().sim)
+cmp_jac = MongeElkan(sim_func=Jaccard())
 
-    def test_monge_elkan_sim(self):
-        """Test abydos.distance.MongeElkan.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('', 'a'), 0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-
-        self.assertEqual(self.cmp.sim('Niall', 'Neal'), 3 / 4)
-        self.assertEqual(self.cmp.sim('Niall', 'Njall'), 5 / 6)
-        self.assertEqual(self.cmp.sim('Niall', 'Niel'), 3 / 4)
-        self.assertEqual(self.cmp.sim('Niall', 'Nigel'), 3 / 4)
-
-        self.assertEqual(self.cmp_sym.sim('Niall', 'Neal'), 31 / 40)
-        self.assertEqual(self.cmp_sym.sim('Niall', 'Njall'), 5 / 6)
-        self.assertEqual(self.cmp_sym.sim('Niall', 'Niel'), 31 / 40)
-        self.assertAlmostEqual(self.cmp_sym.sim('Niall', 'Nigel'), 17 / 24)
-
-        self.assertEqual(self.cmp_jac.sim('Njall', 'Neil'), 29 / 60)
-        self.assertEqual(self.cmp_jac_sim.sim('Njall', 'Neil'), 29 / 60)
-
-    def test_monge_elkan_dist(self):
-        """Test abydos.distance.MongeElkan.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1)
-
-        self.assertEqual(self.cmp.dist('Niall', 'Neal'), 1 / 4)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Njall'), 1 / 6)
-        self.assertEqual(self.cmp.dist('Niall', 'Niel'), 1 / 4)
-        self.assertEqual(self.cmp.dist('Niall', 'Nigel'), 1 / 4)
-
-        self.assertAlmostEqual(self.cmp_sym.dist('Niall', 'Neal'), 9 / 40)
-        self.assertAlmostEqual(self.cmp_sym.dist('Niall', 'Njall'), 1 / 6)
-        self.assertAlmostEqual(self.cmp_sym.dist('Niall', 'Niel'), 9 / 40)
-        self.assertAlmostEqual(self.cmp_sym.dist('Niall', 'Nigel'), 7 / 24)
+cmp_jac_sim = MongeElkan(sim_func=Jaccard().sim)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_monge_elkan_sim():
+    """Test abydos.distance.MongeElkan.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('', 'a') == 0
+    assert cmp.sim('a', 'a') == 1
+
+    assert cmp.sim('Niall', 'Neal') == 3 / 4
+    assert cmp.sim('Niall', 'Njall') == 5 / 6
+    assert cmp.sim('Niall', 'Niel') == 3 / 4
+    assert cmp.sim('Niall', 'Nigel') == 3 / 4
+
+    assert cmp_sym.sim('Niall', 'Neal') == 31 / 40
+    assert cmp_sym.sim('Niall', 'Njall') == 5 / 6
+    assert cmp_sym.sim('Niall', 'Niel') == 31 / 40
+    assert cmp_sym.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=17 / 24)
+
+    assert cmp_jac.sim('Njall', 'Neil') == 29 / 60
+    assert cmp_jac_sim.sim('Njall', 'Neil') == 29 / 60
+
+def test_monge_elkan_dist():
+    """Test abydos.distance.MongeElkan.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('', 'a') == 1
+
+    assert cmp.dist('Niall', 'Neal') == 1 / 4
+    assert cmp.dist('Niall', 'Njall') == pytest.approx(abs=1e-7, expected=1 / 6)
+    assert cmp.dist('Niall', 'Niel') == 1 / 4
+    assert cmp.dist('Niall', 'Nigel') == 1 / 4
+
+    assert cmp_sym.dist('Niall', 'Neal') == pytest.approx(abs=1e-7, expected=9 / 40)
+    assert cmp_sym.dist('Niall', 'Njall') == pytest.approx(abs=1e-7, expected=1 / 6)
+    assert cmp_sym.dist('Niall', 'Niel') == pytest.approx(abs=1e-7, expected=9 / 40)
+    assert cmp_sym.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=7 / 24)

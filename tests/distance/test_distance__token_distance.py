@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.distance._TokenDistance
 """
 
-import unittest
+import pytest
+
 from collections import Counter
 
 from abydos.distance import (
@@ -37,7 +38,7 @@ from abydos.tokenizer import (
 )
 
 
-class TokenDistanceTestCases(unittest.TestCase):
+class TestTokenDistance:
     """Test _TokenDistance functions.
 
     abydos.distance._TokenDistance
@@ -53,63 +54,41 @@ class TokenDistanceTestCases(unittest.TestCase):
     def test_crisp_jaccard_sim(self):
         """Test abydos.distance.Jaccard.sim (crisp)."""
         # Base cases
-        self.assertEqual(self.cmp_j_crisp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_j_crisp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_j_crisp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_j_crisp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_j_crisp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_j_crisp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp_j_crisp.sim('abcd', 'efgh'), 0.0)
+        assert self.cmp_j_crisp.sim('', '') == 1.0
+        assert self.cmp_j_crisp.sim('a', '') == 0.0
+        assert self.cmp_j_crisp.sim('', 'a') == 0.0
+        assert self.cmp_j_crisp.sim('abc', '') == 0.0
+        assert self.cmp_j_crisp.sim('', 'abc') == 0.0
+        assert self.cmp_j_crisp.sim('abc', 'abc') == 1.0
+        assert self.cmp_j_crisp.sim('abcd', 'efgh') == 0.0
 
-        self.assertAlmostEqual(
-            self.cmp_j_crisp.sim('Nigel', 'Niall'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_j_crisp.sim('Niall', 'Nigel'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_j_crisp.sim('Colin', 'Coiln'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_j_crisp.sim('Coiln', 'Colin'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_j_crisp.sim('ATCAACGAGT', 'AACGATTAG'), 0.5
-        )
+        assert self.cmp_j_crisp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3333333333)
+        assert self.cmp_j_crisp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3333333333)
+        assert self.cmp_j_crisp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3333333333)
+        assert self.cmp_j_crisp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3333333333)
+        assert self.cmp_j_crisp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5)
 
     def test_soft_jaccard_sim(self):
         """Test abydos.distance.Jaccard.sim (soft)."""
         # Base cases
-        self.assertEqual(self.cmp_j_soft.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_j_soft.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_j_soft.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_j_soft.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_j_soft.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_j_soft.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp_j_soft.sim('abcd', 'efgh'), 0.11111111)
+        assert self.cmp_j_soft.sim('', '') == 1.0
+        assert self.cmp_j_soft.sim('a', '') == 0.0
+        assert self.cmp_j_soft.sim('', 'a') == 0.0
+        assert self.cmp_j_soft.sim('abc', '') == 0.0
+        assert self.cmp_j_soft.sim('', 'abc') == 0.0
+        assert self.cmp_j_soft.sim('abc', 'abc') == 1.0
+        assert self.cmp_j_soft.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.11111111)
 
-        self.assertAlmostEqual(self.cmp_j_soft.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp_j_soft.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp_j_soft.sim('Colin', 'Coiln'), 0.6)
-        self.assertAlmostEqual(self.cmp_j_soft.sim('Coiln', 'Colin'), 0.6)
-        self.assertAlmostEqual(
-            self.cmp_j_soft.sim('ATCAACGAGT', 'AACGATTAG'), 0.68
-        )
+        assert self.cmp_j_soft.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+        assert self.cmp_j_soft.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+        assert self.cmp_j_soft.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp_j_soft.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp_j_soft.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.68)
 
-        self.assertAlmostEqual(
-            Jaccard(
-                intersection_type='soft', tokenizer=WhitespaceTokenizer()
-            ).sim('junior system analyst', 'systems analyst'),
-            0.6190476190476191,
-        )
-        self.assertAlmostEqual(
-            Jaccard(
-                intersection_type='soft', tokenizer=WhitespaceTokenizer()
-            ).sim('systems analyst', 'junior system analyst'),
-            0.6190476190476191,
-        )
+        assert Jaccard( intersection_type='soft', tokenizer=WhitespaceTokenizer() ).sim('junior system analyst', 'systems analyst') == pytest.approx(abs=1e-7, expected=0.6190476190476191)
+        assert Jaccard( intersection_type='soft', tokenizer=WhitespaceTokenizer() ).sim('systems analyst', 'junior system analyst') == pytest.approx(abs=1e-7, expected=0.6190476190476191)
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             Jaccard(
                 intersection_type='soft',
                 metric=JaroWinkler(),
@@ -119,320 +98,136 @@ class TokenDistanceTestCases(unittest.TestCase):
     def test_fuzzy_jaccard_sim(self):
         """Test abydos.distance.Jaccard.sim (fuzzy)."""
         # Base cases
-        self.assertEqual(self.cmp_j_fuzzy.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_j_fuzzy.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_j_fuzzy.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_j_fuzzy.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_j_fuzzy.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_j_fuzzy.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(
-            self.cmp_j_fuzzy.sim('abcd', 'efgh'), 0.1111111111111111
-        )
+        assert self.cmp_j_fuzzy.sim('', '') == 1.0
+        assert self.cmp_j_fuzzy.sim('a', '') == 0.0
+        assert self.cmp_j_fuzzy.sim('', 'a') == 0.0
+        assert self.cmp_j_fuzzy.sim('abc', '') == 0.0
+        assert self.cmp_j_fuzzy.sim('', 'abc') == 0.0
+        assert self.cmp_j_fuzzy.sim('abc', 'abc') == 1.0
+        assert self.cmp_j_fuzzy.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.1111111111111111)
 
-        self.assertAlmostEqual(self.cmp_j_fuzzy.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp_j_fuzzy.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp_j_fuzzy.sim('Colin', 'Coiln'), 0.6)
-        self.assertAlmostEqual(self.cmp_j_fuzzy.sim('Coiln', 'Colin'), 0.6)
-        self.assertAlmostEqual(
-            self.cmp_j_fuzzy.sim('ATCAACGAGT', 'AACGATTAG'), 0.68
-        )
-        self.assertEqual(sum(self.cmp_j_fuzzy._union().values()), 11.0)
+        assert self.cmp_j_fuzzy.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+        assert self.cmp_j_fuzzy.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+        assert self.cmp_j_fuzzy.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp_j_fuzzy.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp_j_fuzzy.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.68)
+        assert sum(self.cmp_j_fuzzy._union().values()) == 11.0
 
-        self.assertAlmostEqual(
-            Jaccard(intersection_type='fuzzy').sim('synonym', 'antonym'),
-            0.3333333333333333,
-        )
+        assert Jaccard(intersection_type='fuzzy').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.3333333333333333)
 
     def test_linkage_jaccard_sim(self):
         """Test abydos.distance.Jaccard.sim (group linkage)."""
         # Base cases
-        self.assertEqual(self.cmp_j_linkage.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_j_linkage.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_j_linkage.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_j_linkage.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_j_linkage.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_j_linkage.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(
-            self.cmp_j_linkage.sim('abcd', 'efgh'), 0.1111111111111111
-        )
+        assert self.cmp_j_linkage.sim('', '') == 1.0
+        assert self.cmp_j_linkage.sim('a', '') == 0.0
+        assert self.cmp_j_linkage.sim('', 'a') == 0.0
+        assert self.cmp_j_linkage.sim('abc', '') == 0.0
+        assert self.cmp_j_linkage.sim('', 'abc') == 0.0
+        assert self.cmp_j_linkage.sim('abc', 'abc') == 1.0
+        assert self.cmp_j_linkage.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.1111111111111111)
 
-        self.assertAlmostEqual(self.cmp_j_linkage.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp_j_linkage.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp_j_linkage.sim('Colin', 'Coiln'), 0.6)
-        self.assertAlmostEqual(self.cmp_j_linkage.sim('Coiln', 'Colin'), 0.6)
-        self.assertAlmostEqual(
-            self.cmp_j_linkage.sim('ATCAACGAGT', 'AACGATTAG'), 0.68
-        )
+        assert self.cmp_j_linkage.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+        assert self.cmp_j_linkage.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+        assert self.cmp_j_linkage.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp_j_linkage.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6)
+        assert self.cmp_j_linkage.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.68)
 
-        self.assertAlmostEqual(
-            Jaccard(
-                intersection_type='linkage',
-                metric=JaroWinkler(),
-                threshold=0.2,
-            ).sim('synonym', 'antonym'),
-            0.6,
-        )
+        assert Jaccard( intersection_type='linkage', metric=JaroWinkler(), threshold=0.2, ).sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.6)
 
     def test_token_distance(self):
         """Test abydos.distance._TokenDistance members."""
-        self.assertAlmostEqual(
-            Jaccard(intersection_type='soft', alphabet=24).sim(
-                'ATCAACGAGT', 'AACGATTAG'
-            ),
-            0.68,
-        )
-        self.assertAlmostEqual(
-            Jaccard(qval=1, alphabet='CGAT').sim('ATCAACGAGT', 'AACGATTAG'),
-            0.9,
-        )
-        self.assertAlmostEqual(
-            Jaccard(tokenizer=QSkipgrams(qval=3), alphabet='CGAT').sim(
-                'ATCAACGAGT', 'AACGATTAG'
-            ),
-            0.6372795969773299,
-        )
-        self.assertAlmostEqual(
-            Jaccard(alphabet=None).sim('synonym', 'antonym'),
-            0.3333333333333333,
-        )
-        self.assertAlmostEqual(
-            Jaccard(tokenizer=QSkipgrams(qval=3)).sim('synonym', 'antonym'),
-            0.34146341463414637,
-        )
+        assert Jaccard(intersection_type='soft', alphabet=24).sim( 'ATCAACGAGT', 'AACGATTAG' ) == pytest.approx(abs=1e-7, expected=0.68)
+        assert Jaccard(qval=1, alphabet='CGAT').sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.9)
+        assert Jaccard(tokenizer=QSkipgrams(qval=3), alphabet='CGAT').sim( 'ATCAACGAGT', 'AACGATTAG' ) == pytest.approx(abs=1e-7, expected=0.6372795969773299)
+        assert Jaccard(alphabet=None).sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.3333333333333333)
+        assert Jaccard(tokenizer=QSkipgrams(qval=3)).sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.34146341463414637)
 
         src_ctr = Counter({'a': 5, 'b': 2, 'c': 10})
         tar_ctr = Counter({'a': 2, 'c': 1, 'd': 3, 'e': 12})
-        self.assertAlmostEqual(Jaccard().sim(src_ctr, tar_ctr), 0.09375)
+        assert Jaccard().sim(src_ctr, tar_ctr) == pytest.approx(abs=1e-7, expected=0.09375)
 
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='proportional').sim('synonym', 'antonym'),
-            0.984777917351113,
-        )
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='log').sim('synonym', 'antonym'),
-            1.2385752469545532,
-        )
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='exp', alphabet=0).sim(
-                'synonym', 'antonym'
-            ),
-            3.221246147982545e18,
-        )
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='laplace').sim('synonym', 'antonym'),
-            0.98856416772554,
-        )
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='inverse').sim('synonym', 'antonym'),
-            197.95790155440417,
-        )
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='complement').sim('synonym', 'antonym'),
-            1.0204081632653061,
-        )
-        self.assertAlmostEqual(
-            SokalMichener(normalizer='base case').sim('synonym', 'antonym'),
-            0.9897959183673469,
-        )
-        self.assertAlmostEqual(
-            SokalMichener().sim('synonym', 'antonym'), 0.9897959183673469
-        )
+        assert SokalMichener(normalizer='proportional').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.984777917351113)
+        assert SokalMichener(normalizer='log').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=1.2385752469545532)
+        assert SokalMichener(normalizer='exp', alphabet=0).sim( 'synonym', 'antonym' ) == pytest.approx(abs=1e-7, expected=3.221246147982545e18)
+        assert SokalMichener(normalizer='laplace').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.98856416772554)
+        assert SokalMichener(normalizer='inverse').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=197.95790155440417)
+        assert SokalMichener(normalizer='complement').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=1.0204081632653061)
+        assert SokalMichener(normalizer='base case').sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.9897959183673469)
+        assert SokalMichener().sim('synonym', 'antonym') == pytest.approx(abs=1e-7, expected=0.9897959183673469)
 
         sm = SokalMichener()
         sm._tokenize('synonym', 'antonym')  # noqa: SF01
 
-        self.assertEqual(
-            sm._get_tokens(),  # noqa: SF01
-            (
-                Counter(
-                    {
-                        '$s': 1,
-                        'sy': 1,
-                        'yn': 1,
-                        'no': 1,
-                        'on': 1,
-                        'ny': 1,
-                        'ym': 1,
-                        'm#': 1,
-                    }
-                ),
-                Counter(
-                    {
-                        '$a': 1,
-                        'an': 1,
-                        'nt': 1,
-                        'to': 1,
-                        'on': 1,
-                        'ny': 1,
-                        'ym': 1,
-                        'm#': 1,
-                    }
-                ),
-            ),
+        assert (
+            sm._get_tokens()
+            == ( Counter( { '$s': 1, 'sy': 1, 'yn': 1, 'no': 1, 'on': 1, 'ny': 1, 'ym': 1, 'm#': 1, } ), Counter( { '$a': 1, 'an': 1, 'nt': 1, 'to': 1, 'on': 1, 'ny': 1, 'ym': 1, 'm#': 1, } ), )  # noqa: SF01
         )
-        self.assertEqual(sm._src_card(), 8)  # noqa: SF01
-        self.assertEqual(sm._tar_card(), 8)  # noqa: SF01
-        self.assertEqual(
-            sm._symmetric_difference(),  # noqa: SF01
-            Counter(
-                {
-                    '$s': 1,
-                    'sy': 1,
-                    'yn': 1,
-                    'no': 1,
-                    '$a': 1,
-                    'an': 1,
-                    'nt': 1,
-                    'to': 1,
-                }
-            ),
+        assert sm._src_card() == 8  # noqa: SF01
+        assert sm._tar_card() == 8  # noqa: SF01
+        assert (
+            sm._symmetric_difference()
+            == Counter( { '$s': 1, 'sy': 1, 'yn': 1, 'no': 1, '$a': 1, 'an': 1, 'nt': 1, 'to': 1, } )  # noqa: SF01
         )
-        self.assertEqual(sm._symmetric_difference_card(), 8)  # noqa: SF01
-        self.assertEqual(sm._total_complement_card(), 772)  # noqa: SF01
-        self.assertEqual(sm._population_card(), 788)  # noqa: SF01
-        self.assertEqual(
-            sm._union(),  # noqa: SF01
-            Counter(
-                {
-                    '$s': 1,
-                    'sy': 1,
-                    'yn': 1,
-                    'no': 1,
-                    'on': 1,
-                    'ny': 1,
-                    'ym': 1,
-                    'm#': 1,
-                    '$a': 1,
-                    'an': 1,
-                    'nt': 1,
-                    'to': 1,
-                }
-            ),
+        assert sm._symmetric_difference_card() == 8  # noqa: SF01
+        assert sm._total_complement_card() == 772  # noqa: SF01
+        assert sm._population_card() == 788  # noqa: SF01
+        assert (
+            sm._union()
+            == Counter( { '$s': 1, 'sy': 1, 'yn': 1, 'no': 1, 'on': 1, 'ny': 1, 'ym': 1, 'm#': 1, '$a': 1, 'an': 1, 'nt': 1, 'to': 1, } )  # noqa: SF01
         )
-        self.assertEqual(sm._union_card(), 12)  # noqa: SF01
-        self.assertEqual(
-            sm._difference(),  # noqa: SF01
-            Counter(
-                {
-                    '$s': 1,
-                    'sy': 1,
-                    'yn': 1,
-                    'no': 1,
-                    'on': 0,
-                    'ny': 0,
-                    'ym': 0,
-                    'm#': 0,
-                    '$a': -1,
-                    'an': -1,
-                    'nt': -1,
-                    'to': -1,
-                }
-            ),
+        assert sm._union_card() == 12  # noqa: SF01
+        assert (
+            sm._difference()
+            == Counter( { '$s': 1, 'sy': 1, 'yn': 1, 'no': 1, 'on': 0, 'ny': 0, 'ym': 0, 'm#': 0, '$a': -1, 'an': -1, 'nt': -1, 'to': -1, } )  # noqa: SF01
         )
-        self.assertEqual(
-            sm._intersection(),  # noqa: SF01
-            Counter({'on': 1, 'ny': 1, 'ym': 1, 'm#': 1}),
+        assert (
+            sm._intersection()
+            == Counter({'on': 1, 'ny': 1, 'ym': 1, 'm#': 1})  # noqa: SF01
         )
-        self.assertEqual(
-            sm._get_confusion_table(),  # noqa: SF01
-            ConfusionTable(tp=4, tn=772, fp=4, fn=4),
+        assert (
+            sm._get_confusion_table()
+            == ConfusionTable(tp=4, tn=772, fp=4, fn=4)  # noqa: SF01
         )
 
         sm = SokalMichener(
             alphabet=Counter({'C': 20, 'G': 20, 'A': 20, 'T': 20}), qval=1
         )
         sm._tokenize('ATCAACGAGT', 'AACGATTAG')  # noqa: SF01
-        self.assertEqual(sm._total_complement_card(), 61)  # noqa: SF01
+        assert sm._total_complement_card() == 61  # noqa: SF01
 
-        self.assertAlmostEqual(
-            self.cmp_j_linkage.sim('abandonned', 'abandoned'),
-            0.9090909090909091,
-        )
-        self.assertAlmostEqual(
-            self.cmp_j_linkage.sim('abundacies', 'abundances'),
-            0.6923076923076923,
-        )
+        assert self.cmp_j_linkage.sim('abandonned', 'abandoned') == pytest.approx(abs=1e-7, expected=0.9090909090909091)
+        assert self.cmp_j_linkage.sim('abundacies', 'abundances') == pytest.approx(abs=1e-7, expected=0.6923076923076923)
 
         # Some additional constructors needed to complete test coverage
-        self.assertAlmostEqual(
-            Jaccard(alphabet=None, qval=range(2, 4)).sim('abc', 'abcd'),
-            0.42857142857142855,
-        )
-        self.assertAlmostEqual(
-            AverageLinkage(qval=range(2, 4)).sim('abc', 'abcd'),
-            0.22558922558922556,
-        )
-        self.assertAlmostEqual(
-            Jaccard(alphabet='abcdefghijklmnop', qval=range(2, 4)).sim(
-                'abc', 'abcd'
-            ),
-            0.42857142857142855,
-        )
-        self.assertAlmostEqual(
-            Jaccard(
-                alphabet='abcdefghijklmnop', tokenizer=WhitespaceTokenizer()
-            ).sim('abc', 'abcd'),
-            0.0,
-        )
-        self.assertAlmostEqual(
-            Jaccard(alphabet=list('abcdefghijklmnop')).sim('abc', 'abcd'), 0.5
-        )
-        self.assertAlmostEqual(
-            Jaccard(tokenizer=CharacterTokenizer()).sim('abc', 'abcd'), 0.75
-        )
+        assert Jaccard(alphabet=None, qval=range(2, 4)).sim('abc', 'abcd') == pytest.approx(abs=1e-7, expected=0.42857142857142855)
+        assert AverageLinkage(qval=range(2, 4)).sim('abc', 'abcd') == pytest.approx(abs=1e-7, expected=0.22558922558922556)
+        assert Jaccard(alphabet='abcdefghijklmnop', qval=range(2, 4)).sim( 'abc', 'abcd' ) == pytest.approx(abs=1e-7, expected=0.42857142857142855)
+        assert Jaccard( alphabet='abcdefghijklmnop', tokenizer=WhitespaceTokenizer() ).sim('abc', 'abcd') == pytest.approx(abs=1e-7, expected=0.0)
+        assert Jaccard(alphabet=list('abcdefghijklmnop')).sim('abc', 'abcd') == pytest.approx(abs=1e-7, expected=0.5)
+        assert Jaccard(tokenizer=CharacterTokenizer()).sim('abc', 'abcd') == pytest.approx(abs=1e-7, expected=0.75)
 
         cmp_j_soft = Jaccard(intersection_type='soft')
-        self.assertEqual(cmp_j_soft._src_card(), 0)  # noqa: SF01
-        self.assertEqual(cmp_j_soft._tar_card(), 0)  # noqa: SF01
-        self.assertEqual(cmp_j_soft._src_only(), Counter())  # noqa: SF01
-        self.assertEqual(cmp_j_soft._tar_only(), Counter())  # noqa: SF01
-        self.assertEqual(cmp_j_soft._total(), Counter())  # noqa: SF01
-        self.assertEqual(cmp_j_soft._union(), Counter())  # noqa: SF01
-        self.assertEqual(cmp_j_soft._difference(), Counter())  # noqa: SF01
+        assert cmp_j_soft._src_card() == 0  # noqa: SF01
+        assert cmp_j_soft._tar_card() == 0  # noqa: SF01
+        assert cmp_j_soft._src_only() == Counter()  # noqa: SF01
+        assert cmp_j_soft._tar_only() == Counter()  # noqa: SF01
+        assert cmp_j_soft._total() == Counter()  # noqa: SF01
+        assert cmp_j_soft._union() == Counter()  # noqa: SF01
+        assert cmp_j_soft._difference() == Counter()  # noqa: SF01
         cmp_j_soft.sim('abcd', 'abcde')
-        self.assertEqual(cmp_j_soft._src_card(), 5)  # noqa: SF01
-        self.assertEqual(cmp_j_soft._tar_card(), 6)  # noqa: SF01
-        self.assertEqual(
-            cmp_j_soft._src_only(), Counter({'#': 0.5})  # noqa: SF01
+        assert cmp_j_soft._src_card() == 5  # noqa: SF01
+        assert cmp_j_soft._tar_card() == 6  # noqa: SF01
+        assert cmp_j_soft._src_only() == Counter({'#': 0.5}) # noqa: SF01
+        assert cmp_j_soft._tar_only() == Counter({'e#': 1, 'e': 0.5}) # noqa: SF01
+        assert (
+            cmp_j_soft._total()
+            == Counter( { 'e#': 1, 'e': 0.5, '#': 0.5, '$a': 2, 'ab': 2, 'bc': 2, 'cd': 2, 'd': 1.0, } )  # noqa: SF01
         )
-        self.assertEqual(
-            cmp_j_soft._tar_only(), Counter({'e#': 1, 'e': 0.5})  # noqa: SF01
+        assert (
+            cmp_j_soft._union()
+            == Counter( { 'e#': 1, 'e': 0.5, '#': 0.5, '$a': 1, 'ab': 1, 'bc': 1, 'cd': 1, 'd': 0.5, } )  # noqa: SF01
         )
-        self.assertEqual(
-            cmp_j_soft._total(),  # noqa: SF01
-            Counter(
-                {
-                    'e#': 1,
-                    'e': 0.5,
-                    '#': 0.5,
-                    '$a': 2,
-                    'ab': 2,
-                    'bc': 2,
-                    'cd': 2,
-                    'd': 1.0,
-                }
-            ),
+        assert (
+            cmp_j_soft._difference()
+            == Counter({'#': 0.5, 'e#': -1, 'e': -0.5})  # noqa: SF01
         )
-        self.assertEqual(
-            cmp_j_soft._union(),  # noqa: SF01
-            Counter(
-                {
-                    'e#': 1,
-                    'e': 0.5,
-                    '#': 0.5,
-                    '$a': 1,
-                    'ab': 1,
-                    'bc': 1,
-                    'cd': 1,
-                    'd': 0.5,
-                }
-            ),
-        )
-        self.assertEqual(
-            cmp_j_soft._difference(),  # noqa: SF01
-            Counter({'#': 0.5, 'e#': -1, 'e': -0.5}),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -19,47 +19,37 @@
 This module contains unit tests for abydos.distance.MLIPNS
 """
 
-import unittest
 
 from abydos.distance import MLIPNS
 
 
-class MLIPNSTestCases(unittest.TestCase):
-    """Test MLIPNS functions.
-
-    abydos.distance.MLIPNS
-    """
-
-    cmp = MLIPNS()
-
-    def test_mlipns_sim(self):
-        """Test abydos.distance.MLIPNS.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('a', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp.sim('ab', 'a'), 1)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1)
-        self.assertEqual(self.cmp.sim('abc', 'abcde'), 1)
-        self.assertEqual(self.cmp.sim('abcg', 'abcdeg'), 1)
-        self.assertEqual(self.cmp.sim('abcg', 'abcdefg'), 0)
-        self.assertEqual(self.cmp.sim('Tomato', 'Tamato'), 1)
-        self.assertEqual(self.cmp.sim('ato', 'Tam'), 1)
-
-    def test_mlipns_dist(self):
-        """Test abydos.distance.MLIPNS.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('a', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'a'), 1)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist('ab', 'a'), 0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0)
-        self.assertEqual(self.cmp.dist('abc', 'abcde'), 0)
-        self.assertEqual(self.cmp.dist('abcg', 'abcdeg'), 0)
-        self.assertEqual(self.cmp.dist('abcg', 'abcdefg'), 1)
-        self.assertEqual(self.cmp.dist('Tomato', 'Tamato'), 0)
-        self.assertEqual(self.cmp.dist('ato', 'Tam'), 0)
+cmp = MLIPNS()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_mlipns_sim():
+    """Test abydos.distance.MLIPNS.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('a', '') == 0
+    assert cmp.sim('', 'a') == 0
+    assert cmp.sim('a', 'a') == 1
+    assert cmp.sim('ab', 'a') == 1
+    assert cmp.sim('abc', 'abc') == 1
+    assert cmp.sim('abc', 'abcde') == 1
+    assert cmp.sim('abcg', 'abcdeg') == 1
+    assert cmp.sim('abcg', 'abcdefg') == 0
+    assert cmp.sim('Tomato', 'Tamato') == 1
+    assert cmp.sim('ato', 'Tam') == 1
+
+def test_mlipns_dist():
+    """Test abydos.distance.MLIPNS.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('a', '') == 1
+    assert cmp.dist('', 'a') == 1
+    assert cmp.dist('a', 'a') == 0
+    assert cmp.dist('ab', 'a') == 0
+    assert cmp.dist('abc', 'abc') == 0
+    assert cmp.dist('abc', 'abcde') == 0
+    assert cmp.dist('abcg', 'abcdeg') == 0
+    assert cmp.dist('abcg', 'abcdefg') == 1
+    assert cmp.dist('Tomato', 'Tamato') == 0
+    assert cmp.dist('ato', 'Tam') == 0

@@ -19,76 +19,60 @@
 This module contains unit tests for abydos.distance.ChaoJaccard
 """
 
+import pytest
+
 import random
 import sys
-import unittest
 
 from abydos.distance import ChaoJaccard
 
 
-class ChaoJaccardTestCases(unittest.TestCase):
-    """Test ChaoJaccard functions.
-
-    abydos.distance.ChaoJaccard
-    """
-
-    cmp = ChaoJaccard()
-
-    def test_chao_jaccard_sim(self):
-        """Test abydos.distance.ChaoJaccard.sim."""
-        # Skip testing for Python <= 3.5
-        if sys.version_info[0:2] < (3, 6):
-            return
-        random.seed(0)
-
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 0.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.4461538462)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.3885505481)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.44)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.27137634
-        )
-
-    def test_chao_jaccard_sim_score(self):
-        """Test abydos.distance.ChaoJaccard.sim_score."""
-        # Skip testing for Python <= 3.5
-        if sys.version_info[0:2] < (3, 6):
-            return
-
-        random.seed(0)
-
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim_score('abc', 'abc'), 3.5714285714)
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Nigel', 'Niall'), 0.4461538462
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Niall', 'Nigel'), 0.3885505481
-        )
-        self.assertAlmostEqual(self.cmp.sim_score('Colin', 'Coiln'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim_score('Coiln', 'Colin'), 0.44)
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 0.27137634
-        )
+cmp = ChaoJaccard()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_chao_jaccard_sim():
+    """Test abydos.distance.ChaoJaccard.sim."""
+    # Skip testing for Python <= 3.5
+    if sys.version_info[0:2] < (3, 6):
+        return
+    random.seed(0)
+
+    # Base cases
+    assert cmp.sim('', '') == 0.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4461538462)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3885505481)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.44)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.27137634)
+
+def test_chao_jaccard_sim_score():
+    """Test abydos.distance.ChaoJaccard.sim_score."""
+    # Skip testing for Python <= 3.5
+    if sys.version_info[0:2] < (3, 6):
+        return
+
+    random.seed(0)
+
+    # Base cases
+    assert cmp.sim_score('', '') == 0.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('a', 'a') == 0.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == pytest.approx(abs=1e-7, expected=3.5714285714)
+    assert cmp.sim_score('abcd', 'efgh') == 0.0
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4461538462)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3885505481)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.44)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.27137634)

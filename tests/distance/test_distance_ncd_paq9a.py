@@ -19,67 +19,55 @@
 This module contains unit tests for abydos.distance.NCDpaq9a
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import NCDpaq9a
 
 
-class NCDpaq9aTestCases(unittest.TestCase):
-    """Test NCDpaq9a functions.
-
-    abydos.distance.NCDpaq9a
-    """
-
-    cmp = NCDpaq9a()
-
-    def test_ncd_paq9a_dist(self):
-        """Test abydos.distance.NCDpaq9a.dist."""
-        try:
-            import paq  # noqa: F401
-        except ImportError:  # pragma: no cover
-            return
-
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 0.2)
-        self.assertEqual(self.cmp.dist('', 'a'), 0.2)
-        self.assertEqual(self.cmp.dist('abc', ''), 0.42857142857142855)
-        self.assertEqual(self.cmp.dist('', 'abc'), 0.42857142857142855)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 0.5)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.5555555556)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.5555555556)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.5555555556)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.5555555556)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.6153846154
-        )
-
-    def test_ncd_paq9a_sim(self):
-        """Test abydos.distance.NCDpaq9a.sim."""
-        try:
-            import paq  # noqa: F401
-        except ImportError:  # pragma: no cover
-            return
-
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.8)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.8)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.5714285714285714)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.5714285714285714)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.5)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.4444444444)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.4444444444)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.4444444444)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.4444444444)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.3846153846
-        )
+cmp = NCDpaq9a()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_ncd_paq9a_dist():
+    """Test abydos.distance.NCDpaq9a.dist."""
+    try:
+        import paq  # noqa: F401
+    except ImportError:  # pragma: no cover
+        return
+
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 0.2
+    assert cmp.dist('', 'a') == 0.2
+    assert cmp.dist('abc', '') == 0.42857142857142855
+    assert cmp.dist('', 'abc') == 0.42857142857142855
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 0.5
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5555555556)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5555555556)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5555555556)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5555555556)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6153846154)
+
+def test_ncd_paq9a_sim():
+    """Test abydos.distance.NCDpaq9a.sim."""
+    try:
+        import paq  # noqa: F401
+    except ImportError:  # pragma: no cover
+        return
+
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.8
+    assert cmp.sim('', 'a') == 0.8
+    assert cmp.sim('abc', '') == 0.5714285714285714
+    assert cmp.sim('', 'abc') == 0.5714285714285714
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.5
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4444444444)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4444444444)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4444444444)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.4444444444)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3846153846)

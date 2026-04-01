@@ -19,51 +19,39 @@
 This module contains unit tests for abydos.phonetic.StatisticsCanada
 """
 
-import unittest
-
 from abydos.phonetic import StatisticsCanada
 
 
-class StatisticsCanadaTestCases(unittest.TestCase):
-    """Test Statistics Canada functions.
+pa = StatisticsCanada()
 
-    test cases for abydos.phonetic.StatisticsCanada
-    """
+def test_statistics_canada():
+    """Test abydos.phonetic.StatisticsCanada."""
+    assert pa.encode('') == ''
 
-    pa = StatisticsCanada()
+    # https://naldc.nal.usda.gov/download/27833/PDF
+    assert pa.encode('Daves') == 'DVS'
+    assert pa.encode('Davies') == 'DVS'
+    assert pa.encode('Devese') == 'DVS'
+    assert pa.encode('Devies') == 'DVS'
+    assert pa.encode('Devos') == 'DVS'
 
-    def test_statistics_canada(self):
-        """Test abydos.phonetic.StatisticsCanada."""
-        self.assertEqual(self.pa.encode(''), '')
+    assert pa.encode('Smathers') == 'SMTH'
+    assert pa.encode('Smithart') == 'SMTH'
+    assert pa.encode('Smithbower') == 'SMTH'
+    assert pa.encode('Smitherman') == 'SMTH'
+    assert pa.encode('Smithey') == 'SMTH'
+    assert pa.encode('Smithgall') == 'SMTH'
+    assert pa.encode('Smithingall') == 'SMTH'
+    assert pa.encode('Smithmyer') == 'SMTH'
+    assert pa.encode('Smithpeter') == 'SMTH'
+    assert pa.encode('Smithson') == 'SMTH'
+    assert pa.encode('Smithy') == 'SMTH'
+    assert pa.encode('Smotherman') == 'SMTH'
+    assert pa.encode('Smothers') == 'SMTH'
+    assert pa.encode('Smyth') == 'SMTH'
 
-        # https://naldc.nal.usda.gov/download/27833/PDF
-        self.assertEqual(self.pa.encode('Daves'), 'DVS')
-        self.assertEqual(self.pa.encode('Davies'), 'DVS')
-        self.assertEqual(self.pa.encode('Devese'), 'DVS')
-        self.assertEqual(self.pa.encode('Devies'), 'DVS')
-        self.assertEqual(self.pa.encode('Devos'), 'DVS')
-
-        self.assertEqual(self.pa.encode('Smathers'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithart'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithbower'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smitherman'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithey'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithgall'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithingall'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithmyer'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithpeter'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithson'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smithy'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smotherman'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smothers'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smyth'), 'SMTH')
-
-        # Additional tests from @Yomguithereal's talisman
-        # https://github.com/Yomguithereal/talisman/blob/master/test/phonetics/statcan.js
-        self.assertEqual(self.pa.encode('Guillaume'), 'GLM')
-        self.assertEqual(self.pa.encode('Arlène'), 'ARLN')
-        self.assertEqual(self.pa.encode('Lüdenscheidt'), 'LDNS')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # Additional tests from @Yomguithereal's talisman
+    # https://github.com/Yomguithereal/talisman/blob/master/test/phonetics/statcan.js
+    assert pa.encode('Guillaume') == 'GLM'
+    assert pa.encode('Arlène') == 'ARLN'
+    assert pa.encode('Lüdenscheidt') == 'LDNS'

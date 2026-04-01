@@ -19,14 +19,13 @@
 This module contains unit tests for abydos.fingerprint.QGram
 """
 
-import unittest
 
 from abydos.fingerprint import QGram
 
 from .. import NIALL
 
 
-class QGramTestCases(unittest.TestCase):
+class TestQGram:
     """Test q-gram fingerprint functions.
 
     abydos.fingerprint.QGram
@@ -48,18 +47,12 @@ xoyv',
     def test_qgram_fingerprint(self):
         """Test abydos.fingerprint.QGram."""
         # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
+        assert self.fp.fingerprint('') == ''
 
         for i in range(len(self._testset)):
-            self.assertEqual(
-                QGram(1).fingerprint(self._testset[i]), self._anssetq1[i]
-            )
-            self.assertEqual(
-                QGram(2).fingerprint(self._testset[i]), self._anssetq2[i]
-            )
-            self.assertEqual(
-                self.fp.fingerprint(self._testset[i]), self._anssetq2[i]
-            )
+            assert QGram(1).fingerprint(self._testset[i]) == self._anssetq1[i]
+            assert QGram(2).fingerprint(self._testset[i]) == self._anssetq2[i]
+            assert self.fp.fingerprint(self._testset[i]) == self._anssetq2[i]
 
         qgram_fp_niall = (
             'aliallni',
@@ -80,8 +73,4 @@ xoyv',
             'acalchgiiaiglalllnninooi',
         )
         for i in range(len(NIALL)):
-            self.assertEqual(self.fp.fingerprint(NIALL[i]), qgram_fp_niall[i])
-
-
-if __name__ == '__main__':
-    unittest.main()
+            assert self.fp.fingerprint(NIALL[i]) == qgram_fp_niall[i]

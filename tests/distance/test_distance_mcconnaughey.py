@@ -19,77 +19,64 @@
 This module contains unit tests for abydos.distance.McConnaughey
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import McConnaughey
 
 
-class McConnaugheyTestCases(unittest.TestCase):
-    """Test McConnaughey functions.
+cmp = McConnaughey()
 
-    abydos.distance.McConnaughey
-    """
-
-    cmp = McConnaughey()
-    cmp_no_d = McConnaughey(alphabet=0)
-
-    def test_mcconnaughey_sim(self):
-        """Test abydos.distance.McConnaughey.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.5)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.5)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.5)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.5)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.6681818182
-        )
-
-    def test_mcconnaughey_dist(self):
-        """Test abydos.distance.McConnaughey.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 0.5)
-        self.assertEqual(self.cmp.dist('', 'a'), 0.5)
-        self.assertEqual(self.cmp.dist('abc', ''), 0.5)
-        self.assertEqual(self.cmp.dist('', 'abc'), 0.5)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.3318181818
-        )
-
-    def test_mcconnaughey_corr(self):
-        """Test abydos.distance.McConnaughey.corr."""
-        # Base cases
-        self.assertEqual(self.cmp.corr('', ''), 1.0)
-        self.assertEqual(self.cmp.corr('a', ''), 0.0)
-        self.assertEqual(self.cmp.corr('', 'a'), 0.0)
-        self.assertEqual(self.cmp.corr('abc', ''), 0.0)
-        self.assertEqual(self.cmp.corr('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.corr('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.corr('abcd', 'efgh'), -1.0)
-
-        self.assertAlmostEqual(self.cmp.corr('Nigel', 'Niall'), 0.0)
-        self.assertAlmostEqual(self.cmp.corr('Niall', 'Nigel'), 0.0)
-        self.assertAlmostEqual(self.cmp.corr('Colin', 'Coiln'), 0.0)
-        self.assertAlmostEqual(self.cmp.corr('Coiln', 'Colin'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp.corr('ATCAACGAGT', 'AACGATTAG'), 0.3363636364
-        )
+cmp_no_d = McConnaughey(alphabet=0)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_mcconnaughey_sim():
+    """Test abydos.distance.McConnaughey.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.5
+    assert cmp.sim('', 'a') == 0.5
+    assert cmp.sim('abc', '') == 0.5
+    assert cmp.sim('', 'abc') == 0.5
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6681818182)
+
+def test_mcconnaughey_dist():
+    """Test abydos.distance.McConnaughey.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 0.5
+    assert cmp.dist('', 'a') == 0.5
+    assert cmp.dist('abc', '') == 0.5
+    assert cmp.dist('', 'abc') == 0.5
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3318181818)
+
+def test_mcconnaughey_corr():
+    """Test abydos.distance.McConnaughey.corr."""
+    # Base cases
+    assert cmp.corr('', '') == 1.0
+    assert cmp.corr('a', '') == 0.0
+    assert cmp.corr('', 'a') == 0.0
+    assert cmp.corr('abc', '') == 0.0
+    assert cmp.corr('', 'abc') == 0.0
+    assert cmp.corr('abc', 'abc') == 1.0
+    assert cmp.corr('abcd', 'efgh') == -1.0
+
+    assert cmp.corr('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.corr('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.corr('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.corr('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.corr('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3363636364)

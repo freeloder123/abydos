@@ -19,36 +19,24 @@
 This module contains unit tests for abydos.fingerprint.Extract
 """
 
-import unittest
 
 from abydos.fingerprint import Extract
 
 
-class ExtractTestCases(unittest.TestCase):
-    """Test Extract functions.
-
-    abydos.fingerprint.Extract
-    """
-
-    fp = Extract()
-
-    def test_extract_fingerprint(self):
-        """Test abydos.fingerprint.Extract."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
-
-        # Test cases from paper
-        self.assertEqual(self.fp.fingerprint('Johnson'), 'JHNS')
-
-        self.assertEqual(Extract(letter_list=2).fingerprint('Johnson'), 'JHNN')
-        self.assertEqual(
-            Extract(letter_list='ETASIONRHCDLPMFBUWGYKVJQZX').fingerprint(
-                'Johnson'
-            ),
-            'JHNN',
-        )
-        self.assertEqual(Extract(letter_list=0).fingerprint('Johnson'), 'JHNS')
+fp = Extract()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_extract_fingerprint():
+    """Test abydos.fingerprint.Extract."""
+    # Base case
+    assert fp.fingerprint('') == ''
+
+    # Test cases from paper
+    assert fp.fingerprint('Johnson') == 'JHNS'
+
+    assert Extract(letter_list=2).fingerprint('Johnson') == 'JHNN'
+    assert (
+        Extract(letter_list='ETASIONRHCDLPMFBUWGYKVJQZX').fingerprint( 'Johnson' )
+        == 'JHNN'
+    )
+    assert Extract(letter_list=0).fingerprint('Johnson') == 'JHNS'

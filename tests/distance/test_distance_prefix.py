@@ -19,81 +19,73 @@
 This module contains unit tests for abydos.distance.Prefix
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Prefix
 
 
-class PrefixTestCases(unittest.TestCase):
-    """Test prefix similarity functions.
-
-    abydos.distance.Prefix
-    """
-
-    cmp = Prefix()
-
-    def test_prefix_sim(self):
-        """Test abydos.distance.Prefix.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('a', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp.sim('ax', 'a'), 1)
-        self.assertEqual(self.cmp.sim('axx', 'a'), 1)
-        self.assertEqual(self.cmp.sim('ax', 'ay'), 1 / 2)
-        self.assertEqual(self.cmp.sim('a', 'ay'), 1)
-        self.assertEqual(self.cmp.sim('a', 'ayy'), 1)
-        self.assertEqual(self.cmp.sim('ax', 'ay'), 1 / 2)
-        self.assertEqual(self.cmp.sim('a', 'y'), 0)
-        self.assertEqual(self.cmp.sim('y', 'a'), 0)
-        self.assertEqual(self.cmp.sim('aaax', 'aaa'), 1)
-        self.assertAlmostEqual(self.cmp.sim('axxx', 'aaa'), 1 / 3)
-        self.assertEqual(self.cmp.sim('aaxx', 'aayy'), 1 / 2)
-        self.assertEqual(self.cmp.sim('xxaa', 'yyaa'), 0)
-        self.assertAlmostEqual(self.cmp.sim('aaxxx', 'aay'), 2 / 3)
-        self.assertEqual(self.cmp.sim('aaxxxx', 'aayyy'), 2 / 5)
-        self.assertEqual(self.cmp.sim('xa', 'a'), 0)
-        self.assertEqual(self.cmp.sim('xxa', 'a'), 0)
-        self.assertEqual(self.cmp.sim('xa', 'ya'), 0)
-        self.assertEqual(self.cmp.sim('a', 'ya'), 0)
-        self.assertEqual(self.cmp.sim('a', 'yya'), 0)
-        self.assertEqual(self.cmp.sim('xa', 'ya'), 0)
-        self.assertEqual(self.cmp.sim('xaaa', 'aaa'), 0)
-        self.assertEqual(self.cmp.sim('xxxa', 'aaa'), 0)
-        self.assertEqual(self.cmp.sim('xxxaa', 'yaa'), 0)
-        self.assertEqual(self.cmp.sim('xxxxaa', 'yyyaa'), 0)
-
-    def test_prefix_dist(self):
-        """Test abydos.distance.Prefix.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('a', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'a'), 1)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist('ax', 'a'), 0)
-        self.assertEqual(self.cmp.dist('axx', 'a'), 0)
-        self.assertEqual(self.cmp.dist('ax', 'ay'), 1 / 2)
-        self.assertEqual(self.cmp.dist('a', 'ay'), 0)
-        self.assertEqual(self.cmp.dist('a', 'ayy'), 0)
-        self.assertEqual(self.cmp.dist('ax', 'ay'), 1 / 2)
-        self.assertEqual(self.cmp.dist('a', 'y'), 1)
-        self.assertEqual(self.cmp.dist('y', 'a'), 1)
-        self.assertEqual(self.cmp.dist('aaax', 'aaa'), 0)
-        self.assertAlmostEqual(self.cmp.dist('axxx', 'aaa'), 2 / 3)
-        self.assertEqual(self.cmp.dist('aaxx', 'aayy'), 1 / 2)
-        self.assertEqual(self.cmp.dist('xxaa', 'yyaa'), 1)
-        self.assertAlmostEqual(self.cmp.dist('aaxxx', 'aay'), 1 / 3)
-        self.assertEqual(self.cmp.dist('aaxxxx', 'aayyy'), 3 / 5)
-        self.assertEqual(self.cmp.dist('xa', 'a'), 1)
-        self.assertEqual(self.cmp.dist('xxa', 'a'), 1)
-        self.assertEqual(self.cmp.dist('xa', 'ya'), 1)
-        self.assertEqual(self.cmp.dist('a', 'ya'), 1)
-        self.assertEqual(self.cmp.dist('a', 'yya'), 1)
-        self.assertEqual(self.cmp.dist('xa', 'ya'), 1)
-        self.assertEqual(self.cmp.dist('xaaa', 'aaa'), 1)
-        self.assertEqual(self.cmp.dist('xxxa', 'aaa'), 1)
-        self.assertEqual(self.cmp.dist('xxxaa', 'yaa'), 1)
-        self.assertEqual(self.cmp.dist('xxxxaa', 'yyyaa'), 1)
+cmp = Prefix()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_prefix_sim():
+    """Test abydos.distance.Prefix.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('a', '') == 0
+    assert cmp.sim('', 'a') == 0
+    assert cmp.sim('a', 'a') == 1
+    assert cmp.sim('ax', 'a') == 1
+    assert cmp.sim('axx', 'a') == 1
+    assert cmp.sim('ax', 'ay') == 1 / 2
+    assert cmp.sim('a', 'ay') == 1
+    assert cmp.sim('a', 'ayy') == 1
+    assert cmp.sim('ax', 'ay') == 1 / 2
+    assert cmp.sim('a', 'y') == 0
+    assert cmp.sim('y', 'a') == 0
+    assert cmp.sim('aaax', 'aaa') == 1
+    assert cmp.sim('axxx', 'aaa') == pytest.approx(abs=1e-7, expected=1 / 3)
+    assert cmp.sim('aaxx', 'aayy') == 1 / 2
+    assert cmp.sim('xxaa', 'yyaa') == 0
+    assert cmp.sim('aaxxx', 'aay') == pytest.approx(abs=1e-7, expected=2 / 3)
+    assert cmp.sim('aaxxxx', 'aayyy') == 2 / 5
+    assert cmp.sim('xa', 'a') == 0
+    assert cmp.sim('xxa', 'a') == 0
+    assert cmp.sim('xa', 'ya') == 0
+    assert cmp.sim('a', 'ya') == 0
+    assert cmp.sim('a', 'yya') == 0
+    assert cmp.sim('xa', 'ya') == 0
+    assert cmp.sim('xaaa', 'aaa') == 0
+    assert cmp.sim('xxxa', 'aaa') == 0
+    assert cmp.sim('xxxaa', 'yaa') == 0
+    assert cmp.sim('xxxxaa', 'yyyaa') == 0
+
+def test_prefix_dist():
+    """Test abydos.distance.Prefix.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('a', '') == 1
+    assert cmp.dist('', 'a') == 1
+    assert cmp.dist('a', 'a') == 0
+    assert cmp.dist('ax', 'a') == 0
+    assert cmp.dist('axx', 'a') == 0
+    assert cmp.dist('ax', 'ay') == 1 / 2
+    assert cmp.dist('a', 'ay') == 0
+    assert cmp.dist('a', 'ayy') == 0
+    assert cmp.dist('ax', 'ay') == 1 / 2
+    assert cmp.dist('a', 'y') == 1
+    assert cmp.dist('y', 'a') == 1
+    assert cmp.dist('aaax', 'aaa') == 0
+    assert cmp.dist('axxx', 'aaa') == pytest.approx(abs=1e-7, expected=2 / 3)
+    assert cmp.dist('aaxx', 'aayy') == 1 / 2
+    assert cmp.dist('xxaa', 'yyaa') == 1
+    assert cmp.dist('aaxxx', 'aay') == pytest.approx(abs=1e-7, expected=1 / 3)
+    assert cmp.dist('aaxxxx', 'aayyy') == 3 / 5
+    assert cmp.dist('xa', 'a') == 1
+    assert cmp.dist('xxa', 'a') == 1
+    assert cmp.dist('xa', 'ya') == 1
+    assert cmp.dist('a', 'ya') == 1
+    assert cmp.dist('a', 'yya') == 1
+    assert cmp.dist('xa', 'ya') == 1
+    assert cmp.dist('xaaa', 'aaa') == 1
+    assert cmp.dist('xxxa', 'aaa') == 1
+    assert cmp.dist('xxxaa', 'yaa') == 1
+    assert cmp.dist('xxxxaa', 'yyyaa') == 1

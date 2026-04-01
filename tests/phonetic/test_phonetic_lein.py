@@ -19,101 +19,90 @@
 This module contains unit tests for abydos.phonetic.LEIN
 """
 
-import unittest
-
 from abydos.phonetic import LEIN
 
 
-class LeinTestCases(unittest.TestCase):
-    """Test LEIN functions.
+pa = LEIN()
 
-    test cases for abydos.phonetic.LEIN
-    """
+pa_n0 = LEIN(zero_pad=False)
 
-    pa = LEIN()
-    pa_n0 = LEIN(zero_pad=False)
+def test_lein():
+    """Test abydos.phonetic.LEIN."""
+    assert pa.encode('') == '0000'
 
-    def test_lein(self):
-        """Test abydos.phonetic.LEIN."""
-        self.assertEqual(self.pa.encode(''), '0000')
+    # https://naldc.nal.usda.gov/download/27833/PDF
+    assert pa.encode('Dubose') == 'D450'
+    assert pa.encode('Dubs') == 'D450'
+    assert pa.encode('Dubbs') == 'D450'
+    assert pa.encode('Doviak') == 'D450'
+    assert pa.encode('Dubke') == 'D450'
+    assert pa.encode('Dubus') == 'D450'
+    assert pa.encode('Dubois') == 'D450'
+    assert pa.encode('Duboise') == 'D450'
+    assert pa.encode('Doubek') == 'D450'
+    assert pa.encode('Defigh') == 'D450'
+    assert pa.encode('Defazio') == 'D450'
+    assert pa.encode('Debaca') == 'D450'
+    assert pa.encode('Dabbs') == 'D450'
+    assert pa.encode('Davies') == 'D450'
+    assert pa.encode('Dubukey') == 'D450'
+    assert pa.encode('Debus') == 'D450'
+    assert pa.encode('Debose') == 'D450'
+    assert pa.encode('Daves') == 'D450'
+    assert pa.encode('Dipiazza') == 'D450'
+    assert pa.encode('Dobbs') == 'D450'
+    assert pa.encode('Dobak') == 'D450'
+    assert pa.encode('Dobis') == 'D450'
+    assert pa.encode('Dobish') == 'D450'
+    assert pa.encode('Doepke') == 'D450'
+    assert pa.encode('Divish') == 'D450'
+    assert pa.encode('Dobosh') == 'D450'
+    assert pa.encode('Dupois') == 'D450'
+    assert pa.encode('Dufek') == 'D450'
+    assert pa.encode('Duffek') == 'D450'
+    assert pa.encode('Dupuis') == 'D450'
+    assert pa.encode('Dupas') == 'D450'
+    assert pa.encode('Devese') == 'D450'
+    assert pa.encode('Devos') == 'D450'
+    assert pa.encode('Deveaux') == 'D450'
+    assert pa.encode('Devies') == 'D450'
 
-        # https://naldc.nal.usda.gov/download/27833/PDF
-        self.assertEqual(self.pa.encode('Dubose'), 'D450')
-        self.assertEqual(self.pa.encode('Dubs'), 'D450')
-        self.assertEqual(self.pa.encode('Dubbs'), 'D450')
-        self.assertEqual(self.pa.encode('Doviak'), 'D450')
-        self.assertEqual(self.pa.encode('Dubke'), 'D450')
-        self.assertEqual(self.pa.encode('Dubus'), 'D450')
-        self.assertEqual(self.pa.encode('Dubois'), 'D450')
-        self.assertEqual(self.pa.encode('Duboise'), 'D450')
-        self.assertEqual(self.pa.encode('Doubek'), 'D450')
-        self.assertEqual(self.pa.encode('Defigh'), 'D450')
-        self.assertEqual(self.pa.encode('Defazio'), 'D450')
-        self.assertEqual(self.pa.encode('Debaca'), 'D450')
-        self.assertEqual(self.pa.encode('Dabbs'), 'D450')
-        self.assertEqual(self.pa.encode('Davies'), 'D450')
-        self.assertEqual(self.pa.encode('Dubukey'), 'D450')
-        self.assertEqual(self.pa.encode('Debus'), 'D450')
-        self.assertEqual(self.pa.encode('Debose'), 'D450')
-        self.assertEqual(self.pa.encode('Daves'), 'D450')
-        self.assertEqual(self.pa.encode('Dipiazza'), 'D450')
-        self.assertEqual(self.pa.encode('Dobbs'), 'D450')
-        self.assertEqual(self.pa.encode('Dobak'), 'D450')
-        self.assertEqual(self.pa.encode('Dobis'), 'D450')
-        self.assertEqual(self.pa.encode('Dobish'), 'D450')
-        self.assertEqual(self.pa.encode('Doepke'), 'D450')
-        self.assertEqual(self.pa.encode('Divish'), 'D450')
-        self.assertEqual(self.pa.encode('Dobosh'), 'D450')
-        self.assertEqual(self.pa.encode('Dupois'), 'D450')
-        self.assertEqual(self.pa.encode('Dufek'), 'D450')
-        self.assertEqual(self.pa.encode('Duffek'), 'D450')
-        self.assertEqual(self.pa.encode('Dupuis'), 'D450')
-        self.assertEqual(self.pa.encode('Dupas'), 'D450')
-        self.assertEqual(self.pa.encode('Devese'), 'D450')
-        self.assertEqual(self.pa.encode('Devos'), 'D450')
-        self.assertEqual(self.pa.encode('Deveaux'), 'D450')
-        self.assertEqual(self.pa.encode('Devies'), 'D450')
+    assert pa.encode('Sand') == 'S210'
+    assert pa.encode('Sandau') == 'S210'
+    assert pa.encode('Sande') == 'S210'
+    assert pa.encode('Sandia') == 'S210'
+    assert pa.encode('Sando') == 'S210'
+    assert pa.encode('Sandoe') == 'S210'
+    assert pa.encode('Sandy') == 'S210'
+    assert pa.encode('Santee') == 'S210'
+    assert pa.encode('Santi') == 'S210'
+    assert pa.encode('Santo') == 'S210'
+    assert pa.encode('Send') == 'S210'
+    assert pa.encode('Sennet') == 'S210'
+    assert pa.encode('Shemoit') == 'S210'
+    assert pa.encode('Shenot') == 'S210'
+    assert pa.encode('Shumate') == 'S210'
+    assert pa.encode('Simmet') == 'S210'
+    assert pa.encode('Simot') == 'S210'
+    assert pa.encode('Sineath') == 'S210'
+    assert pa.encode('Sinnott') == 'S210'
+    assert pa.encode('Sintay') == 'S210'
+    assert pa.encode('Smead') == 'S210'
+    assert pa.encode('Smeda') == 'S210'
+    assert pa.encode('Smit') == 'S210'
 
-        self.assertEqual(self.pa.encode('Sand'), 'S210')
-        self.assertEqual(self.pa.encode('Sandau'), 'S210')
-        self.assertEqual(self.pa.encode('Sande'), 'S210')
-        self.assertEqual(self.pa.encode('Sandia'), 'S210')
-        self.assertEqual(self.pa.encode('Sando'), 'S210')
-        self.assertEqual(self.pa.encode('Sandoe'), 'S210')
-        self.assertEqual(self.pa.encode('Sandy'), 'S210')
-        self.assertEqual(self.pa.encode('Santee'), 'S210')
-        self.assertEqual(self.pa.encode('Santi'), 'S210')
-        self.assertEqual(self.pa.encode('Santo'), 'S210')
-        self.assertEqual(self.pa.encode('Send'), 'S210')
-        self.assertEqual(self.pa.encode('Sennet'), 'S210')
-        self.assertEqual(self.pa.encode('Shemoit'), 'S210')
-        self.assertEqual(self.pa.encode('Shenot'), 'S210')
-        self.assertEqual(self.pa.encode('Shumate'), 'S210')
-        self.assertEqual(self.pa.encode('Simmet'), 'S210')
-        self.assertEqual(self.pa.encode('Simot'), 'S210')
-        self.assertEqual(self.pa.encode('Sineath'), 'S210')
-        self.assertEqual(self.pa.encode('Sinnott'), 'S210')
-        self.assertEqual(self.pa.encode('Sintay'), 'S210')
-        self.assertEqual(self.pa.encode('Smead'), 'S210')
-        self.assertEqual(self.pa.encode('Smeda'), 'S210')
-        self.assertEqual(self.pa.encode('Smit'), 'S210')
+    # Additional tests from @Yomguithereal's talisman
+    # https://github.com/Yomguithereal/talisman/blob/master/test/phonetics/lein.js
+    assert pa.encode('Guillaume') == 'G320'
+    assert pa.encode('Arlène') == 'A332'
+    assert pa.encode('Lüdenscheidt') == 'L125'
 
-        # Additional tests from @Yomguithereal's talisman
-        # https://github.com/Yomguithereal/talisman/blob/master/test/phonetics/lein.js
-        self.assertEqual(self.pa.encode('Guillaume'), 'G320')
-        self.assertEqual(self.pa.encode('Arlène'), 'A332')
-        self.assertEqual(self.pa.encode('Lüdenscheidt'), 'L125')
+    # Coverage
+    assert pa_n0.encode('Lüdenscheidt') == 'L125'
+    assert pa_n0.encode('Smith') == 'S21'
 
-        # Coverage
-        self.assertEqual(self.pa_n0.encode('Lüdenscheidt'), 'L125')
-        self.assertEqual(self.pa_n0.encode('Smith'), 'S21')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('Deveaux'), 'DPK')
-        self.assertEqual(self.pa.encode_alpha('Devies'), 'DPK')
-        self.assertEqual(self.pa.encode_alpha('Sand'), 'SNT')
-        self.assertEqual(self.pa.encode_alpha('Sandau'), 'SNT')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('Deveaux') == 'DPK'
+    assert pa.encode_alpha('Devies') == 'DPK'
+    assert pa.encode_alpha('Sand') == 'SNT'
+    assert pa.encode_alpha('Sandau') == 'SNT'

@@ -19,35 +19,25 @@
 This module contains unit tests for abydos.fingerprint.BWTF
 """
 
-import unittest
 
 from abydos.fingerprint import BWTF
 
 
-class BWTFTestCases(unittest.TestCase):
-    """Test BWT fingerprint.
+bwt = BWTF()
 
-    abydos.fingerprint.BWTF
-    """
+bwt_pipe = BWTF('|')
 
-    bwt = BWTF()
-    bwt_pipe = BWTF('|')
-    bwt_dollar = BWTF('$')
-
-    def test_consonant_bwtf(self):
-        """Test abydos.fingerprint.BWTF."""
-        # Examples from Wikipedia entry on BWT
-        self.assertEqual(self.bwt.fingerprint(''), '\x00')
-        self.assertEqual(self.bwt_pipe.fingerprint('^BANANA'), 'BNN^AA|A')
-        self.assertEqual(
-            self.bwt_pipe.fingerprint(
-                'SIX.MIXED.PIXIES.SIFT.SIXTY.PIXIE.DUST.BOXES'
-            ),
-            'TEXYDST.E.IXIXIXXSSMPPS.B..E.|.UESFXDIIOIIITS',
-        )
-
-        self.assertEqual(self.bwt_dollar.fingerprint('aardvark'), 'k$avrraad')
+bwt_dollar = BWTF('$')
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_consonant_bwtf():
+    """Test abydos.fingerprint.BWTF."""
+    # Examples from Wikipedia entry on BWT
+    assert bwt.fingerprint('') == '\x00'
+    assert bwt_pipe.fingerprint('^BANANA') == 'BNN^AA|A'
+    assert (
+        bwt_pipe.fingerprint( 'SIX.MIXED.PIXIES.SIFT.SIXTY.PIXIE.DUST.BOXES' )
+        == 'TEXYDST.E.IXIXIXXSSMPPS.B..E.|.UESFXDIIOIIITS'
+    )
+
+    assert bwt_dollar.fingerprint('aardvark') == 'k$avrraad'

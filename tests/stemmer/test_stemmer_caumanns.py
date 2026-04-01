@@ -19,103 +19,93 @@
 This module contains unit tests for abydos.stemmer.Caumanns
 """
 
-import unittest
 
 from abydos.stemmer import Caumanns
 
 
-class CaumannsTestCases(unittest.TestCase):
-    """Test Caumanns functions.
+stmr = Caumanns()
 
-    abydos.stemmer.Caumanns
+
+def test_caumanns():
+    """Test abydos.stemmer.Caumanns."""
+    # base case
+    assert stmr.stem('') == ''
+
+    # tests from Caumanns' description of the algorithm
+    assert stmr.stem('singt') == 'sing'
+    assert stmr.stem('singen') == 'sing'
+    assert stmr.stem('beliebt') == 'belieb'
+    assert stmr.stem('beliebtester') == 'belieb'
+    assert stmr.stem('stören') == 'stor'
+    assert stmr.stem('stöhnen') == 'stoh'
+    assert stmr.stem('Kuß') == 'kuss'
+    assert stmr.stem('Küsse') == 'kuss'
+    assert stmr.stem('Verlierer') == 'verlier'
+    assert stmr.stem('Verlies') == 'verlie'
+    assert stmr.stem('Maus') == 'mau'
+    assert stmr.stem('Mauer') == 'mau'
+    assert stmr.stem('Störsender') == 'stor'
+
+    # additional tests to achieve full coverage
+    assert stmr.stem('Müllerinnen') == 'mullerin'
+    assert stmr.stem('Matrix') == 'matrix'
+    assert stmr.stem('Matrizen') == 'matrix'
+
+def test_caumanns_lucene():
+    """Test abydos.stemmer.Caumanns (Lucene tests).
+
+    Based on tests from
+    https://svn.apache.org/repos/asf/lucene.net/trunk/test/contrib/Analyzers/De/data.txt
+    This is presumably Apache-licensed.
     """
+    # German special characters are replaced:
+    assert stmr.stem('häufig') == 'haufig'
+    assert stmr.stem('üor') == 'uor'
+    assert stmr.stem('björk') == 'bjork'
 
-    stmr = Caumanns()
+    # here the stemmer works okay, it maps related words to the same stem:
+    assert stmr.stem('abschließen') == 'abschliess'
+    assert stmr.stem('abschließender') == 'abschliess'
+    assert stmr.stem('abschließendes') == 'abschliess'
+    assert stmr.stem('abschließenden') == 'abschliess'
 
-    def test_caumanns(self):
-        """Test abydos.stemmer.Caumanns."""
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
+    assert stmr.stem('Tisch') == 'tisch'
+    assert stmr.stem('Tische') == 'tisch'
+    assert stmr.stem('Tischen') == 'tisch'
+    assert stmr.stem('geheimtür') == 'geheimtur'
 
-        # tests from Caumanns' description of the algorithm
-        self.assertEqual(self.stmr.stem('singt'), 'sing')
-        self.assertEqual(self.stmr.stem('singen'), 'sing')
-        self.assertEqual(self.stmr.stem('beliebt'), 'belieb')
-        self.assertEqual(self.stmr.stem('beliebtester'), 'belieb')
-        self.assertEqual(self.stmr.stem('stören'), 'stor')
-        self.assertEqual(self.stmr.stem('stöhnen'), 'stoh')
-        self.assertEqual(self.stmr.stem('Kuß'), 'kuss')
-        self.assertEqual(self.stmr.stem('Küsse'), 'kuss')
-        self.assertEqual(self.stmr.stem('Verlierer'), 'verlier')
-        self.assertEqual(self.stmr.stem('Verlies'), 'verlie')
-        self.assertEqual(self.stmr.stem('Maus'), 'mau')
-        self.assertEqual(self.stmr.stem('Mauer'), 'mau')
-        self.assertEqual(self.stmr.stem('Störsender'), 'stor')
+    assert stmr.stem('Haus') == 'hau'
+    assert stmr.stem('Hauses') == 'hau'
+    assert stmr.stem('Häuser') == 'hau'
+    assert stmr.stem('Häusern') == 'hau'
+    # here's a case where overstemming occurs, i.e. a word is
+    # mapped to the same stem as unrelated words:
+    assert stmr.stem('hauen') == 'hau'
 
-        # additional tests to achieve full coverage
-        self.assertEqual(self.stmr.stem('Müllerinnen'), 'mullerin')
-        self.assertEqual(self.stmr.stem('Matrix'), 'matrix')
-        self.assertEqual(self.stmr.stem('Matrizen'), 'matrix')
+    # here's a case where understemming occurs, i.e. two related words
+    # are not mapped to the same stem. This is the case with basically
+    # all irregular forms:
+    assert stmr.stem('Drama') == 'drama'
+    assert stmr.stem('Dramen') == 'dram'
 
-    def test_caumanns_lucene(self):
-        """Test abydos.stemmer.Caumanns (Lucene tests).
+    # replace "ß" with 'ss':
+    assert stmr.stem('Ausmaß') == 'ausmass'
 
-        Based on tests from
-        https://svn.apache.org/repos/asf/lucene.net/trunk/test/contrib/Analyzers/De/data.txt
-        This is presumably Apache-licensed.
-        """
-        # German special characters are replaced:
-        self.assertEqual(self.stmr.stem('häufig'), 'haufig')
-        self.assertEqual(self.stmr.stem('üor'), 'uor')
-        self.assertEqual(self.stmr.stem('björk'), 'bjork')
+    # fake words to test if suffixes are cut off:
+    assert stmr.stem('xxxxxe') == 'xxxxx'
+    assert stmr.stem('xxxxxs') == 'xxxxx'
+    assert stmr.stem('xxxxxn') == 'xxxxx'
+    assert stmr.stem('xxxxxt') == 'xxxxx'
+    assert stmr.stem('xxxxxem') == 'xxxxx'
+    assert stmr.stem('xxxxxer') == 'xxxxx'
+    assert stmr.stem('xxxxxnd') == 'xxxxx'
+    # the suffixes are also removed when combined:
+    assert stmr.stem('xxxxxetende') == 'xxxxx'
 
-        # here the stemmer works okay, it maps related words to the same stem:
-        self.assertEqual(self.stmr.stem('abschließen'), 'abschliess')
-        self.assertEqual(self.stmr.stem('abschließender'), 'abschliess')
-        self.assertEqual(self.stmr.stem('abschließendes'), 'abschliess')
-        self.assertEqual(self.stmr.stem('abschließenden'), 'abschliess')
-
-        self.assertEqual(self.stmr.stem('Tisch'), 'tisch')
-        self.assertEqual(self.stmr.stem('Tische'), 'tisch')
-        self.assertEqual(self.stmr.stem('Tischen'), 'tisch')
-        self.assertEqual(self.stmr.stem('geheimtür'), 'geheimtur')
-
-        self.assertEqual(self.stmr.stem('Haus'), 'hau')
-        self.assertEqual(self.stmr.stem('Hauses'), 'hau')
-        self.assertEqual(self.stmr.stem('Häuser'), 'hau')
-        self.assertEqual(self.stmr.stem('Häusern'), 'hau')
-        # here's a case where overstemming occurs, i.e. a word is
-        # mapped to the same stem as unrelated words:
-        self.assertEqual(self.stmr.stem('hauen'), 'hau')
-
-        # here's a case where understemming occurs, i.e. two related words
-        # are not mapped to the same stem. This is the case with basically
-        # all irregular forms:
-        self.assertEqual(self.stmr.stem('Drama'), 'drama')
-        self.assertEqual(self.stmr.stem('Dramen'), 'dram')
-
-        # replace "ß" with 'ss':
-        self.assertEqual(self.stmr.stem('Ausmaß'), 'ausmass')
-
-        # fake words to test if suffixes are cut off:
-        self.assertEqual(self.stmr.stem('xxxxxe'), 'xxxxx')
-        self.assertEqual(self.stmr.stem('xxxxxs'), 'xxxxx')
-        self.assertEqual(self.stmr.stem('xxxxxn'), 'xxxxx')
-        self.assertEqual(self.stmr.stem('xxxxxt'), 'xxxxx')
-        self.assertEqual(self.stmr.stem('xxxxxem'), 'xxxxx')
-        self.assertEqual(self.stmr.stem('xxxxxer'), 'xxxxx')
-        self.assertEqual(self.stmr.stem('xxxxxnd'), 'xxxxx')
-        # the suffixes are also removed when combined:
-        self.assertEqual(self.stmr.stem('xxxxxetende'), 'xxxxx')
-
-        # words that are shorter than four charcters are not changed:
-        self.assertEqual(self.stmr.stem('xxe'), 'xxe')
-        # -em and -er are not removed from words shorter than five characters:
-        self.assertEqual(self.stmr.stem('xxem'), 'xxem')
-        self.assertEqual(self.stmr.stem('xxer'), 'xxer')
-        # -nd is not removed from words shorter than six characters:
-        self.assertEqual(self.stmr.stem('xxxnd'), 'xxxnd')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # words that are shorter than four charcters are not changed:
+    assert stmr.stem('xxe') == 'xxe'
+    # -em and -er are not removed from words shorter than five characters:
+    assert stmr.stem('xxem') == 'xxem'
+    assert stmr.stem('xxer') == 'xxer'
+    # -nd is not removed from words shorter than six characters:
+    assert stmr.stem('xxxnd') == 'xxxnd'

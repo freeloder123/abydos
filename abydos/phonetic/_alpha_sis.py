@@ -162,10 +162,7 @@ class AlphaSIS(_Phonetic):
 
         """
         # Clamp max_length to [4, 64]
-        if max_length != -1:
-            self._max_length = min(max(4, max_length), 64)
-        else:
-            self._max_length = 64
+        self._max_length = self._validate_max_length(max_length)
 
     def encode_alpha(self, word: str) -> str:
         """Return the alphabetic Alpha-SIS code for a word.
@@ -244,6 +241,8 @@ class AlphaSIS(_Phonetic):
             Made return a str only (comma-separated)
 
         """
+        self._validate_word(word)
+
         alpha = ['']
         pos = 0
         word = unicode_normalize('NFKD', word.upper())

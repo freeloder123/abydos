@@ -19,44 +19,36 @@
 This module contains unit tests for abydos.distance.AverageLinkage
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import AverageLinkage, Prefix
 from abydos.tokenizer import QGrams
 
 
-class AverageLinkageTestCases(unittest.TestCase):
-    """Test AverageLinkage functions.
+cmp = AverageLinkage()
 
-    abydos.distance.AverageLinkage
-    """
+cmp1 = AverageLinkage(tokenizer=QGrams(1))
 
-    cmp = AverageLinkage()
-    cmp1 = AverageLinkage(tokenizer=QGrams(1))
-    cmp_pfx = AverageLinkage(metric=Prefix())
-
-    def test_average_linkage_dist(self):
-        """Test abydos.distance.AverageLinkage.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.75)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 0.96)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.8611111111)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.8611111111)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.8333333333)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.8333333333)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.7545454545
-        )
-
-        self.assertEqual(self.cmp1.dist('aaa', 'aaa'), 0.0)
-        self.assertAlmostEqual(self.cmp_pfx.dist('ababab', 'ab'), 0.714285714)
+cmp_pfx = AverageLinkage(metric=Prefix())
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_average_linkage_dist():
+    """Test abydos.distance.AverageLinkage.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.75
+    assert cmp.dist('abcd', 'efgh') == 0.96
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.8611111111)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.8611111111)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.8333333333)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.8333333333)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.7545454545)
+
+    assert cmp1.dist('aaa', 'aaa') == 0.0
+    assert cmp_pfx.dist('ababab', 'ab') == pytest.approx(abs=1e-7, expected=0.714285714)

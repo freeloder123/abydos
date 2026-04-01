@@ -19,58 +19,48 @@
 This module contains unit tests for abydos.distance.AMPLE
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import AMPLE
 
 
-class AMPLETestCases(unittest.TestCase):
-    """Test AMPLE functions.
+cmp = AMPLE()
 
-    abydos.distance.AMPLE
-    """
+cmp_no_d = AMPLE(alphabet=0)
 
-    cmp = AMPLE()
-    cmp_no_d = AMPLE(alphabet=0)
-    cmp_dna = AMPLE(qval=1, alphabet='CGAT')
-
-    def test_ample_sim(self):
-        """Test abydos.distance.AMPLE.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.002551020408163265)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.00510204081632653)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.006418485237483954)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.4961439589)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.4961439589)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.4961439589)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.4961439589)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.6324826532
-        )
-        self.assertAlmostEqual(self.cmp_dna.sim('CGAT', 'CGA'), 0.75)
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('', 'a'), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('', 'abc'), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp_no_d.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp_no_d.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp_no_d.sim('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp_no_d.sim('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('ATCAACGAGT', 'AACGATTAG'), 0.3636363636
-        )
+cmp_dna = AMPLE(qval=1, alphabet='CGAT')
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_ample_sim():
+    """Test abydos.distance.AMPLE.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.002551020408163265
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.00510204081632653
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.006418485237483954
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4961439589)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4961439589)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4961439589)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.4961439589)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6324826532)
+    assert cmp_dna.sim('CGAT', 'CGA') == pytest.approx(abs=1e-7, expected=0.75)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.sim('', '') == 1.0
+    assert cmp_no_d.sim('a', '') == 0.0
+    assert cmp_no_d.sim('', 'a') == 1.0
+    assert cmp_no_d.sim('abc', '') == 0.0
+    assert cmp_no_d.sim('', 'abc') == 1.0
+    assert cmp_no_d.sim('abc', 'abc') == 1.0
+    assert cmp_no_d.sim('abcd', 'efgh') == 1.0
+
+    assert cmp_no_d.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp_no_d.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp_no_d.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp_no_d.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp_no_d.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3636363636)

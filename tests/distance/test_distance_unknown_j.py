@@ -19,152 +19,109 @@
 This module contains unit tests for abydos.distance.UnknownJ
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import UnknownJ
 
 
-class UnknownJTestCases(unittest.TestCase):
-    """Test UnknownJ functions.
+cmp = UnknownJ()
 
-    abydos.distance.UnknownJ
-    """
-
-    cmp = UnknownJ()
-    cmp_no_d = UnknownJ(alphabet=0)
-
-    def test_unknown_j_sim(self):
-        """Test abydos.distance.UnknownJ.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 0.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.6363636364
-        )
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.sim('', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_no_d.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Nigel', 'Niall'), 0.1785714286
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Niall', 'Nigel'), 0.1785714286
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Colin', 'Coiln'), 0.1785714286
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Coiln', 'Colin'), 0.1785714286
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('ATCAACGAGT', 'AACGATTAG'), 0.1988636364
-        )
-
-    def test_unknown_j_dist(self):
-        """Test abydos.distance.UnknownJ.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 1.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.3636363636
-        )
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.dist('', ''), 1.0)
-        self.assertEqual(self.cmp_no_d.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp_no_d.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp_no_d.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp_no_d.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp_no_d.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp_no_d.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(
-            self.cmp_no_d.dist('Nigel', 'Niall'), 0.8214285714
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.dist('Niall', 'Nigel'), 0.8214285714
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.dist('Colin', 'Coiln'), 0.8214285714
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.dist('Coiln', 'Colin'), 0.8214285714
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.dist('ATCAACGAGT', 'AACGATTAG'), 0.8011363636
-        )
-
-    def test_unknown_j_sim_score(self):
-        """Test abydos.distance.UnknownJ.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', 'abc'), 1.005128205128205)
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Nigel', 'Niall'), 0.5038560411
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Niall', 'Nigel'), 0.5038560411
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Colin', 'Coiln'), 0.5038560411
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Coiln', 'Colin'), 0.5038560411
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 0.6454192638
-        )
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_no_d.sim_score('abc', 'abc'), 5.0)
-        self.assertEqual(self.cmp_no_d.sim_score('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp_no_d.sim_score('Nigel', 'Niall'), 1.25)
-        self.assertAlmostEqual(self.cmp_no_d.sim_score('Niall', 'Nigel'), 1.25)
-        self.assertAlmostEqual(self.cmp_no_d.sim_score('Colin', 'Coiln'), 1.25)
-        self.assertAlmostEqual(self.cmp_no_d.sim_score('Coiln', 'Colin'), 1.25)
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim_score('ATCAACGAGT', 'AACGATTAG'), 2.3863636364
-        )
+cmp_no_d = UnknownJ(alphabet=0)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_unknown_j_sim():
+    """Test abydos.distance.UnknownJ.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 0.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6363636364)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.sim('', '') == 0.0
+    assert cmp_no_d.sim('a', '') == 0.0
+    assert cmp_no_d.sim('', 'a') == 0.0
+    assert cmp_no_d.sim('abc', '') == 0.0
+    assert cmp_no_d.sim('', 'abc') == 0.0
+    assert cmp_no_d.sim('abc', 'abc') == 1.0
+    assert cmp_no_d.sim('abcd', 'efgh') == 0.0
+
+    assert cmp_no_d.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.1785714286)
+    assert cmp_no_d.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.1785714286)
+    assert cmp_no_d.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.1785714286)
+    assert cmp_no_d.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.1785714286)
+    assert cmp_no_d.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.1988636364)
+
+def test_unknown_j_dist():
+    """Test abydos.distance.UnknownJ.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 1.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3636363636)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.dist('', '') == 1.0
+    assert cmp_no_d.dist('a', '') == 1.0
+    assert cmp_no_d.dist('', 'a') == 1.0
+    assert cmp_no_d.dist('abc', '') == 1.0
+    assert cmp_no_d.dist('', 'abc') == 1.0
+    assert cmp_no_d.dist('abc', 'abc') == 0.0
+    assert cmp_no_d.dist('abcd', 'efgh') == 1.0
+
+    assert cmp_no_d.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.8214285714)
+    assert cmp_no_d.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.8214285714)
+    assert cmp_no_d.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.8214285714)
+    assert cmp_no_d.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.8214285714)
+    assert cmp_no_d.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.8011363636)
+
+def test_unknown_j_sim_score():
+    """Test abydos.distance.UnknownJ.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == 0.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == 1.005128205128205
+    assert cmp.sim_score('abcd', 'efgh') == 0.0
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5038560411)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5038560411)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5038560411)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5038560411)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6454192638)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.sim_score('', '') == 0.0
+    assert cmp_no_d.sim_score('a', '') == 0.0
+    assert cmp_no_d.sim_score('', 'a') == 0.0
+    assert cmp_no_d.sim_score('abc', '') == 0.0
+    assert cmp_no_d.sim_score('', 'abc') == 0.0
+    assert cmp_no_d.sim_score('abc', 'abc') == 5.0
+    assert cmp_no_d.sim_score('abcd', 'efgh') == 0.0
+
+    assert cmp_no_d.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1.25)
+    assert cmp_no_d.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.25)
+    assert cmp_no_d.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1.25)
+    assert cmp_no_d.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1.25)
+    assert cmp_no_d.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=2.3863636364)

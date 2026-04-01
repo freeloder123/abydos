@@ -50,14 +50,12 @@ ready to contribute to the repository.
 Will you add Metaphone 3?
 -------------------------
 
-No. Although Lawrence Philips (author of Metaphone, Double Metaphone, and
-Metaphone 3) released Metaphone 3 version 2.1.3 under the BSD 3-clause
-license as part of Google Refine, which became OpenRefine
-(https://github.com/OpenRefine/OpenRefine/blob/master/main/src/com/google/refine/clustering/binning/Metaphone3.java),
-he doesn't want that code used for ports to other languages or used in any
-way outside of OpenRefine. In accordance with his wishes, no one has
-released Metaphone 3 ports to other languages or included it other
-libraries.
+Abydos now includes a Python port of the public Metaphone 3 version 2.1.3
+code released in OpenRefine under the BSD 3-clause license:
+https://github.com/OpenRefine/OpenRefine/blob/master/main/src/com/google/refine/clustering/binning/Metaphone3.java
+
+The implementation included here tracks that public OpenRefine-era release,
+not the later proprietary revisions of Metaphone 3.
 
 Why have you included algorithm X when it is already a part of NLTK/SciPy/...?
 ------------------------------------------------------------------------------

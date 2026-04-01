@@ -19,83 +19,66 @@
 This module contains unit tests for abydos.distance.IterativeSubString
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import IterativeSubString
 
 
-class IterativeSubStringTestCases(unittest.TestCase):
-    """Test IterativeSubString functions.
+cmp = IterativeSubString()
 
-    abydos.distance.IterativeSubString
-    """
-
-    cmp = IterativeSubString()
-    cmp_norm = IterativeSubString(normalize_strings=True)
-
-    def test_iterative_substring_sim(self):
-        """Test abydos.distance.IterativeSubString.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.1)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.1)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.1)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.1)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.6618421053
-        )
-
-    def test_iterative_substring_dist(self):
-        """Test abydos.distance.IterativeSubString.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.9)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.9)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.9)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.9)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.3381578947
-        )
-
-    def test_iterative_substring_corr(self):
-        """Test abydos.distance.IterativeSubString.corr."""
-        # Base cases
-        self.assertEqual(self.cmp.corr('', ''), 1.0)
-        self.assertEqual(self.cmp.corr('a', ''), -1.0)
-        self.assertEqual(self.cmp.corr('', 'a'), -1.0)
-        self.assertEqual(self.cmp.corr('abc', ''), -1.0)
-        self.assertEqual(self.cmp.corr('', 'abc'), -1.0)
-        self.assertEqual(self.cmp.corr('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.corr('abcd', 'efgh'), -1.0)
-
-        self.assertAlmostEqual(self.cmp.corr('Nigel', 'Niall'), -0.8)
-        self.assertAlmostEqual(self.cmp.corr('Niall', 'Nigel'), -0.8)
-        self.assertAlmostEqual(self.cmp.corr('Colin', 'Coiln'), -0.8)
-        self.assertAlmostEqual(self.cmp.corr('Coiln', 'Colin'), -0.8)
-        self.assertAlmostEqual(
-            self.cmp.corr('ATCAACGAGT', 'AACGATTAG'), 0.3236842105
-        )
-        self.assertAlmostEqual(
-            self.cmp_norm.corr('ATCAACGAGT', 'AACGATTAG'), 0.3236842105
-        )
-        self.assertAlmostEqual(
-            self.cmp_norm.corr('ATC..AACGAGT', 'AA_CGAT_TAG'), 0.3236842105
-        )
+cmp_norm = IterativeSubString(normalize_strings=True)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_iterative_substring_sim():
+    """Test abydos.distance.IterativeSubString.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.1)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.1)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.1)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.1)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.6618421053)
+
+def test_iterative_substring_dist():
+    """Test abydos.distance.IterativeSubString.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.9)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.9)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3381578947)
+
+def test_iterative_substring_corr():
+    """Test abydos.distance.IterativeSubString.corr."""
+    # Base cases
+    assert cmp.corr('', '') == 1.0
+    assert cmp.corr('a', '') == -1.0
+    assert cmp.corr('', 'a') == -1.0
+    assert cmp.corr('abc', '') == -1.0
+    assert cmp.corr('', 'abc') == -1.0
+    assert cmp.corr('abc', 'abc') == 1.0
+    assert cmp.corr('abcd', 'efgh') == -1.0
+
+    assert cmp.corr('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=-0.8)
+    assert cmp.corr('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=-0.8)
+    assert cmp.corr('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=-0.8)
+    assert cmp.corr('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=-0.8)
+    assert cmp.corr('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3236842105)
+    assert cmp_norm.corr('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.3236842105)
+    assert cmp_norm.corr('ATC..AACGAGT', 'AA_CGAT_TAG') == pytest.approx(abs=1e-7, expected=0.3236842105)

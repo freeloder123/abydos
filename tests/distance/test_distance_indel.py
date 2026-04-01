@@ -19,64 +19,56 @@
 This module contains unit tests for abydos.distance.Indel
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Indel
 
 
-class IndelTestCases(unittest.TestCase):
-    """Test indel functions.
-
-    abydos.distance.Indel
-    """
-
-    cmp = Indel()
-
-    def test_indel_sim(self):
-        """Test abydos.distance.Indel.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('a', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.8)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.8)
-
-    def test_indel_dist(self):
-        """Test abydos.distance.Indel.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('a', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'a'), 1)
-        self.assertEqual(self.cmp.dist('abc', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.2)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.2)
-
-    def test_indel_dist_abs(self):
-        """Test abydos.distance.Indel.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 3)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 3)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 8)
-
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 4)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 4)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 2)
+cmp = Indel()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_indel_sim():
+    """Test abydos.distance.Indel.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('a', '') == 0
+    assert cmp.sim('', 'a') == 0
+    assert cmp.sim('abc', '') == 0
+    assert cmp.sim('', 'abc') == 0
+    assert cmp.sim('abcd', 'efgh') == 0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.8)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.8)
+
+def test_indel_dist():
+    """Test abydos.distance.Indel.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('a', '') == 1
+    assert cmp.dist('', 'a') == 1
+    assert cmp.dist('abc', '') == 1
+    assert cmp.dist('', 'abc') == 1
+    assert cmp.dist('abcd', 'efgh') == 1
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.2)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.2)
+
+def test_indel_dist_abs():
+    """Test abydos.distance.Indel.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0
+    assert cmp.dist_abs('a', '') == 1
+    assert cmp.dist_abs('', 'a') == 1
+    assert cmp.dist_abs('abc', '') == 3
+    assert cmp.dist_abs('', 'abc') == 3
+    assert cmp.dist_abs('abcd', 'efgh') == 8
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=4)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=4)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=2)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=2)

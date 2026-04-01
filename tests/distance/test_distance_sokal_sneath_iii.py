@@ -19,57 +19,39 @@
 This module contains unit tests for abydos.distance.SokalSneathIII
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import SokalSneathIII
 
 
-class SokalSneathIIITestCases(unittest.TestCase):
-    """Test SokalSneathIII functions.
-
-    abydos.distance.SokalSneathIII
-    """
-
-    cmp = SokalSneathIII()
-
-    def test_sokal_sneath_iii_sim_score(self):
-        """Test abydos.distance.SokalSneathIII.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), float('inf'))
-        self.assertEqual(self.cmp.sim_score('a', ''), 391.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 391.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 195.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 195.0)
-        self.assertEqual(self.cmp.sim_score('abc', 'abc'), float('inf'))
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 77.4)
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Nigel', 'Niall'), 129.6666666667
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Niall', 'Nigel'), 129.6666666667
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Colin', 'Coiln'), 129.6666666667
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Coiln', 'Colin'), 129.6666666667
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 111.0
-        )
-        self.assertEqual(
-            self.cmp.sim_score('Kirisits', 'Kiritsis'), float('inf')
-        )
-
-    def test_sokal_sneath_iii_dist(self):
-        """Test abydos.distance.SokalSneathIII.dist."""
-        self.assertRaises(NotImplementedError, self.cmp.dist)
-
-    def test_sokal_sneath_iii_sim(self):
-        """Test abydos.distance.SokalSneathIII.sim."""
-        self.assertRaises(NotImplementedError, self.cmp.sim)
+cmp = SokalSneathIII()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_sokal_sneath_iii_sim_score():
+    """Test abydos.distance.SokalSneathIII.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == float('inf')
+    assert cmp.sim_score('a', '') == 391.0
+    assert cmp.sim_score('', 'a') == 391.0
+    assert cmp.sim_score('abc', '') == 195.0
+    assert cmp.sim_score('', 'abc') == 195.0
+    assert cmp.sim_score('abc', 'abc') == float('inf')
+    assert cmp.sim_score('abcd', 'efgh') == 77.4
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=129.6666666667)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=129.6666666667)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=129.6666666667)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=129.6666666667)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=111.0)
+    assert cmp.sim_score('Kirisits', 'Kiritsis') == float('inf')
+
+def test_sokal_sneath_iii_dist():
+    """Test abydos.distance.SokalSneathIII.dist."""
+    with pytest.raises(NotImplementedError):
+        cmp.dist()
+
+def test_sokal_sneath_iii_sim():
+    """Test abydos.distance.SokalSneathIII.sim."""
+    with pytest.raises(NotImplementedError):
+        cmp.sim()

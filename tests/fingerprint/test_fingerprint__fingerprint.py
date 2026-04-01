@@ -19,26 +19,16 @@
 This module contains unit tests for abydos.fingerprint.Count
 """
 
-import unittest
 
 # noinspection PyProtectedMember
 from abydos.fingerprint._fingerprint import _Fingerprint
 
 
-class CountFingerprintTestCases(unittest.TestCase):
-    """Test _Fingerprint class.
-
-    abydos.fingerprint.Count
-    """
-
-    fp = _Fingerprint()
-
-    def test_fingerprint_fingerprint(self):
-        """Test abydos.fingerprint._Fingerprint.fingerprint."""
-        # Base cases
-        self.assertEqual(self.fp.fingerprint(''), '')
-        self.assertEqual(self.fp.fingerprint('word'), 'word')
+fp = _Fingerprint()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_fingerprint_fingerprint():
+    """Test abydos.fingerprint._Fingerprint.fingerprint."""
+    # Base cases
+    assert fp.fingerprint('') == ''
+    assert fp.fingerprint('word') == 'word'

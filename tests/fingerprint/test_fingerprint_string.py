@@ -19,12 +19,11 @@
 This module contains unit tests for abydos.fingerprint.String
 """
 
-import unittest
 
 from abydos.fingerprint import String
 
 
-class StringTestCases(unittest.TestCase):
+class TestString:
     """Test string fingerprint functions.
 
     abydos.fingerprint.String
@@ -44,13 +43,7 @@ o pe pinguim poe queixoso tamaras ve vovo',
     def test_string_fingerprint(self):
         """Test abydos.fingerprint.String."""
         # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
+        assert self.fp.fingerprint('') == ''
 
         for i in range(len(self._testset)):
-            self.assertEqual(
-                self.fp.fingerprint(self._testset[i]), self._anssetw[i]
-            )
-
-
-if __name__ == '__main__':
-    unittest.main()
+            assert self.fp.fingerprint(self._testset[i]) == self._anssetw[i]

@@ -19,39 +19,33 @@
 This module contains unit tests for abydos.util._ncr
 """
 
-import unittest
+
+import pytest
 
 from abydos.util._ncr import _ncr
 
 
-class ProdTestCases(unittest.TestCase):
-    """Test cases for abydos.util._ncr."""
+def test_ncr():
+    """Test abydos.util._ncr."""
+    assert _ncr(1, 0) == 1
+    assert _ncr(5, 0) == 1
 
-    def test_ncr(self):
-        """Test abydos.util._ncr."""
-        self.assertEqual(_ncr(1, 0), 1)
-        self.assertEqual(_ncr(5, 0), 1)
+    assert _ncr(1, 2) == 0
+    assert _ncr(1, 2) == 0
 
-        self.assertEqual(_ncr(1, 2), 0)
-        self.assertEqual(_ncr(1, 2), 0)
+    assert _ncr(2, 2) == 1
+    assert _ncr(10, 10) == 1
 
-        self.assertEqual(_ncr(2, 2), 1)
-        self.assertEqual(_ncr(10, 10), 1)
+    assert _ncr(7, 2) == 21
+    assert _ncr(7, 3) == 35
+    assert _ncr(4, 3) == 4
+    assert _ncr(5, 3) == 10
+    assert _ncr(10, 2) == 45
+    assert _ncr(100, 3) == 161700
+    assert _ncr(80, 5) == 24040016
 
-        self.assertEqual(_ncr(7, 2), 21)
-        self.assertEqual(_ncr(7, 3), 35)
-        self.assertEqual(_ncr(4, 3), 4)
-        self.assertEqual(_ncr(5, 3), 10)
-        self.assertEqual(_ncr(10, 2), 45)
-        self.assertEqual(_ncr(100, 3), 161700)
-        self.assertEqual(_ncr(80, 5), 24040016)
-
-        # gamma variant
-        self.assertAlmostEqual(_ncr(10, 2.5), 77.8023559942)
-        self.assertAlmostEqual(_ncr(0, 2.5), 0.12732395447)
-        self.assertAlmostEqual(_ncr(2.5, 2.5), 1)
-        self.assertAlmostEqual(_ncr(2.5, 2.1), 1.7043970865)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # gamma variant
+    assert _ncr(10, 2.5) == pytest.approx(abs=1e-7, expected=77.8023559942)
+    assert _ncr(0, 2.5) == pytest.approx(abs=1e-7, expected=0.12732395447)
+    assert _ncr(2.5, 2.5) == pytest.approx(abs=1e-7, expected=1)
+    assert _ncr(2.5, 2.1) == pytest.approx(abs=1e-7, expected=1.7043970865)

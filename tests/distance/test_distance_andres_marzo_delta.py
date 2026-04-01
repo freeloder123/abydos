@@ -19,108 +19,77 @@
 This module contains unit tests for abydos.distance.AndresMarzoDelta
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import AndresMarzoDelta
 
 
-class AndresMarzoDeltaTestCases(unittest.TestCase):
-    """Test AndresMarzoDelta functions.
+cmp = AndresMarzoDelta()
 
-    abydos.distance.AndresMarzoDelta
-    """
-
-    cmp = AndresMarzoDelta()
-    cmp_no_d = AndresMarzoDelta(alphabet=0)
-
-    def test_andres_marzo_delta_sim(self):
-        """Test abydos.distance.AndresMarzoDelta.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.9987244897959184)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.9987244897959184)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.9974489795918368)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.9974489795918368)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.9872448979591837)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.9923469388)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.9923469388)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.9923469388)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.9923469388)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.9911172173
-        )
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('a', ''), 0.5)
-        self.assertEqual(self.cmp_no_d.sim('', 'a'), 0.5)
-        self.assertEqual(self.cmp_no_d.sim('abc', ''), 0.5)
-        self.assertEqual(self.cmp_no_d.sim('', 'abc'), 0.5)
-        self.assertEqual(self.cmp_no_d.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp_no_d.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Nigel', 'Niall'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Niall', 'Nigel'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Colin', 'Coiln'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('Coiln', 'Colin'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.sim('ATCAACGAGT', 'AACGATTAG'), 0.5025641703
-        )
-
-    def test_andres_marzo_delta_corr(self):
-        """Test abydos.distance.AndresMarzoDelta.corr."""
-        # Base cases
-        self.assertEqual(self.cmp.corr('', ''), 1.0)
-        self.assertEqual(self.cmp.corr('a', ''), 0.9974489795918368)
-        self.assertEqual(self.cmp.corr('', 'a'), 0.9974489795918368)
-        self.assertEqual(self.cmp.corr('abc', ''), 0.9948979591836735)
-        self.assertEqual(self.cmp.corr('', 'abc'), 0.9948979591836735)
-        self.assertEqual(self.cmp.corr('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.corr('abcd', 'efgh'), 0.9744897959183674)
-
-        self.assertAlmostEqual(self.cmp.corr('Nigel', 'Niall'), 0.9846938776)
-        self.assertAlmostEqual(self.cmp.corr('Niall', 'Nigel'), 0.9846938776)
-        self.assertAlmostEqual(self.cmp.corr('Colin', 'Coiln'), 0.9846938776)
-        self.assertAlmostEqual(self.cmp.corr('Coiln', 'Colin'), 0.9846938776)
-        self.assertAlmostEqual(
-            self.cmp.corr('ATCAACGAGT', 'AACGATTAG'), 0.9822344347
-        )
-
-        # Tests with alphabet=0 (no d factor)
-        self.assertEqual(self.cmp_no_d.corr('', ''), 1.0)
-        self.assertEqual(self.cmp_no_d.corr('a', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.corr('', 'a'), 0.0)
-        self.assertEqual(self.cmp_no_d.corr('abc', ''), 0.0)
-        self.assertEqual(self.cmp_no_d.corr('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_no_d.corr('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp_no_d.corr('abcd', 'efgh'), -1.0)
-
-        self.assertAlmostEqual(
-            self.cmp_no_d.corr('Nigel', 'Niall'), -0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.corr('Niall', 'Nigel'), -0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.corr('Colin', 'Coiln'), -0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.corr('Coiln', 'Colin'), -0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp_no_d.corr('ATCAACGAGT', 'AACGATTAG'), 0.0051283407
-        )
+cmp_no_d = AndresMarzoDelta(alphabet=0)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_andres_marzo_delta_sim():
+    """Test abydos.distance.AndresMarzoDelta.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.9987244897959184
+    assert cmp.sim('', 'a') == 0.9987244897959184
+    assert cmp.sim('abc', '') == 0.9974489795918368
+    assert cmp.sim('', 'abc') == 0.9974489795918368
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.9872448979591837
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.9923469388)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.9923469388)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9923469388)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9923469388)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.9911172173)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.sim('', '') == 1.0
+    assert cmp_no_d.sim('a', '') == 0.5
+    assert cmp_no_d.sim('', 'a') == 0.5
+    assert cmp_no_d.sim('abc', '') == 0.5
+    assert cmp_no_d.sim('', 'abc') == 0.5
+    assert cmp_no_d.sim('abc', 'abc') == 1.0
+    assert cmp_no_d.sim('abcd', 'efgh') == 0.0
+
+    assert cmp_no_d.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp_no_d.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp_no_d.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp_no_d.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp_no_d.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5025641703)
+
+def test_andres_marzo_delta_corr():
+    """Test abydos.distance.AndresMarzoDelta.corr."""
+    # Base cases
+    assert cmp.corr('', '') == 1.0
+    assert cmp.corr('a', '') == 0.9974489795918368
+    assert cmp.corr('', 'a') == 0.9974489795918368
+    assert cmp.corr('abc', '') == 0.9948979591836735
+    assert cmp.corr('', 'abc') == 0.9948979591836735
+    assert cmp.corr('abc', 'abc') == 1.0
+    assert cmp.corr('abcd', 'efgh') == 0.9744897959183674
+
+    assert cmp.corr('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.9846938776)
+    assert cmp.corr('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.9846938776)
+    assert cmp.corr('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9846938776)
+    assert cmp.corr('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9846938776)
+    assert cmp.corr('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.9822344347)
+
+    # Tests with alphabet=0 (no d factor)
+    assert cmp_no_d.corr('', '') == 1.0
+    assert cmp_no_d.corr('a', '') == 0.0
+    assert cmp_no_d.corr('', 'a') == 0.0
+    assert cmp_no_d.corr('abc', '') == 0.0
+    assert cmp_no_d.corr('', 'abc') == 0.0
+    assert cmp_no_d.corr('abc', 'abc') == 1.0
+    assert cmp_no_d.corr('abcd', 'efgh') == -1.0
+
+    assert cmp_no_d.corr('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=-0.3333333333)
+    assert cmp_no_d.corr('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=-0.3333333333)
+    assert cmp_no_d.corr('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=-0.3333333333)
+    assert cmp_no_d.corr('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=-0.3333333333)
+    assert cmp_no_d.corr('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.0051283407)

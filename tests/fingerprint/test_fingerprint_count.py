@@ -19,38 +19,28 @@
 This module contains unit tests for abydos.fingerprint.Count
 """
 
-import unittest
 
 from abydos.fingerprint import Count
 
 
-class CountFingerprintTestCases(unittest.TestCase):
-    """Test Cisłak & Grabowski's count fingerprint functions.
-
-    abydos.fingerprint.Count
-    """
-
-    fp = Count()
-
-    def test_count_fingerprint(self):
-        """Test abydos.fingerprint.Count."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '0' * 16)
-
-        # https://arxiv.org/pdf/1711.08475.pdf
-        self.assertEqual(self.fp.fingerprint('instance'), '0101010001100100')
-
-        self.assertEqual(self.fp.fingerprint('inst'), '0001000001010100')
-        self.assertEqual(Count(15).fingerprint('instance'), '101010001100100')
-        self.assertEqual(
-            Count(32).fingerprint('instance'),
-            '01010100011001000000000100000000',
-        )
-        self.assertEqual(
-            Count(64).fingerprint('instance'),
-            '01010100011001000000000100000000' + '0' * 32,
-        )
+fp = Count()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_count_fingerprint():
+    """Test abydos.fingerprint.Count."""
+    # Base case
+    assert fp.fingerprint('') == '0' * 16
+
+    # https://arxiv.org/pdf/1711.08475.pdf
+    assert fp.fingerprint('instance') == '0101010001100100'
+
+    assert fp.fingerprint('inst') == '0001000001010100'
+    assert Count(15).fingerprint('instance') == '101010001100100'
+    assert (
+        Count(32).fingerprint('instance')
+        == '01010100011001000000000100000000'
+    )
+    assert (
+        Count(64).fingerprint('instance')
+        == '01010100011001000000000100000000' + '0' * 32
+    )

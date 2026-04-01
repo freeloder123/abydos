@@ -19,85 +19,71 @@
 This module contains unit tests for abydos.phonetic.HenryEarly
 """
 
-import unittest
-
 from abydos.phonetic import HenryEarly
 
 
-class HenryEarlyTestCases(unittest.TestCase):
-    """Test early Henry Code functions.
+pa = HenryEarly()
 
-    test cases for abydos.phonetic.HenryEarly
-    """
+def test_henry_early():
+    """Test abydos.phonetic.HenryEarly."""
+    # Base case
+    assert pa.encode('') == ''
 
-    pa = HenryEarly()
+    # Examples from Legare 1972 paper
+    assert pa.encode('Descarry') == 'DKR'
+    assert pa.encode('Descaries') == 'DKR'
+    assert pa.encode('Campo') == 'KP'
+    assert pa.encode('Campot') == 'KP'
+    assert pa.encode('Gausselin') == 'GSL'
+    assert pa.encode('Gosselin') == 'GSL'
+    assert pa.encode('Bergeron') == 'BRJ'
+    assert pa.encode('Bergereau') == 'BRJ'
+    assert pa.encode('Bosseron') == 'BSR'
+    assert pa.encode('Cicire') == 'SSR'
+    assert pa.encode('Lechevalier') == 'LCV'
+    assert pa.encode('Chevalier') == 'CVL'
+    assert pa.encode('Peloy') == 'PL'
+    assert pa.encode('Beloy') == 'BL'
+    assert pa.encode('Beret') == 'BR'
+    assert pa.encode('Benet') == 'BN'
+    assert pa.encode('Turcot') == 'TRK'
+    assert pa.encode('Turgot') == 'TRG'
+    assert pa.encode('Vigier') == 'VJ'
+    assert pa.encode('Vigiere') == 'VJR'
+    assert pa.encode('Dodin') == 'DD'
+    assert pa.encode('Dodelin') == 'DDL'
 
-    def test_henry_early(self):
-        """Test abydos.phonetic.HenryEarly."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '')
-
-        # Examples from Legare 1972 paper
-        self.assertEqual(self.pa.encode('Descarry'), 'DKR')
-        self.assertEqual(self.pa.encode('Descaries'), 'DKR')
-        self.assertEqual(self.pa.encode('Campo'), 'KP')
-        self.assertEqual(self.pa.encode('Campot'), 'KP')
-        self.assertEqual(self.pa.encode('Gausselin'), 'GSL')
-        self.assertEqual(self.pa.encode('Gosselin'), 'GSL')
-        self.assertEqual(self.pa.encode('Bergeron'), 'BRJ')
-        self.assertEqual(self.pa.encode('Bergereau'), 'BRJ')
-        self.assertEqual(self.pa.encode('Bosseron'), 'BSR')
-        self.assertEqual(self.pa.encode('Cicire'), 'SSR')
-        self.assertEqual(self.pa.encode('Lechevalier'), 'LCV')
-        self.assertEqual(self.pa.encode('Chevalier'), 'CVL')
-        self.assertEqual(self.pa.encode('Peloy'), 'PL')
-        self.assertEqual(self.pa.encode('Beloy'), 'BL')
-        self.assertEqual(self.pa.encode('Beret'), 'BR')
-        self.assertEqual(self.pa.encode('Benet'), 'BN')
-        self.assertEqual(self.pa.encode('Turcot'), 'TRK')
-        self.assertEqual(self.pa.encode('Turgot'), 'TRG')
-        self.assertEqual(self.pa.encode('Vigier'), 'VJ')
-        self.assertEqual(self.pa.encode('Vigiere'), 'VJR')
-        self.assertEqual(self.pa.encode('Dodin'), 'DD')
-        self.assertEqual(self.pa.encode('Dodelin'), 'DDL')
-
-        # Tests to complete coverage
-        self.assertEqual(self.pa.encode('Anil'), 'ANL')
-        self.assertEqual(self.pa.encode('Emmanuel'), 'AMN')
-        self.assertEqual(self.pa.encode('Ainu'), 'EN')
-        self.assertEqual(self.pa.encode('Oeuf'), 'OF')
-        self.assertEqual(self.pa.encode('Yves'), 'IV')
-        self.assertEqual(self.pa.encode('Yo'), 'I')
-        self.assertEqual(self.pa.encode('Umman'), 'EM')
-        self.assertEqual(self.pa.encode('Omman'), 'OM')
-        self.assertEqual(self.pa.encode('Zoe'), 'S')
-        self.assertEqual(self.pa.encode('Beauchamp'), 'BCP')
-        self.assertEqual(self.pa.encode('Chloe'), 'KL')
-        self.assertEqual(self.pa.encode('Gerard'), 'JRR')
-        self.assertEqual(self.pa.encode('Agnes'), 'ANN')
-        self.assertEqual(self.pa.encode('Pinot'), 'PN')
-        self.assertEqual(self.pa.encode('Philo'), 'FL')
-        self.assertEqual(self.pa.encode('Quisling'), 'GL')
-        self.assertEqual(self.pa.encode('Qualite'), 'KLT')
-        self.assertEqual(self.pa.encode('Sainte-Marie'), 'XMR')
-        self.assertEqual(self.pa.encode('Saint-Jean'), 'XJ')
-        self.assertEqual(self.pa.encode('Ste-Marie'), 'XMR')
-        self.assertEqual(self.pa.encode('St-Jean'), 'XJ')
-        self.assertEqual(self.pa.encode('Cloe'), 'KL')
-        self.assertEqual(self.pa.encode('Ahch-To'), 'AKT')
-        self.assertEqual(self.pa.encode('Zdavros'), 'SDV')
-        self.assertEqual(self.pa.encode('Sdavros'), 'DVR')
-        self.assertEqual(self.pa.encode('Coulomb'), 'KLB')
-        self.assertEqual(self.pa.encode('Calm'), 'K')
-        self.assertEqual(self.pa.encode('Omnia'), 'ON')
-        self.assertEqual(self.pa.encode('Ramps'), 'RPS')
-        self.assertEqual(self.pa.encode('Renault'), 'RN')
-        self.assertEqual(self.pa.encode('Czech'), 'CSK')
-        self.assertEqual(self.pa.encode('Imran'), 'ER')
-        self.assertEqual(
-            HenryEarly(max_length=-1).encode('Christopher'), 'KRXF'
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # Tests to complete coverage
+    assert pa.encode('Anil') == 'ANL'
+    assert pa.encode('Emmanuel') == 'AMN'
+    assert pa.encode('Ainu') == 'EN'
+    assert pa.encode('Oeuf') == 'OF'
+    assert pa.encode('Yves') == 'IV'
+    assert pa.encode('Yo') == 'I'
+    assert pa.encode('Umman') == 'EM'
+    assert pa.encode('Omman') == 'OM'
+    assert pa.encode('Zoe') == 'S'
+    assert pa.encode('Beauchamp') == 'BCP'
+    assert pa.encode('Chloe') == 'KL'
+    assert pa.encode('Gerard') == 'JRR'
+    assert pa.encode('Agnes') == 'ANN'
+    assert pa.encode('Pinot') == 'PN'
+    assert pa.encode('Philo') == 'FL'
+    assert pa.encode('Quisling') == 'GL'
+    assert pa.encode('Qualite') == 'KLT'
+    assert pa.encode('Sainte-Marie') == 'XMR'
+    assert pa.encode('Saint-Jean') == 'XJ'
+    assert pa.encode('Ste-Marie') == 'XMR'
+    assert pa.encode('St-Jean') == 'XJ'
+    assert pa.encode('Cloe') == 'KL'
+    assert pa.encode('Ahch-To') == 'AKT'
+    assert pa.encode('Zdavros') == 'SDV'
+    assert pa.encode('Sdavros') == 'DVR'
+    assert pa.encode('Coulomb') == 'KLB'
+    assert pa.encode('Calm') == 'K'
+    assert pa.encode('Omnia') == 'ON'
+    assert pa.encode('Ramps') == 'RPS'
+    assert pa.encode('Renault') == 'RN'
+    assert pa.encode('Czech') == 'CSK'
+    assert pa.encode('Imran') == 'ER'
+    assert HenryEarly(max_length=-1).encode('Christopher') == 'KRXF'

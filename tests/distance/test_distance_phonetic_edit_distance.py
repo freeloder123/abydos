@@ -19,123 +19,87 @@
 This module contains unit tests for abydos.distance.PhoneticEditDistance
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import PhoneticEditDistance
 
 
-class PhoneticEditDistanceTestCases(unittest.TestCase):
-    """Test phonetic edit distance functions.
-
-    abydos.distance.PhoneticEditDistance
-    """
-
-    ped = PhoneticEditDistance()
-
-    def test_phonetic_edit_distance_dist(self):
-        """Test abydos.distance.PhoneticEditDistance.dist."""
-        # Base cases
-        self.assertEqual(self.ped.dist('', ''), 0.0)
-        self.assertEqual(self.ped.dist('a', ''), 1.0)
-        self.assertEqual(self.ped.dist('', 'a'), 1.0)
-        self.assertEqual(self.ped.dist('abc', ''), 1.0)
-        self.assertEqual(self.ped.dist('', 'abc'), 1.0)
-        self.assertEqual(self.ped.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.ped.dist('abcd', 'efgh'), 0.10483870967741934)
-
-        self.assertAlmostEqual(
-            self.ped.dist('Nigel', 'Niall'), 0.1774193548387097
-        )
-        self.assertAlmostEqual(
-            self.ped.dist('Niall', 'Nigel'), 0.1774193548387097
-        )
-        self.assertAlmostEqual(
-            self.ped.dist('Colin', 'Coiln'), 0.1741935483870968
-        )
-        self.assertAlmostEqual(
-            self.ped.dist('Coiln', 'Colin'), 0.1741935483870968
-        )
-        self.assertAlmostEqual(
-            self.ped.dist('ATCAACGAGT', 'AACGATTAG'), 0.2370967741935484
-        )
-
-    def test_phonetic_edit_distance_dist_abs(self):
-        """Test abydos.distance.PhoneticEditDistance.dist_abs."""
-        # Base cases
-        self.assertEqual(self.ped.dist_abs('', ''), 0)
-        self.assertEqual(self.ped.dist_abs('a', ''), 1)
-        self.assertEqual(self.ped.dist_abs('', 'a'), 1)
-        self.assertEqual(self.ped.dist_abs('abc', ''), 3)
-        self.assertEqual(self.ped.dist_abs('', 'abc'), 3)
-        self.assertEqual(self.ped.dist_abs('abc', 'abc'), 0)
-        self.assertEqual(self.ped.dist_abs('abcd', 'efgh'), 0.4193548387096774)
-
-        self.assertAlmostEqual(
-            self.ped.dist_abs('Nigel', 'Niall'), 0.8870967741935485
-        )
-        self.assertAlmostEqual(
-            self.ped.dist_abs('Niall', 'Nigel'), 0.8870967741935485
-        )
-        self.assertAlmostEqual(
-            self.ped.dist_abs('Colin', 'Coiln'), 0.870967741935484
-        )
-        self.assertAlmostEqual(
-            self.ped.dist_abs('Coiln', 'Colin'), 0.870967741935484
-        )
-        self.assertAlmostEqual(
-            self.ped.dist_abs('ATCAACGAGT', 'AACGATTAG'), 2.370967741935484
-        )
-
-        self.assertEqual(
-            PhoneticEditDistance(weights={'syllabic': 1.0}).dist_abs(
-                'Nigel', 'Niall'
-            ),
-            0.0,
-        )
-        self.assertAlmostEqual(
-            PhoneticEditDistance(weights=(1, 1, 1)).dist_abs('Nigel', 'Niall'),
-            0.33333333333333326,
-        )
-        self.assertAlmostEqual(
-            PhoneticEditDistance(mode='osa').dist_abs('Niel', 'Neil'),
-            0.06451612903225801,
-        )
-
-    def test_phonetic_edit_distance_alignment(self):
-        """Test abydos.distance.PhoneticEditDistance.alignment."""
-        # Base cases
-        self.assertEqual(self.ped.alignment('', ''), (0.0, '', ''))
-        self.assertEqual(self.ped.alignment('a', ''), (1.0, 'a', '-'))
-        self.assertEqual(self.ped.alignment('', 'a'), (1.0, '-', 'a'))
-        self.assertEqual(self.ped.alignment('abc', ''), (3.0, 'abc', '---'))
-        self.assertEqual(self.ped.alignment('', 'abc'), (3.0, '---', 'abc'))
-        self.assertEqual(self.ped.alignment('abc', 'abc'), (0.0, 'abc', 'abc'))
-        self.assertEqual(
-            self.ped.alignment('abcd', 'efgh'),
-            (0.4193548387096774, 'abcd', 'efgh'),
-        )
-
-        self.assertEqual(
-            self.ped.alignment('Nigel', 'Niall'),
-            (0.8870967741935485, 'Nigel', 'Niall'),
-        )
-        self.assertEqual(
-            self.ped.alignment('Niall', 'Nigel'),
-            (0.8870967741935485, 'Niall', 'Nigel'),
-        )
-        self.assertEqual(
-            self.ped.alignment('Colin', 'Coiln'),
-            (0.870967741935484, 'Colin', 'Coiln'),
-        )
-        self.assertEqual(
-            self.ped.alignment('Coiln', 'Colin'),
-            (0.870967741935484, 'Coiln', 'Colin'),
-        )
-        self.assertEqual(
-            PhoneticEditDistance(mode='osa').alignment('Niel', 'Neil'),
-            (0.06451612903225801, 'Niel', 'Neil'),
-        )
+ped = PhoneticEditDistance()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_phonetic_edit_distance_dist():
+    """Test abydos.distance.PhoneticEditDistance.dist."""
+    # Base cases
+    assert ped.dist('', '') == 0.0
+    assert ped.dist('a', '') == 1.0
+    assert ped.dist('', 'a') == 1.0
+    assert ped.dist('abc', '') == 1.0
+    assert ped.dist('', 'abc') == 1.0
+    assert ped.dist('abc', 'abc') == 0.0
+    assert ped.dist('abcd', 'efgh') == 0.10483870967741934
+
+    assert ped.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.1774193548387097)
+    assert ped.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.1774193548387097)
+    assert ped.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.1741935483870968)
+    assert ped.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.1741935483870968)
+    assert ped.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.2370967741935484)
+
+def test_phonetic_edit_distance_dist_abs():
+    """Test abydos.distance.PhoneticEditDistance.dist_abs."""
+    # Base cases
+    assert ped.dist_abs('', '') == 0
+    assert ped.dist_abs('a', '') == 1
+    assert ped.dist_abs('', 'a') == 1
+    assert ped.dist_abs('abc', '') == 3
+    assert ped.dist_abs('', 'abc') == 3
+    assert ped.dist_abs('abc', 'abc') == 0
+    assert ped.dist_abs('abcd', 'efgh') == 0.4193548387096774
+
+    assert ped.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.8870967741935485)
+    assert ped.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.8870967741935485)
+    assert ped.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.870967741935484)
+    assert ped.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.870967741935484)
+    assert ped.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=2.370967741935484)
+
+    assert (
+        PhoneticEditDistance(weights={'syllabic': 1.0}).dist_abs( 'Nigel', 'Niall' )
+        == 0.0
+    )
+    assert PhoneticEditDistance(weights=(1, 1, 1)).dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.33333333333333326)
+    assert PhoneticEditDistance(mode='osa').dist_abs('Niel', 'Neil') == pytest.approx(abs=1e-7, expected=0.06451612903225801)
+
+def test_phonetic_edit_distance_alignment():
+    """Test abydos.distance.PhoneticEditDistance.alignment."""
+    # Base cases
+    assert ped.alignment('', '') == (0.0, '', '')
+    assert ped.alignment('a', '') == (1.0, 'a', '-')
+    assert ped.alignment('', 'a') == (1.0, '-', 'a')
+    assert ped.alignment('abc', '') == (3.0, 'abc', '---')
+    assert ped.alignment('', 'abc') == (3.0, '---', 'abc')
+    assert ped.alignment('abc', 'abc') == (0.0, 'abc', 'abc')
+    assert (
+        ped.alignment('abcd', 'efgh')
+        == (0.4193548387096774, 'abcd', 'efgh')
+    )
+
+    assert (
+        ped.alignment('Nigel', 'Niall')
+        == (0.8870967741935485, 'Nigel', 'Niall')
+    )
+    assert (
+        ped.alignment('Niall', 'Nigel')
+        == (0.8870967741935485, 'Niall', 'Nigel')
+    )
+    assert (
+        ped.alignment('Colin', 'Coiln')
+        == (0.870967741935484, 'Colin', 'Coiln')
+    )
+    assert (
+        ped.alignment('Coiln', 'Colin')
+        == (0.870967741935484, 'Coiln', 'Colin')
+    )
+    assert (
+        PhoneticEditDistance(mode='osa').alignment('Niel', 'Neil')
+        == (0.06451612903225801, 'Niel', 'Neil')
+    )

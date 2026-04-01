@@ -19,64 +19,52 @@
 This module contains unit tests for abydos.tokenizer.CVClusterTokenizer
 """
 
-import unittest
 
 from abydos.tokenizer import CVClusterTokenizer
 
 
-class CVClusterTokenizerTestCases(unittest.TestCase):
+def test_cv_cluster_tokenizer():
     """Test abydos.tokenizer.CVClusterTokenizer."""
+    assert sorted(CVClusterTokenizer().tokenize('').get_list()) == []
+    assert sorted(CVClusterTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_cv_cluster_tokenizer(self):
-        """Test abydos.tokenizer.CVClusterTokenizer."""
-        self.assertEqual(
-            sorted(CVClusterTokenizer().tokenize('').get_list()), []
-        )
-        self.assertEqual(
-            sorted(CVClusterTokenizer().tokenize('a').get_list()), ['a']
-        )
+    tok = CVClusterTokenizer()
 
-        tok = CVClusterTokenizer()
+    assert (
+        sorted(tok.tokenize('nelson').get_list())
+        == sorted(['ne', 'lso', 'n'])
+    )
+    assert (
+        sorted(tok.tokenize('neilson').get_list())
+        == sorted(['nei', 'lso', 'n'])
+    )
+    assert (
+        sorted(tok.tokenize('peninsular').get_list())
+        == sorted(['pe', 'ni', 'nsu', 'la', 'r'])
+    )
+    assert (
+        sorted(tok.tokenize('spectacular').get_list())
+        == sorted(['spe', 'cta', 'cu', 'la', 'r'])
+    )
+    assert (
+        sorted(tok.tokenize('sufficiently').get_list())
+        == sorted(['su', 'ffi', 'cie', 'ntly'])
+    )
+    assert (
+        sorted(tok.tokenize('yachting').get_list())
+        == sorted(['ya', 'chti', 'ng'])
+    )
+    assert (
+        sorted(tok.tokenize('caterpillars').get_list())
+        == sorted(['ca', 'te', 'rpi', 'lla', 'rs'])
+    )
+    assert (
+        sorted(tok.tokenize('Götterdämmerung').get_list())
+        == sorted(['Gö', 'tte', 'rdä', 'mme', 'ru', 'ng'])
+    )
 
-        self.assertEqual(
-            sorted(tok.tokenize('nelson').get_list()),
-            sorted(['ne', 'lso', 'n']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('neilson').get_list()),
-            sorted(['nei', 'lso', 'n']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('peninsular').get_list()),
-            sorted(['pe', 'ni', 'nsu', 'la', 'r']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('spectacular').get_list()),
-            sorted(['spe', 'cta', 'cu', 'la', 'r']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('sufficiently').get_list()),
-            sorted(['su', 'ffi', 'cie', 'ntly']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('yachting').get_list()),
-            sorted(['ya', 'chti', 'ng']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('caterpillars').get_list()),
-            sorted(['ca', 'te', 'rpi', 'lla', 'rs']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('Götterdämmerung').get_list()),
-            sorted(['Gö', 'tte', 'rdä', 'mme', 'ru', 'ng']),
-        )
-
-        tok = CVClusterTokenizer(consonants='ptkbdgmn', vowels='aeiouwy')
-        self.assertEqual(
-            sorted(tok.tokenize('#winning #losing').get_list()),
-            sorted(['#', 'wi', 'nni', 'ng', '#', 'losing']),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    tok = CVClusterTokenizer(consonants='ptkbdgmn', vowels='aeiouwy')
+    assert (
+        sorted(tok.tokenize('#winning #losing').get_list())
+        == sorted(['#', 'wi', 'nni', 'ng', '#', 'losing'])
+    )

@@ -19,60 +19,47 @@
 This module contains unit tests for abydos.phonetic.Haase
 """
 
-import unittest
-
 from abydos.phonetic import Haase
 
 
-class HaaseTestCases(unittest.TestCase):
-    """Test Haase Phonetik functions.
+pa = Haase()
 
-    test cases for abydos.phonetic.Haase
-    """
+def test_haase_phonetik():
+    """Test abydos.phonetic.Haase."""
+    # Base cases
+    assert pa.encode('') == ''
 
-    pa = Haase()
+    # equivalents
+    assert pa.encode('Häschen') == pa.encode('Haeschen')
+    assert pa.encode('Schloß') == pa.encode('Schloss')
+    assert pa.encode('üben') == pa.encode('ueben')
+    assert pa.encode('Eichörnchen') == pa.encode('Eichoernchen'
+    )
 
-    def test_haase_phonetik(self):
-        """Test abydos.phonetic.Haase."""
-        # Base cases
-        self.assertEqual(self.pa.encode(''), '')
+    # coverage completion
+    assert pa.encode('Häschen') == '9896,9496'
+    assert Haase(primary_only=True).encode('Häschen') == '9896'
+    assert pa.encode('Eichörnchen') == '94976496'
+    assert pa.encode('Hexe') == '9489'
+    assert pa.encode('Chemie') == '4969,8969'
 
-        # equivalents
-        self.assertEqual(self.pa.encode('Häschen'), self.pa.encode('Haeschen'))
-        self.assertEqual(self.pa.encode('Schloß'), self.pa.encode('Schloss'))
-        self.assertEqual(self.pa.encode('üben'), self.pa.encode('ueben'))
-        self.assertEqual(
-            self.pa.encode('Eichörnchen'), self.pa.encode('Eichoernchen')
-        )
+    assert pa.encode('Brille') == '17959,179'
+    assert pa.encode('Brilleille') == '1795959,17959,179'
+    assert pa.encode('Niveau') == '6939'
+    assert pa.encode('Korb') == '4971,4973'
+    assert pa.encode('Heino') == '969,9693'
+    assert pa.encode('Nekka') == '6949,69497'
+    assert pa.encode('Aleph') == '9593'
+    assert pa.encode('Aleppo') == '95919,959193'
+    assert pa.encode('Endzipfel') == '96891395'
+    assert pa.encode('verbrandt') == '39717962,39737962'
+    assert pa.encode('Cent') == '8962'
+    assert pa.encode('addiscendae') == '92989629'
+    assert pa.encode('kickx') == '4948'
+    assert pa.encode('sanctionen') == '896829696'
 
-        # coverage completion
-        self.assertEqual(self.pa.encode('Häschen'), '9896,9496')
-        self.assertEqual(Haase(primary_only=True).encode('Häschen'), '9896')
-        self.assertEqual(self.pa.encode('Eichörnchen'), '94976496')
-        self.assertEqual(self.pa.encode('Hexe'), '9489')
-        self.assertEqual(self.pa.encode('Chemie'), '4969,8969')
-
-        self.assertEqual(self.pa.encode('Brille'), '17959,179')
-        self.assertEqual(self.pa.encode('Brilleille'), '1795959,17959,179')
-        self.assertEqual(self.pa.encode('Niveau'), '6939')
-        self.assertEqual(self.pa.encode('Korb'), '4971,4973')
-        self.assertEqual(self.pa.encode('Heino'), '969,9693')
-        self.assertEqual(self.pa.encode('Nekka'), '6949,69497')
-        self.assertEqual(self.pa.encode('Aleph'), '9593')
-        self.assertEqual(self.pa.encode('Aleppo'), '95919,959193')
-        self.assertEqual(self.pa.encode('Endzipfel'), '96891395')
-        self.assertEqual(self.pa.encode('verbrandt'), '39717962,39737962')
-        self.assertEqual(self.pa.encode('Cent'), '8962')
-        self.assertEqual(self.pa.encode('addiscendae'), '92989629')
-        self.assertEqual(self.pa.encode('kickx'), '4948')
-        self.assertEqual(self.pa.encode('sanctionen'), '896829696')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('Niveau'), 'NAFA')
-        self.assertEqual(self.pa.encode_alpha('Korb'), 'KARP,KARF')
-        self.assertEqual(self.pa.encode_alpha('Heino'), 'ANA,ANAF')
-        self.assertEqual(self.pa.encode_alpha('Nekka'), 'NAKA,NAKAR')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('Niveau') == 'NAFA'
+    assert pa.encode_alpha('Korb') == 'KARP,KARF'
+    assert pa.encode_alpha('Heino') == 'ANA,ANAF'
+    assert pa.encode_alpha('Nekka') == 'NAKA,NAKAR'

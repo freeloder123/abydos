@@ -59,11 +59,7 @@ class FuzzySoundex(_Phonetic):
         .. versionadded:: 0.4.0
 
         """
-        # Clamp max_length to [4, 64]
-        if max_length != -1:
-            self._max_length = min(max(4, max_length), 64)
-        else:
-            self._max_length = 64
+        self._max_length = self._validate_max_length(max_length)
         self._zero_pad = zero_pad
 
     def encode_alpha(self, word: str) -> str:
@@ -129,6 +125,8 @@ class FuzzySoundex(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         word = unicode_normalize('NFKD', word.upper())
 
         if not word:

@@ -461,6 +461,8 @@ class NRL(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
 
         def _to_regex(pattern: str, left_match: bool = True) -> str:
             new_pattern = ''

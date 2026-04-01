@@ -19,13 +19,14 @@
 This module contains unit tests for abydos.distance.Sift4Extended
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Sift4Extended
 from abydos.tokenizer import QGrams
 
 
-class Sift4ExtendedTestCases(unittest.TestCase):
+class TestSift4Extended:
     """Test Sift4Extended functions.
 
     abydos.distance.Sift4Extended
@@ -50,58 +51,44 @@ class Sift4ExtendedTestCases(unittest.TestCase):
     def test_sift4_extended_dist_abs(self):
         """Test abydos.distance.Sift4Extended.dist_abs."""
         # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 3)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 3)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 4)
+        assert self.cmp.dist_abs('', '') == 0
+        assert self.cmp.dist_abs('a', '') == 1
+        assert self.cmp.dist_abs('', 'a') == 1
+        assert self.cmp.dist_abs('abc', '') == 3
+        assert self.cmp.dist_abs('', 'abc') == 3
+        assert self.cmp.dist_abs('abc', 'abc') == 0
+        assert self.cmp.dist_abs('abcd', 'efgh') == 4
 
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 1)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 1)
-        self.assertAlmostEqual(self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 4)
+        assert self.cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=2)
+        assert self.cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=2)
+        assert self.cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1)
+        assert self.cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1)
+        assert self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=4)
 
-        self.assertEqual(self.cmp_kwargs.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_kwargs.dist_abs('a', ''), 2)
-        self.assertEqual(self.cmp_kwargs.dist_abs('', 'a'), 2)
-        self.assertEqual(self.cmp_kwargs.dist_abs('abc', ''), 4)
-        self.assertEqual(self.cmp_kwargs.dist_abs('', 'abc'), 4)
-        self.assertEqual(self.cmp_kwargs.dist_abs('abc', 'abc'), -1)
-        self.assertEqual(self.cmp_kwargs.dist_abs('abcd', 'efgh'), -2)
+        assert self.cmp_kwargs.dist_abs('', '') == 0
+        assert self.cmp_kwargs.dist_abs('a', '') == 2
+        assert self.cmp_kwargs.dist_abs('', 'a') == 2
+        assert self.cmp_kwargs.dist_abs('abc', '') == 4
+        assert self.cmp_kwargs.dist_abs('', 'abc') == 4
+        assert self.cmp_kwargs.dist_abs('abc', 'abc') == -1
+        assert self.cmp_kwargs.dist_abs('abcd', 'efgh') == -2
 
-        self.assertAlmostEqual(self.cmp_kwargs.dist_abs('Nigel', 'Niall'), 1)
-        self.assertAlmostEqual(self.cmp_kwargs.dist_abs('Niall', 'Nigel'), 1)
-        self.assertAlmostEqual(self.cmp_kwargs.dist_abs('Colin', 'Coiln'), 1)
-        self.assertAlmostEqual(self.cmp_kwargs.dist_abs('Coiln', 'Colin'), 1)
-        self.assertAlmostEqual(
-            self.cmp_kwargs.dist_abs('ATCAACGAGT', 'AACGATTAG'), 2
-        )
+        assert self.cmp_kwargs.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1)
+        assert self.cmp_kwargs.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1)
+        assert self.cmp_kwargs.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1)
+        assert self.cmp_kwargs.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1)
+        assert self.cmp_kwargs.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=2)
 
-        self.assertEqual(self.cmp_kwargs2.dist_abs('abc', 'abc'), 0)
-        self.assertEqual(self.cmp_kwargs2.dist_abs('abcd', 'efgh'), 8)
+        assert self.cmp_kwargs2.dist_abs('abc', 'abc') == 0
+        assert self.cmp_kwargs2.dist_abs('abcd', 'efgh') == 8
 
-        self.assertAlmostEqual(self.cmp_kwargs2.dist_abs('Nigel', 'Niall'), 7)
-        self.assertAlmostEqual(self.cmp_kwargs2.dist_abs('Niall', 'Nigel'), 7)
-        self.assertAlmostEqual(self.cmp_kwargs2.dist_abs('Colin', 'Coiln'), 6)
-        self.assertAlmostEqual(self.cmp_kwargs2.dist_abs('Coiln', 'Colin'), 6)
-        self.assertAlmostEqual(
-            self.cmp_kwargs2.dist_abs('ATCAACGAGT', 'AACGATTAG'), 25
-        )
+        assert self.cmp_kwargs2.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=7)
+        assert self.cmp_kwargs2.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=7)
+        assert self.cmp_kwargs2.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=6)
+        assert self.cmp_kwargs2.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=6)
+        assert self.cmp_kwargs2.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=25)
 
         # coverage completion
-        self.assertAlmostEqual(
-            self.cmp_kwargs.dist_abs('beaurocracy', 'bureaucracy'), 3
-        )
-        self.assertAlmostEqual(
-            self.cmp_md.dist_abs('beaurocratically', 'bureaucracy'), 3
-        )
-        self.assertAlmostEqual(
-            self.cmp_md.dist_abs('bureaucracy', 'bureaucracy'), 3
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.cmp_kwargs.dist_abs('beaurocracy', 'bureaucracy') == pytest.approx(abs=1e-7, expected=3)
+        assert self.cmp_md.dist_abs('beaurocratically', 'bureaucracy') == pytest.approx(abs=1e-7, expected=3)
+        assert self.cmp_md.dist_abs('bureaucracy', 'bureaucracy') == pytest.approx(abs=1e-7, expected=3)

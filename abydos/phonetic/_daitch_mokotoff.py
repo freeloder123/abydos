@@ -357,6 +357,8 @@ class DaitchMokotoff(_Phonetic):
             Made return a str only (comma-separated)
 
         """
+        self._validate_word(word)
+
         dms = ['']  # initialize empty code list
 
         # uppercase, normalize, decompose, and filter non-A-Z

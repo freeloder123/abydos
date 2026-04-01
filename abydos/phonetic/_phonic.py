@@ -164,6 +164,8 @@ class PHONIC(_Phonetic):
         .. versionadded:: 0.4.1
 
         """
+        self._validate_word(word)
+
         # uppercase
         word = word.upper()
         first = word[:1]

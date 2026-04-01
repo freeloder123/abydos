@@ -19,92 +19,88 @@
 This module contains unit tests for abydos.distance.Hamming
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Hamming
 
 
-class HammingTestCases(unittest.TestCase):
-    """Test Hamming functions.
+cmp = Hamming()
 
-    abydos.distance.Hamming
-    """
-
-    cmp = Hamming()
-    cmp_no_diff = Hamming(False)
-
-    def test_hamming_dist_abs(self):
-        """Test abydos.distance.Hamming.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_no_diff.dist_abs('', ''), 0)
-
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1)
-        self.assertEqual(self.cmp.dist_abs('a', 'a'), 0)
-        self.assertEqual(self.cmp_no_diff.dist_abs('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist_abs('a', 'b'), 1)
-        self.assertEqual(self.cmp_no_diff.dist_abs('a', 'b'), 1)
-        self.assertEqual(self.cmp.dist_abs('abc', 'cba'), 2)
-        self.assertEqual(self.cmp_no_diff.dist_abs('abc', 'cba'), 2)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 3)
-        self.assertEqual(self.cmp.dist_abs('bb', 'cbab'), 3)
-
-        # test exception
-        self.assertRaises(ValueError, self.cmp_no_diff.dist_abs, 'ab', 'a')
-
-        # https://en.wikipedia.org/wiki/Hamming_distance
-        self.assertEqual(self.cmp.dist_abs('karolin', 'kathrin'), 3)
-        self.assertEqual(self.cmp.dist_abs('karolin', 'kerstin'), 3)
-        self.assertEqual(self.cmp.dist_abs('1011101', '1001001'), 2)
-        self.assertEqual(self.cmp.dist_abs('2173896', '2233796'), 3)
-
-    def test_hamming_dist(self):
-        """Test abydos.distance.Hamming.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp_no_diff.dist('', ''), 0)
-
-        self.assertEqual(self.cmp.dist('a', ''), 1)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp_no_diff.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist('a', 'b'), 1)
-        self.assertEqual(self.cmp_no_diff.dist('a', 'b'), 1)
-        self.assertAlmostEqual(self.cmp.dist('abc', 'cba'), 2 / 3)
-        self.assertAlmostEqual(self.cmp_no_diff.dist('abc', 'cba'), 2 / 3)
-        self.assertEqual(self.cmp.dist('abc', ''), 1)
-        self.assertAlmostEqual(self.cmp.dist('bb', 'cbab'), 3 / 4)
-
-        # test exception
-        self.assertRaises(ValueError, self.cmp_no_diff.dist, 'ab', 'a')
-
-        # https://en.wikipedia.org/wiki/Hamming_distance
-        self.assertAlmostEqual(self.cmp.dist('karolin', 'kathrin'), 3 / 7)
-        self.assertAlmostEqual(self.cmp.dist('karolin', 'kerstin'), 3 / 7)
-        self.assertAlmostEqual(self.cmp.dist('1011101', '1001001'), 2 / 7)
-        self.assertAlmostEqual(self.cmp.dist('2173896', '2233796'), 3 / 7)
-
-    def test_hamming_sim(self):
-        """Test abydos.distance.Hamming.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp_no_diff.sim('', ''), 1)
-
-        self.assertEqual(self.cmp.sim('a', ''), 0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp_no_diff.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp.sim('a', 'b'), 0)
-        self.assertEqual(self.cmp_no_diff.sim('a', 'b'), 0)
-        self.assertAlmostEqual(self.cmp.sim('abc', 'cba'), 1 / 3)
-        self.assertAlmostEqual(self.cmp_no_diff.sim('abc', 'cba'), 1 / 3)
-        self.assertEqual(self.cmp.sim('abc', ''), 0)
-        self.assertAlmostEqual(self.cmp.sim('bb', 'cbab'), 1 / 4)
-
-        # test exception
-        self.assertRaises(ValueError, self.cmp_no_diff.sim, 'ab', 'a')
-
-        # https://en.wikipedia.org/wiki/Hamming_distance
-        self.assertAlmostEqual(self.cmp.sim('karolin', 'kathrin'), 4 / 7)
-        self.assertAlmostEqual(self.cmp.sim('karolin', 'kerstin'), 4 / 7)
-        self.assertAlmostEqual(self.cmp.sim('1011101', '1001001'), 5 / 7)
-        self.assertAlmostEqual(self.cmp.sim('2173896', '2233796'), 4 / 7)
+cmp_no_diff = Hamming(False)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_hamming_dist_abs():
+    """Test abydos.distance.Hamming.dist_abs."""
+    assert cmp.dist_abs('', '') == 0
+    assert cmp_no_diff.dist_abs('', '') == 0
+
+    assert cmp.dist_abs('a', '') == 1
+    assert cmp.dist_abs('a', 'a') == 0
+    assert cmp_no_diff.dist_abs('a', 'a') == 0
+    assert cmp.dist_abs('a', 'b') == 1
+    assert cmp_no_diff.dist_abs('a', 'b') == 1
+    assert cmp.dist_abs('abc', 'cba') == 2
+    assert cmp_no_diff.dist_abs('abc', 'cba') == 2
+    assert cmp.dist_abs('abc', '') == 3
+    assert cmp.dist_abs('bb', 'cbab') == 3
+
+    # test exception
+    with pytest.raises(ValueError):
+        cmp_no_diff.dist_abs('ab', 'a')
+
+    # https://en.wikipedia.org/wiki/Hamming_distance
+    assert cmp.dist_abs('karolin', 'kathrin') == 3
+    assert cmp.dist_abs('karolin', 'kerstin') == 3
+    assert cmp.dist_abs('1011101', '1001001') == 2
+    assert cmp.dist_abs('2173896', '2233796') == 3
+
+def test_hamming_dist():
+    """Test abydos.distance.Hamming.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp_no_diff.dist('', '') == 0
+
+    assert cmp.dist('a', '') == 1
+    assert cmp.dist('a', 'a') == 0
+    assert cmp_no_diff.dist('a', 'a') == 0
+    assert cmp.dist('a', 'b') == 1
+    assert cmp_no_diff.dist('a', 'b') == 1
+    assert cmp.dist('abc', 'cba') == pytest.approx(abs=1e-7, expected=2 / 3)
+    assert cmp_no_diff.dist('abc', 'cba') == pytest.approx(abs=1e-7, expected=2 / 3)
+    assert cmp.dist('abc', '') == 1
+    assert cmp.dist('bb', 'cbab') == pytest.approx(abs=1e-7, expected=3 / 4)
+
+    # test exception
+    with pytest.raises(ValueError):
+        cmp_no_diff.dist('ab', 'a')
+
+    # https://en.wikipedia.org/wiki/Hamming_distance
+    assert cmp.dist('karolin', 'kathrin') == pytest.approx(abs=1e-7, expected=3 / 7)
+    assert cmp.dist('karolin', 'kerstin') == pytest.approx(abs=1e-7, expected=3 / 7)
+    assert cmp.dist('1011101', '1001001') == pytest.approx(abs=1e-7, expected=2 / 7)
+    assert cmp.dist('2173896', '2233796') == pytest.approx(abs=1e-7, expected=3 / 7)
+
+def test_hamming_sim():
+    """Test abydos.distance.Hamming.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp_no_diff.sim('', '') == 1
+
+    assert cmp.sim('a', '') == 0
+    assert cmp.sim('a', 'a') == 1
+    assert cmp_no_diff.sim('a', 'a') == 1
+    assert cmp.sim('a', 'b') == 0
+    assert cmp_no_diff.sim('a', 'b') == 0
+    assert cmp.sim('abc', 'cba') == pytest.approx(abs=1e-7, expected=1 / 3)
+    assert cmp_no_diff.sim('abc', 'cba') == pytest.approx(abs=1e-7, expected=1 / 3)
+    assert cmp.sim('abc', '') == 0
+    assert cmp.sim('bb', 'cbab') == pytest.approx(abs=1e-7, expected=1 / 4)
+
+    # test exception
+    with pytest.raises(ValueError):
+        cmp_no_diff.sim('ab', 'a')
+
+    # https://en.wikipedia.org/wiki/Hamming_distance
+    assert cmp.sim('karolin', 'kathrin') == pytest.approx(abs=1e-7, expected=4 / 7)
+    assert cmp.sim('karolin', 'kerstin') == pytest.approx(abs=1e-7, expected=4 / 7)
+    assert cmp.sim('1011101', '1001001') == pytest.approx(abs=1e-7, expected=5 / 7)
+    assert cmp.sim('2173896', '2233796') == pytest.approx(abs=1e-7, expected=4 / 7)

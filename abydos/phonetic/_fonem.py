@@ -228,6 +228,8 @@ class FONEM(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         # normalize, upper-case, and filter non-French letters
         word = unicode_normalize('NFKD', word.upper())
         word = word.translate({198: 'AE', 338: 'OE'})

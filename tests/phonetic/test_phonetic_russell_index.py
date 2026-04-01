@@ -19,57 +19,45 @@
 This module contains unit tests for abydos.phonetic.RussellIndex
 """
 
-import unittest
-
 from abydos.phonetic import RussellIndex
 
 
-class RussellIndexTestCases(unittest.TestCase):
-    """Test Russel Index functions.
+pa = RussellIndex()
 
-    test cases for abydos.RussellIndex
-    """
+def test_russel_index():
+    """Test abydos.phonetic.RussellIndex."""
+    assert pa.encode('') == ''
+    assert pa.encode('H') == ''
+    assert pa.encode('Hoppa') == '12'
+    assert pa.encode('Hopley') == '125'
+    assert pa.encode('Highfield') == '1254'
+    assert pa.encode('Wright') == '814'
+    assert pa.encode('Carter') == '31848'
+    assert pa.encode('Hopf') == '12'
+    assert pa.encode('Hay') == '1'
+    assert pa.encode('Haas') == '1'
+    assert pa.encode('Meyers') == '618'
+    assert pa.encode('Myers') == '618'
+    assert pa.encode('Meyer') == '618'
+    assert pa.encode('Myer') == '618'
+    assert pa.encode('Mack') == '613'
+    assert pa.encode('Knack') == '3713'
 
-    pa = RussellIndex()
-
-    def test_russel_index(self):
-        """Test abydos.phonetic.RussellIndex."""
-        self.assertEqual(self.pa.encode(''), '')
-        self.assertEqual(self.pa.encode('H'), '')
-        self.assertEqual(self.pa.encode('Hoppa'), '12')
-        self.assertEqual(self.pa.encode('Hopley'), '125')
-        self.assertEqual(self.pa.encode('Highfield'), '1254')
-        self.assertEqual(self.pa.encode('Wright'), '814')
-        self.assertEqual(self.pa.encode('Carter'), '31848')
-        self.assertEqual(self.pa.encode('Hopf'), '12')
-        self.assertEqual(self.pa.encode('Hay'), '1')
-        self.assertEqual(self.pa.encode('Haas'), '1')
-        self.assertEqual(self.pa.encode('Meyers'), '618')
-        self.assertEqual(self.pa.encode('Myers'), '618')
-        self.assertEqual(self.pa.encode('Meyer'), '618')
-        self.assertEqual(self.pa.encode('Myer'), '618')
-        self.assertEqual(self.pa.encode('Mack'), '613')
-        self.assertEqual(self.pa.encode('Knack'), '3713')
-
-    def test_russel_index_alpha(self):
-        """Test abydos.phonetic.RussellIndex.encode_alpha."""
-        self.assertEqual(self.pa.encode_alpha(''), '')
-        self.assertEqual(self.pa.encode_alpha('H'), '')
-        self.assertEqual(self.pa.encode_alpha('Hoppa'), 'AB')
-        self.assertEqual(self.pa.encode_alpha('Hopley'), 'ABL')
-        self.assertEqual(self.pa.encode_alpha('Highfield'), 'ABLD')
-        self.assertEqual(self.pa.encode_alpha('Wright'), 'RAD')
-        self.assertEqual(self.pa.encode_alpha('Carter'), 'CARDR')
-        self.assertEqual(self.pa.encode_alpha('Hopf'), 'AB')
-        self.assertEqual(self.pa.encode_alpha('Hay'), 'A')
-        self.assertEqual(self.pa.encode_alpha('Haas'), 'A')
-        self.assertEqual(self.pa.encode_alpha('Meyers'), 'MAR')
-        self.assertEqual(self.pa.encode_alpha('Myers'), 'MAR')
-        self.assertEqual(self.pa.encode_alpha('Meyer'), 'MAR')
-        self.assertEqual(self.pa.encode_alpha('Myer'), 'MAR')
-        self.assertEqual(self.pa.encode_alpha('Mack'), 'MAC')
-        self.assertEqual(self.pa.encode_alpha('Knack'), 'CNAC')
-
-
-if __name__ == '__main__':
-    unittest.main()
+def test_russel_index_alpha():
+    """Test abydos.phonetic.RussellIndex.encode_alpha."""
+    assert pa.encode_alpha('') == ''
+    assert pa.encode_alpha('H') == ''
+    assert pa.encode_alpha('Hoppa') == 'AB'
+    assert pa.encode_alpha('Hopley') == 'ABL'
+    assert pa.encode_alpha('Highfield') == 'ABLD'
+    assert pa.encode_alpha('Wright') == 'RAD'
+    assert pa.encode_alpha('Carter') == 'CARDR'
+    assert pa.encode_alpha('Hopf') == 'AB'
+    assert pa.encode_alpha('Hay') == 'A'
+    assert pa.encode_alpha('Haas') == 'A'
+    assert pa.encode_alpha('Meyers') == 'MAR'
+    assert pa.encode_alpha('Myers') == 'MAR'
+    assert pa.encode_alpha('Meyer') == 'MAR'
+    assert pa.encode_alpha('Myer') == 'MAR'
+    assert pa.encode_alpha('Mack') == 'MAC'
+    assert pa.encode_alpha('Knack') == 'CNAC'

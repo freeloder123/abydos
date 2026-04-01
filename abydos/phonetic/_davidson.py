@@ -93,6 +93,9 @@ class Davidson(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(lname)
+        self._validate_word(fname)
+
         lname = lname.upper()
         code = self._delete_consecutive_repeats(
             lname[:1] + lname[1:].translate(self._trans)

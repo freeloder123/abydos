@@ -19,47 +19,37 @@
 This module contains unit tests for abydos.distance.Length
 """
 
-import unittest
 
 from abydos.distance import Length
 
 
-class LengthTestCases(unittest.TestCase):
-    """Test length similarity functions.
-
-    abydos.distance.Length
-    """
-
-    cmp = Length()
-
-    def test_length_sim(self):
-        """Test abydos.distance.Length.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('', 'a'), 0)
-        self.assertEqual(self.cmp.sim('a', ''), 0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp.sim('abcd', 'abcd'), 1)
-        self.assertEqual(self.cmp.sim('abcd', 'dcba'), 1)
-        self.assertEqual(self.cmp.sim('abc', 'cba'), 1)
-        self.assertEqual(self.cmp.sim('abc', 'dcba'), 0.75)
-        self.assertEqual(self.cmp.sim('abcd', 'cba'), 0.75)
-        self.assertEqual(self.cmp.sim('ab', 'dcba'), 0.5)
-        self.assertEqual(self.cmp.sim('abcd', 'ba'), 0.5)
-
-    def test_length_dist(self):
-        """Test abydos.distance.Length.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1)
-        self.assertEqual(self.cmp.dist('a', ''), 1)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist('abcd', 'abcd'), 0)
-        self.assertEqual(self.cmp.dist('abcd', 'dcba'), 0)
-        self.assertEqual(self.cmp.dist('abc', 'cba'), 0)
-        self.assertEqual(self.cmp.dist('abc', 'dcba'), 0.25)
-        self.assertEqual(self.cmp.dist('abcd', 'cba'), 0.25)
-        self.assertEqual(self.cmp.dist('ab', 'dcba'), 0.5)
-        self.assertEqual(self.cmp.dist('abcd', 'ba'), 0.5)
+cmp = Length()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_length_sim():
+    """Test abydos.distance.Length.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('', 'a') == 0
+    assert cmp.sim('a', '') == 0
+    assert cmp.sim('a', 'a') == 1
+    assert cmp.sim('abcd', 'abcd') == 1
+    assert cmp.sim('abcd', 'dcba') == 1
+    assert cmp.sim('abc', 'cba') == 1
+    assert cmp.sim('abc', 'dcba') == 0.75
+    assert cmp.sim('abcd', 'cba') == 0.75
+    assert cmp.sim('ab', 'dcba') == 0.5
+    assert cmp.sim('abcd', 'ba') == 0.5
+
+def test_length_dist():
+    """Test abydos.distance.Length.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('', 'a') == 1
+    assert cmp.dist('a', '') == 1
+    assert cmp.dist('a', 'a') == 0
+    assert cmp.dist('abcd', 'abcd') == 0
+    assert cmp.dist('abcd', 'dcba') == 0
+    assert cmp.dist('abc', 'cba') == 0
+    assert cmp.dist('abc', 'dcba') == 0.25
+    assert cmp.dist('abcd', 'cba') == 0.25
+    assert cmp.dist('ab', 'dcba') == 0.5
+    assert cmp.dist('abcd', 'ba') == 0.5

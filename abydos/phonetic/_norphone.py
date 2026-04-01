@@ -95,6 +95,8 @@ class Norphone(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         word = word.upper()
 
         code = ''

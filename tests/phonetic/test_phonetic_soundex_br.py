@@ -19,51 +19,39 @@
 This module contains unit tests for abydos.phonetic.SoundexBR
 """
 
-import unittest
-
 from abydos.phonetic import SoundexBR
 
 
-class SoundexBRTestCases(unittest.TestCase):
-    """Test SoundexBR functions.
+pa = SoundexBR()
 
-    test cases for abydos.phonetic.SoundexBR
-    """
+def test_soundex_br():
+    """Test abydos.phonetic.SoundexBR."""
+    # Base case
+    assert pa.encode('') == '0000'
 
-    pa = SoundexBR()
+    # Examples given at https://github.com/danielmarcelino/SoundexBR
+    assert pa.encode('Ana Karolina Kuhnen') == 'A526'
+    assert pa.encode('Ana Carolina Kuhnen') == 'A526'
+    assert pa.encode('Ana Karolina') == 'A526'
+    assert pa.encode('João Souza') == 'J220'
+    assert pa.encode('Dilma Vana Rousseff') == 'D451'
+    assert pa.encode('Dilma Rousef') == 'D456'
+    assert pa.encode('Aécio Neves') == 'A251'
+    assert pa.encode('Aecio Neves') == 'A251'
+    assert pa.encode('HILBERT') == 'I416'
+    assert pa.encode('Heilbronn') == 'E416'
+    assert pa.encode('Gauss') == 'G200'
+    assert pa.encode('Kant') == 'C530'
 
-    def test_soundex_br(self):
-        """Test abydos.phonetic.SoundexBR."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '0000')
+    # Tests to complete coverage
+    assert pa.encode('Wasser') == 'V260'
+    assert pa.encode('Cici') == 'S200'
+    assert pa.encode('Gerard') == 'J663'
+    assert pa.encode('Yglesias') == 'I242'
+    assert SoundexBR(zero_pad=False).encode('Cici') == 'S2'
 
-        # Examples given at https://github.com/danielmarcelino/SoundexBR
-        self.assertEqual(self.pa.encode('Ana Karolina Kuhnen'), 'A526')
-        self.assertEqual(self.pa.encode('Ana Carolina Kuhnen'), 'A526')
-        self.assertEqual(self.pa.encode('Ana Karolina'), 'A526')
-        self.assertEqual(self.pa.encode('João Souza'), 'J220')
-        self.assertEqual(self.pa.encode('Dilma Vana Rousseff'), 'D451')
-        self.assertEqual(self.pa.encode('Dilma Rousef'), 'D456')
-        self.assertEqual(self.pa.encode('Aécio Neves'), 'A251')
-        self.assertEqual(self.pa.encode('Aecio Neves'), 'A251')
-        self.assertEqual(self.pa.encode('HILBERT'), 'I416')
-        self.assertEqual(self.pa.encode('Heilbronn'), 'E416')
-        self.assertEqual(self.pa.encode('Gauss'), 'G200')
-        self.assertEqual(self.pa.encode('Kant'), 'C530')
-
-        # Tests to complete coverage
-        self.assertEqual(self.pa.encode('Wasser'), 'V260')
-        self.assertEqual(self.pa.encode('Cici'), 'S200')
-        self.assertEqual(self.pa.encode('Gerard'), 'J663')
-        self.assertEqual(self.pa.encode('Yglesias'), 'I242')
-        self.assertEqual(SoundexBR(zero_pad=False).encode('Cici'), 'S2')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('Aecio Neves'), 'AKNP')
-        self.assertEqual(self.pa.encode_alpha('HILBERT'), 'ILPR')
-        self.assertEqual(self.pa.encode_alpha('Heilbronn'), 'ELPR')
-        self.assertEqual(self.pa.encode_alpha('Gauss'), 'GK')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('Aecio Neves') == 'AKNP'
+    assert pa.encode_alpha('HILBERT') == 'ILPR'
+    assert pa.encode_alpha('Heilbronn') == 'ELPR'
+    assert pa.encode_alpha('Gauss') == 'GK'

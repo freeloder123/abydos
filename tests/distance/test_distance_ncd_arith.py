@@ -19,7 +19,7 @@
 This module contains unit tests for abydos.distance.NCDarith
 """
 
-import unittest
+import pytest
 
 from abydos.compression import Arithmetic
 from abydos.distance import NCDarith
@@ -27,7 +27,7 @@ from abydos.distance import NCDarith
 from .. import NIALL
 
 
-class NCDarithTestCases(unittest.TestCase):
+class TestNCDarith:
     """Test compression distance functions.
 
     abydos.distance.NCDarith
@@ -39,54 +39,66 @@ class NCDarithTestCases(unittest.TestCase):
 
     def test_ncd_arith_dist(self):
         """Test abydos.distance.NCDarith.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp_probs.dist('', ''), 0)
-        self.assertGreater(self.cmp.dist('a', ''), 0)
-        self.assertGreater(self.cmp_probs.dist('a', ''), 0)
-        self.assertGreater(self.cmp.dist('abcdefg', 'fg'), 0)
+        assert self.cmp.dist('', '') == 0
+        assert self.cmp_probs.dist('', '') == 0
+        assert self.cmp.dist('a', '') > 0
+        assert self.cmp_probs.dist('a', '') > 0
+        assert self.cmp.dist('abcdefg', 'fg') > 0
 
-        self.assertAlmostEqual(
-            self.cmp_probs.dist('Niall', 'Neil'), 0.608695652173913
+        assert self.cmp_probs.dist('Niall', 'Neil') == pytest.approx(
+            abs=1e-7, expected=0.608695652173913
         )
-        self.assertAlmostEqual(
-            self.cmp_probs.dist('Neil', 'Niall'), 0.608695652173913
+        assert self.cmp_probs.dist('Neil', 'Niall') == pytest.approx(
+            abs=1e-7, expected=0.608695652173913
         )
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Neil'), 0.6875)
-        self.assertAlmostEqual(self.cmp.dist('Neil', 'Niall'), 0.6875)
-        self.assertAlmostEqual(
-            self.cmp_probs.dist('Njáll', 'Njall'), 0.714285714285714
+        assert self.cmp.dist('Niall', 'Neil') == pytest.approx(
+            abs=1e-7, expected=0.6875
         )
-        self.assertAlmostEqual(
-            self.cmp_probs.dist('Njall', 'Njáll'), 0.714285714285714
+        assert self.cmp.dist('Neil', 'Niall') == pytest.approx(
+            abs=1e-7, expected=0.6875
         )
-        self.assertAlmostEqual(self.cmp.dist('Njáll', 'Njall'), 0.75)
-        self.assertAlmostEqual(self.cmp.dist('Njall', 'Njáll'), 0.75)
+        assert self.cmp_probs.dist('Njáll', 'Njall') == pytest.approx(
+            abs=1e-7, expected=0.714285714285714
+        )
+        assert self.cmp_probs.dist('Njall', 'Njáll') == pytest.approx(
+            abs=1e-7, expected=0.714285714285714
+        )
+        assert self.cmp.dist('Njáll', 'Njall') == pytest.approx(
+            abs=1e-7, expected=0.75
+        )
+        assert self.cmp.dist('Njall', 'Njáll') == pytest.approx(
+            abs=1e-7, expected=0.75
+        )
 
     def test_ncd_arith_sim(self):
         """Test abydos.distance.NCDarith.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp_probs.sim('', ''), 1)
-        self.assertLess(self.cmp.sim('a', ''), 1)
-        self.assertLess(self.cmp_probs.sim('a', ''), 1)
-        self.assertLess(self.cmp.sim('abcdefg', 'fg'), 1)
+        assert self.cmp.sim('', '') == 1
+        assert self.cmp_probs.sim('', '') == 1
+        assert self.cmp.sim('a', '') < 1
+        assert self.cmp_probs.sim('a', '') < 1
+        assert self.cmp.sim('abcdefg', 'fg') < 1
 
-        self.assertAlmostEqual(
-            self.cmp_probs.sim('Niall', 'Neil'), 0.3913043478260869
+        assert self.cmp_probs.sim('Niall', 'Neil') == pytest.approx(
+            abs=1e-7, expected=0.3913043478260869
         )
-        self.assertAlmostEqual(
-            self.cmp_probs.sim('Neil', 'Niall'), 0.3913043478260869
+        assert self.cmp_probs.sim('Neil', 'Niall') == pytest.approx(
+            abs=1e-7, expected=0.3913043478260869
         )
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Neil'), 0.3125)
-        self.assertAlmostEqual(self.cmp.sim('Neil', 'Niall'), 0.3125)
-        self.assertAlmostEqual(
-            self.cmp_probs.sim('Njáll', 'Njall'), 0.285714285714285
+        assert self.cmp.sim('Niall', 'Neil') == pytest.approx(
+            abs=1e-7, expected=0.3125
         )
-        self.assertAlmostEqual(
-            self.cmp_probs.sim('Njall', 'Njáll'), 0.285714285714285
+        assert self.cmp.sim('Neil', 'Niall') == pytest.approx(
+            abs=1e-7, expected=0.3125
         )
-        self.assertAlmostEqual(self.cmp.sim('Njáll', 'Njall'), 0.25)
-        self.assertAlmostEqual(self.cmp.sim('Njall', 'Njáll'), 0.25)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.cmp_probs.sim('Njáll', 'Njall') == pytest.approx(
+            abs=1e-7, expected=0.285714285714285
+        )
+        assert self.cmp_probs.sim('Njall', 'Njáll') == pytest.approx(
+            abs=1e-7, expected=0.285714285714285
+        )
+        assert self.cmp.sim('Njáll', 'Njall') == pytest.approx(
+            abs=1e-7, expected=0.25
+        )
+        assert self.cmp.sim('Njall', 'Njáll') == pytest.approx(
+            abs=1e-7, expected=0.25
+        )

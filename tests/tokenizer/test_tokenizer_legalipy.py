@@ -19,76 +19,62 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import LegaliPyTokenizer
 
 from .. import _corpus_file
 
 
-class LegaliPyTokenizerTestCases(unittest.TestCase):
+def test_legalipy_tokenizer():
     """Test abydos.tokenizer.LegaliPyTokenizer."""
+    try:
+        from syllabipy.legalipy import LegaliPy  # noqa: F401
+    except ImportError:  # pragma: no cover
+        return
 
-    def test_legalipy_tokenizer(self):
-        """Test abydos.tokenizer.LegaliPyTokenizer."""
-        try:
-            from syllabipy.legalipy import LegaliPy  # noqa: F401
-        except ImportError:  # pragma: no cover
-            return
+    assert sorted(LegaliPyTokenizer().tokenize('').get_list()) == ['']
+    assert sorted(LegaliPyTokenizer().tokenize('a').get_list()) == ['a']
 
-        self.assertEqual(
-            sorted(LegaliPyTokenizer().tokenize('').get_list()), ['']
-        )
-        self.assertEqual(
-            sorted(LegaliPyTokenizer().tokenize('a').get_list()), ['a']
-        )
+    assert (
+        sorted(LegaliPyTokenizer().tokenize('nelson').get_list())
+        == sorted(['n', 'els', 'on'])
+    )
+    assert (
+        sorted(LegaliPyTokenizer().tokenize('neilson').get_list())
+        == sorted(['n', 'eils', 'on'])
+    )
 
-        self.assertEqual(
-            sorted(LegaliPyTokenizer().tokenize('nelson').get_list()),
-            sorted(['n', 'els', 'on']),
-        )
-        self.assertEqual(
-            sorted(LegaliPyTokenizer().tokenize('neilson').get_list()),
-            sorted(['n', 'eils', 'on']),
-        )
+    tok = LegaliPyTokenizer()
+    with open(_corpus_file('wikipediaCommonMisspellings.csv')) as corpus:
+        text = ' '.join([_.split(',')[1] for _ in corpus.readlines()])
+    tok.train_onsets(text)
 
-        tok = LegaliPyTokenizer()
-        with open(_corpus_file('wikipediaCommonMisspellings.csv')) as corpus:
-            text = ' '.join([_.split(',')[1] for _ in corpus.readlines()])
-        tok.train_onsets(text)
+    with open(_corpus_file('misspellings.csv')) as corpus:
+        text = ' '.join([_.split(',')[1] for _ in corpus.readlines()])
+    tok.train_onsets(text, append=True)
 
-        with open(_corpus_file('misspellings.csv')) as corpus:
-            text = ' '.join([_.split(',')[1] for _ in corpus.readlines()])
-        tok.train_onsets(text, append=True)
-
-        self.assertEqual(
-            sorted(tok.tokenize('nelson').get_list()), sorted(['nel', 'son'])
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('neilson').get_list()),
-            sorted(['ne', 'il', 'son']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('peninsular').get_list()),
-            sorted(['pe', 'nin', 'su', 'lar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('spectacular').get_list()),
-            sorted(['spec', 'ta', 'cu', 'lar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('sufficiently').get_list()),
-            sorted(['suf', 'fi', 'ci', 'ent', 'ly']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('yachting').get_list()),
-            sorted(['y', 'ach', 'ting']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('caterpillars').get_list()),
-            sorted(['ca', 'ter', 'pil', 'lars']),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert sorted(tok.tokenize('nelson').get_list()) == sorted(['nel', 'son'])
+    assert (
+        sorted(tok.tokenize('neilson').get_list())
+        == sorted(['ne', 'il', 'son'])
+    )
+    assert (
+        sorted(tok.tokenize('peninsular').get_list())
+        == sorted(['pe', 'nin', 'su', 'lar'])
+    )
+    assert (
+        sorted(tok.tokenize('spectacular').get_list())
+        == sorted(['spec', 'ta', 'cu', 'lar'])
+    )
+    assert (
+        sorted(tok.tokenize('sufficiently').get_list())
+        == sorted(['suf', 'fi', 'ci', 'ent', 'ly'])
+    )
+    assert (
+        sorted(tok.tokenize('yachting').get_list())
+        == sorted(['y', 'ach', 'ting'])
+    )
+    assert (
+        sorted(tok.tokenize('caterpillars').get_list())
+        == sorted(['ca', 'ter', 'pil', 'lars'])
+    )

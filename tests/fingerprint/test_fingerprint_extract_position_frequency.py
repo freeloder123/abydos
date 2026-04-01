@@ -19,27 +19,17 @@
 This module contains unit tests for abydos.fingerprint.ExtractPositionFrequency
 """
 
-import unittest
 
 from abydos.fingerprint import ExtractPositionFrequency
 
 
-class ExtractPositionFrequencyTestCases(unittest.TestCase):
-    """Test ExtractPositionFrequency functions.
-
-    abydos.fingerprint.ExtractPositionFrequency
-    """
-
-    fp = ExtractPositionFrequency()
-
-    def test_extract_position_frequence_fingerprint(self):
-        """Test abydos.fingerprint.ExtractPositionFrequency."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
-
-        # Test cases from paper
-        self.assertEqual(self.fp.fingerprint('Wilkinson'), 'WKON')
+fp = ExtractPositionFrequency()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_extract_position_frequence_fingerprint():
+    """Test abydos.fingerprint.ExtractPositionFrequency."""
+    # Base case
+    assert fp.fingerprint('') == ''
+
+    # Test cases from paper
+    assert fp.fingerprint('Wilkinson') == 'WKON'

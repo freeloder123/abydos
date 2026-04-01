@@ -19,9 +19,10 @@
 This module contains unit tests for abydos.distance.MetaLevenshtein
 """
 
+import pytest
+
 import os
 import urllib.error
-import unittest
 
 from abydos.corpus import UnigramCorpus
 from abydos.distance import Jaccard, MetaLevenshtein
@@ -29,123 +30,91 @@ from abydos.tokenizer import QGrams
 from abydos.util import download_package, package_path
 
 
-class MetaLevenshteinTestCases(unittest.TestCase):
-    """Test MetaLevenshtein functions.
+cmp = MetaLevenshtein()
 
-    abydos.distance.MetaLevenshtein
-    """
-
-    cmp = MetaLevenshtein()
-    cmp_jac1 = MetaLevenshtein(metric=Jaccard(qval=1))
-
-    def test_meta_levenshtein_dist(self):
-        """Test abydos.distance.MetaLevenshtein.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 0.8463953614713058)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.3077801314)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.3077801314)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.3077801314)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.3077801314)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.2931752664
-        )
-
-    def test_meta_levenshtein_sim(self):
-        """Test abydos.distance.MetaLevenshtein.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.15360463852869422)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.6922198686)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.6922198686)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.6922198686)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.6922198686)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.7068247336
-        )
-
-        self.assertAlmostEqual(
-            self.cmp_jac1.sim('Nigel', 'Niall'), 0.569107816
-        )
-        self.assertAlmostEqual(
-            self.cmp_jac1.sim('Niall', 'Nigel'), 0.569107816
-        )
-        self.assertAlmostEqual(
-            self.cmp_jac1.sim('Colin', 'Coiln'), 0.753775895
-        )
-        self.assertAlmostEqual(
-            self.cmp_jac1.sim('Coiln', 'Colin'), 0.753775895
-        )
-        self.assertAlmostEqual(
-            self.cmp_jac1.sim('ATCAACGAGT', 'AACGATTAG'), 0.5746789477
-        )
-
-    def test_meta_levenshtein_dist_abs(self):
-        """Test abydos.distance.MetaLevenshtein.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 3.0)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 3.0)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 3.385581445885223)
-
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Nigel', 'Niall'), 1.5389006572
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Niall', 'Nigel'), 1.5389006572
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Colin', 'Coiln'), 1.5389006572
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Coiln', 'Colin'), 1.5389006572
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 2.9317526638
-        )
-
-    def test_meta_levenshtein_corpus(self):
-        """Test abydos.distance.MetaLevenshtein with corpus."""
-        q3_corpus = UnigramCorpus(word_tokenizer=QGrams(qval=3))
-        try:
-            download_package('en_qgram', silent=True)
-        except urllib.error.URLError as exc:
-            self.skipTest('abydos-data index unavailable: {}'.format(exc))
-        q3_corpus.load_corpus(
-            os.path.join(package_path('en_qgram'), 'q3_en.dat')
-        )
-        cmp_q3 = MetaLevenshtein(tokenizer=QGrams(qval=3), corpus=q3_corpus)
-
-        self.assertAlmostEqual(cmp_q3.dist_abs('Nigel', 'Niall'), 7.378939370)
-        self.assertAlmostEqual(cmp_q3.dist_abs('Niall', 'Nigel'), 7.378939370)
-        self.assertAlmostEqual(cmp_q3.dist_abs('Colin', 'Coiln'), 8.0)
-        self.assertAlmostEqual(cmp_q3.dist_abs('Coiln', 'Colin'), 8.0)
-
-        self.assertAlmostEqual(cmp_q3.dist('Nigel', 'Niall'), 0.527067098)
-        self.assertAlmostEqual(cmp_q3.dist('Niall', 'Nigel'), 0.527067098)
-        self.assertAlmostEqual(cmp_q3.dist('Colin', 'Coiln'), 0.571428571)
-        self.assertAlmostEqual(cmp_q3.dist('Coiln', 'Colin'), 0.571428571)
-
-        self.assertAlmostEqual(cmp_q3.sim('Nigel', 'Niall'), 0.472932902)
-        self.assertAlmostEqual(cmp_q3.sim('Niall', 'Nigel'), 0.472932902)
-        self.assertAlmostEqual(cmp_q3.sim('Colin', 'Coiln'), 0.428571429)
-        self.assertAlmostEqual(cmp_q3.sim('Coiln', 'Colin'), 0.428571429)
+cmp_jac1 = MetaLevenshtein(metric=Jaccard(qval=1))
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_meta_levenshtein_dist():
+    """Test abydos.distance.MetaLevenshtein.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 0.8463953614713058
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3077801314)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3077801314)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3077801314)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3077801314)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.2931752664)
+
+def test_meta_levenshtein_sim():
+    """Test abydos.distance.MetaLevenshtein.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.15360463852869422
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6922198686)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6922198686)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6922198686)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6922198686)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.7068247336)
+
+    assert cmp_jac1.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.569107816)
+    assert cmp_jac1.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.569107816)
+    assert cmp_jac1.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.753775895)
+    assert cmp_jac1.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.753775895)
+    assert cmp_jac1.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5746789477)
+
+def test_meta_levenshtein_dist_abs():
+    """Test abydos.distance.MetaLevenshtein.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0.0
+    assert cmp.dist_abs('a', '') == 1.0
+    assert cmp.dist_abs('', 'a') == 1.0
+    assert cmp.dist_abs('abc', '') == 3.0
+    assert cmp.dist_abs('', 'abc') == 3.0
+    assert cmp.dist_abs('abc', 'abc') == 0.0
+    assert cmp.dist_abs('abcd', 'efgh') == 3.385581445885223
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1.5389006572)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.5389006572)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1.5389006572)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1.5389006572)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=2.9317526638)
+
+def test_meta_levenshtein_corpus():
+    """Test abydos.distance.MetaLevenshtein with corpus."""
+    q3_corpus = UnigramCorpus(word_tokenizer=QGrams(qval=3))
+    try:
+        download_package('en_qgram', silent=True)
+    except urllib.error.URLError as exc:
+        pytest.skip('abydos-data index unavailable: {}'.format(exc))
+    q3_corpus.load_corpus(
+        os.path.join(package_path('en_qgram'), 'q3_en.dat')
+    )
+    cmp_q3 = MetaLevenshtein(tokenizer=QGrams(qval=3), corpus=q3_corpus)
+
+    assert cmp_q3.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=7.378939370)
+    assert cmp_q3.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=7.378939370)
+    assert cmp_q3.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=8.0)
+    assert cmp_q3.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=8.0)
+
+    assert cmp_q3.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.527067098)
+    assert cmp_q3.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.527067098)
+    assert cmp_q3.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.571428571)
+    assert cmp_q3.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.571428571)
+
+    assert cmp_q3.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.472932902)
+    assert cmp_q3.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.472932902)
+    assert cmp_q3.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.428571429)
+    assert cmp_q3.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.428571429)

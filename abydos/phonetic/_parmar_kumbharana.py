@@ -85,6 +85,8 @@ class ParmarKumbharana(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         word = word.upper()  # Rule 3
         word = self._delete_consecutive_repeats(word)  # Rule 4
 

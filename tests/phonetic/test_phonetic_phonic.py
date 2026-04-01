@@ -19,12 +19,11 @@
 This module contains unit tests for abydos.phonetic.PHONIC
 """
 
-import unittest
 
 from abydos.phonetic import PHONIC
 
 
-class PHONICTestCases(unittest.TestCase):
+class TestPHONIC:
     """Test PHONIC functions.
 
     test cases for abydos.phonetic.PHONIC
@@ -34,25 +33,17 @@ class PHONICTestCases(unittest.TestCase):
 
     def test_phonic(self):
         """Test abydos.phonetic.PHONIC."""
-        self.assertEqual(self.pa.encode(''), '0000')
+        assert self.pa.encode('') == '0000'
 
         # test case from paper
-        self.assertEqual(self.pa.encode('Phillips'), 'P8590')
+        assert self.pa.encode('Phillips') == 'P8590'
 
         # coverage
-        self.assertEqual(
-            PHONIC(max_length=-1, zero_pad=False, extended=True).encode(
-                'Phillips'
-            ),
-            '8590',
+        assert (
+            PHONIC(max_length=-1, zero_pad=False, extended=True).encode( 'Phillips' )
+            == '8590'
         )
-        self.assertEqual(
-            PHONIC(max_length=-1, zero_pad=False, extended=True).encode_alpha(
-                'Phillips'
-            ),
-            'FLPS',
+        assert (
+            PHONIC(max_length=-1, zero_pad=False, extended=True).encode_alpha( 'Phillips' )
+            == 'FLPS'
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

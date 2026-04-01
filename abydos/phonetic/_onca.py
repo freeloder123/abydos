@@ -119,6 +119,8 @@ class ONCA(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         # In the most extreme case, 3 characters of NYSIIS input can be
         # compressed to one character of output, so give it triple the
         # max_length.

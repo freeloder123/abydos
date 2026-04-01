@@ -19,26 +19,16 @@
 This module contains unit tests for abydos.stemmer._Stemmer
 """
 
-import unittest
 
 # noinspection PyProtectedMember
 from abydos.stemmer._stemmer import _Stemmer
 
 
-class SnowballTestCases(unittest.TestCase):
-    """Test _Stemmer base class.
-
-    abydos.stemmer._Stemmer
-    """
-
-    stmr = _Stemmer()
-
-    def test__stemmer(self):
-        """Test abydos.stemmer._Stemmer."""
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
-        self.assertEqual(self.stmr.stem('word'), 'word')
+stmr = _Stemmer()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test__stemmer():
+    """Test abydos.stemmer._Stemmer."""
+    # base case
+    assert stmr.stem('') == ''
+    assert stmr.stem('word') == 'word'

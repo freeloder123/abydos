@@ -19,7 +19,6 @@
 This module contains unit tests for abydos.stemmer.Porter2
 """
 
-import unittest
 
 from abydos.stemmer import Porter2
 
@@ -27,7 +26,7 @@ from abydos.stemmer import Porter2
 from .. import _corpus_file
 
 
-class Porter2TestCases(unittest.TestCase):
+class TestPorter2:
     """Test Porter2 functions.
 
     abydos.stemmer.Porter2
@@ -41,59 +40,59 @@ class Porter2TestCases(unittest.TestCase):
     def test_porter2(self):
         """Test abydos.stemmer.Porter2."""
         # base case
-        self.assertEqual(self.stmr.stem(''), '')
+        assert self.stmr.stem('') == ''
 
         # simple cases
-        self.assertEqual(self.stmr.stem('c'), 'c')
-        self.assertEqual(self.stmr.stem('da'), 'da')
-        self.assertEqual(self.stmr.stem('ad'), 'ad')
-        self.assertEqual(self.stmr.stem('sing'), 'sing')
-        self.assertEqual(self.stmr.stem('singing'), 'sing')
+        assert self.stmr.stem('c') == 'c'
+        assert self.stmr.stem('da') == 'da'
+        assert self.stmr.stem('ad') == 'ad'
+        assert self.stmr.stem('sing') == 'sing'
+        assert self.stmr.stem('singing') == 'sing'
 
         # missed branch test cases
-        self.assertEqual(self.stmr.stem('capitalism'), 'capit')
-        self.assertEqual(self.stmr.stem('fatalism'), 'fatal')
-        self.assertEqual(self.stmr.stem("dog's"), 'dog')
-        self.assertEqual(self.stmr.stem("A's'"), 'a')
-        self.assertEqual(self.stmr.stem('agreedly'), 'agre')
-        self.assertEqual(self.stmr.stem('feedly'), 'feed')
-        self.assertEqual(self.stmr.stem('stional'), 'stional')
-        self.assertEqual(self.stmr.stem('palism'), 'palism')
-        self.assertEqual(self.stmr.stem('sization'), 'sizat')
-        self.assertEqual(self.stmr.stem('licated'), 'licat')
-        self.assertEqual(self.stmr.stem('lical'), 'lical')
-        self.assertEqual(self.stmr.stem('clessly'), 'clessli')
-        self.assertEqual(self.stmr.stem('tably'), 'tabli')
-        self.assertEqual(self.stmr.stem('sizer'), 'sizer')
-        self.assertEqual(self.stmr.stem('livity'), 'liviti')
+        assert self.stmr.stem('capitalism') == 'capit'
+        assert self.stmr.stem('fatalism') == 'fatal'
+        assert self.stmr.stem("dog's") == 'dog'
+        assert self.stmr.stem("A's'") == 'a'
+        assert self.stmr.stem('agreedly') == 'agre'
+        assert self.stmr.stem('feedly') == 'feed'
+        assert self.stmr.stem('stional') == 'stional'
+        assert self.stmr.stem('palism') == 'palism'
+        assert self.stmr.stem('sization') == 'sizat'
+        assert self.stmr.stem('licated') == 'licat'
+        assert self.stmr.stem('lical') == 'lical'
+        assert self.stmr.stem('clessly') == 'clessli'
+        assert self.stmr.stem('tably') == 'tabli'
+        assert self.stmr.stem('sizer') == 'sizer'
+        assert self.stmr.stem('livity') == 'liviti'
 
     def test_porter2_early_english(self):
         """Test abydos.stemmer.Porter2 (early English)."""
         # base case
-        self.assertEqual(self.stmr_ee.stem(''), '')
+        assert self.stmr_ee.stem('') == ''
 
         # simple cases (no different from regular stemmer)
-        self.assertEqual(self.stmr_ee.stem('c'), 'c')
-        self.assertEqual(self.stmr_ee.stem('da'), 'da')
-        self.assertEqual(self.stmr_ee.stem('ad'), 'ad')
-        self.assertEqual(self.stmr_ee.stem('sing'), 'sing')
-        self.assertEqual(self.stmr_ee.stem('singing'), 'sing')
+        assert self.stmr_ee.stem('c') == 'c'
+        assert self.stmr_ee.stem('da') == 'da'
+        assert self.stmr_ee.stem('ad') == 'ad'
+        assert self.stmr_ee.stem('sing') == 'sing'
+        assert self.stmr_ee.stem('singing') == 'sing'
 
         # make
-        self.assertEqual(self.stmr_ee.stem('make'), 'make')
-        self.assertEqual(self.stmr_ee.stem('makes'), 'make')
-        self.assertEqual(self.stmr_ee.stem('maketh'), 'make')
-        self.assertEqual(self.stmr_ee.stem('makest'), 'make')
+        assert self.stmr_ee.stem('make') == 'make'
+        assert self.stmr_ee.stem('makes') == 'make'
+        assert self.stmr_ee.stem('maketh') == 'make'
+        assert self.stmr_ee.stem('makest') == 'make'
 
         # say
-        self.assertEqual(self.stmr_ee.stem('say'), 'say')
-        self.assertEqual(self.stmr_ee.stem('says'), 'say')
-        self.assertEqual(self.stmr_ee.stem('sayeth'), 'say')
-        self.assertEqual(self.stmr_ee.stem('sayest'), 'say')
+        assert self.stmr_ee.stem('say') == 'say'
+        assert self.stmr_ee.stem('says') == 'say'
+        assert self.stmr_ee.stem('sayeth') == 'say'
+        assert self.stmr_ee.stem('sayest') == 'say'
 
         # missed branch test cases
-        self.assertEqual(self.stmr_ee.stem('best'), 'best')
-        self.assertEqual(self.stmr_ee.stem('meth'), 'meth')
+        assert self.stmr_ee.stem('best') == 'best'
+        assert self.stmr_ee.stem('meth') == 'meth'
 
     def test_porter2_snowball(self):
         """Test abydos.stemmer.Porter2 (Snowball testset).
@@ -108,8 +107,4 @@ class Porter2TestCases(unittest.TestCase):
                 if line[0] != '#':
                     line = line.strip().split(',')
                     word, stem = line[0], line[1]
-                    self.assertEqual(self.stmr.stem(word), stem.lower())
-
-
-if __name__ == '__main__':
-    unittest.main()
+                    assert self.stmr.stem(word) == stem.lower()

@@ -19,51 +19,36 @@
 This module contains unit tests for abydos.distance.UnknownF
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import UnknownF
 
 
-class UnknownFTestCases(unittest.TestCase):
-    """Test UnknownF functions.
+cmp = UnknownF()
 
-    abydos.distance.UnknownF
-    """
-
-    cmp = UnknownF()
-    cmp_no_d = UnknownF(alphabet=0)
-
-    def test_unknown_f_sim_score(self):
-        """Test abydos.distance.UnknownF.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 1.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Nigel', 'Niall'), 0.3068528194
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Niall', 'Nigel'), 0.3068528194
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Colin', 'Coiln'), 0.3068528194
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Coiln', 'Colin'), 0.3068528194
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 0.5956699662
-        )
-
-        # Exceptions
-        self.assertRaises(NotImplementedError, self.cmp.sim, 'a', 'a')
-        self.assertRaises(NotImplementedError, self.cmp.dist, 'a', 'a')
+cmp_no_d = UnknownF(alphabet=0)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_unknown_f_sim_score():
+    """Test abydos.distance.UnknownF.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == 1.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == 1.0
+    assert cmp.sim_score('abcd', 'efgh') == 1.0
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3068528194)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3068528194)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3068528194)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3068528194)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5956699662)
+
+    # Exceptions
+    with pytest.raises(NotImplementedError):
+        cmp.sim('a', 'a')
+    with pytest.raises(NotImplementedError):
+        cmp.dist('a', 'a')

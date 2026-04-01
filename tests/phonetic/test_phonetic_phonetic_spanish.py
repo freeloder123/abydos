@@ -19,43 +19,31 @@
 This module contains unit tests for abydos.phonetic.PhoneticSpanish
 """
 
-import unittest
-
 from abydos.phonetic import PhoneticSpanish
 
 
-class PhoneticSpanishTestCases(unittest.TestCase):
-    """Test PhoneticSpanish functions.
+pa = PhoneticSpanish()
 
-    test cases for abydos.phonetic.PhoneticSpanish
-    """
+def test_phonetic_spanish():
+    """Test abydos.phonetic.PhoneticSpanish."""
+    # Base case
+    assert pa.encode('') == ''
 
-    pa = PhoneticSpanish()
+    # Examples given in
+    assert pa.encode('Giraldo') == '8953'
+    assert pa.encode('Jiraldo') == '8953'
+    assert pa.encode('Halla') == '25'
+    assert pa.encode('Haya') == '25'
+    assert pa.encode('Cielo') == '45'
+    assert pa.encode('Sielo') == '45'
 
-    def test_phonetic_spanish(self):
-        """Test abydos.phonetic.PhoneticSpanish."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '')
+    # Test to maximize coverage
+    assert PhoneticSpanish(max_length=2).encode('Giraldo') == '89'
 
-        # Examples given in
-        self.assertEqual(self.pa.encode('Giraldo'), '8953')
-        self.assertEqual(self.pa.encode('Jiraldo'), '8953')
-        self.assertEqual(self.pa.encode('Halla'), '25')
-        self.assertEqual(self.pa.encode('Haya'), '25')
-        self.assertEqual(self.pa.encode('Cielo'), '45')
-        self.assertEqual(self.pa.encode('Sielo'), '45')
-
-        # Test to maximize coverage
-        self.assertEqual(PhoneticSpanish(max_length=2).encode('Giraldo'), '89')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('Giraldo'), 'GRLT')
-        self.assertEqual(self.pa.encode_alpha('Jiraldo'), 'GRLT')
-        self.assertEqual(self.pa.encode_alpha('Halla'), 'FL')
-        self.assertEqual(self.pa.encode_alpha('Haya'), 'FL')
-        self.assertEqual(self.pa.encode_alpha('Cielo'), 'SL')
-        self.assertEqual(self.pa.encode_alpha('Sielo'), 'SL')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('Giraldo') == 'GRLT'
+    assert pa.encode_alpha('Jiraldo') == 'GRLT'
+    assert pa.encode_alpha('Halla') == 'FL'
+    assert pa.encode_alpha('Haya') == 'FL'
+    assert pa.encode_alpha('Cielo') == 'SL'
+    assert pa.encode_alpha('Sielo') == 'SL'

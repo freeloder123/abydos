@@ -19,47 +19,37 @@
 This module contains unit tests for abydos.fingerprint.LCCutter
 """
 
-import unittest
 
 from abydos.fingerprint import LCCutter
 
 
-class LCCutterTestCases(unittest.TestCase):
-    """Test LCCutter functions.
-
-    abydos.fingerprint.LCCutter
-    """
-
-    fp = LCCutter()
-
-    def test_lc_cutter_fingerprint(self):
-        """Test abydos.fingerprint.LCCutter."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
-        self.assertEqual(self.fp.fingerprint('S'), 'S')
-
-        # Test cases drawn from http://calculate.alptown.com/
-        self.assertEqual(self.fp.fingerprint('Cutter'), 'C88847')
-        self.assertEqual(self.fp.fingerprint('Quiet'), 'Q548')
-        self.assertEqual(self.fp.fingerprint('Schmidt'), 'S36538')
-        self.assertEqual(self.fp.fingerprint('Anderson'), 'A5347766')
-        self.assertEqual(self.fp.fingerprint('Aziz'), 'A959')
-        self.assertEqual(self.fp.fingerprint('I.B.M.'), 'I26')
-        self.assertEqual(self.fp.fingerprint('Import'), 'I47678')
-        self.assertEqual(self.fp.fingerprint('Sadron'), 'S23766')
-        self.assertEqual(self.fp.fingerprint('Stinson'), 'S756766')
-        self.assertEqual(self.fp.fingerprint('Cymbal'), 'C96335')
-        self.assertEqual(self.fp.fingerprint('Ipswich'), 'I679534')
-        self.assertEqual(self.fp.fingerprint('Rhododendron'), 'R46363463766')
-        self.assertEqual(self.fp.fingerprint('Colin'), 'C6556')
-        self.assertEqual(self.fp.fingerprint('Szelazek'), 'S9453945')
-        self.assertEqual(self.fp.fingerprint('Quyen'), 'Q946')
-
-        # Coverage
-        self.assertEqual(self.fp.fingerprint('Qdoba'), 'Q2633')
-        self.assertEqual(LCCutter(max_length=-1).fingerprint('Qdoba'), 'Q2633')
-        self.assertEqual(LCCutter(max_length=3).fingerprint('Qdoba'), 'Q26')
+fp = LCCutter()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_lc_cutter_fingerprint():
+    """Test abydos.fingerprint.LCCutter."""
+    # Base case
+    assert fp.fingerprint('') == ''
+    assert fp.fingerprint('S') == 'S'
+
+    # Test cases drawn from http://calculate.alptown.com/
+    assert fp.fingerprint('Cutter') == 'C88847'
+    assert fp.fingerprint('Quiet') == 'Q548'
+    assert fp.fingerprint('Schmidt') == 'S36538'
+    assert fp.fingerprint('Anderson') == 'A5347766'
+    assert fp.fingerprint('Aziz') == 'A959'
+    assert fp.fingerprint('I.B.M.') == 'I26'
+    assert fp.fingerprint('Import') == 'I47678'
+    assert fp.fingerprint('Sadron') == 'S23766'
+    assert fp.fingerprint('Stinson') == 'S756766'
+    assert fp.fingerprint('Cymbal') == 'C96335'
+    assert fp.fingerprint('Ipswich') == 'I679534'
+    assert fp.fingerprint('Rhododendron') == 'R46363463766'
+    assert fp.fingerprint('Colin') == 'C6556'
+    assert fp.fingerprint('Szelazek') == 'S9453945'
+    assert fp.fingerprint('Quyen') == 'Q946'
+
+    # Coverage
+    assert fp.fingerprint('Qdoba') == 'Q2633'
+    assert LCCutter(max_length=-1).fingerprint('Qdoba') == 'Q2633'
+    assert LCCutter(max_length=3).fingerprint('Qdoba') == 'Q26'

@@ -19,76 +19,62 @@
 This module contains unit tests for abydos.distance.HigueraMico
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import HigueraMico
 
 
-class HigueraMicoTestCases(unittest.TestCase):
-    """Test HigueraMico functions.
-
-    abydos.distance.HigueraMico
-    """
-
-    cmp = HigueraMico()
-
-    def test_higuera_mico_dist(self):
-        """Test abydos.distance.HigueraMico.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.3333333333)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.3333333333)
-        self.assertAlmostEqual(self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.5)
-
-    def test_higuera_mico_sim(self):
-        """Test abydos.distance.HigueraMico.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.6666666667)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.6666666667)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.5)
-
-    def test_higuera_mico_dist_abs(self):
-        """Test abydos.distance.HigueraMico.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 1.8333333333333333)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 1.8333333333333333)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 0.4)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Colin', 'Coiln'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Coiln', 'Colin'), 0.3333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 0.5
-        )
+cmp = HigueraMico()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_higuera_mico_dist():
+    """Test abydos.distance.HigueraMico.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5)
+
+def test_higuera_mico_sim():
+    """Test abydos.distance.HigueraMico.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6666666667)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6666666667)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5)
+
+def test_higuera_mico_dist_abs():
+    """Test abydos.distance.HigueraMico.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0.0
+    assert cmp.dist_abs('a', '') == 1.0
+    assert cmp.dist_abs('', 'a') == 1.0
+    assert cmp.dist_abs('abc', '') == 1.8333333333333333
+    assert cmp.dist_abs('', 'abc') == 1.8333333333333333
+    assert cmp.dist_abs('abc', 'abc') == 0.0
+    assert cmp.dist_abs('abcd', 'efgh') == 1.0
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3333333333)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5)

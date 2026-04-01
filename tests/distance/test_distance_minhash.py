@@ -19,53 +19,45 @@
 This module contains unit tests for abydos.distance.MinHash
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import MinHash
 
 
-class MinHashTestCases(unittest.TestCase):
-    """Test MinHash functions.
-
-    abydos.distance.MinHash
-    """
-
-    cmp = MinHash()
-
-    def test_minhash_sim(self):
-        """Test abydos.distance.MinHash.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.5)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.5)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.75)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.75)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.6)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 1.0)
-
-    def test_minhash_dist(self):
-        """Test abydos.distance.MinHash.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 0.5)
-        self.assertEqual(self.cmp.dist('', 'a'), 0.5)
-        self.assertEqual(self.cmp.dist('abc', ''), 0.25)
-        self.assertEqual(self.cmp.dist('', 'abc'), 0.25)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 0.4)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.0)
+cmp = MinHash()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_minhash_sim():
+    """Test abydos.distance.MinHash.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.5
+    assert cmp.sim('', 'a') == 0.5
+    assert cmp.sim('abc', '') == 0.75
+    assert cmp.sim('', 'abc') == 0.75
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.6
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.0)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1.0)
+
+def test_minhash_dist():
+    """Test abydos.distance.MinHash.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 0.5
+    assert cmp.dist('', 'a') == 0.5
+    assert cmp.dist('abc', '') == 0.25
+    assert cmp.dist('', 'abc') == 0.25
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 0.4
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.0)

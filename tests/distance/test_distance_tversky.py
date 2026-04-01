@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.distance.Tversky
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Tversky
 from abydos.tokenizer import QGrams, WhitespaceTokenizer
@@ -27,244 +28,159 @@ from abydos.tokenizer import QGrams, WhitespaceTokenizer
 from .. import NONQ_FROM, NONQ_TO
 
 
-class TverskyIndexTestCases(unittest.TestCase):
-    """Test Tversky functions.
+cmp = Tversky()
 
-    abydos.distance.Tversky
-    """
+cmp_q2 = Tversky(tokenizer=QGrams(2))
 
-    cmp = Tversky()
-    cmp_q2 = Tversky(tokenizer=QGrams(2))
-    cmp_ws = Tversky(tokenizer=WhitespaceTokenizer())
-
-    def test_tversky_sim(self):
-        """Test abydos.distance.Tversky.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(self.cmp.sim('nelson', 'neilsen'), 4 / 11)
-
-        self.assertEqual(self.cmp_q2.sim('', ''), 1)
-        self.assertEqual(self.cmp_q2.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp_q2.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(self.cmp_q2.sim('nelson', 'neilsen'), 4 / 11)
-
-        # test valid alpha & beta
-        self.assertRaises(
-            ValueError, Tversky(alpha=-1.0, beta=-1.0).sim, 'abcd', 'dcba'
-        )
-        self.assertRaises(
-            ValueError, Tversky(alpha=-1.0, beta=0.0).sim, 'abcd', 'dcba'
-        )
-        self.assertRaises(
-            ValueError, Tversky(alpha=0.0, beta=-1.0).sim, 'abcd', 'dcba'
-        )
-
-        # test empty QGrams
-        self.assertAlmostEqual(
-            Tversky(tokenizer=QGrams(7, start_stop='')).sim(
-                'nelson', 'neilsen'
-            ),
-            0.0,
-        )
-
-        # test unequal alpha & beta
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=1.0, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            3 / 11,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=1.0, beta=2.0, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            3 / 10,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=2.0, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            3 / 13,
-        )
-
-        # test bias parameter
-        self.assertAlmostEqual(
-            Tversky(alpha=1.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            7 / 11,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            7 / 9,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=1.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            7 / 15,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).sim(
-                'niall', 'neal'
-            ),
-            7 / 11,
-        )
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            0,
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            4 / 11,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.sim('', ''), 1)
-        self.assertEqual(self.cmp_ws.sim('the quick', ''), 0)
-        self.assertEqual(self.cmp_ws.sim('', 'the quick'), 0)
-        self.assertAlmostEqual(self.cmp_ws.sim(NONQ_FROM, NONQ_TO), 1 / 3)
-        self.assertAlmostEqual(self.cmp_ws.sim(NONQ_TO, NONQ_FROM), 1 / 3)
-
-    def test_tversky_dist(self):
-        """Test abydos.distance.Tversky.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp.dist('nelson', 'neilsen'), 7 / 11)
-
-        self.assertEqual(self.cmp_q2.dist('', ''), 0)
-        self.assertEqual(self.cmp_q2.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp_q2.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp_q2.dist('nelson', 'neilsen'), 7 / 11)
-
-        # test valid alpha & beta
-        self.assertRaises(
-            ValueError, Tversky(alpha=-1.0, beta=-1.0).dist, 'abcd', 'dcba'
-        )
-        self.assertRaises(
-            ValueError, Tversky(alpha=-1.0, beta=0.0).dist, 'abcd', 'dcba'
-        )
-        self.assertRaises(
-            ValueError, Tversky(alpha=0.0, beta=-1.0).dist, 'abcd', 'dcba'
-        )
-
-        # test empty QGrams
-        self.assertAlmostEqual(
-            Tversky(tokenizer=QGrams(7, start_stop='')).dist(
-                'nelson', 'neilsen'
-            ),
-            1.0,
-        )
-
-        # test unequal alpha & beta
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=1.0, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            8 / 11,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=1.0, beta=2.0, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            7 / 10,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=2.0, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            10 / 13,
-        )
-
-        # test bias parameter
-        self.assertAlmostEqual(
-            Tversky(alpha=1.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            4 / 11,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            2 / 9,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=1.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            8 / 15,
-        )
-        self.assertAlmostEqual(
-            Tversky(alpha=2.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).dist(
-                'niall', 'neal'
-            ),
-            4 / 11,
-        )
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            7 / 11,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.dist('', ''), 0)
-        self.assertEqual(self.cmp_ws.dist('the quick', ''), 1)
-        self.assertEqual(self.cmp_ws.dist('', 'the quick'), 1)
-        self.assertAlmostEqual(self.cmp_ws.dist(NONQ_FROM, NONQ_TO), 2 / 3)
-        self.assertAlmostEqual(self.cmp_ws.dist(NONQ_TO, NONQ_FROM), 2 / 3)
+cmp_ws = Tversky(tokenizer=WhitespaceTokenizer())
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_tversky_sim():
+    """Test abydos.distance.Tversky.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('nelson', '') == 0
+    assert cmp.sim('', 'neilsen') == 0
+    assert cmp.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=4 / 11)
+
+    assert cmp_q2.sim('', '') == 1
+    assert cmp_q2.sim('nelson', '') == 0
+    assert cmp_q2.sim('', 'neilsen') == 0
+    assert cmp_q2.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=4 / 11)
+
+    # test valid alpha & beta
+    with pytest.raises(ValueError):
+        Tversky(alpha=-1.0, beta=-1.0).sim('abcd', 'dcba')
+    with pytest.raises(ValueError):
+        Tversky(alpha=-1.0, beta=0.0).sim('abcd', 'dcba')
+    with pytest.raises(ValueError):
+        Tversky(alpha=0.0, beta=-1.0).sim('abcd', 'dcba')
+
+    # test empty QGrams
+    assert Tversky(tokenizer=QGrams(7, start_stop='')).sim(
+            'nelson', 'neilsen'
+        ) == pytest.approx(abs=1e-7, expected=0.0)
+
+    # test unequal alpha & beta
+    assert Tversky(alpha=2.0, beta=1.0, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=3 / 11)
+    assert Tversky(alpha=1.0, beta=2.0, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=3 / 10)
+    assert Tversky(alpha=2.0, beta=2.0, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=3 / 13)
+
+    # test bias parameter
+    assert Tversky(alpha=1.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=7 / 11)
+    assert Tversky(alpha=2.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=7 / 9)
+    assert Tversky(alpha=1.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=7 / 15)
+    assert Tversky(alpha=2.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).sim(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=7 / 11)
+
+    # supplied q-gram tests
+    assert (
+        cmp.sim( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.sim( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.sim( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 0
+    )
+    assert cmp.sim(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=4 / 11)
+
+    # non-q-gram tests
+    assert cmp_ws.sim('', '') == 1
+    assert cmp_ws.sim('the quick', '') == 0
+    assert cmp_ws.sim('', 'the quick') == 0
+    assert cmp_ws.sim(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=1 / 3)
+    assert cmp_ws.sim(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=1 / 3)
+
+def test_tversky_dist():
+    """Test abydos.distance.Tversky.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('nelson', '') == 1
+    assert cmp.dist('', 'neilsen') == 1
+    assert cmp.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=7 / 11)
+
+    assert cmp_q2.dist('', '') == 0
+    assert cmp_q2.dist('nelson', '') == 1
+    assert cmp_q2.dist('', 'neilsen') == 1
+    assert cmp_q2.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=7 / 11)
+
+    # test valid alpha & beta
+    with pytest.raises(ValueError):
+        Tversky(alpha=-1.0, beta=-1.0).dist('abcd', 'dcba')
+    with pytest.raises(ValueError):
+        Tversky(alpha=-1.0, beta=0.0).dist('abcd', 'dcba')
+    with pytest.raises(ValueError):
+        Tversky(alpha=0.0, beta=-1.0).dist('abcd', 'dcba')
+
+    # test empty QGrams
+    assert Tversky(tokenizer=QGrams(7, start_stop='')).dist(
+            'nelson', 'neilsen'
+        ) == pytest.approx(abs=1e-7, expected=1.0)
+
+    # test unequal alpha & beta
+    assert Tversky(alpha=2.0, beta=1.0, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=8 / 11)
+    assert Tversky(alpha=1.0, beta=2.0, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=7 / 10)
+    assert Tversky(alpha=2.0, beta=2.0, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=10 / 13)
+
+    # test bias parameter
+    assert Tversky(alpha=1.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=4 / 11)
+    assert Tversky(alpha=2.0, beta=1.0, bias=0.5, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=2 / 9)
+    assert Tversky(alpha=1.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=8 / 15)
+    assert Tversky(alpha=2.0, beta=2.0, bias=0.5, tokenizer=QGrams(2)).dist(
+            'niall', 'neal'
+        ) == pytest.approx(abs=1e-7, expected=4 / 11)
+
+    # supplied q-gram tests
+    assert (
+        cmp.dist( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.dist( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.dist( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 1
+    )
+    assert cmp.dist(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=7 / 11)
+
+    # non-q-gram tests
+    assert cmp_ws.dist('', '') == 0
+    assert cmp_ws.dist('the quick', '') == 1
+    assert cmp_ws.dist('', 'the quick') == 1
+    assert cmp_ws.dist(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=2 / 3)
+    assert cmp_ws.dist(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=2 / 3)

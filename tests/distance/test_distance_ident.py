@@ -19,39 +19,29 @@
 This module contains unit tests for abydos.distance.Ident
 """
 
-import unittest
 
 from abydos.distance import Ident
 
 
-class IdentTestCases(unittest.TestCase):
-    """Test identity similarity functions.
-
-    abydos.distance.Ident
-    """
-
-    cmp = Ident()
-
-    def test_ident_sim(self):
-        """Test abydos.distance.Ident.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('', 'a'), 0)
-        self.assertEqual(self.cmp.sim('a', ''), 0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp.sim('abcd', 'abcd'), 1)
-        self.assertEqual(self.cmp.sim('abcd', 'dcba'), 0)
-        self.assertEqual(self.cmp.sim('abc', 'cba'), 0)
-
-    def test_ident_dist(self):
-        """Test abydos.distance.Ident.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1)
-        self.assertEqual(self.cmp.dist('a', ''), 1)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist('abcd', 'abcd'), 0)
-        self.assertEqual(self.cmp.dist('abcd', 'dcba'), 1)
-        self.assertEqual(self.cmp.dist('abc', 'cba'), 1)
+cmp = Ident()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_ident_sim():
+    """Test abydos.distance.Ident.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('', 'a') == 0
+    assert cmp.sim('a', '') == 0
+    assert cmp.sim('a', 'a') == 1
+    assert cmp.sim('abcd', 'abcd') == 1
+    assert cmp.sim('abcd', 'dcba') == 0
+    assert cmp.sim('abc', 'cba') == 0
+
+def test_ident_dist():
+    """Test abydos.distance.Ident.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('', 'a') == 1
+    assert cmp.dist('a', '') == 1
+    assert cmp.dist('a', 'a') == 0
+    assert cmp.dist('abcd', 'abcd') == 0
+    assert cmp.dist('abcd', 'dcba') == 1
+    assert cmp.dist('abc', 'cba') == 1

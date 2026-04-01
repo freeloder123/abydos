@@ -19,82 +19,70 @@
 This module contains unit tests for abydos.phonetic.ParmarKumbharana
 """
 
-import unittest
-
 from abydos.phonetic import ParmarKumbharana
 
 
-class ParmarKumbharanaTestCases(unittest.TestCase):
-    """Test Parmar-Kumbharana functions.
+pa = ParmarKumbharana()
 
-    test cases for abydos.phonetic.ParmarKumbharana
-    """
+def test_parmar_kumbharana():
+    """Test abydos.phonetic.ParmarKumbharana."""
+    # Base cases
+    assert pa.encode('') == ''
 
-    pa = ParmarKumbharana()
-
-    def test_parmar_kumbharana(self):
-        """Test abydos.phonetic.ParmarKumbharana."""
-        # Base cases
-        self.assertEqual(self.pa.encode(''), '')
-
-        # Test cases from Parmar & Kumbharana (2014)
-        test_cases = (
-            ('Week', 'WK'),
-            ('Weak', 'WK'),
-            ('Piece', 'PS'),
-            ('Peace', 'PS'),
-            ('Bed', 'BD'),
-            ('Bad', 'BD'),
-            ('Would', 'WD'),
-            ('Wood', 'WD'),
-            ('Sun', 'SN'),
-            ('Son', 'SN'),
-            ('Ship', 'SP'),
-            ('Sheep', 'SP'),
-            ('Later', 'LTR'),
-            ('Letter', 'LTR'),
-            ('Low', 'LW'),
-            ('Law', 'LW'),
-            ('She', 'S'),
-            ('See', 'S'),
-            ('Sea', 'S'),
-            ('Case', 'CS'),
-            ('Cash', 'CS'),
-            ('Of', 'OF'),
-            ('Off', 'OF'),
-            ('Live', 'LV'),
-            ('Leave', 'LV'),
-            ('Sign', 'SN'),
-            ('Sine', 'SN'),
-            ('Sin', 'SN'),
-            ('Seen', 'SN'),
-            ('By', 'B'),
-            ('Bye', 'B'),
-            ('Reach', 'RCH'),
-            ('Rich', 'RCH'),
-            ('Sort', 'SRT'),
-            ('Short', 'SRT'),
-            ('Center', 'SNTR'),
-            ('Centre', 'SNTR'),
-            ('Full', 'FL'),
-            ('Fool', 'FL'),
-            ('Then', 'THN'),
-            ('Than', 'THN'),
-            ('Fill', 'FL'),
-            ('Feel', 'FL'),
-            ('Two', 'TW'),
-            ('To', 'T'),
-            ('Too', 'T'),
-            ('Four', 'FR'),
-            ('For', 'FR'),
-            ('Mat', 'MT'),
-            ('Met', 'MT'),
-            ('Merry', 'MR'),
-            ('Marry', 'MR'),
-        )
-        for word, encoding in test_cases:
-            self.assertEqual(self.pa.encode(word), encoding)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # Test cases from Parmar & Kumbharana (2014)
+    test_cases = (
+        ('Week', 'WK'),
+        ('Weak', 'WK'),
+        ('Piece', 'PS'),
+        ('Peace', 'PS'),
+        ('Bed', 'BD'),
+        ('Bad', 'BD'),
+        ('Would', 'WD'),
+        ('Wood', 'WD'),
+        ('Sun', 'SN'),
+        ('Son', 'SN'),
+        ('Ship', 'SP'),
+        ('Sheep', 'SP'),
+        ('Later', 'LTR'),
+        ('Letter', 'LTR'),
+        ('Low', 'LW'),
+        ('Law', 'LW'),
+        ('She', 'S'),
+        ('See', 'S'),
+        ('Sea', 'S'),
+        ('Case', 'CS'),
+        ('Cash', 'CS'),
+        ('Of', 'OF'),
+        ('Off', 'OF'),
+        ('Live', 'LV'),
+        ('Leave', 'LV'),
+        ('Sign', 'SN'),
+        ('Sine', 'SN'),
+        ('Sin', 'SN'),
+        ('Seen', 'SN'),
+        ('By', 'B'),
+        ('Bye', 'B'),
+        ('Reach', 'RCH'),
+        ('Rich', 'RCH'),
+        ('Sort', 'SRT'),
+        ('Short', 'SRT'),
+        ('Center', 'SNTR'),
+        ('Centre', 'SNTR'),
+        ('Full', 'FL'),
+        ('Fool', 'FL'),
+        ('Then', 'THN'),
+        ('Than', 'THN'),
+        ('Fill', 'FL'),
+        ('Feel', 'FL'),
+        ('Two', 'TW'),
+        ('To', 'T'),
+        ('Too', 'T'),
+        ('Four', 'FR'),
+        ('For', 'FR'),
+        ('Mat', 'MT'),
+        ('Met', 'MT'),
+        ('Merry', 'MR'),
+        ('Marry', 'MR'),
+    )
+    for word, encoding in test_cases:
+        assert pa.encode(word) == encoding

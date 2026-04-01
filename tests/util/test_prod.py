@@ -19,41 +19,33 @@
 This module contains unit tests for abydos.util._prod
 """
 
-import unittest
 
 from abydos.util._prod import _prod
 
 
-class ProdTestCases(unittest.TestCase):
-    """Test cases for abydos.util._prod."""
+def test_prod():
+    """Test abydos.util._prod."""
+    assert _prod([]) == 1
+    assert _prod(()) == 1
+    assert _prod({}) == 1
 
-    def test_prod(self):
-        """Test abydos.util._prod."""
-        self.assertEqual(_prod([]), 1)
-        self.assertEqual(_prod(()), 1)
-        self.assertEqual(_prod({}), 1)
+    assert _prod([1, 1, 1, 1, 1]) == 1
+    assert _prod((1, 1, 1, 1, 1)) == 1
+    assert _prod({1, 1, 1, 1, 1}) == 1
 
-        self.assertEqual(_prod([1, 1, 1, 1, 1]), 1)
-        self.assertEqual(_prod((1, 1, 1, 1, 1)), 1)
-        self.assertEqual(_prod({1, 1, 1, 1, 1}), 1)
+    assert _prod([2, 2, 2, 2, 2]) == 32
+    assert _prod((2, 2, 2, 2, 2)) == 32
+    assert _prod({2, 2, 2, 2, 2}) == 2
 
-        self.assertEqual(_prod([2, 2, 2, 2, 2]), 32)
-        self.assertEqual(_prod((2, 2, 2, 2, 2)), 32)
-        self.assertEqual(_prod({2, 2, 2, 2, 2}), 2)
+    assert _prod([1, 2, 3, 4, 5]) == 120
+    assert _prod((1, 2, 3, 4, 5)) == 120
+    assert _prod({1, 2, 3, 4, 5}) == 120
+    assert _prod(range(1, 6)) == 120
+    assert _prod(list(range(1, 6))) == 120
+    assert _prod(tuple(range(1, 6))) == 120
+    assert _prod(set(range(1, 6))) == 120
 
-        self.assertEqual(_prod([1, 2, 3, 4, 5]), 120)
-        self.assertEqual(_prod((1, 2, 3, 4, 5)), 120)
-        self.assertEqual(_prod({1, 2, 3, 4, 5}), 120)
-        self.assertEqual(_prod(range(1, 6)), 120)
-        self.assertEqual(_prod(list(range(1, 6))), 120)
-        self.assertEqual(_prod(tuple(range(1, 6))), 120)
-        self.assertEqual(_prod(set(range(1, 6))), 120)
-
-        self.assertEqual(_prod(range(6)), 0)
-        self.assertEqual(_prod(list(range(6))), 0)
-        self.assertEqual(_prod(tuple(range(6))), 0)
-        self.assertEqual(_prod(set(range(6))), 0)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert _prod(range(6)) == 0
+    assert _prod(list(range(6))) == 0
+    assert _prod(tuple(range(6))) == 0
+    assert _prod(set(range(6))) == 0

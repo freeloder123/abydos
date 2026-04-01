@@ -19,332 +19,320 @@
 This module contains unit tests for abydos.phonetic.NRL
 """
 
-import unittest
-
 from abydos.phonetic import NRL
 
 
-class NRLTestCases(unittest.TestCase):
-    """Test Naval Research Laboratory phonetic encoding functions.
+pa = NRL()
 
-    test cases for abydos.phonetic.NRL
-    """
+def test_nrl():
+    """Test abydos.phonetic.NRL."""
+    # Base case
+    assert pa.encode('') == ''
 
-    pa = NRL()
+    # common English words
+    assert pa.encode('the') == 'DHAX'
+    assert pa.encode('of') == 'AXv'
+    assert pa.encode('and') == 'AEnd'
+    assert pa.encode('a') == 'AX'
+    assert pa.encode('to') == 'tUW'
+    assert pa.encode('in') == 'IHn'
+    assert pa.encode('is') == 'IHz'
+    assert pa.encode('you') == 'yUW'
+    assert pa.encode('that') == 'DHAEt'
+    assert pa.encode('it') == 'IHt'
+    assert pa.encode('he') == 'hIY'
+    assert pa.encode('was') == 'wAAz'
+    assert pa.encode('for') == 'fAOr'
+    assert pa.encode('on') == 'AAn'
+    assert pa.encode('are') == 'AAr'
+    assert pa.encode('as') == 'AEz'
+    assert pa.encode('with') == 'wIHTH'
+    assert pa.encode('his') == 'hIHz'
+    assert pa.encode('they') == 'DHEY'
+    assert pa.encode('I') == 'AY'
+    assert pa.encode('at') == 'AEt'
+    assert pa.encode('be') == 'bIY'
+    assert pa.encode('this') == 'DHIHs'
+    assert pa.encode('have') == 'hAEv'
+    assert pa.encode('from') == 'frAAm'
+    assert pa.encode('or') == 'AOr'
+    assert pa.encode('one') == 'wAHn'
+    assert pa.encode('had') == 'hAEd'
+    assert pa.encode('by') == 'bAY'
+    assert pa.encode('word') == 'wERd'
+    assert pa.encode('but') == 'bAHt'
+    assert pa.encode('not') == 'nAAt'
+    assert pa.encode('what') == 'WHAAt'
+    assert pa.encode('all') == 'AOl'
+    assert pa.encode('were') == 'wER'
+    assert pa.encode('we') == 'wIY'
+    assert pa.encode('when') == 'WHEHn'
+    assert pa.encode('your') == 'yUWr'
+    assert pa.encode('can') == 'kAEn'
+    assert pa.encode('said') == 'sEHd'
+    assert pa.encode('there') == 'DHEHr'
+    assert pa.encode('use') == 'yUWz'
+    assert pa.encode('an') == 'AEn'
+    assert pa.encode('each') == 'IYCH'
+    assert pa.encode('which') == 'WHIHCH'
+    assert pa.encode('she') == 'SHIY'
+    assert pa.encode('do') == 'dUW'
+    assert pa.encode('how') == 'hAW'
+    assert pa.encode('their') == 'DHEHr'
+    assert pa.encode('if') == 'IHf'
+    assert pa.encode('will') == 'wIHl'
+    assert pa.encode('up') == 'AHp'
+    assert pa.encode('other') == 'AHDHER'
+    assert pa.encode('about') == 'AEbAWt'
+    assert pa.encode('out') == 'AWt'
+    assert pa.encode('many') == 'mEHnIY'
+    assert pa.encode('then') == 'DHEHn'
+    assert pa.encode('them') == 'DHEHm'
+    assert pa.encode('these') == 'DHIYz'
+    assert pa.encode('so') == 'sOW'
+    assert pa.encode('some') == 'sAHm'
+    assert pa.encode('her') == 'hER'
+    assert pa.encode('would') == 'wUHd'
+    assert pa.encode('make') == 'mEYk'
+    assert pa.encode('like') == 'lAYk'
+    assert pa.encode('him') == 'hIHm'
+    assert pa.encode('into') == 'IHntUW'
+    assert pa.encode('time') == 'tAYm'
+    assert pa.encode('has') == 'hAEz'
+    assert pa.encode('look') == 'lUHk'
+    assert pa.encode('two') == 'tUW'
+    assert pa.encode('more') == 'mAOr'
+    assert pa.encode('write') == 'rAYt'
+    assert pa.encode('go') == 'gOW'
+    assert pa.encode('see') == 'sIY'
+    assert pa.encode('number') == 'nAHmbER'
+    assert pa.encode('no') == 'nOW'
+    assert pa.encode('way') == 'wEY'
+    assert pa.encode('could') == 'kUHd'
+    assert pa.encode('people') == 'pIYpl'
+    assert pa.encode('my') == 'mAY'
+    assert pa.encode('than') == 'DHAEn'
+    assert pa.encode('first') == 'fERst'
+    assert pa.encode('water') == 'wAAtER'
+    assert pa.encode('been') == 'bIYn'
+    assert pa.encode('call') == 'kAOl'
+    assert pa.encode('who') == 'hUW'
+    assert pa.encode('oil') == 'OYl'
+    assert pa.encode('its') == 'IHtz'
+    assert pa.encode('now') == 'nAW'
+    assert pa.encode('find') == 'fAYnd'
+    assert pa.encode('long') == 'lAONG'
+    assert pa.encode('down') == 'dAWn'
+    assert pa.encode('day') == 'dEY'
+    assert pa.encode('did') == 'dIHd'
+    assert pa.encode('get') == 'gEHt'
+    assert pa.encode('come') == 'kAHm'
+    assert pa.encode('made') == 'mEYd'
+    assert pa.encode('may') == 'mEY'
+    assert pa.encode('part') == 'pAArt'
+    assert pa.encode('supply') == 'sAHpplIH'
+    assert pa.encode('corner') == 'kAOrnER'
+    assert pa.encode('electric') == 'IYlEHktrIHk'
+    assert pa.encode('insects') == 'IHnsEHktz'
+    assert pa.encode('crops') == 'krAAps'
+    assert pa.encode('tone') == 'tOWn'
+    assert pa.encode('hit') == 'hIHt'
+    assert pa.encode('sand') == 'sAEnd'
+    assert pa.encode('doctor') == 'dAAktER'
+    assert pa.encode('provide') == 'prAHvAYd'
+    assert pa.encode('thus') == 'DHAHs'
+    assert pa.encode("won't") == 'wOWnt'
+    assert pa.encode('cook') == 'kUHk'
+    assert pa.encode('bones') == 'bOWnz'
+    assert pa.encode('tail') == 'tEYl'
+    assert pa.encode('board') == 'bOWrd'
+    assert pa.encode('modern') == 'mOWdERn'
+    assert pa.encode('compound') == 'kAAmpAWnd'
+    assert pa.encode('mine') == 'mAYn'
+    assert pa.encode("wasn't") == 'wAAzAXnt'
+    assert pa.encode('fit') == 'fIHt'
+    assert pa.encode('addition') == 'AEddIHSHAXn'
+    assert pa.encode('belong') == 'bIHlAONG'
+    assert pa.encode('safe') == 'sEYf'
+    assert pa.encode('soldiers') == 'sOWldIYERs'
+    assert pa.encode('guess') == 'gEHs'
+    assert pa.encode('silent') == 'sAYlEHnt'
+    assert pa.encode('trade') == 'trEYd'
+    assert pa.encode('rather') == 'rAEDHER'
+    assert pa.encode('compare') == 'kAAmpEHr'
+    assert pa.encode('crowd') == 'krOWd'
+    assert pa.encode('poem') == 'pOWEHm'
+    assert pa.encode('enjoy') == 'EHnjOY'
+    assert pa.encode('elements') == 'IYlIYmEHntz'
+    assert pa.encode('indicate') == 'IHndIHkEYt'
+    assert pa.encode('except') == 'EHkssEHpt'
+    assert pa.encode('expect') == 'EHkspEHkt'
+    assert pa.encode('flat') == 'flAEt'
+    assert pa.encode('seven') == 'sIYvEHn'
+    assert pa.encode('interest') == 'IHntIYrEHst'
+    assert pa.encode('sense') == 'sEHns'
+    assert pa.encode('string') == 'strIHNG'
+    assert pa.encode('blow') == 'blOW'
+    assert pa.encode('famous') == 'fAEmAXs'
+    assert pa.encode('value') == 'vAElUW'
+    assert pa.encode('wings') == 'wIHNGz'
+    assert pa.encode('movement') == 'mUWvIYmEHnt'
+    assert pa.encode('pole') == 'pOWl'
+    assert pa.encode('exciting') == 'EHkssAYtIHNG'
+    assert pa.encode('branches') == 'brAEnCHIHz'
+    assert pa.encode('thick') == 'THIHk'
+    assert pa.encode('blood') == 'blUHd'
+    assert pa.encode('lie') == 'lAY'
+    assert pa.encode('spot') == 'spAAt'
+    assert pa.encode('bell') == 'bEHl'
+    assert pa.encode('fun') == 'fAHn'
+    assert pa.encode('loud') == 'lAWd'
+    assert pa.encode('consider') == 'kAAnsAYdER'
+    assert pa.encode('suggested') == 'sAHgjEHstIHd'
+    assert pa.encode('thin') == 'THIHn'
+    assert pa.encode('position') == 'pAAzIHSHAXn'
+    assert pa.encode('entered') == 'EHntIYrd'
+    assert pa.encode('fruit') == 'frUWIHt'
+    assert pa.encode('tied') == 'tAYd'
+    assert pa.encode('rich') == 'rIHCH'
+    assert pa.encode('dollars') == 'dAAlAArs'
+    assert pa.encode('send') == 'sEHnd'
+    assert pa.encode('sight') == 'sAYt'
+    assert pa.encode('chief') == 'CHAYEHf'
+    assert pa.encode('Japanese') == 'jAEpAEnIYz'
+    assert pa.encode('stream') == 'strIYm'
+    assert pa.encode('plants') == 'plAEntz'
+    assert pa.encode('rhythm') == 'rIHTHm'
+    assert pa.encode('eight') == 'EYt'
+    assert pa.encode('science') == 'sAYEHns'
+    assert pa.encode('major') == 'mAEjER'
+    assert pa.encode('observe') == 'AAbsERv'
+    assert pa.encode('tube') == 'tUWb'
+    assert pa.encode('necessary') == 'nIYsEHsAArIH'
+    assert pa.encode('weight') == 'wEYt'
+    assert pa.encode('meat') == 'mIYt'
+    assert pa.encode('lifted') == 'lIHftIHd'
+    assert pa.encode('process') == 'prOWsEHs'
+    assert pa.encode('army') == 'AArmIY'
+    assert pa.encode('hat') == 'hAEt'
+    assert pa.encode('property') == 'prOWpERtIH'
+    assert pa.encode('particular') == 'pAArtIHkyUWlER'
+    assert pa.encode('swim') == 'swIHm'
+    assert pa.encode('terms') == 'tERmz'
+    assert pa.encode('current') == 'kERrEHnt'
+    assert pa.encode('park') == 'pAArk'
+    assert pa.encode('sell') == 'sEHl'
+    assert pa.encode('shoulder') == 'SHUHdER'
+    assert pa.encode('industry') == 'IHndAHstrIH'
+    assert pa.encode('wash') == 'wAASH'
+    assert pa.encode('block') == 'blAAk'
+    assert pa.encode('spread') == 'sprEHd'
+    assert pa.encode('cattle') == 'kAEttl'
+    assert pa.encode('wife') == 'wAYf'
+    assert pa.encode('sharp') == 'SHAArp'
+    assert pa.encode('company') == 'kAAmpAEnIH'
+    assert pa.encode('radio') == 'rEYdIHOW'
+    assert pa.encode("we'll") == 'wEHl'
+    assert pa.encode('action') == 'AEkSHAXn'
+    assert pa.encode('capital') == 'kAEpIHtAXl'
+    assert pa.encode('factories') == 'fAEktAOrIYs'
+    assert pa.encode('settled') == 'sEHttld'
+    assert pa.encode('yellow') == 'yEHlOW'
+    assert pa.encode("isn't") == 'IHzAXnt'
+    assert pa.encode('southern') == 'sAWDHERn'
+    assert pa.encode('truck') == 'trAHk'
+    assert pa.encode('train') == 'trEYn'
+    assert pa.encode('printed') == 'prIHntIHd'
+    assert pa.encode("wouldn't") == 'wUHdnt'
+    assert pa.encode('ahead') == 'EYhEHd'
+    assert pa.encode('chance') == 'CHAEns'
+    assert pa.encode('born') == 'bAOrn'
+    assert pa.encode('level') == 'lIYvEHl'
+    assert pa.encode('triangle') == 'trIHAENGgAXl'
+    assert pa.encode('molecules') == 'mOWlEHkyUWlz'
+    assert pa.encode('France') == 'frAEns'
+    assert pa.encode('repeated') == 'rIYpIYtIHd'
+    assert pa.encode('column') == 'kAAlAHmn'
+    assert pa.encode('western') == 'wEHstERn'
+    assert pa.encode('church') == 'CHERCH'
+    assert pa.encode('sister') == 'sIHstER'
+    assert pa.encode('oxygen') == 'AAksIHjEHn'
+    assert pa.encode('plural') == 'plUHrAXl'
+    assert pa.encode('various') == 'vEHrIHAXs'
+    assert pa.encode('agreed') == 'AEgrIYd'
+    assert pa.encode('opposite') == 'AAppAAzAYt'
+    assert pa.encode('wrong') == 'rAONG'
+    assert pa.encode('chart') == 'CHAArt'
+    assert pa.encode('prepared') == 'prEHpEHrd'
+    assert pa.encode('pretty') == 'prEHttIH'
+    assert pa.encode('solution') == 'sAAlUWSHAXn'
+    assert pa.encode('fresh') == 'frEHSH'
+    assert pa.encode('shop') == 'SHAAp'
+    assert pa.encode('suffix') == 'sAHffIHks'
+    assert pa.encode('especially') == 'EHspEHSHAXlIY'
+    assert pa.encode('shoes') == 'SHOWz'
+    assert pa.encode('actually') == 'AEkCHUWAXlIY'
+    assert pa.encode('nose') == 'nOWz'
+    assert pa.encode('afraid') == 'AEfrEYd'
+    assert pa.encode('dead') == 'dEHd'
+    assert pa.encode('sugar') == 'sUWgER'
+    assert pa.encode('adjective') == 'AEdjEHktAYv'
+    assert pa.encode('fig') == 'fIHg'
+    assert pa.encode('office') == 'AOffIHs'
+    assert pa.encode('huge') == 'hyUWj'
+    assert pa.encode('gun') == 'gAHn'
+    assert pa.encode('similar') == 'sIHmIHlER'
+    assert pa.encode('death') == 'dIYTH'
+    assert pa.encode('score') == 'skAOr'
+    assert pa.encode('forward') == 'fAOrwAOrd'
+    assert pa.encode('stretched') == 'strEHtCHd'
+    assert pa.encode('experience') == 'EHkspIYrIYEHns'
+    assert pa.encode('rose') == 'rOWz'
+    assert pa.encode('allow') == 'AOlOW'
+    assert pa.encode('fear') == 'fIYr'
+    assert pa.encode('workers') == 'wERkERs'
+    assert pa.encode('Washington') == 'wAASHIHNGtAXn'
+    assert pa.encode('Greek') == 'grIYk'
+    assert pa.encode('women') == 'wOWmEHn'
+    assert pa.encode('brought') == 'brAOt'
+    assert pa.encode('led') == 'lEHd'
+    assert pa.encode('march') == 'mAArCH'
+    assert pa.encode('northern') == 'nAOrDHERn'
+    assert pa.encode('create') == 'krIYt'
+    assert pa.encode('British') == 'brAYtIHSH'
+    assert pa.encode('difficult') == 'dIHffIHkAHlt'
+    assert pa.encode('match') == 'mAEtCH'
+    assert pa.encode('win') == 'wIHn'
+    assert pa.encode("doesn't") == 'dAHznt'
+    assert pa.encode('steel') == 'stIYl'
+    assert pa.encode('total') == 'tAAtAXl'
+    assert pa.encode('deal') == 'dIYl'
+    assert pa.encode('determine') == 'dIHtERmAYn'
+    assert pa.encode('evening') == 'IYvIYnIHNG'
+    assert pa.encode('nor') == 'nAOr'
+    assert pa.encode('rope') == 'rOWp'
+    assert pa.encode('cotton') == 'kAAttAXn'
+    assert pa.encode('apple') == 'AEppAXl'
+    assert pa.encode('details') == 'dIHtEYlz'
+    assert pa.encode('entire') == 'EHntAYr'
+    assert pa.encode('corn') == 'kAOrn'
+    assert pa.encode('substances') == 'sAHbstAEnsIHz'
+    assert pa.encode('smell') == 'smEHl'
+    assert pa.encode('tools') == 'tUWlz'
+    assert pa.encode('conditions') == 'kAAndIHSHAXnz'
+    assert pa.encode('cows') == 'kOWz'
+    assert pa.encode('track') == 'trAEk'
+    assert pa.encode('arrived') == 'AXrIHvd'
+    assert pa.encode('located') == 'lOWkEYtIHd'
+    assert pa.encode('sir') == 'sER'
+    assert pa.encode('seat') == 'sIYt'
+    assert pa.encode('division') == 'dIHvIHZHAXn'
+    assert pa.encode('effect') == 'EHffEHkt'
+    assert pa.encode('underline') == 'AHndERlAYn'
+    assert pa.encode('view') == 'vyUW'
 
-    def test_nrl(self):
-        """Test abydos.phonetic.NRL."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '')
-
-        # common English words
-        self.assertEqual(self.pa.encode('the'), 'DHAX')
-        self.assertEqual(self.pa.encode('of'), 'AXv')
-        self.assertEqual(self.pa.encode('and'), 'AEnd')
-        self.assertEqual(self.pa.encode('a'), 'AX')
-        self.assertEqual(self.pa.encode('to'), 'tUW')
-        self.assertEqual(self.pa.encode('in'), 'IHn')
-        self.assertEqual(self.pa.encode('is'), 'IHz')
-        self.assertEqual(self.pa.encode('you'), 'yUW')
-        self.assertEqual(self.pa.encode('that'), 'DHAEt')
-        self.assertEqual(self.pa.encode('it'), 'IHt')
-        self.assertEqual(self.pa.encode('he'), 'hIY')
-        self.assertEqual(self.pa.encode('was'), 'wAAz')
-        self.assertEqual(self.pa.encode('for'), 'fAOr')
-        self.assertEqual(self.pa.encode('on'), 'AAn')
-        self.assertEqual(self.pa.encode('are'), 'AAr')
-        self.assertEqual(self.pa.encode('as'), 'AEz')
-        self.assertEqual(self.pa.encode('with'), 'wIHTH')
-        self.assertEqual(self.pa.encode('his'), 'hIHz')
-        self.assertEqual(self.pa.encode('they'), 'DHEY')
-        self.assertEqual(self.pa.encode('I'), 'AY')
-        self.assertEqual(self.pa.encode('at'), 'AEt')
-        self.assertEqual(self.pa.encode('be'), 'bIY')
-        self.assertEqual(self.pa.encode('this'), 'DHIHs')
-        self.assertEqual(self.pa.encode('have'), 'hAEv')
-        self.assertEqual(self.pa.encode('from'), 'frAAm')
-        self.assertEqual(self.pa.encode('or'), 'AOr')
-        self.assertEqual(self.pa.encode('one'), 'wAHn')
-        self.assertEqual(self.pa.encode('had'), 'hAEd')
-        self.assertEqual(self.pa.encode('by'), 'bAY')
-        self.assertEqual(self.pa.encode('word'), 'wERd')
-        self.assertEqual(self.pa.encode('but'), 'bAHt')
-        self.assertEqual(self.pa.encode('not'), 'nAAt')
-        self.assertEqual(self.pa.encode('what'), 'WHAAt')
-        self.assertEqual(self.pa.encode('all'), 'AOl')
-        self.assertEqual(self.pa.encode('were'), 'wER')
-        self.assertEqual(self.pa.encode('we'), 'wIY')
-        self.assertEqual(self.pa.encode('when'), 'WHEHn')
-        self.assertEqual(self.pa.encode('your'), 'yUWr')
-        self.assertEqual(self.pa.encode('can'), 'kAEn')
-        self.assertEqual(self.pa.encode('said'), 'sEHd')
-        self.assertEqual(self.pa.encode('there'), 'DHEHr')
-        self.assertEqual(self.pa.encode('use'), 'yUWz')
-        self.assertEqual(self.pa.encode('an'), 'AEn')
-        self.assertEqual(self.pa.encode('each'), 'IYCH')
-        self.assertEqual(self.pa.encode('which'), 'WHIHCH')
-        self.assertEqual(self.pa.encode('she'), 'SHIY')
-        self.assertEqual(self.pa.encode('do'), 'dUW')
-        self.assertEqual(self.pa.encode('how'), 'hAW')
-        self.assertEqual(self.pa.encode('their'), 'DHEHr')
-        self.assertEqual(self.pa.encode('if'), 'IHf')
-        self.assertEqual(self.pa.encode('will'), 'wIHl')
-        self.assertEqual(self.pa.encode('up'), 'AHp')
-        self.assertEqual(self.pa.encode('other'), 'AHDHER')
-        self.assertEqual(self.pa.encode('about'), 'AEbAWt')
-        self.assertEqual(self.pa.encode('out'), 'AWt')
-        self.assertEqual(self.pa.encode('many'), 'mEHnIY')
-        self.assertEqual(self.pa.encode('then'), 'DHEHn')
-        self.assertEqual(self.pa.encode('them'), 'DHEHm')
-        self.assertEqual(self.pa.encode('these'), 'DHIYz')
-        self.assertEqual(self.pa.encode('so'), 'sOW')
-        self.assertEqual(self.pa.encode('some'), 'sAHm')
-        self.assertEqual(self.pa.encode('her'), 'hER')
-        self.assertEqual(self.pa.encode('would'), 'wUHd')
-        self.assertEqual(self.pa.encode('make'), 'mEYk')
-        self.assertEqual(self.pa.encode('like'), 'lAYk')
-        self.assertEqual(self.pa.encode('him'), 'hIHm')
-        self.assertEqual(self.pa.encode('into'), 'IHntUW')
-        self.assertEqual(self.pa.encode('time'), 'tAYm')
-        self.assertEqual(self.pa.encode('has'), 'hAEz')
-        self.assertEqual(self.pa.encode('look'), 'lUHk')
-        self.assertEqual(self.pa.encode('two'), 'tUW')
-        self.assertEqual(self.pa.encode('more'), 'mAOr')
-        self.assertEqual(self.pa.encode('write'), 'rAYt')
-        self.assertEqual(self.pa.encode('go'), 'gOW')
-        self.assertEqual(self.pa.encode('see'), 'sIY')
-        self.assertEqual(self.pa.encode('number'), 'nAHmbER')
-        self.assertEqual(self.pa.encode('no'), 'nOW')
-        self.assertEqual(self.pa.encode('way'), 'wEY')
-        self.assertEqual(self.pa.encode('could'), 'kUHd')
-        self.assertEqual(self.pa.encode('people'), 'pIYpl')
-        self.assertEqual(self.pa.encode('my'), 'mAY')
-        self.assertEqual(self.pa.encode('than'), 'DHAEn')
-        self.assertEqual(self.pa.encode('first'), 'fERst')
-        self.assertEqual(self.pa.encode('water'), 'wAAtER')
-        self.assertEqual(self.pa.encode('been'), 'bIYn')
-        self.assertEqual(self.pa.encode('call'), 'kAOl')
-        self.assertEqual(self.pa.encode('who'), 'hUW')
-        self.assertEqual(self.pa.encode('oil'), 'OYl')
-        self.assertEqual(self.pa.encode('its'), 'IHtz')
-        self.assertEqual(self.pa.encode('now'), 'nAW')
-        self.assertEqual(self.pa.encode('find'), 'fAYnd')
-        self.assertEqual(self.pa.encode('long'), 'lAONG')
-        self.assertEqual(self.pa.encode('down'), 'dAWn')
-        self.assertEqual(self.pa.encode('day'), 'dEY')
-        self.assertEqual(self.pa.encode('did'), 'dIHd')
-        self.assertEqual(self.pa.encode('get'), 'gEHt')
-        self.assertEqual(self.pa.encode('come'), 'kAHm')
-        self.assertEqual(self.pa.encode('made'), 'mEYd')
-        self.assertEqual(self.pa.encode('may'), 'mEY')
-        self.assertEqual(self.pa.encode('part'), 'pAArt')
-        self.assertEqual(self.pa.encode('supply'), 'sAHpplIH')
-        self.assertEqual(self.pa.encode('corner'), 'kAOrnER')
-        self.assertEqual(self.pa.encode('electric'), 'IYlEHktrIHk')
-        self.assertEqual(self.pa.encode('insects'), 'IHnsEHktz')
-        self.assertEqual(self.pa.encode('crops'), 'krAAps')
-        self.assertEqual(self.pa.encode('tone'), 'tOWn')
-        self.assertEqual(self.pa.encode('hit'), 'hIHt')
-        self.assertEqual(self.pa.encode('sand'), 'sAEnd')
-        self.assertEqual(self.pa.encode('doctor'), 'dAAktER')
-        self.assertEqual(self.pa.encode('provide'), 'prAHvAYd')
-        self.assertEqual(self.pa.encode('thus'), 'DHAHs')
-        self.assertEqual(self.pa.encode("won't"), 'wOWnt')
-        self.assertEqual(self.pa.encode('cook'), 'kUHk')
-        self.assertEqual(self.pa.encode('bones'), 'bOWnz')
-        self.assertEqual(self.pa.encode('tail'), 'tEYl')
-        self.assertEqual(self.pa.encode('board'), 'bOWrd')
-        self.assertEqual(self.pa.encode('modern'), 'mOWdERn')
-        self.assertEqual(self.pa.encode('compound'), 'kAAmpAWnd')
-        self.assertEqual(self.pa.encode('mine'), 'mAYn')
-        self.assertEqual(self.pa.encode("wasn't"), 'wAAzAXnt')
-        self.assertEqual(self.pa.encode('fit'), 'fIHt')
-        self.assertEqual(self.pa.encode('addition'), 'AEddIHSHAXn')
-        self.assertEqual(self.pa.encode('belong'), 'bIHlAONG')
-        self.assertEqual(self.pa.encode('safe'), 'sEYf')
-        self.assertEqual(self.pa.encode('soldiers'), 'sOWldIYERs')
-        self.assertEqual(self.pa.encode('guess'), 'gEHs')
-        self.assertEqual(self.pa.encode('silent'), 'sAYlEHnt')
-        self.assertEqual(self.pa.encode('trade'), 'trEYd')
-        self.assertEqual(self.pa.encode('rather'), 'rAEDHER')
-        self.assertEqual(self.pa.encode('compare'), 'kAAmpEHr')
-        self.assertEqual(self.pa.encode('crowd'), 'krOWd')
-        self.assertEqual(self.pa.encode('poem'), 'pOWEHm')
-        self.assertEqual(self.pa.encode('enjoy'), 'EHnjOY')
-        self.assertEqual(self.pa.encode('elements'), 'IYlIYmEHntz')
-        self.assertEqual(self.pa.encode('indicate'), 'IHndIHkEYt')
-        self.assertEqual(self.pa.encode('except'), 'EHkssEHpt')
-        self.assertEqual(self.pa.encode('expect'), 'EHkspEHkt')
-        self.assertEqual(self.pa.encode('flat'), 'flAEt')
-        self.assertEqual(self.pa.encode('seven'), 'sIYvEHn')
-        self.assertEqual(self.pa.encode('interest'), 'IHntIYrEHst')
-        self.assertEqual(self.pa.encode('sense'), 'sEHns')
-        self.assertEqual(self.pa.encode('string'), 'strIHNG')
-        self.assertEqual(self.pa.encode('blow'), 'blOW')
-        self.assertEqual(self.pa.encode('famous'), 'fAEmAXs')
-        self.assertEqual(self.pa.encode('value'), 'vAElUW')
-        self.assertEqual(self.pa.encode('wings'), 'wIHNGz')
-        self.assertEqual(self.pa.encode('movement'), 'mUWvIYmEHnt')
-        self.assertEqual(self.pa.encode('pole'), 'pOWl')
-        self.assertEqual(self.pa.encode('exciting'), 'EHkssAYtIHNG')
-        self.assertEqual(self.pa.encode('branches'), 'brAEnCHIHz')
-        self.assertEqual(self.pa.encode('thick'), 'THIHk')
-        self.assertEqual(self.pa.encode('blood'), 'blUHd')
-        self.assertEqual(self.pa.encode('lie'), 'lAY')
-        self.assertEqual(self.pa.encode('spot'), 'spAAt')
-        self.assertEqual(self.pa.encode('bell'), 'bEHl')
-        self.assertEqual(self.pa.encode('fun'), 'fAHn')
-        self.assertEqual(self.pa.encode('loud'), 'lAWd')
-        self.assertEqual(self.pa.encode('consider'), 'kAAnsAYdER')
-        self.assertEqual(self.pa.encode('suggested'), 'sAHgjEHstIHd')
-        self.assertEqual(self.pa.encode('thin'), 'THIHn')
-        self.assertEqual(self.pa.encode('position'), 'pAAzIHSHAXn')
-        self.assertEqual(self.pa.encode('entered'), 'EHntIYrd')
-        self.assertEqual(self.pa.encode('fruit'), 'frUWIHt')
-        self.assertEqual(self.pa.encode('tied'), 'tAYd')
-        self.assertEqual(self.pa.encode('rich'), 'rIHCH')
-        self.assertEqual(self.pa.encode('dollars'), 'dAAlAArs')
-        self.assertEqual(self.pa.encode('send'), 'sEHnd')
-        self.assertEqual(self.pa.encode('sight'), 'sAYt')
-        self.assertEqual(self.pa.encode('chief'), 'CHAYEHf')
-        self.assertEqual(self.pa.encode('Japanese'), 'jAEpAEnIYz')
-        self.assertEqual(self.pa.encode('stream'), 'strIYm')
-        self.assertEqual(self.pa.encode('plants'), 'plAEntz')
-        self.assertEqual(self.pa.encode('rhythm'), 'rIHTHm')
-        self.assertEqual(self.pa.encode('eight'), 'EYt')
-        self.assertEqual(self.pa.encode('science'), 'sAYEHns')
-        self.assertEqual(self.pa.encode('major'), 'mAEjER')
-        self.assertEqual(self.pa.encode('observe'), 'AAbsERv')
-        self.assertEqual(self.pa.encode('tube'), 'tUWb')
-        self.assertEqual(self.pa.encode('necessary'), 'nIYsEHsAArIH')
-        self.assertEqual(self.pa.encode('weight'), 'wEYt')
-        self.assertEqual(self.pa.encode('meat'), 'mIYt')
-        self.assertEqual(self.pa.encode('lifted'), 'lIHftIHd')
-        self.assertEqual(self.pa.encode('process'), 'prOWsEHs')
-        self.assertEqual(self.pa.encode('army'), 'AArmIY')
-        self.assertEqual(self.pa.encode('hat'), 'hAEt')
-        self.assertEqual(self.pa.encode('property'), 'prOWpERtIH')
-        self.assertEqual(self.pa.encode('particular'), 'pAArtIHkyUWlER')
-        self.assertEqual(self.pa.encode('swim'), 'swIHm')
-        self.assertEqual(self.pa.encode('terms'), 'tERmz')
-        self.assertEqual(self.pa.encode('current'), 'kERrEHnt')
-        self.assertEqual(self.pa.encode('park'), 'pAArk')
-        self.assertEqual(self.pa.encode('sell'), 'sEHl')
-        self.assertEqual(self.pa.encode('shoulder'), 'SHUHdER')
-        self.assertEqual(self.pa.encode('industry'), 'IHndAHstrIH')
-        self.assertEqual(self.pa.encode('wash'), 'wAASH')
-        self.assertEqual(self.pa.encode('block'), 'blAAk')
-        self.assertEqual(self.pa.encode('spread'), 'sprEHd')
-        self.assertEqual(self.pa.encode('cattle'), 'kAEttl')
-        self.assertEqual(self.pa.encode('wife'), 'wAYf')
-        self.assertEqual(self.pa.encode('sharp'), 'SHAArp')
-        self.assertEqual(self.pa.encode('company'), 'kAAmpAEnIH')
-        self.assertEqual(self.pa.encode('radio'), 'rEYdIHOW')
-        self.assertEqual(self.pa.encode("we'll"), 'wEHl')
-        self.assertEqual(self.pa.encode('action'), 'AEkSHAXn')
-        self.assertEqual(self.pa.encode('capital'), 'kAEpIHtAXl')
-        self.assertEqual(self.pa.encode('factories'), 'fAEktAOrIYs')
-        self.assertEqual(self.pa.encode('settled'), 'sEHttld')
-        self.assertEqual(self.pa.encode('yellow'), 'yEHlOW')
-        self.assertEqual(self.pa.encode("isn't"), 'IHzAXnt')
-        self.assertEqual(self.pa.encode('southern'), 'sAWDHERn')
-        self.assertEqual(self.pa.encode('truck'), 'trAHk')
-        self.assertEqual(self.pa.encode('train'), 'trEYn')
-        self.assertEqual(self.pa.encode('printed'), 'prIHntIHd')
-        self.assertEqual(self.pa.encode("wouldn't"), 'wUHdnt')
-        self.assertEqual(self.pa.encode('ahead'), 'EYhEHd')
-        self.assertEqual(self.pa.encode('chance'), 'CHAEns')
-        self.assertEqual(self.pa.encode('born'), 'bAOrn')
-        self.assertEqual(self.pa.encode('level'), 'lIYvEHl')
-        self.assertEqual(self.pa.encode('triangle'), 'trIHAENGgAXl')
-        self.assertEqual(self.pa.encode('molecules'), 'mOWlEHkyUWlz')
-        self.assertEqual(self.pa.encode('France'), 'frAEns')
-        self.assertEqual(self.pa.encode('repeated'), 'rIYpIYtIHd')
-        self.assertEqual(self.pa.encode('column'), 'kAAlAHmn')
-        self.assertEqual(self.pa.encode('western'), 'wEHstERn')
-        self.assertEqual(self.pa.encode('church'), 'CHERCH')
-        self.assertEqual(self.pa.encode('sister'), 'sIHstER')
-        self.assertEqual(self.pa.encode('oxygen'), 'AAksIHjEHn')
-        self.assertEqual(self.pa.encode('plural'), 'plUHrAXl')
-        self.assertEqual(self.pa.encode('various'), 'vEHrIHAXs')
-        self.assertEqual(self.pa.encode('agreed'), 'AEgrIYd')
-        self.assertEqual(self.pa.encode('opposite'), 'AAppAAzAYt')
-        self.assertEqual(self.pa.encode('wrong'), 'rAONG')
-        self.assertEqual(self.pa.encode('chart'), 'CHAArt')
-        self.assertEqual(self.pa.encode('prepared'), 'prEHpEHrd')
-        self.assertEqual(self.pa.encode('pretty'), 'prEHttIH')
-        self.assertEqual(self.pa.encode('solution'), 'sAAlUWSHAXn')
-        self.assertEqual(self.pa.encode('fresh'), 'frEHSH')
-        self.assertEqual(self.pa.encode('shop'), 'SHAAp')
-        self.assertEqual(self.pa.encode('suffix'), 'sAHffIHks')
-        self.assertEqual(self.pa.encode('especially'), 'EHspEHSHAXlIY')
-        self.assertEqual(self.pa.encode('shoes'), 'SHOWz')
-        self.assertEqual(self.pa.encode('actually'), 'AEkCHUWAXlIY')
-        self.assertEqual(self.pa.encode('nose'), 'nOWz')
-        self.assertEqual(self.pa.encode('afraid'), 'AEfrEYd')
-        self.assertEqual(self.pa.encode('dead'), 'dEHd')
-        self.assertEqual(self.pa.encode('sugar'), 'sUWgER')
-        self.assertEqual(self.pa.encode('adjective'), 'AEdjEHktAYv')
-        self.assertEqual(self.pa.encode('fig'), 'fIHg')
-        self.assertEqual(self.pa.encode('office'), 'AOffIHs')
-        self.assertEqual(self.pa.encode('huge'), 'hyUWj')
-        self.assertEqual(self.pa.encode('gun'), 'gAHn')
-        self.assertEqual(self.pa.encode('similar'), 'sIHmIHlER')
-        self.assertEqual(self.pa.encode('death'), 'dIYTH')
-        self.assertEqual(self.pa.encode('score'), 'skAOr')
-        self.assertEqual(self.pa.encode('forward'), 'fAOrwAOrd')
-        self.assertEqual(self.pa.encode('stretched'), 'strEHtCHd')
-        self.assertEqual(self.pa.encode('experience'), 'EHkspIYrIYEHns')
-        self.assertEqual(self.pa.encode('rose'), 'rOWz')
-        self.assertEqual(self.pa.encode('allow'), 'AOlOW')
-        self.assertEqual(self.pa.encode('fear'), 'fIYr')
-        self.assertEqual(self.pa.encode('workers'), 'wERkERs')
-        self.assertEqual(self.pa.encode('Washington'), 'wAASHIHNGtAXn')
-        self.assertEqual(self.pa.encode('Greek'), 'grIYk')
-        self.assertEqual(self.pa.encode('women'), 'wOWmEHn')
-        self.assertEqual(self.pa.encode('brought'), 'brAOt')
-        self.assertEqual(self.pa.encode('led'), 'lEHd')
-        self.assertEqual(self.pa.encode('march'), 'mAArCH')
-        self.assertEqual(self.pa.encode('northern'), 'nAOrDHERn')
-        self.assertEqual(self.pa.encode('create'), 'krIYt')
-        self.assertEqual(self.pa.encode('British'), 'brAYtIHSH')
-        self.assertEqual(self.pa.encode('difficult'), 'dIHffIHkAHlt')
-        self.assertEqual(self.pa.encode('match'), 'mAEtCH')
-        self.assertEqual(self.pa.encode('win'), 'wIHn')
-        self.assertEqual(self.pa.encode("doesn't"), 'dAHznt')
-        self.assertEqual(self.pa.encode('steel'), 'stIYl')
-        self.assertEqual(self.pa.encode('total'), 'tAAtAXl')
-        self.assertEqual(self.pa.encode('deal'), 'dIYl')
-        self.assertEqual(self.pa.encode('determine'), 'dIHtERmAYn')
-        self.assertEqual(self.pa.encode('evening'), 'IYvIYnIHNG')
-        self.assertEqual(self.pa.encode('nor'), 'nAOr')
-        self.assertEqual(self.pa.encode('rope'), 'rOWp')
-        self.assertEqual(self.pa.encode('cotton'), 'kAAttAXn')
-        self.assertEqual(self.pa.encode('apple'), 'AEppAXl')
-        self.assertEqual(self.pa.encode('details'), 'dIHtEYlz')
-        self.assertEqual(self.pa.encode('entire'), 'EHntAYr')
-        self.assertEqual(self.pa.encode('corn'), 'kAOrn')
-        self.assertEqual(self.pa.encode('substances'), 'sAHbstAEnsIHz')
-        self.assertEqual(self.pa.encode('smell'), 'smEHl')
-        self.assertEqual(self.pa.encode('tools'), 'tUWlz')
-        self.assertEqual(self.pa.encode('conditions'), 'kAAndIHSHAXnz')
-        self.assertEqual(self.pa.encode('cows'), 'kOWz')
-        self.assertEqual(self.pa.encode('track'), 'trAEk')
-        self.assertEqual(self.pa.encode('arrived'), 'AXrIHvd')
-        self.assertEqual(self.pa.encode('located'), 'lOWkEYtIHd')
-        self.assertEqual(self.pa.encode('sir'), 'sER')
-        self.assertEqual(self.pa.encode('seat'), 'sIYt')
-        self.assertEqual(self.pa.encode('division'), 'dIHvIHZHAXn')
-        self.assertEqual(self.pa.encode('effect'), 'EHffEHkt')
-        self.assertEqual(self.pa.encode('underline'), 'AHndERlAYn')
-        self.assertEqual(self.pa.encode('view'), 'vyUW')
-
-        # non-English words (with letters not used in English)
-        self.assertEqual(self.pa.encode('garçon'), 'gAArÇAAn')
-        self.assertEqual(self.pa.encode('ðæt'), 'ÐÆt')
-        self.assertEqual(self.pa.encode('wünschen'), 'wÜnsCHEHn')
-        self.assertEqual(self.pa.encode('øl'), 'Øl')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # non-English words (with letters not used in English)
+    assert pa.encode('garçon') == 'gAArÇAAn'
+    assert pa.encode('ðæt') == 'ÐÆt'
+    assert pa.encode('wünschen') == 'wÜnsCHEHn'
+    assert pa.encode('øl') == 'Øl'

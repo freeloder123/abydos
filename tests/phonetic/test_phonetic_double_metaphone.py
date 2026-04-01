@@ -19,12 +19,11 @@
 This module contains unit tests for abydos.phonetic.DoubleMetaphone
 """
 
-import unittest
 
 from abydos.phonetic import DoubleMetaphone
 
 
-class DoubleMetaphoneTestCases(unittest.TestCase):
+class TestDoubleMetaphone:
     """Test Double Metaphone functions.
 
     test cases for abydos.phonetic.DoubleMetaphone
@@ -82,2651 +81,2633 @@ class DoubleMetaphoneTestCases(unittest.TestCase):
     def test_double_metaphone(self):
         """Test abydos.phonetic.DoubleMetaphone."""
         # base case
-        self.assertEqual(self.pa.encode(''), ',')
+        assert self.pa.encode('') == ','
 
         # single result
-        self.assertEqual(self.pa.encode('aubrey'), 'APR,')
+        assert self.pa.encode('aubrey') == 'APR,'
 
         # double result
-        self.assertEqual(self.pa.encode('richard'), 'RXRT,RKRT')
+        assert self.pa.encode('richard') == 'RXRT,RKRT'
 
         # general word list
-        self.assertEqual(self.pa.encode('Jose'), 'HS,')
-        self.assertEqual(self.pa.encode('cambrillo'), 'KMPRL,KMPR')
-        self.assertEqual(self.pa.encode('otto'), 'AT,')
-        self.assertEqual(self.pa.encode('aubrey'), 'APR,')
-        self.assertEqual(self.pa.encode('maurice'), 'MRS,')
-        self.assertEqual(self.pa.encode('auto'), 'AT,')
-        self.assertEqual(self.pa.encode('maisey'), 'MS,')
-        self.assertEqual(self.pa.encode('catherine'), 'K0RN,KTRN')
-        self.assertEqual(self.pa.encode('geoff'), 'JF,KF')
-        self.assertEqual(self.pa.encode('Chile'), 'XL,')
-        self.assertEqual(self.pa.encode('katherine'), 'K0RN,KTRN')
-        self.assertEqual(self.pa.encode('steven'), 'STFN,')
-        self.assertEqual(self.pa.encode('zhang'), 'JNK,')
-        self.assertEqual(self.pa.encode('bob'), 'PP,')
-        self.assertEqual(self.pa.encode('ray'), 'R,')
-        self.assertEqual(self.pa.encode('Tux'), 'TKS,')
-        self.assertEqual(self.pa.encode('bryan'), 'PRN,')
-        self.assertEqual(self.pa.encode('bryce'), 'PRS,')
-        self.assertEqual(self.pa.encode('Rapelje'), 'RPL,')
-        self.assertEqual(self.pa.encode('richard'), 'RXRT,RKRT')
-        self.assertEqual(self.pa.encode('solilijs'), 'SLLS,')
-        self.assertEqual(self.pa.encode('Dallas'), 'TLS,')
-        self.assertEqual(self.pa.encode('Schwein'), 'XN,XFN')
-        self.assertEqual(self.pa.encode('dave'), 'TF,')
-        self.assertEqual(self.pa.encode('eric'), 'ARK,')
-        self.assertEqual(self.pa.encode('Parachute'), 'PRKT,')
-        self.assertEqual(self.pa.encode('brian'), 'PRN,')
-        self.assertEqual(self.pa.encode('randy'), 'RNT,')
-        self.assertEqual(self.pa.encode('Through'), '0R,TR')
-        self.assertEqual(self.pa.encode('Nowhere'), 'NR,')
-        self.assertEqual(self.pa.encode('heidi'), 'HT,')
-        self.assertEqual(self.pa.encode('Arnow'), 'ARN,ARNF')
-        self.assertEqual(self.pa.encode('Thumbail'), '0MPL,TMPL')
+        assert self.pa.encode('Jose') == 'HS,'
+        assert self.pa.encode('cambrillo') == 'KMPRL,KMPR'
+        assert self.pa.encode('otto') == 'AT,'
+        assert self.pa.encode('aubrey') == 'APR,'
+        assert self.pa.encode('maurice') == 'MRS,'
+        assert self.pa.encode('auto') == 'AT,'
+        assert self.pa.encode('maisey') == 'MS,'
+        assert self.pa.encode('catherine') == 'K0RN,KTRN'
+        assert self.pa.encode('geoff') == 'JF,KF'
+        assert self.pa.encode('Chile') == 'XL,'
+        assert self.pa.encode('katherine') == 'K0RN,KTRN'
+        assert self.pa.encode('steven') == 'STFN,'
+        assert self.pa.encode('zhang') == 'JNK,'
+        assert self.pa.encode('bob') == 'PP,'
+        assert self.pa.encode('ray') == 'R,'
+        assert self.pa.encode('Tux') == 'TKS,'
+        assert self.pa.encode('bryan') == 'PRN,'
+        assert self.pa.encode('bryce') == 'PRS,'
+        assert self.pa.encode('Rapelje') == 'RPL,'
+        assert self.pa.encode('richard') == 'RXRT,RKRT'
+        assert self.pa.encode('solilijs') == 'SLLS,'
+        assert self.pa.encode('Dallas') == 'TLS,'
+        assert self.pa.encode('Schwein') == 'XN,XFN'
+        assert self.pa.encode('dave') == 'TF,'
+        assert self.pa.encode('eric') == 'ARK,'
+        assert self.pa.encode('Parachute') == 'PRKT,'
+        assert self.pa.encode('brian') == 'PRN,'
+        assert self.pa.encode('randy') == 'RNT,'
+        assert self.pa.encode('Through') == '0R,TR'
+        assert self.pa.encode('Nowhere') == 'NR,'
+        assert self.pa.encode('heidi') == 'HT,'
+        assert self.pa.encode('Arnow') == 'ARN,ARNF'
+        assert self.pa.encode('Thumbail') == '0MPL,TMPL'
 
         # homophones
-        self.assertEqual(self.pa.encode('tolled'), self.pa.encode('told'))
-        self.assertEqual(
-            self.pa.encode('katherine'), self.pa.encode('catherine')
-        )
-        self.assertEqual(self.pa.encode('brian'), self.pa.encode('bryan'))
+        assert self.pa.encode('tolled') == self.pa.encode('told')
+        assert self.pa.encode('katherine') == self.pa.encode('catherine')
+        assert self.pa.encode('brian') == self.pa.encode('bryan')
 
         # similar names
-        self.assertEqual(self.pa.encode('Bartoš'), 'PRT,')
-        self.assertEqual(self.pa.encode('Bartosz'), 'PRTS,PRTX')
-        self.assertEqual(self.pa.encode('Bartosch'), 'PRTX,')
-        self.assertEqual(self.pa.encode('Bartos'), 'PRTS,')
-        self.assertEqual(
-            list(
-                set(self.pa.encode('Jablonski').split(',')).intersection(
-                    self.pa.encode('Yablonsky').split(',')
-                )
-            ),
-            ['APLNSK'],
+        assert self.pa.encode('Bartoš') == 'PRT,'
+        assert self.pa.encode('Bartosz') == 'PRTS,PRTX'
+        assert self.pa.encode('Bartosch') == 'PRTX,'
+        assert self.pa.encode('Bartos') == 'PRTS,'
+        assert (
+            list( set(self.pa.encode('Jablonski').split(',')).intersection( self.pa.encode('Yablonsky').split(',') ) )
+            == ['APLNSK']
         )
-        self.assertEqual(
-            list(
-                set(self.pa.encode('Smith').split(',')).intersection(
-                    self.pa.encode('Schmidt').split(',')
-                )
-            ),
-            ['XMT'],
+        assert (
+            list( set(self.pa.encode('Smith').split(',')).intersection( self.pa.encode('Schmidt').split(',') ) )
+            == ['XMT']
         )
 
         # non-English Unicode
-        self.assertEqual(self.pa.encode('andestādītu'), 'ANTSTTT,')
+        assert self.pa.encode('andestādītu') == 'ANTSTTT,'
 
         # c-cedilla
-        self.assertEqual(self.pa.encode('français'), 'FRNS,FRNSS')
-        self.assertEqual(self.pa.encode('garçon'), 'KRSN,')
-        self.assertEqual(self.pa.encode('leçon'), 'LSN,')
+        assert self.pa.encode('français') == 'FRNS,FRNSS'
+        assert self.pa.encode('garçon') == 'KRSN,'
+        assert self.pa.encode('leçon') == 'LSN,'
 
         # German words
-        self.assertEqual(self.pa.encode('ach'), 'AK,')
-        self.assertEqual(self.pa.encode('bacher'), 'PKR,')
-        self.assertEqual(self.pa.encode('macher'), 'MKR,')
+        assert self.pa.encode('ach') == 'AK,'
+        assert self.pa.encode('bacher') == 'PKR,'
+        assert self.pa.encode('macher') == 'MKR,'
 
         # Italian words
-        self.assertEqual(self.pa.encode('bacci'), 'PX,')
-        self.assertEqual(self.pa.encode('bertucci'), 'PRTX,')
-        self.assertEqual(self.pa.encode('bellocchio'), 'PLX,')
-        self.assertEqual(self.pa.encode('bacchus'), 'PKS,')
-        self.assertEqual(self.pa.encode('focaccia'), 'FKX,')
-        self.assertEqual(self.pa.encode('chianti'), 'KNT,')
-        self.assertEqual(self.pa.encode('tagliaro'), 'TKLR,TLR')
-        self.assertEqual(self.pa.encode('biaggi'), 'PJ,PK')
+        assert self.pa.encode('bacci') == 'PX,'
+        assert self.pa.encode('bertucci') == 'PRTX,'
+        assert self.pa.encode('bellocchio') == 'PLX,'
+        assert self.pa.encode('bacchus') == 'PKS,'
+        assert self.pa.encode('focaccia') == 'FKX,'
+        assert self.pa.encode('chianti') == 'KNT,'
+        assert self.pa.encode('tagliaro') == 'TKLR,TLR'
+        assert self.pa.encode('biaggi') == 'PJ,PK'
 
         # Spanish words
-        self.assertEqual(self.pa.encode('bajador'), 'PJTR,PHTR')
-        self.assertEqual(self.pa.encode('cabrillo'), 'KPRL,KPR')
-        self.assertEqual(self.pa.encode('gallegos'), 'KLKS,KKS')
-        self.assertEqual(self.pa.encode('San Jacinto'), 'SNHSNT,')
+        assert self.pa.encode('bajador') == 'PJTR,PHTR'
+        assert self.pa.encode('cabrillo') == 'KPRL,KPR'
+        assert self.pa.encode('gallegos') == 'KLKS,KKS'
+        assert self.pa.encode('San Jacinto') == 'SNHSNT,'
 
         # French words
-        self.assertEqual(self.pa.encode('rogier'), 'RJ,RJR')
-        self.assertEqual(self.pa.encode('breaux'), 'PR,')
+        assert self.pa.encode('rogier') == 'RJ,RJR'
+        assert self.pa.encode('breaux') == 'PR,'
 
         # Slavic words
-        self.assertEqual(self.pa.encode('Wewski'), 'ASK,FFSK')
+        assert self.pa.encode('Wewski') == 'ASK,FFSK'
 
         # Chinese words
-        self.assertEqual(self.pa.encode('zhao'), 'J,')
+        assert self.pa.encode('zhao') == 'J,'
 
         # Dutch-origin words
-        self.assertEqual(self.pa.encode('school'), 'SKL,')
-        self.assertEqual(self.pa.encode('schooner'), 'SKNR,')
-        self.assertEqual(self.pa.encode('schermerhorn'), 'XRMRRN,SKRMRRN')
-        self.assertEqual(self.pa.encode('schenker'), 'XNKR,SKNKR')
+        assert self.pa.encode('school') == 'SKL,'
+        assert self.pa.encode('schooner') == 'SKNR,'
+        assert self.pa.encode('schermerhorn') == 'XRMRRN,SKRMRRN'
+        assert self.pa.encode('schenker') == 'XNKR,SKNKR'
 
         # <ch> words
-        self.assertEqual(self.pa.encode('Charac'), 'KRK,')
-        self.assertEqual(self.pa.encode('Charis'), 'KRS,')
-        self.assertEqual(self.pa.encode('chord'), 'KRT,')
-        self.assertEqual(self.pa.encode('Chym'), 'KM,')
-        self.assertEqual(self.pa.encode('Chia'), 'K,')
-        self.assertEqual(self.pa.encode('chem'), 'KM,')
-        self.assertEqual(self.pa.encode('chore'), 'XR,')
-        self.assertEqual(self.pa.encode('orchestra'), 'ARKSTR,')
-        self.assertEqual(self.pa.encode('architect'), 'ARKTKT,')
-        self.assertEqual(self.pa.encode('orchid'), 'ARKT,')
+        assert self.pa.encode('Charac') == 'KRK,'
+        assert self.pa.encode('Charis') == 'KRS,'
+        assert self.pa.encode('chord') == 'KRT,'
+        assert self.pa.encode('Chym') == 'KM,'
+        assert self.pa.encode('Chia') == 'K,'
+        assert self.pa.encode('chem') == 'KM,'
+        assert self.pa.encode('chore') == 'XR,'
+        assert self.pa.encode('orchestra') == 'ARKSTR,'
+        assert self.pa.encode('architect') == 'ARKTKT,'
+        assert self.pa.encode('orchid') == 'ARKT,'
 
         # <cc> words
-        self.assertEqual(self.pa.encode('accident'), 'AKSTNT,')
-        self.assertEqual(self.pa.encode('accede'), 'AKST,')
-        self.assertEqual(self.pa.encode('succeed'), 'SKST,')
+        assert self.pa.encode('accident') == 'AKSTNT,'
+        assert self.pa.encode('accede') == 'AKST,'
+        assert self.pa.encode('succeed') == 'SKST,'
 
         # <mc> words
-        self.assertEqual(self.pa.encode('mac caffrey'), 'MKFR,')
-        self.assertEqual(self.pa.encode('mac gregor'), 'MKRKR,')
-        self.assertEqual(self.pa.encode('mc crae'), 'MKR,')
-        self.assertEqual(self.pa.encode('mcclain'), 'MKLN,')
+        assert self.pa.encode('mac caffrey') == 'MKFR,'
+        assert self.pa.encode('mac gregor') == 'MKRKR,'
+        assert self.pa.encode('mc crae') == 'MKR,'
+        assert self.pa.encode('mcclain') == 'MKLN,'
 
         # <gh> words
-        self.assertEqual(self.pa.encode('laugh'), 'LF,')
-        self.assertEqual(self.pa.encode('cough'), 'KF,')
-        self.assertEqual(self.pa.encode('rough'), 'RF,')
+        assert self.pa.encode('laugh') == 'LF,'
+        assert self.pa.encode('cough') == 'KF,'
+        assert self.pa.encode('rough') == 'RF,'
 
         # <g__> words
-        self.assertEqual(self.pa.encode('gya'), 'K,J')
-        self.assertEqual(self.pa.encode('ges'), 'KS,JS')
-        self.assertEqual(self.pa.encode('gep'), 'KP,JP')
-        self.assertEqual(self.pa.encode('geb'), 'KP,JP')
-        self.assertEqual(self.pa.encode('gel'), 'KL,JL')
-        self.assertEqual(self.pa.encode('gey'), 'K,J')
-        self.assertEqual(self.pa.encode('gib'), 'KP,JP')
-        self.assertEqual(self.pa.encode('gil'), 'KL,JL')
-        self.assertEqual(self.pa.encode('gin'), 'KN,JN')
-        self.assertEqual(self.pa.encode('gie'), 'K,J')
-        self.assertEqual(self.pa.encode('gei'), 'K,J')
-        self.assertEqual(self.pa.encode('ger'), 'KR,JR')
-        self.assertEqual(self.pa.encode('danger'), 'TNJR,TNKR')
-        self.assertEqual(self.pa.encode('manager'), 'MNKR,MNJR')
-        self.assertEqual(self.pa.encode('dowager'), 'TKR,TJR')
+        assert self.pa.encode('gya') == 'K,J'
+        assert self.pa.encode('ges') == 'KS,JS'
+        assert self.pa.encode('gep') == 'KP,JP'
+        assert self.pa.encode('geb') == 'KP,JP'
+        assert self.pa.encode('gel') == 'KL,JL'
+        assert self.pa.encode('gey') == 'K,J'
+        assert self.pa.encode('gib') == 'KP,JP'
+        assert self.pa.encode('gil') == 'KL,JL'
+        assert self.pa.encode('gin') == 'KN,JN'
+        assert self.pa.encode('gie') == 'K,J'
+        assert self.pa.encode('gei') == 'K,J'
+        assert self.pa.encode('ger') == 'KR,JR'
+        assert self.pa.encode('danger') == 'TNJR,TNKR'
+        assert self.pa.encode('manager') == 'MNKR,MNJR'
+        assert self.pa.encode('dowager') == 'TKR,TJR'
 
         # <pb> words
-        self.assertEqual(self.pa.encode('Campbell'), 'KMPL,')
-        self.assertEqual(self.pa.encode('raspberry'), 'RSPR,')
+        assert self.pa.encode('Campbell') == 'KMPL,'
+        assert self.pa.encode('raspberry') == 'RSPR,'
 
         # <th> words
-        self.assertEqual(self.pa.encode('Thomas'), 'TMS,')
-        self.assertEqual(self.pa.encode('Thames'), 'TMS,')
+        assert self.pa.encode('Thomas') == 'TMS,'
+        assert self.pa.encode('Thames') == 'TMS,'
 
         # etc. (for code coverage)
-        self.assertEqual(self.pa.encode('Xavier'), 'SF,SFR')
-        self.assertEqual(self.pa.encode('Michael'), 'MKL,MXL')
-        self.assertEqual(self.pa.encode('Ignacio'), 'AKNS,ANX')
-        self.assertEqual(self.pa.encode('Ajjam'), 'AJM,')
-        self.assertEqual(self.pa.encode('Akkad'), 'AKT,')
-        self.assertEqual(self.pa.encode('Año'), 'AN,')
-        self.assertEqual(self.pa.encode('Año'), self.pa.encode('Anno'))
-        self.assertEqual(self.pa.encode('Caucasian'), 'KKSN,KKXN')
-        self.assertEqual(self.pa.encode('Kaukasian'), 'KKSN,')
-        self.assertEqual(self.pa.encode('Zaqqum'), 'SKM,')
-        self.assertEqual(self.pa.encode('stevven'), 'STFN,')
-        self.assertEqual(self.pa.encode('Tuxx'), 'TKS,')
-        self.assertEqual(self.pa.encode('Ghiradelli'), 'JRTL,')
-        self.assertEqual(self.pa.encode('ghoul'), 'KL,')
-        self.assertEqual(self.pa.encode('hej'), 'HJ,H')
+        assert self.pa.encode('Xavier') == 'SF,SFR'
+        assert self.pa.encode('Michael') == 'MKL,MXL'
+        assert self.pa.encode('Ignacio') == 'AKNS,ANX'
+        assert self.pa.encode('Ajjam') == 'AJM,'
+        assert self.pa.encode('Akkad') == 'AKT,'
+        assert self.pa.encode('Año') == 'AN,'
+        assert self.pa.encode('Año') == self.pa.encode('Anno')
+        assert self.pa.encode('Caucasian') == 'KKSN,KKXN'
+        assert self.pa.encode('Kaukasian') == 'KKSN,'
+        assert self.pa.encode('Zaqqum') == 'SKM,'
+        assert self.pa.encode('stevven') == 'STFN,'
+        assert self.pa.encode('Tuxx') == 'TKS,'
+        assert self.pa.encode('Ghiradelli') == 'JRTL,'
+        assert self.pa.encode('ghoul') == 'KL,'
+        assert self.pa.encode('hej') == 'HJ,H'
 
         # max_length bounds tests
-        self.assertEqual(DoubleMetaphone(max_length=-1).encode('Niall'), 'NL,')
-        self.assertEqual(DoubleMetaphone(max_length=0).encode('Niall'), 'NL,')
+        assert DoubleMetaphone(max_length=-1).encode('Niall') == 'NL,'
+        assert DoubleMetaphone(max_length=0).encode('Niall') == 'NL,'
 
         # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('maurice'), 'MRS,')
-        self.assertEqual(self.pa.encode_alpha('auto'), 'AT,')
-        self.assertEqual(self.pa.encode_alpha('maisey'), 'MS,')
-        self.assertEqual(self.pa.encode_alpha('catherine'), 'KÞRN,KTRN')
-        self.assertEqual(self.pa.encode_alpha('geoff'), 'JF,KF')
-        self.assertEqual(self.pa.encode_alpha('Bosworth'), 'PSRÞ,PSRT')
+        assert self.pa.encode_alpha('maurice') == 'MRS,'
+        assert self.pa.encode_alpha('auto') == 'AT,'
+        assert self.pa.encode_alpha('maisey') == 'MS,'
+        assert self.pa.encode_alpha('catherine') == 'KÞRN,KTRN'
+        assert self.pa.encode_alpha('geoff') == 'JF,KF'
+        assert self.pa.encode_alpha('Bosworth') == 'PSRÞ,PSRT'
 
     def test_double_metaphone_surnames(self):
         """Test abydos.phonetic.DoubleMetaphone (surname data)."""
-        self.assertEqual(self.pa.encode(''), ',')
-        self.assertEqual(self.pa.encode('ALLERTON'), 'ALRTN,')
-        self.assertEqual(self.pa.encode('Acton'), 'AKTN,')
-        self.assertEqual(self.pa.encode('Adams'), 'ATMS,')
-        self.assertEqual(self.pa.encode('Aggar'), 'AKR,')
-        self.assertEqual(self.pa.encode('Ahl'), 'AL,')
-        self.assertEqual(self.pa.encode('Aiken'), 'AKN,')
-        self.assertEqual(self.pa.encode('Alan'), 'ALN,')
-        self.assertEqual(self.pa.encode('Alcock'), 'ALKK,')
-        self.assertEqual(self.pa.encode('Alden'), 'ALTN,')
-        self.assertEqual(self.pa.encode('Aldham'), 'ALTM,')
-        self.assertEqual(self.pa.encode('Allen'), 'ALN,')
-        self.assertEqual(self.pa.encode('Allerton'), 'ALRTN,')
-        self.assertEqual(self.pa.encode('Alsop'), 'ALSP,')
-        self.assertEqual(self.pa.encode('Alwein'), 'ALN,')
-        self.assertEqual(self.pa.encode('Ambler'), 'AMPLR,')
-        self.assertEqual(self.pa.encode('Andevill'), 'ANTFL,')
-        self.assertEqual(self.pa.encode('Andrews'), 'ANTRS,')
-        self.assertEqual(self.pa.encode('Andreyco'), 'ANTRK,')
-        self.assertEqual(self.pa.encode('Andriesse'), 'ANTRS,')
-        self.assertEqual(self.pa.encode('Angier'), 'ANJ,ANJR')
-        self.assertEqual(self.pa.encode('Annabel'), 'ANPL,')
-        self.assertEqual(self.pa.encode('Anne'), 'AN,')
-        self.assertEqual(self.pa.encode('Anstye'), 'ANST,')
-        self.assertEqual(self.pa.encode('Appling'), 'APLNK,')
-        self.assertEqual(self.pa.encode('Apuke'), 'APK,')
-        self.assertEqual(self.pa.encode('Arnold'), 'ARNLT,')
-        self.assertEqual(self.pa.encode('Ashby'), 'AXP,')
-        self.assertEqual(self.pa.encode('Astwood'), 'ASTT,')
-        self.assertEqual(self.pa.encode('Atkinson'), 'ATKNSN,')
-        self.assertEqual(self.pa.encode('Audley'), 'ATL,')
-        self.assertEqual(self.pa.encode('Austin'), 'ASTN,')
-        self.assertEqual(self.pa.encode('Avenal'), 'AFNL,')
-        self.assertEqual(self.pa.encode('Ayer'), 'AR,')
-        self.assertEqual(self.pa.encode('Ayot'), 'AT,')
-        self.assertEqual(self.pa.encode('Babbitt'), 'PPT,')
-        self.assertEqual(self.pa.encode('Bachelor'), 'PXLR,PKLR')
-        self.assertEqual(self.pa.encode('Bachelour'), 'PXLR,PKLR')
-        self.assertEqual(self.pa.encode('Bailey'), 'PL,')
-        self.assertEqual(self.pa.encode('Baivel'), 'PFL,')
-        self.assertEqual(self.pa.encode('Baker'), 'PKR,')
-        self.assertEqual(self.pa.encode('Baldwin'), 'PLTN,')
-        self.assertEqual(self.pa.encode('Balsley'), 'PLSL,')
-        self.assertEqual(self.pa.encode('Barber'), 'PRPR,')
-        self.assertEqual(self.pa.encode('Barker'), 'PRKR,')
-        self.assertEqual(self.pa.encode('Barlow'), 'PRL,PRLF')
-        self.assertEqual(self.pa.encode('Barnard'), 'PRNRT,')
-        self.assertEqual(self.pa.encode('Barnes'), 'PRNS,')
-        self.assertEqual(self.pa.encode('Barnsley'), 'PRNSL,')
-        self.assertEqual(self.pa.encode('Barouxis'), 'PRKSS,')
-        self.assertEqual(self.pa.encode('Bartlet'), 'PRTLT,')
-        self.assertEqual(self.pa.encode('Basley'), 'PSL,')
-        self.assertEqual(self.pa.encode('Basset'), 'PST,')
-        self.assertEqual(self.pa.encode('Bassett'), 'PST,')
-        self.assertEqual(self.pa.encode('Batchlor'), 'PXLR,')
-        self.assertEqual(self.pa.encode('Bates'), 'PTS,')
-        self.assertEqual(self.pa.encode('Batson'), 'PTSN,')
-        self.assertEqual(self.pa.encode('Bayes'), 'PS,')
-        self.assertEqual(self.pa.encode('Bayley'), 'PL,')
-        self.assertEqual(self.pa.encode('Beale'), 'PL,')
-        self.assertEqual(self.pa.encode('Beauchamp'), 'PXMP,PKMP')
-        self.assertEqual(self.pa.encode('Beauclerc'), 'PKLRK,')
-        self.assertEqual(self.pa.encode('Beech'), 'PK,')
-        self.assertEqual(self.pa.encode('Beers'), 'PRS,')
-        self.assertEqual(self.pa.encode('Beke'), 'PK,')
-        self.assertEqual(self.pa.encode('Belcher'), 'PLXR,PLKR')
-        self.assertEqual(self.pa.encode('Benjamin'), 'PNJMN,')
-        self.assertEqual(self.pa.encode('Benningham'), 'PNNKM,')
-        self.assertEqual(self.pa.encode('Bereford'), 'PRFRT,')
-        self.assertEqual(self.pa.encode('Bergen'), 'PRJN,PRKN')
-        self.assertEqual(self.pa.encode('Berkeley'), 'PRKL,')
-        self.assertEqual(self.pa.encode('Berry'), 'PR,')
-        self.assertEqual(self.pa.encode('Besse'), 'PS,')
-        self.assertEqual(self.pa.encode('Bessey'), 'PS,')
-        self.assertEqual(self.pa.encode('Bessiles'), 'PSLS,')
-        self.assertEqual(self.pa.encode('Bigelow'), 'PJL,PKLF')
-        self.assertEqual(self.pa.encode('Bigg'), 'PK,')
-        self.assertEqual(self.pa.encode('Bigod'), 'PKT,')
-        self.assertEqual(self.pa.encode('Billings'), 'PLNKS,')
-        self.assertEqual(self.pa.encode('Bimper'), 'PMPR,')
-        self.assertEqual(self.pa.encode('Binker'), 'PNKR,')
-        self.assertEqual(self.pa.encode('Birdsill'), 'PRTSL,')
-        self.assertEqual(self.pa.encode('Bishop'), 'PXP,')
-        self.assertEqual(self.pa.encode('Black'), 'PLK,')
-        self.assertEqual(self.pa.encode('Blagge'), 'PLK,')
-        self.assertEqual(self.pa.encode('Blake'), 'PLK,')
-        self.assertEqual(self.pa.encode('Blanck'), 'PLNK,')
-        self.assertEqual(self.pa.encode('Bledsoe'), 'PLTS,')
-        self.assertEqual(self.pa.encode('Blennerhasset'), 'PLNRST,')
-        self.assertEqual(self.pa.encode('Blessing'), 'PLSNK,')
-        self.assertEqual(self.pa.encode('Blewett'), 'PLT,')
-        self.assertEqual(self.pa.encode('Bloctgoed'), 'PLKTKT,')
-        self.assertEqual(self.pa.encode('Bloetgoet'), 'PLTKT,')
-        self.assertEqual(self.pa.encode('Bloodgood'), 'PLTKT,')
-        self.assertEqual(self.pa.encode('Blossom'), 'PLSM,')
-        self.assertEqual(self.pa.encode('Blount'), 'PLNT,')
-        self.assertEqual(self.pa.encode('Bodine'), 'PTN,')
-        self.assertEqual(self.pa.encode('Bodman'), 'PTMN,')
-        self.assertEqual(self.pa.encode('BonCoeur'), 'PNKR,')
-        self.assertEqual(self.pa.encode('Bond'), 'PNT,')
-        self.assertEqual(self.pa.encode('Boscawen'), 'PSKN,')
-        self.assertEqual(self.pa.encode('Bosworth'), 'PSR0,PSRT')
-        self.assertEqual(self.pa.encode('Bouchier'), 'PX,PKR')
-        self.assertEqual(self.pa.encode('Bowne'), 'PN,')
-        self.assertEqual(self.pa.encode('Bradbury'), 'PRTPR,')
-        self.assertEqual(self.pa.encode('Bradder'), 'PRTR,')
-        self.assertEqual(self.pa.encode('Bradford'), 'PRTFRT,')
-        self.assertEqual(self.pa.encode('Bradstreet'), 'PRTSTRT,')
-        self.assertEqual(self.pa.encode('Braham'), 'PRHM,')
-        self.assertEqual(self.pa.encode('Brailsford'), 'PRLSFRT,')
-        self.assertEqual(self.pa.encode('Brainard'), 'PRNRT,')
-        self.assertEqual(self.pa.encode('Brandish'), 'PRNTX,')
-        self.assertEqual(self.pa.encode('Braun'), 'PRN,')
-        self.assertEqual(self.pa.encode('Brecc'), 'PRK,')
-        self.assertEqual(self.pa.encode('Brent'), 'PRNT,')
-        self.assertEqual(self.pa.encode('Brenton'), 'PRNTN,')
-        self.assertEqual(self.pa.encode('Briggs'), 'PRKS,')
-        self.assertEqual(self.pa.encode('Brigham'), 'PRM,')
-        self.assertEqual(self.pa.encode('Brobst'), 'PRPST,')
-        self.assertEqual(self.pa.encode('Brome'), 'PRM,')
-        self.assertEqual(self.pa.encode('Bronson'), 'PRNSN,')
-        self.assertEqual(self.pa.encode('Brooks'), 'PRKS,')
-        self.assertEqual(self.pa.encode('Brouillard'), 'PRLRT,')
-        self.assertEqual(self.pa.encode('Brown'), 'PRN,')
-        self.assertEqual(self.pa.encode('Browne'), 'PRN,')
-        self.assertEqual(self.pa.encode('Brownell'), 'PRNL,')
-        self.assertEqual(self.pa.encode('Bruley'), 'PRL,')
-        self.assertEqual(self.pa.encode('Bryant'), 'PRNT,')
-        self.assertEqual(self.pa.encode('Brzozowski'), 'PRSSSK,PRTSTSFSK')
-        self.assertEqual(self.pa.encode('Buide'), 'PT,')
-        self.assertEqual(self.pa.encode('Bulmer'), 'PLMR,')
-        self.assertEqual(self.pa.encode('Bunker'), 'PNKR,')
-        self.assertEqual(self.pa.encode('Burden'), 'PRTN,')
-        self.assertEqual(self.pa.encode('Burge'), 'PRJ,PRK')
-        self.assertEqual(self.pa.encode('Burgoyne'), 'PRKN,')
-        self.assertEqual(self.pa.encode('Burke'), 'PRK,')
-        self.assertEqual(self.pa.encode('Burnett'), 'PRNT,')
-        self.assertEqual(self.pa.encode('Burpee'), 'PRP,')
-        self.assertEqual(self.pa.encode('Bursley'), 'PRSL,')
-        self.assertEqual(self.pa.encode('Burton'), 'PRTN,')
-        self.assertEqual(self.pa.encode('Bushnell'), 'PXNL,')
-        self.assertEqual(self.pa.encode('Buss'), 'PS,')
-        self.assertEqual(self.pa.encode('Buswell'), 'PSL,')
-        self.assertEqual(self.pa.encode('Butler'), 'PTLR,')
-        self.assertEqual(self.pa.encode('Calkin'), 'KLKN,')
-        self.assertEqual(self.pa.encode('Canada'), 'KNT,')
-        self.assertEqual(self.pa.encode('Canmore'), 'KNMR,')
-        self.assertEqual(self.pa.encode('Canney'), 'KN,')
-        self.assertEqual(self.pa.encode('Capet'), 'KPT,')
-        self.assertEqual(self.pa.encode('Card'), 'KRT,')
-        self.assertEqual(self.pa.encode('Carman'), 'KRMN,')
-        self.assertEqual(self.pa.encode('Carpenter'), 'KRPNTR,')
-        self.assertEqual(self.pa.encode('Cartwright'), 'KRTRT,')
-        self.assertEqual(self.pa.encode('Casey'), 'KS,')
-        self.assertEqual(self.pa.encode('Catterfield'), 'KTRFLT,')
-        self.assertEqual(self.pa.encode('Ceeley'), 'SL,')
-        self.assertEqual(self.pa.encode('Chambers'), 'XMPRS,')
-        self.assertEqual(self.pa.encode('Champion'), 'XMPN,')
-        self.assertEqual(self.pa.encode('Chapman'), 'XPMN,')
-        self.assertEqual(self.pa.encode('Chase'), 'XS,')
-        self.assertEqual(self.pa.encode('Cheney'), 'XN,')
-        self.assertEqual(self.pa.encode('Chetwynd'), 'XTNT,')
-        self.assertEqual(self.pa.encode('Chevalier'), 'XFL,XFLR')
-        self.assertEqual(self.pa.encode('Chillingsworth'), 'XLNKSR0,XLNKSRT')
-        self.assertEqual(self.pa.encode('Christie'), 'KRST,')
-        self.assertEqual(self.pa.encode('Chubbuck'), 'XPK,')
-        self.assertEqual(self.pa.encode('Church'), 'XRX,XRK')
-        self.assertEqual(self.pa.encode('Clark'), 'KLRK,')
-        self.assertEqual(self.pa.encode('Clarke'), 'KLRK,')
-        self.assertEqual(self.pa.encode('Cleare'), 'KLR,')
-        self.assertEqual(self.pa.encode('Clement'), 'KLMNT,')
-        self.assertEqual(self.pa.encode('Clerke'), 'KLRK,')
-        self.assertEqual(self.pa.encode('Clibben'), 'KLPN,')
-        self.assertEqual(self.pa.encode('Clifford'), 'KLFRT,')
-        self.assertEqual(self.pa.encode('Clivedon'), 'KLFTN,')
-        self.assertEqual(self.pa.encode('Close'), 'KLS,')
-        self.assertEqual(self.pa.encode('Clothilde'), 'KL0LT,KLTLT')
-        self.assertEqual(self.pa.encode('Cobb'), 'KP,')
-        self.assertEqual(self.pa.encode('Coburn'), 'KPRN,')
-        self.assertEqual(self.pa.encode('Coburne'), 'KPRN,')
-        self.assertEqual(self.pa.encode('Cocke'), 'KK,')
-        self.assertEqual(self.pa.encode('Coffin'), 'KFN,')
-        self.assertEqual(self.pa.encode('Coffyn'), 'KFN,')
-        self.assertEqual(self.pa.encode('Colborne'), 'KLPRN,')
-        self.assertEqual(self.pa.encode('Colby'), 'KLP,')
-        self.assertEqual(self.pa.encode('Cole'), 'KL,')
-        self.assertEqual(self.pa.encode('Coleman'), 'KLMN,')
-        self.assertEqual(self.pa.encode('Collier'), 'KL,KLR')
-        self.assertEqual(self.pa.encode('Compton'), 'KMPTN,')
-        self.assertEqual(self.pa.encode('Cone'), 'KN,')
-        self.assertEqual(self.pa.encode('Cook'), 'KK,')
-        self.assertEqual(self.pa.encode('Cooke'), 'KK,')
-        self.assertEqual(self.pa.encode('Cooper'), 'KPR,')
-        self.assertEqual(self.pa.encode('Copperthwaite'), 'KPR0T,KPRTT')
-        self.assertEqual(self.pa.encode('Corbet'), 'KRPT,')
-        self.assertEqual(self.pa.encode('Corell'), 'KRL,')
-        self.assertEqual(self.pa.encode('Corey'), 'KR,')
-        self.assertEqual(self.pa.encode('Corlies'), 'KRLS,')
-        self.assertEqual(self.pa.encode('Corneliszen'), 'KRNLSN,KRNLXN')
-        self.assertEqual(self.pa.encode('Cornelius'), 'KRNLS,')
-        self.assertEqual(self.pa.encode('Cornwallis'), 'KRNLS,')
-        self.assertEqual(self.pa.encode('Cosgrove'), 'KSKRF,')
-        self.assertEqual(self.pa.encode('Count of Brionne'), 'KNTFPRN,')
-        self.assertEqual(self.pa.encode('Covill'), 'KFL,')
-        self.assertEqual(self.pa.encode('Cowperthwaite'), 'KPR0T,KPRTT')
-        self.assertEqual(self.pa.encode('Cowperwaite'), 'KPRT,')
-        self.assertEqual(self.pa.encode('Crane'), 'KRN,')
-        self.assertEqual(self.pa.encode('Creagmile'), 'KRKML,')
-        self.assertEqual(self.pa.encode('Crew'), 'KR,KRF')
-        self.assertEqual(self.pa.encode('Crispin'), 'KRSPN,')
-        self.assertEqual(self.pa.encode('Crocker'), 'KRKR,')
-        self.assertEqual(self.pa.encode('Crockett'), 'KRKT,')
-        self.assertEqual(self.pa.encode('Crosby'), 'KRSP,')
-        self.assertEqual(self.pa.encode('Crump'), 'KRMP,')
-        self.assertEqual(self.pa.encode('Cunningham'), 'KNNKM,')
-        self.assertEqual(self.pa.encode('Curtis'), 'KRTS,')
-        self.assertEqual(self.pa.encode('Cutha'), 'K0,KT')
-        self.assertEqual(self.pa.encode('Cutter'), 'KTR,')
-        self.assertEqual(self.pa.encode("D'Aubigny"), 'TPN,TPKN')
-        self.assertEqual(self.pa.encode('DAVIS'), 'TFS,')
-        self.assertEqual(self.pa.encode('Dabinott'), 'TPNT,')
-        self.assertEqual(self.pa.encode('Dacre'), 'TKR,')
-        self.assertEqual(self.pa.encode('Daggett'), 'TKT,')
-        self.assertEqual(self.pa.encode('Danvers'), 'TNFRS,')
-        self.assertEqual(self.pa.encode('Darcy'), 'TRS,')
-        self.assertEqual(self.pa.encode('Davis'), 'TFS,')
-        self.assertEqual(self.pa.encode('Dawn'), 'TN,')
-        self.assertEqual(self.pa.encode('Dawson'), 'TSN,')
-        self.assertEqual(self.pa.encode('Day'), 'T,')
-        self.assertEqual(self.pa.encode('Daye'), 'T,')
-        self.assertEqual(self.pa.encode('DeGrenier'), 'TKRN,TKRNR')
-        self.assertEqual(self.pa.encode('Dean'), 'TN,')
-        self.assertEqual(self.pa.encode('Deekindaugh'), 'TKNT,')
-        self.assertEqual(self.pa.encode('Dennis'), 'TNS,')
-        self.assertEqual(self.pa.encode('Denny'), 'TN,')
-        self.assertEqual(self.pa.encode('Denton'), 'TNTN,')
-        self.assertEqual(self.pa.encode('Desborough'), 'TSPRF,')
-        self.assertEqual(self.pa.encode('Despenser'), 'TSPNSR,')
-        self.assertEqual(self.pa.encode('Deverill'), 'TFRL,')
-        self.assertEqual(self.pa.encode('Devine'), 'TFN,')
-        self.assertEqual(self.pa.encode('Dexter'), 'TKSTR,')
-        self.assertEqual(self.pa.encode('Dillaway'), 'TL,')
-        self.assertEqual(self.pa.encode('Dimmick'), 'TMK,')
-        self.assertEqual(self.pa.encode('Dinan'), 'TNN,')
-        self.assertEqual(self.pa.encode('Dix'), 'TKS,')
-        self.assertEqual(self.pa.encode('Doggett'), 'TKT,')
-        self.assertEqual(self.pa.encode('Donahue'), 'TNH,')
-        self.assertEqual(self.pa.encode('Dorfman'), 'TRFMN,')
-        self.assertEqual(self.pa.encode('Dorris'), 'TRS,')
-        self.assertEqual(self.pa.encode('Dow'), 'T,TF')
-        self.assertEqual(self.pa.encode('Downey'), 'TN,')
-        self.assertEqual(self.pa.encode('Downing'), 'TNNK,')
-        self.assertEqual(self.pa.encode('Dowsett'), 'TST,')
-        self.assertEqual(self.pa.encode('Duck?'), 'TK,')
-        self.assertEqual(self.pa.encode('Dudley'), 'TTL,')
-        self.assertEqual(self.pa.encode('Duffy'), 'TF,')
-        self.assertEqual(self.pa.encode('Dunn'), 'TN,')
-        self.assertEqual(self.pa.encode('Dunsterville'), 'TNSTRFL,')
-        self.assertEqual(self.pa.encode('Durrant'), 'TRNT,')
-        self.assertEqual(self.pa.encode('Durrin'), 'TRN,')
-        self.assertEqual(self.pa.encode('Dustin'), 'TSTN,')
-        self.assertEqual(self.pa.encode('Duston'), 'TSTN,')
-        self.assertEqual(self.pa.encode('Eames'), 'AMS,')
-        self.assertEqual(self.pa.encode('Early'), 'ARL,')
-        self.assertEqual(self.pa.encode('Easty'), 'AST,')
-        self.assertEqual(self.pa.encode('Ebbett'), 'APT,')
-        self.assertEqual(self.pa.encode('Eberbach'), 'APRPK,')
-        self.assertEqual(self.pa.encode('Eberhard'), 'APRRT,')
-        self.assertEqual(self.pa.encode('Eddy'), 'AT,')
-        self.assertEqual(self.pa.encode('Edenden'), 'ATNTN,')
-        self.assertEqual(self.pa.encode('Edwards'), 'ATRTS,')
-        self.assertEqual(self.pa.encode('Eglinton'), 'AKLNTN,ALNTN')
-        self.assertEqual(self.pa.encode('Eliot'), 'ALT,')
-        self.assertEqual(self.pa.encode('Elizabeth'), 'ALSP0,ALSPT')
-        self.assertEqual(self.pa.encode('Ellis'), 'ALS,')
-        self.assertEqual(self.pa.encode('Ellison'), 'ALSN,')
-        self.assertEqual(self.pa.encode('Ellot'), 'ALT,')
-        self.assertEqual(self.pa.encode('Elny'), 'ALN,')
-        self.assertEqual(self.pa.encode('Elsner'), 'ALSNR,')
-        self.assertEqual(self.pa.encode('Emerson'), 'AMRSN,')
-        self.assertEqual(self.pa.encode('Empson'), 'AMPSN,')
-        self.assertEqual(self.pa.encode('Est'), 'AST,')
-        self.assertEqual(self.pa.encode('Estabrook'), 'ASTPRK,')
-        self.assertEqual(self.pa.encode('Estes'), 'ASTS,')
-        self.assertEqual(self.pa.encode('Estey'), 'AST,')
-        self.assertEqual(self.pa.encode('Evans'), 'AFNS,')
-        self.assertEqual(self.pa.encode('Fallowell'), 'FLL,')
-        self.assertEqual(self.pa.encode('Farnsworth'), 'FRNSR0,FRNSRT')
-        self.assertEqual(self.pa.encode('Feake'), 'FK,')
-        self.assertEqual(self.pa.encode('Feke'), 'FK,')
-        self.assertEqual(self.pa.encode('Fellows'), 'FLS,')
-        self.assertEqual(self.pa.encode('Fettiplace'), 'FTPLS,')
-        self.assertEqual(self.pa.encode('Finney'), 'FN,')
-        self.assertEqual(self.pa.encode('Fischer'), 'FXR,FSKR')
-        self.assertEqual(self.pa.encode('Fisher'), 'FXR,')
-        self.assertEqual(self.pa.encode('Fisk'), 'FSK,')
-        self.assertEqual(self.pa.encode('Fiske'), 'FSK,')
-        self.assertEqual(self.pa.encode('Fletcher'), 'FLXR,')
-        self.assertEqual(self.pa.encode('Folger'), 'FLKR,FLJR')
-        self.assertEqual(self.pa.encode('Foliot'), 'FLT,')
-        self.assertEqual(self.pa.encode('Folyot'), 'FLT,')
-        self.assertEqual(self.pa.encode('Fones'), 'FNS,')
-        self.assertEqual(self.pa.encode('Fordham'), 'FRTM,')
-        self.assertEqual(self.pa.encode('Forstner'), 'FRSTNR,')
-        self.assertEqual(self.pa.encode('Fosten'), 'FSTN,')
-        self.assertEqual(self.pa.encode('Foster'), 'FSTR,')
-        self.assertEqual(self.pa.encode('Foulke'), 'FLK,')
-        self.assertEqual(self.pa.encode('Fowler'), 'FLR,')
-        self.assertEqual(self.pa.encode('Foxwell'), 'FKSL,')
-        self.assertEqual(self.pa.encode('Fraley'), 'FRL,')
-        self.assertEqual(self.pa.encode('Franceys'), 'FRNSS,')
-        self.assertEqual(self.pa.encode('Franke'), 'FRNK,')
-        self.assertEqual(self.pa.encode('Frascella'), 'FRSL,')
-        self.assertEqual(self.pa.encode('Frazer'), 'FRSR,')
-        self.assertEqual(self.pa.encode('Fredd'), 'FRT,')
-        self.assertEqual(self.pa.encode('Freeman'), 'FRMN,')
-        self.assertEqual(self.pa.encode('French'), 'FRNX,FRNK')
-        self.assertEqual(self.pa.encode('Freville'), 'FRFL,')
-        self.assertEqual(self.pa.encode('Frey'), 'FR,')
-        self.assertEqual(self.pa.encode('Frick'), 'FRK,')
-        self.assertEqual(self.pa.encode('Frier'), 'FR,FRR')
-        self.assertEqual(self.pa.encode('Froe'), 'FR,')
-        self.assertEqual(self.pa.encode('Frorer'), 'FRRR,')
-        self.assertEqual(self.pa.encode('Frost'), 'FRST,')
-        self.assertEqual(self.pa.encode('Frothingham'), 'FR0NKM,FRTNKM')
-        self.assertEqual(self.pa.encode('Fry'), 'FR,')
-        self.assertEqual(self.pa.encode('Gaffney'), 'KFN,')
-        self.assertEqual(self.pa.encode('Gage'), 'KJ,KK')
-        self.assertEqual(self.pa.encode('Gallion'), 'KLN,')
-        self.assertEqual(self.pa.encode('Gallishan'), 'KLXN,')
-        self.assertEqual(self.pa.encode('Gamble'), 'KMPL,')
-        self.assertEqual(self.pa.encode('Garbrand'), 'KRPRNT,')
-        self.assertEqual(self.pa.encode('Gardner'), 'KRTNR,')
-        self.assertEqual(self.pa.encode('Garrett'), 'KRT,')
-        self.assertEqual(self.pa.encode('Gassner'), 'KSNR,')
-        self.assertEqual(self.pa.encode('Gater'), 'KTR,')
-        self.assertEqual(self.pa.encode('Gaunt'), 'KNT,')
-        self.assertEqual(self.pa.encode('Gayer'), 'KR,')
-        self.assertEqual(self.pa.encode('Gerken'), 'KRKN,JRKN')
-        self.assertEqual(self.pa.encode('Gerritsen'), 'KRTSN,JRTSN')
-        self.assertEqual(self.pa.encode('Gibbs'), 'KPS,JPS')
-        self.assertEqual(self.pa.encode('Giffard'), 'JFRT,KFRT')
-        self.assertEqual(self.pa.encode('Gilbert'), 'KLPRT,JLPRT')
-        self.assertEqual(self.pa.encode('Gill'), 'KL,JL')
-        self.assertEqual(self.pa.encode('Gilman'), 'KLMN,JLMN')
-        self.assertEqual(self.pa.encode('Glass'), 'KLS,')
-        self.assertEqual(self.pa.encode('GoddardGifford'), 'KTRJFRT,')
-        self.assertEqual(self.pa.encode('Godfrey'), 'KTFR,')
-        self.assertEqual(self.pa.encode('Godwin'), 'KTN,')
-        self.assertEqual(self.pa.encode('Goodale'), 'KTL,')
-        self.assertEqual(self.pa.encode('Goodnow'), 'KTN,KTNF')
-        self.assertEqual(self.pa.encode('Gorham'), 'KRM,')
-        self.assertEqual(self.pa.encode('Goseline'), 'KSLN,')
-        self.assertEqual(self.pa.encode('Gott'), 'KT,')
-        self.assertEqual(self.pa.encode('Gould'), 'KLT,')
-        self.assertEqual(self.pa.encode('Grafton'), 'KRFTN,')
-        self.assertEqual(self.pa.encode('Grant'), 'KRNT,')
-        self.assertEqual(self.pa.encode('Gray'), 'KR,')
-        self.assertEqual(self.pa.encode('Green'), 'KRN,')
-        self.assertEqual(self.pa.encode('Griffin'), 'KRFN,')
-        self.assertEqual(self.pa.encode('Grill'), 'KRL,')
-        self.assertEqual(self.pa.encode('Grim'), 'KRM,')
-        self.assertEqual(self.pa.encode('Grisgonelle'), 'KRSKNL,')
-        self.assertEqual(self.pa.encode('Gross'), 'KRS,')
-        self.assertEqual(self.pa.encode('Guba'), 'KP,')
-        self.assertEqual(self.pa.encode('Gybbes'), 'KPS,JPS')
-        self.assertEqual(self.pa.encode('Haburne'), 'HPRN,')
-        self.assertEqual(self.pa.encode('Hackburne'), 'HKPRN,')
-        self.assertEqual(self.pa.encode('Haddon?'), 'HTN,')
-        self.assertEqual(self.pa.encode('Haines'), 'HNS,')
-        self.assertEqual(self.pa.encode('Hale'), 'HL,')
-        self.assertEqual(self.pa.encode('Hall'), 'HL,')
-        self.assertEqual(self.pa.encode('Hallet'), 'HLT,')
-        self.assertEqual(self.pa.encode('Hallock'), 'HLK,')
-        self.assertEqual(self.pa.encode('Halstead'), 'HLSTT,')
-        self.assertEqual(self.pa.encode('Hammond'), 'HMNT,')
-        self.assertEqual(self.pa.encode('Hance'), 'HNS,')
-        self.assertEqual(self.pa.encode('Handy'), 'HNT,')
-        self.assertEqual(self.pa.encode('Hanson'), 'HNSN,')
-        self.assertEqual(self.pa.encode('Harasek'), 'HRSK,')
-        self.assertEqual(self.pa.encode('Harcourt'), 'HRKRT,')
-        self.assertEqual(self.pa.encode('Hardy'), 'HRT,')
-        self.assertEqual(self.pa.encode('Harlock'), 'HRLK,')
-        self.assertEqual(self.pa.encode('Harris'), 'HRS,')
-        self.assertEqual(self.pa.encode('Hartley'), 'HRTL,')
-        self.assertEqual(self.pa.encode('Harvey'), 'HRF,')
-        self.assertEqual(self.pa.encode('Harvie'), 'HRF,')
-        self.assertEqual(self.pa.encode('Harwood'), 'HRT,')
-        self.assertEqual(self.pa.encode('Hathaway'), 'H0,HT')
-        self.assertEqual(self.pa.encode('Haukeness'), 'HKNS,')
-        self.assertEqual(self.pa.encode('Hawkes'), 'HKS,')
-        self.assertEqual(self.pa.encode('Hawkhurst'), 'HKRST,')
-        self.assertEqual(self.pa.encode('Hawkins'), 'HKNS,')
-        self.assertEqual(self.pa.encode('Hawley'), 'HL,')
-        self.assertEqual(self.pa.encode('Heald'), 'HLT,')
-        self.assertEqual(self.pa.encode('Helsdon'), 'HLSTN,')
-        self.assertEqual(self.pa.encode('Hemenway'), 'HMN,')
-        self.assertEqual(self.pa.encode('Hemmenway'), 'HMN,')
-        self.assertEqual(self.pa.encode('Henck'), 'HNK,')
-        self.assertEqual(self.pa.encode('Henderson'), 'HNTRSN,')
-        self.assertEqual(self.pa.encode('Hendricks'), 'HNTRKS,')
-        self.assertEqual(self.pa.encode('Hersey'), 'HRS,')
-        self.assertEqual(self.pa.encode('Hewes'), 'HS,')
-        self.assertEqual(self.pa.encode('Heyman'), 'HMN,')
-        self.assertEqual(self.pa.encode('Hicks'), 'HKS,')
-        self.assertEqual(self.pa.encode('Hidden'), 'HTN,')
-        self.assertEqual(self.pa.encode('Higgs'), 'HKS,')
-        self.assertEqual(self.pa.encode('Hill'), 'HL,')
-        self.assertEqual(self.pa.encode('Hills'), 'HLS,')
-        self.assertEqual(self.pa.encode('Hinckley'), 'HNKL,')
-        self.assertEqual(self.pa.encode('Hipwell'), 'HPL,')
-        self.assertEqual(self.pa.encode('Hobart'), 'HPRT,')
-        self.assertEqual(self.pa.encode('Hoben'), 'HPN,')
-        self.assertEqual(self.pa.encode('Hoffmann'), 'HFMN,')
-        self.assertEqual(self.pa.encode('Hogan'), 'HKN,')
-        self.assertEqual(self.pa.encode('Holmes'), 'HLMS,')
-        self.assertEqual(self.pa.encode('Hoo'), 'H,')
-        self.assertEqual(self.pa.encode('Hooker'), 'HKR,')
-        self.assertEqual(self.pa.encode('Hopcott'), 'HPKT,')
-        self.assertEqual(self.pa.encode('Hopkins'), 'HPKNS,')
-        self.assertEqual(self.pa.encode('Hopkinson'), 'HPKNSN,')
-        self.assertEqual(self.pa.encode('Hornsey'), 'HRNS,')
-        self.assertEqual(self.pa.encode('Houckgeest'), 'HKJST,HKKST')
-        self.assertEqual(self.pa.encode('Hough'), 'H,')
-        self.assertEqual(self.pa.encode('Houstin'), 'HSTN,')
-        self.assertEqual(self.pa.encode('How'), 'H,HF')
-        self.assertEqual(self.pa.encode('Howe'), 'H,')
-        self.assertEqual(self.pa.encode('Howland'), 'HLNT,')
-        self.assertEqual(self.pa.encode('Hubner'), 'HPNR,')
-        self.assertEqual(self.pa.encode('Hudnut'), 'HTNT,')
-        self.assertEqual(self.pa.encode('Hughes'), 'HS,')
-        self.assertEqual(self.pa.encode('Hull'), 'HL,')
-        self.assertEqual(self.pa.encode('Hulme'), 'HLM,')
-        self.assertEqual(self.pa.encode('Hume'), 'HM,')
-        self.assertEqual(self.pa.encode('Hundertumark'), 'HNTRTMRK,')
-        self.assertEqual(self.pa.encode('Hundley'), 'HNTL,')
-        self.assertEqual(self.pa.encode('Hungerford'), 'HNKRFRT,HNJRFRT')
-        self.assertEqual(self.pa.encode('Hunt'), 'HNT,')
-        self.assertEqual(self.pa.encode('Hurst'), 'HRST,')
-        self.assertEqual(self.pa.encode('Husbands'), 'HSPNTS,')
-        self.assertEqual(self.pa.encode('Hussey'), 'HS,')
-        self.assertEqual(self.pa.encode('Husted'), 'HSTT,')
-        self.assertEqual(self.pa.encode('Hutchins'), 'HXNS,')
-        self.assertEqual(self.pa.encode('Hutchinson'), 'HXNSN,')
-        self.assertEqual(self.pa.encode('Huttinger'), 'HTNKR,HTNJR')
-        self.assertEqual(self.pa.encode('Huybertsen'), 'HPRTSN,')
-        self.assertEqual(self.pa.encode('Iddenden'), 'ATNTN,')
-        self.assertEqual(self.pa.encode('Ingraham'), 'ANKRHM,')
-        self.assertEqual(self.pa.encode('Ives'), 'AFS,')
-        self.assertEqual(self.pa.encode('Jackson'), 'JKSN,AKSN')
-        self.assertEqual(self.pa.encode('Jacob'), 'JKP,AKP')
-        self.assertEqual(self.pa.encode('Jans'), 'JNS,ANS')
-        self.assertEqual(self.pa.encode('Jenkins'), 'JNKNS,ANKNS')
-        self.assertEqual(self.pa.encode('Jewett'), 'JT,AT')
-        self.assertEqual(self.pa.encode('Jewitt'), 'JT,AT')
-        self.assertEqual(self.pa.encode('Johnson'), 'JNSN,ANSN')
-        self.assertEqual(self.pa.encode('Jones'), 'JNS,ANS')
-        self.assertEqual(self.pa.encode('Josephine'), 'JSFN,HSFN')
-        self.assertEqual(self.pa.encode('Judd'), 'JT,AT')
-        self.assertEqual(self.pa.encode('June'), 'JN,AN')
-        self.assertEqual(self.pa.encode('Kamarowska'), 'KMRSK,')
-        self.assertEqual(self.pa.encode('Kay'), 'K,')
-        self.assertEqual(self.pa.encode('Kelley'), 'KL,')
-        self.assertEqual(self.pa.encode('Kelly'), 'KL,')
-        self.assertEqual(self.pa.encode('Keymber'), 'KMPR,')
-        self.assertEqual(self.pa.encode('Keynes'), 'KNS,')
-        self.assertEqual(self.pa.encode('Kilham'), 'KLM,')
-        self.assertEqual(self.pa.encode('Kim'), 'KM,')
-        self.assertEqual(self.pa.encode('Kimball'), 'KMPL,')
-        self.assertEqual(self.pa.encode('King'), 'KNK,')
-        self.assertEqual(self.pa.encode('Kinsey'), 'KNS,')
-        self.assertEqual(self.pa.encode('Kirk'), 'KRK,')
-        self.assertEqual(self.pa.encode('Kirton'), 'KRTN,')
-        self.assertEqual(self.pa.encode('Kistler'), 'KSTLR,')
-        self.assertEqual(self.pa.encode('Kitchen'), 'KXN,')
-        self.assertEqual(self.pa.encode('Kitson'), 'KTSN,')
-        self.assertEqual(self.pa.encode('Klett'), 'KLT,')
-        self.assertEqual(self.pa.encode('Kline'), 'KLN,')
-        self.assertEqual(self.pa.encode('Knapp'), 'NP,')
-        self.assertEqual(self.pa.encode('Knight'), 'NT,')
-        self.assertEqual(self.pa.encode('Knote'), 'NT,')
-        self.assertEqual(self.pa.encode('Knott'), 'NT,')
-        self.assertEqual(self.pa.encode('Knox'), 'NKS,')
-        self.assertEqual(self.pa.encode('Koeller'), 'KLR,')
-        self.assertEqual(self.pa.encode('La Pointe'), 'LPNT,')
-        self.assertEqual(self.pa.encode('LaPlante'), 'LPLNT,')
-        self.assertEqual(self.pa.encode('Laimbeer'), 'LMPR,')
-        self.assertEqual(self.pa.encode('Lamb'), 'LMP,')
-        self.assertEqual(self.pa.encode('Lambertson'), 'LMPRTSN,')
-        self.assertEqual(self.pa.encode('Lancto'), 'LNKT,')
-        self.assertEqual(self.pa.encode('Landry'), 'LNTR,')
-        self.assertEqual(self.pa.encode('Lane'), 'LN,')
-        self.assertEqual(self.pa.encode('Langendyck'), 'LNJNTK,LNKNTK')
-        self.assertEqual(self.pa.encode('Langer'), 'LNKR,LNJR')
-        self.assertEqual(self.pa.encode('Langford'), 'LNKFRT,')
-        self.assertEqual(self.pa.encode('Lantersee'), 'LNTRS,')
-        self.assertEqual(self.pa.encode('Laquer'), 'LKR,')
-        self.assertEqual(self.pa.encode('Larkin'), 'LRKN,')
-        self.assertEqual(self.pa.encode('Latham'), 'LTM,')
-        self.assertEqual(self.pa.encode('Lathrop'), 'L0RP,LTRP')
-        self.assertEqual(self.pa.encode('Lauter'), 'LTR,')
-        self.assertEqual(self.pa.encode('Lawrence'), 'LRNS,')
-        self.assertEqual(self.pa.encode('Leach'), 'LK,')
-        self.assertEqual(self.pa.encode('Leager'), 'LKR,LJR')
-        self.assertEqual(self.pa.encode('Learned'), 'LRNT,')
-        self.assertEqual(self.pa.encode('Leavitt'), 'LFT,')
-        self.assertEqual(self.pa.encode('Lee'), 'L,')
-        self.assertEqual(self.pa.encode('Leete'), 'LT,')
-        self.assertEqual(self.pa.encode('Leggett'), 'LKT,')
-        self.assertEqual(self.pa.encode('Leland'), 'LLNT,')
-        self.assertEqual(self.pa.encode('Leonard'), 'LNRT,')
-        self.assertEqual(self.pa.encode('Lester'), 'LSTR,')
-        self.assertEqual(self.pa.encode('Lestrange'), 'LSTRNJ,LSTRNK')
-        self.assertEqual(self.pa.encode('Lethem'), 'L0M,LTM')
-        self.assertEqual(self.pa.encode('Levine'), 'LFN,')
-        self.assertEqual(self.pa.encode('Lewes'), 'LS,')
-        self.assertEqual(self.pa.encode('Lewis'), 'LS,')
-        self.assertEqual(self.pa.encode('Lincoln'), 'LNKLN,')
-        self.assertEqual(self.pa.encode('Lindsey'), 'LNTS,')
-        self.assertEqual(self.pa.encode('Linher'), 'LNR,')
-        self.assertEqual(self.pa.encode('Lippet'), 'LPT,')
-        self.assertEqual(self.pa.encode('Lippincott'), 'LPNKT,')
-        self.assertEqual(self.pa.encode('Lockwood'), 'LKT,')
-        self.assertEqual(self.pa.encode('Loines'), 'LNS,')
-        self.assertEqual(self.pa.encode('Lombard'), 'LMPRT,')
-        self.assertEqual(self.pa.encode('Long'), 'LNK,')
-        self.assertEqual(self.pa.encode('Longespee'), 'LNJSP,LNKSP')
-        self.assertEqual(self.pa.encode('Look'), 'LK,')
-        self.assertEqual(self.pa.encode('Lounsberry'), 'LNSPR,')
-        self.assertEqual(self.pa.encode('Lounsbury'), 'LNSPR,')
-        self.assertEqual(self.pa.encode('Louthe'), 'L0,LT')
-        self.assertEqual(self.pa.encode('Loveyne'), 'LFN,')
-        self.assertEqual(self.pa.encode('Lowe'), 'L,')
-        self.assertEqual(self.pa.encode('Ludlam'), 'LTLM,')
-        self.assertEqual(self.pa.encode('Lumbard'), 'LMPRT,')
-        self.assertEqual(self.pa.encode('Lund'), 'LNT,')
-        self.assertEqual(self.pa.encode('Luno'), 'LN,')
-        self.assertEqual(self.pa.encode('Lutz'), 'LTS,')
-        self.assertEqual(self.pa.encode('Lydia'), 'LT,')
-        self.assertEqual(self.pa.encode('Lynne'), 'LN,')
-        self.assertEqual(self.pa.encode('Lyon'), 'LN,')
-        self.assertEqual(self.pa.encode('MacAlpin'), 'MKLPN,')
-        self.assertEqual(self.pa.encode('MacBricc'), 'MKPRK,')
-        self.assertEqual(self.pa.encode('MacCrinan'), 'MKRNN,')
-        self.assertEqual(self.pa.encode('MacKenneth'), 'MKN0,MKNT')
-        self.assertEqual(self.pa.encode('MacMael nam Bo'), 'MKMLNMP,')
-        self.assertEqual(self.pa.encode('MacMurchada'), 'MKMRXT,MKMRKT')
-        self.assertEqual(self.pa.encode('Macomber'), 'MKMPR,')
-        self.assertEqual(self.pa.encode('Macy'), 'MS,')
-        self.assertEqual(self.pa.encode('Magnus'), 'MNS,MKNS')
-        self.assertEqual(self.pa.encode('Mahien'), 'MHN,')
-        self.assertEqual(self.pa.encode('Malmains'), 'MLMNS,')
-        self.assertEqual(self.pa.encode('Malory'), 'MLR,')
-        self.assertEqual(self.pa.encode('Mancinelli'), 'MNSNL,')
-        self.assertEqual(self.pa.encode('Mancini'), 'MNSN,')
-        self.assertEqual(self.pa.encode('Mann'), 'MN,')
-        self.assertEqual(self.pa.encode('Manning'), 'MNNK,')
-        self.assertEqual(self.pa.encode('Manter'), 'MNTR,')
-        self.assertEqual(self.pa.encode('Marion'), 'MRN,')
-        self.assertEqual(self.pa.encode('Marley'), 'MRL,')
-        self.assertEqual(self.pa.encode('Marmion'), 'MRMN,')
-        self.assertEqual(self.pa.encode('Marquart'), 'MRKRT,')
-        self.assertEqual(self.pa.encode('Marsh'), 'MRX,')
-        self.assertEqual(self.pa.encode('Marshal'), 'MRXL,')
-        self.assertEqual(self.pa.encode('Marshall'), 'MRXL,')
-        self.assertEqual(self.pa.encode('Martel'), 'MRTL,')
-        self.assertEqual(self.pa.encode('Martha'), 'MR0,MRT')
-        self.assertEqual(self.pa.encode('Martin'), 'MRTN,')
-        self.assertEqual(self.pa.encode('Marturano'), 'MRTRN,')
-        self.assertEqual(self.pa.encode('Marvin'), 'MRFN,')
-        self.assertEqual(self.pa.encode('Mary'), 'MR,')
-        self.assertEqual(self.pa.encode('Mason'), 'MSN,')
-        self.assertEqual(self.pa.encode('Maxwell'), 'MKSL,')
-        self.assertEqual(self.pa.encode('Mayhew'), 'MH,MHF')
-        self.assertEqual(self.pa.encode('McAllaster'), 'MKLSTR,')
-        self.assertEqual(self.pa.encode('McAllister'), 'MKLSTR,')
-        self.assertEqual(self.pa.encode('McConnell'), 'MKNL,')
-        self.assertEqual(self.pa.encode('McFarland'), 'MKFRLNT,')
-        self.assertEqual(self.pa.encode('McIlroy'), 'MSLR,')
-        self.assertEqual(self.pa.encode('McNair'), 'MKNR,')
-        self.assertEqual(self.pa.encode('McNair-Landry'), 'MKNRLNTR,')
-        self.assertEqual(self.pa.encode('McRaven'), 'MKRFN,')
-        self.assertEqual(self.pa.encode('Mead'), 'MT,')
-        self.assertEqual(self.pa.encode('Meade'), 'MT,')
-        self.assertEqual(self.pa.encode('Meck'), 'MK,')
-        self.assertEqual(self.pa.encode('Melton'), 'MLTN,')
-        self.assertEqual(self.pa.encode('Mendenhall'), 'MNTNL,')
-        self.assertEqual(self.pa.encode('Mering'), 'MRNK,')
-        self.assertEqual(self.pa.encode('Merrick'), 'MRK,')
-        self.assertEqual(self.pa.encode('Merry'), 'MR,')
-        self.assertEqual(self.pa.encode('Mighill'), 'ML,')
-        self.assertEqual(self.pa.encode('Miller'), 'MLR,')
-        self.assertEqual(self.pa.encode('Milton'), 'MLTN,')
-        self.assertEqual(self.pa.encode('Mohun'), 'MHN,')
-        self.assertEqual(self.pa.encode('Montague'), 'MNTK,')
-        self.assertEqual(self.pa.encode('Montboucher'), 'MNTPXR,MNTPKR')
-        self.assertEqual(self.pa.encode('Moore'), 'MR,')
-        self.assertEqual(self.pa.encode('Morrel'), 'MRL,')
-        self.assertEqual(self.pa.encode('Morrill'), 'MRL,')
-        self.assertEqual(self.pa.encode('Morris'), 'MRS,')
-        self.assertEqual(self.pa.encode('Morton'), 'MRTN,')
-        self.assertEqual(self.pa.encode('Moton'), 'MTN,')
-        self.assertEqual(self.pa.encode('Muir'), 'MR,')
-        self.assertEqual(self.pa.encode('Mulferd'), 'MLFRT,')
-        self.assertEqual(self.pa.encode('Mullins'), 'MLNS,')
-        self.assertEqual(self.pa.encode('Mulso'), 'MLS,')
-        self.assertEqual(self.pa.encode('Munger'), 'MNKR,MNJR')
-        self.assertEqual(self.pa.encode('Munt'), 'MNT,')
-        self.assertEqual(self.pa.encode('Murchad'), 'MRXT,MRKT')
-        self.assertEqual(self.pa.encode('Murdock'), 'MRTK,')
-        self.assertEqual(self.pa.encode('Murray'), 'MR,')
-        self.assertEqual(self.pa.encode('Muskett'), 'MSKT,')
-        self.assertEqual(self.pa.encode('Myers'), 'MRS,')
-        self.assertEqual(self.pa.encode('Myrick'), 'MRK,')
-        self.assertEqual(self.pa.encode('NORRIS'), 'NRS,')
-        self.assertEqual(self.pa.encode('Nayle'), 'NL,')
-        self.assertEqual(self.pa.encode('Newcomb'), 'NKMP,')
-        self.assertEqual(self.pa.encode('Newcomb(e)'), 'NKMP,')
-        self.assertEqual(self.pa.encode('Newkirk'), 'NKRK,')
-        self.assertEqual(self.pa.encode('Newton'), 'NTN,')
-        self.assertEqual(self.pa.encode('Niles'), 'NLS,')
-        self.assertEqual(self.pa.encode('Noble'), 'NPL,')
-        self.assertEqual(self.pa.encode('Noel'), 'NL,')
-        self.assertEqual(self.pa.encode('Northend'), 'NR0NT,NRTNT')
-        self.assertEqual(self.pa.encode('Norton'), 'NRTN,')
-        self.assertEqual(self.pa.encode('Nutter'), 'NTR,')
-        self.assertEqual(self.pa.encode('Odding'), 'ATNK,')
-        self.assertEqual(self.pa.encode('Odenbaugh'), 'ATNP,')
-        self.assertEqual(self.pa.encode('Ogborn'), 'AKPRN,')
-        self.assertEqual(self.pa.encode('Oppenheimer'), 'APNMR,')
-        self.assertEqual(self.pa.encode('Otis'), 'ATS,')
-        self.assertEqual(self.pa.encode('Oviatt'), 'AFT,')
-        self.assertEqual(self.pa.encode('PRUST?'), 'PRST,')
-        self.assertEqual(self.pa.encode('Paddock'), 'PTK,')
-        self.assertEqual(self.pa.encode('Page'), 'PJ,PK')
-        self.assertEqual(self.pa.encode('Paine'), 'PN,')
-        self.assertEqual(self.pa.encode('Paist'), 'PST,')
-        self.assertEqual(self.pa.encode('Palmer'), 'PLMR,')
-        self.assertEqual(self.pa.encode('Park'), 'PRK,')
-        self.assertEqual(self.pa.encode('Parker'), 'PRKR,')
-        self.assertEqual(self.pa.encode('Parkhurst'), 'PRKRST,')
-        self.assertEqual(self.pa.encode('Parrat'), 'PRT,')
-        self.assertEqual(self.pa.encode('Parsons'), 'PRSNS,')
-        self.assertEqual(self.pa.encode('Partridge'), 'PRTRJ,')
-        self.assertEqual(self.pa.encode('Pashley'), 'PXL,')
-        self.assertEqual(self.pa.encode('Pasley'), 'PSL,')
-        self.assertEqual(self.pa.encode('Patrick'), 'PTRK,')
-        self.assertEqual(self.pa.encode('Pattee'), 'PT,')
-        self.assertEqual(self.pa.encode('Patten'), 'PTN,')
-        self.assertEqual(self.pa.encode('Pawley'), 'PL,')
-        self.assertEqual(self.pa.encode('Payne'), 'PN,')
-        self.assertEqual(self.pa.encode('Peabody'), 'PPT,')
-        self.assertEqual(self.pa.encode('Peake'), 'PK,')
-        self.assertEqual(self.pa.encode('Pearson'), 'PRSN,')
-        self.assertEqual(self.pa.encode('Peat'), 'PT,')
-        self.assertEqual(self.pa.encode('Pedersen'), 'PTRSN,')
-        self.assertEqual(self.pa.encode('Percy'), 'PRS,')
-        self.assertEqual(self.pa.encode('Perkins'), 'PRKNS,')
-        self.assertEqual(self.pa.encode('Perrine'), 'PRN,')
-        self.assertEqual(self.pa.encode('Perry'), 'PR,')
-        self.assertEqual(self.pa.encode('Peson'), 'PSN,')
-        self.assertEqual(self.pa.encode('Peterson'), 'PTRSN,')
-        self.assertEqual(self.pa.encode('Peyton'), 'PTN,')
-        self.assertEqual(self.pa.encode('Phinney'), 'FN,')
-        self.assertEqual(self.pa.encode('Pickard'), 'PKRT,')
-        self.assertEqual(self.pa.encode('Pierce'), 'PRS,')
-        self.assertEqual(self.pa.encode('Pierrepont'), 'PRPNT,')
-        self.assertEqual(self.pa.encode('Pike'), 'PK,')
-        self.assertEqual(self.pa.encode('Pinkham'), 'PNKM,')
-        self.assertEqual(self.pa.encode('Pitman'), 'PTMN,')
-        self.assertEqual(self.pa.encode('Pitt'), 'PT,')
-        self.assertEqual(self.pa.encode('Pitts'), 'PTS,')
-        self.assertEqual(self.pa.encode('Plantagenet'), 'PLNTJNT,PLNTKNT')
-        self.assertEqual(self.pa.encode('Platt'), 'PLT,')
-        self.assertEqual(self.pa.encode('Platts'), 'PLTS,')
-        self.assertEqual(self.pa.encode('Pleis'), 'PLS,')
-        self.assertEqual(self.pa.encode('Pleiss'), 'PLS,')
-        self.assertEqual(self.pa.encode('Plisko'), 'PLSK,')
-        self.assertEqual(self.pa.encode('Pliskovitch'), 'PLSKFX,')
-        self.assertEqual(self.pa.encode('Plum'), 'PLM,')
-        self.assertEqual(self.pa.encode('Plume'), 'PLM,')
-        self.assertEqual(self.pa.encode('Poitou'), 'PT,')
-        self.assertEqual(self.pa.encode('Pomeroy'), 'PMR,')
-        self.assertEqual(self.pa.encode('Poretiers'), 'PRTRS,')
-        self.assertEqual(self.pa.encode('Pote'), 'PT,')
-        self.assertEqual(self.pa.encode('Potter'), 'PTR,')
-        self.assertEqual(self.pa.encode('Potts'), 'PTS,')
-        self.assertEqual(self.pa.encode('Powell'), 'PL,')
-        self.assertEqual(self.pa.encode('Pratt'), 'PRT,')
-        self.assertEqual(self.pa.encode('Presbury'), 'PRSPR,')
-        self.assertEqual(self.pa.encode('Priest'), 'PRST,')
-        self.assertEqual(self.pa.encode('Prindle'), 'PRNTL,')
-        self.assertEqual(self.pa.encode('Prior'), 'PRR,')
-        self.assertEqual(self.pa.encode('Profumo'), 'PRFM,')
-        self.assertEqual(self.pa.encode('Purdy'), 'PRT,')
-        self.assertEqual(self.pa.encode('Purefoy'), 'PRF,')
-        self.assertEqual(self.pa.encode('Pury'), 'PR,')
-        self.assertEqual(self.pa.encode('Quinter'), 'KNTR,')
-        self.assertEqual(self.pa.encode('Rachel'), 'RXL,RKL')
-        self.assertEqual(self.pa.encode('Rand'), 'RNT,')
-        self.assertEqual(self.pa.encode('Rankin'), 'RNKN,')
-        self.assertEqual(self.pa.encode('Ravenscroft'), 'RFNSKFT,')
-        self.assertEqual(self.pa.encode('Raynsford'), 'RNSFRT,')
-        self.assertEqual(self.pa.encode('Reakirt'), 'RKRT,')
-        self.assertEqual(self.pa.encode('Reaves'), 'RFS,')
-        self.assertEqual(self.pa.encode('Reeves'), 'RFS,')
-        self.assertEqual(self.pa.encode('Reichert'), 'RXRT,RKRT')
-        self.assertEqual(self.pa.encode('Remmele'), 'RML,')
-        self.assertEqual(self.pa.encode('Reynolds'), 'RNLTS,')
-        self.assertEqual(self.pa.encode('Rhodes'), 'RTS,')
-        self.assertEqual(self.pa.encode('Richards'), 'RXRTS,RKRTS')
-        self.assertEqual(self.pa.encode('Richardson'), 'RXRTSN,RKRTSN')
-        self.assertEqual(self.pa.encode('Ring'), 'RNK,')
-        self.assertEqual(self.pa.encode('Roberts'), 'RPRTS,')
-        self.assertEqual(self.pa.encode('Robertson'), 'RPRTSN,')
-        self.assertEqual(self.pa.encode('Robson'), 'RPSN,')
-        self.assertEqual(self.pa.encode('Rodie'), 'RT,')
-        self.assertEqual(self.pa.encode('Rody'), 'RT,')
-        self.assertEqual(self.pa.encode('Rogers'), 'RKRS,RJRS')
-        self.assertEqual(self.pa.encode('Ross'), 'RS,')
-        self.assertEqual(self.pa.encode('Rosslevin'), 'RSLFN,')
-        self.assertEqual(self.pa.encode('Rowland'), 'RLNT,')
-        self.assertEqual(self.pa.encode('Ruehl'), 'RL,')
-        self.assertEqual(self.pa.encode('Russell'), 'RSL,')
-        self.assertEqual(self.pa.encode('Ruth'), 'R0,RT')
-        self.assertEqual(self.pa.encode('Ryan'), 'RN,')
-        self.assertEqual(self.pa.encode('Rysse'), 'RS,')
-        self.assertEqual(self.pa.encode('Sadler'), 'STLR,')
-        self.assertEqual(self.pa.encode('Salmon'), 'SLMN,')
-        self.assertEqual(self.pa.encode('Salter'), 'SLTR,')
-        self.assertEqual(self.pa.encode('Salvatore'), 'SLFTR,')
-        self.assertEqual(self.pa.encode('Sanders'), 'SNTRS,')
-        self.assertEqual(self.pa.encode('Sands'), 'SNTS,')
-        self.assertEqual(self.pa.encode('Sanford'), 'SNFRT,')
-        self.assertEqual(self.pa.encode('Sanger'), 'SNKR,SNJR')
-        self.assertEqual(self.pa.encode('Sargent'), 'SRJNT,SRKNT')
-        self.assertEqual(self.pa.encode('Saunders'), 'SNTRS,')
-        self.assertEqual(self.pa.encode('Schilling'), 'XLNK,')
-        self.assertEqual(self.pa.encode('Schlegel'), 'XLKL,SLKL')
-        self.assertEqual(self.pa.encode('Scott'), 'SKT,')
-        self.assertEqual(self.pa.encode('Sears'), 'SRS,')
-        self.assertEqual(self.pa.encode('Segersall'), 'SJRSL,SKRSL')
-        self.assertEqual(self.pa.encode('Senecal'), 'SNKL,')
-        self.assertEqual(self.pa.encode('Sergeaux'), 'SRJ,SRK')
-        self.assertEqual(self.pa.encode('Severance'), 'SFRNS,')
-        self.assertEqual(self.pa.encode('Sharp'), 'XRP,')
-        self.assertEqual(self.pa.encode('Sharpe'), 'XRP,')
-        self.assertEqual(self.pa.encode('Sharply'), 'XRPL,')
-        self.assertEqual(self.pa.encode('Shatswell'), 'XTSL,')
-        self.assertEqual(self.pa.encode('Shattack'), 'XTK,')
-        self.assertEqual(self.pa.encode('Shattock'), 'XTK,')
-        self.assertEqual(self.pa.encode('Shattuck'), 'XTK,')
-        self.assertEqual(self.pa.encode('Shaw'), 'X,XF')
-        self.assertEqual(self.pa.encode('Sheldon'), 'XLTN,')
-        self.assertEqual(self.pa.encode('Sherman'), 'XRMN,')
-        self.assertEqual(self.pa.encode('Shinn'), 'XN,')
-        self.assertEqual(self.pa.encode('Shirford'), 'XRFRT,')
-        self.assertEqual(self.pa.encode('Shirley'), 'XRL,')
-        self.assertEqual(self.pa.encode('Shively'), 'XFL,')
-        self.assertEqual(self.pa.encode('Shoemaker'), 'XMKR,')
-        self.assertEqual(self.pa.encode('Short'), 'XRT,')
-        self.assertEqual(self.pa.encode('Shotwell'), 'XTL,')
-        self.assertEqual(self.pa.encode('Shute'), 'XT,')
-        self.assertEqual(self.pa.encode('Sibley'), 'SPL,')
-        self.assertEqual(self.pa.encode('Silver'), 'SLFR,')
-        self.assertEqual(self.pa.encode('Simes'), 'SMS,')
-        self.assertEqual(self.pa.encode('Sinken'), 'SNKN,')
-        self.assertEqual(self.pa.encode('Sinn'), 'SN,')
-        self.assertEqual(self.pa.encode('Skelton'), 'SKLTN,')
-        self.assertEqual(self.pa.encode('Skiffe'), 'SKF,')
-        self.assertEqual(self.pa.encode('Skotkonung'), 'SKTKNNK,')
-        self.assertEqual(self.pa.encode('Slade'), 'SLT,XLT')
-        self.assertEqual(self.pa.encode('Slye'), 'SL,XL')
-        self.assertEqual(self.pa.encode('Smedley'), 'SMTL,XMTL')
-        self.assertEqual(self.pa.encode('Smith'), 'SM0,XMT')
-        self.assertEqual(self.pa.encode('Snow'), 'SN,XNF')
-        self.assertEqual(self.pa.encode('Soole'), 'SL,')
-        self.assertEqual(self.pa.encode('Soule'), 'SL,')
-        self.assertEqual(self.pa.encode('Southworth'), 'S0R0,STRT')
-        self.assertEqual(self.pa.encode('Sowles'), 'SLS,')
-        self.assertEqual(self.pa.encode('Spalding'), 'SPLTNK,')
-        self.assertEqual(self.pa.encode('Spark'), 'SPRK,')
-        self.assertEqual(self.pa.encode('Spencer'), 'SPNSR,')
-        self.assertEqual(self.pa.encode('Sperry'), 'SPR,')
-        self.assertEqual(self.pa.encode('Spofford'), 'SPFRT,')
-        self.assertEqual(self.pa.encode('Spooner'), 'SPNR,')
-        self.assertEqual(self.pa.encode('Sprague'), 'SPRK,')
-        self.assertEqual(self.pa.encode('Springer'), 'SPRNKR,SPRNJR')
-        self.assertEqual(self.pa.encode('St. Clair'), 'STKLR,')
-        self.assertEqual(self.pa.encode('St. Claire'), 'STKLR,')
-        self.assertEqual(self.pa.encode('St. Leger'), 'STLJR,STLKR')
-        self.assertEqual(self.pa.encode('St. Omer'), 'STMR,')
-        self.assertEqual(self.pa.encode('Stafferton'), 'STFRTN,')
-        self.assertEqual(self.pa.encode('Stafford'), 'STFRT,')
-        self.assertEqual(self.pa.encode('Stalham'), 'STLM,')
-        self.assertEqual(self.pa.encode('Stanford'), 'STNFRT,')
-        self.assertEqual(self.pa.encode('Stanton'), 'STNTN,')
-        self.assertEqual(self.pa.encode('Star'), 'STR,')
-        self.assertEqual(self.pa.encode('Starbuck'), 'STRPK,')
-        self.assertEqual(self.pa.encode('Starkey'), 'STRK,')
-        self.assertEqual(self.pa.encode('Starkweather'), 'STRK0R,STRKTR')
-        self.assertEqual(self.pa.encode('Stearns'), 'STRNS,')
-        self.assertEqual(self.pa.encode('Stebbins'), 'STPNS,')
-        self.assertEqual(self.pa.encode('Steele'), 'STL,')
-        self.assertEqual(self.pa.encode('Stephenson'), 'STFNSN,')
-        self.assertEqual(self.pa.encode('Stevens'), 'STFNS,')
-        self.assertEqual(self.pa.encode('Stoddard'), 'STTRT,')
-        self.assertEqual(self.pa.encode('Stodder'), 'STTR,')
-        self.assertEqual(self.pa.encode('Stone'), 'STN,')
-        self.assertEqual(self.pa.encode('Storey'), 'STR,')
-        self.assertEqual(self.pa.encode('Storrada'), 'STRT,')
-        self.assertEqual(self.pa.encode('Story'), 'STR,')
-        self.assertEqual(self.pa.encode('Stoughton'), 'STFTN,')
-        self.assertEqual(self.pa.encode('Stout'), 'STT,')
-        self.assertEqual(self.pa.encode('Stow'), 'ST,STF')
-        self.assertEqual(self.pa.encode('Strong'), 'STRNK,')
-        self.assertEqual(self.pa.encode('Strutt'), 'STRT,')
-        self.assertEqual(self.pa.encode('Stryker'), 'STRKR,')
-        self.assertEqual(self.pa.encode('Stuckeley'), 'STKL,')
-        self.assertEqual(self.pa.encode('Sturges'), 'STRJS,STRKS')
-        self.assertEqual(self.pa.encode('Sturgess'), 'STRJS,STRKS')
-        self.assertEqual(self.pa.encode('Sturgis'), 'STRJS,STRKS')
-        self.assertEqual(self.pa.encode('Suevain'), 'SFN,')
-        self.assertEqual(self.pa.encode('Sulyard'), 'SLRT,')
-        self.assertEqual(self.pa.encode('Sutton'), 'STN,')
-        self.assertEqual(self.pa.encode('Swain'), 'SN,XN')
-        self.assertEqual(self.pa.encode('Swayne'), 'SN,XN')
-        self.assertEqual(self.pa.encode('Swayze'), 'SS,XTS')
-        self.assertEqual(self.pa.encode('Swift'), 'SFT,XFT')
-        self.assertEqual(self.pa.encode('Taber'), 'TPR,')
-        self.assertEqual(self.pa.encode('Talcott'), 'TLKT,')
-        self.assertEqual(self.pa.encode('Tarne'), 'TRN,')
-        self.assertEqual(self.pa.encode('Tatum'), 'TTM,')
-        self.assertEqual(self.pa.encode('Taverner'), 'TFRNR,')
-        self.assertEqual(self.pa.encode('Taylor'), 'TLR,')
-        self.assertEqual(self.pa.encode('Tenney'), 'TN,')
-        self.assertEqual(self.pa.encode('Thayer'), '0R,TR')
-        self.assertEqual(self.pa.encode('Thember'), '0MPR,TMPR')
-        self.assertEqual(self.pa.encode('Thomas'), 'TMS,')
-        self.assertEqual(self.pa.encode('Thompson'), 'TMPSN,')
-        self.assertEqual(self.pa.encode('Thorne'), '0RN,TRN')
-        self.assertEqual(self.pa.encode('Thornycraft'), '0RNKRFT,TRNKRFT')
-        self.assertEqual(self.pa.encode('Threlkeld'), '0RLKLT,TRLKLT')
-        self.assertEqual(self.pa.encode('Throckmorton'), '0RKMRTN,TRKMRTN')
-        self.assertEqual(self.pa.encode('Thwaits'), '0TS,TTS')
-        self.assertEqual(self.pa.encode('Tibbetts'), 'TPTS,')
-        self.assertEqual(self.pa.encode('Tidd'), 'TT,')
-        self.assertEqual(self.pa.encode('Tierney'), 'TRN,')
-        self.assertEqual(self.pa.encode('Tilley'), 'TL,')
-        self.assertEqual(self.pa.encode('Tillieres'), 'TLRS,')
-        self.assertEqual(self.pa.encode('Tilly'), 'TL,')
-        self.assertEqual(self.pa.encode('Tisdale'), 'TSTL,')
-        self.assertEqual(self.pa.encode('Titus'), 'TTS,')
-        self.assertEqual(self.pa.encode('Tobey'), 'TP,')
-        self.assertEqual(self.pa.encode('Tooker'), 'TKR,')
-        self.assertEqual(self.pa.encode('Towle'), 'TL,')
-        self.assertEqual(self.pa.encode('Towne'), 'TN,')
-        self.assertEqual(self.pa.encode('Townsend'), 'TNSNT,')
-        self.assertEqual(self.pa.encode('Treadway'), 'TRT,')
-        self.assertEqual(self.pa.encode('Trelawney'), 'TRLN,')
-        self.assertEqual(self.pa.encode('Trinder'), 'TRNTR,')
-        self.assertEqual(self.pa.encode('Tripp'), 'TRP,')
-        self.assertEqual(self.pa.encode('Trippe'), 'TRP,')
-        self.assertEqual(self.pa.encode('Trott'), 'TRT,')
-        self.assertEqual(self.pa.encode('True'), 'TR,')
-        self.assertEqual(self.pa.encode('Trussebut'), 'TRSPT,')
-        self.assertEqual(self.pa.encode('Tucker'), 'TKR,')
-        self.assertEqual(self.pa.encode('Turgeon'), 'TRJN,TRKN')
-        self.assertEqual(self.pa.encode('Turner'), 'TRNR,')
-        self.assertEqual(self.pa.encode('Tuttle'), 'TTL,')
-        self.assertEqual(self.pa.encode('Tyler'), 'TLR,')
-        self.assertEqual(self.pa.encode('Tylle'), 'TL,')
-        self.assertEqual(self.pa.encode('Tyrrel'), 'TRL,')
-        self.assertEqual(self.pa.encode('Ua Tuathail'), 'AT0L,ATTL')
-        self.assertEqual(self.pa.encode('Ulrich'), 'ALRX,ALRK')
-        self.assertEqual(self.pa.encode('Underhill'), 'ANTRL,')
-        self.assertEqual(self.pa.encode('Underwood'), 'ANTRT,')
-        self.assertEqual(self.pa.encode('Unknown'), 'ANKNN,')
-        self.assertEqual(self.pa.encode('Valentine'), 'FLNTN,')
-        self.assertEqual(self.pa.encode('Van Egmond'), 'FNKMNT,')
-        self.assertEqual(self.pa.encode('Van der Beek'), 'FNTRPK,')
-        self.assertEqual(self.pa.encode('Vaughan'), 'FKN,')
-        self.assertEqual(self.pa.encode('Vermenlen'), 'FRMNLN,')
-        self.assertEqual(self.pa.encode('Vincent'), 'FNSNT,')
-        self.assertEqual(self.pa.encode('Volentine'), 'FLNTN,')
-        self.assertEqual(self.pa.encode('Wagner'), 'AKNR,FKNR')
-        self.assertEqual(self.pa.encode('Waite'), 'AT,FT')
-        self.assertEqual(self.pa.encode('Walker'), 'ALKR,FLKR')
-        self.assertEqual(self.pa.encode('Walter'), 'ALTR,FLTR')
-        self.assertEqual(self.pa.encode('Wandell'), 'ANTL,FNTL')
-        self.assertEqual(self.pa.encode('Wandesford'), 'ANTSFRT,FNTSFRT')
-        self.assertEqual(self.pa.encode('Warbleton'), 'ARPLTN,FRPLTN')
-        self.assertEqual(self.pa.encode('Ward'), 'ART,FRT')
-        self.assertEqual(self.pa.encode('Warde'), 'ART,FRT')
-        self.assertEqual(self.pa.encode('Ware'), 'AR,FR')
-        self.assertEqual(self.pa.encode('Wareham'), 'ARHM,FRHM')
-        self.assertEqual(self.pa.encode('Warner'), 'ARNR,FRNR')
-        self.assertEqual(self.pa.encode('Warren'), 'ARN,FRN')
-        self.assertEqual(self.pa.encode('Washburne'), 'AXPRN,FXPRN')
-        self.assertEqual(self.pa.encode('Waterbury'), 'ATRPR,FTRPR')
-        self.assertEqual(self.pa.encode('Watson'), 'ATSN,FTSN')
-        self.assertEqual(
-            self.pa.encode('WatsonEllithorpe'), 'ATSNL0RP,FTSNLTRP'
-        )
-        self.assertEqual(self.pa.encode('Watts'), 'ATS,FTS')
-        self.assertEqual(self.pa.encode('Wayne'), 'AN,FN')
-        self.assertEqual(self.pa.encode('Webb'), 'AP,FP')
-        self.assertEqual(self.pa.encode('Weber'), 'APR,FPR')
-        self.assertEqual(self.pa.encode('Webster'), 'APSTR,FPSTR')
-        self.assertEqual(self.pa.encode('Weed'), 'AT,FT')
-        self.assertEqual(self.pa.encode('Weeks'), 'AKS,FKS')
-        self.assertEqual(self.pa.encode('Wells'), 'ALS,FLS')
-        self.assertEqual(self.pa.encode('Wenzell'), 'ANSL,FNTSL')
-        self.assertEqual(self.pa.encode('West'), 'AST,FST')
-        self.assertEqual(self.pa.encode('Westbury'), 'ASTPR,FSTPR')
-        self.assertEqual(self.pa.encode('Whatlocke'), 'ATLK,')
-        self.assertEqual(self.pa.encode('Wheeler'), 'ALR,')
-        self.assertEqual(self.pa.encode('Whiston'), 'ASTN,')
-        self.assertEqual(self.pa.encode('White'), 'AT,')
-        self.assertEqual(self.pa.encode('Whitman'), 'ATMN,')
-        self.assertEqual(self.pa.encode('Whiton'), 'ATN,')
-        self.assertEqual(self.pa.encode('Whitson'), 'ATSN,')
-        self.assertEqual(self.pa.encode('Wickes'), 'AKS,FKS')
-        self.assertEqual(self.pa.encode('Wilbur'), 'ALPR,FLPR')
-        self.assertEqual(self.pa.encode('Wilcotes'), 'ALKTS,FLKTS')
-        self.assertEqual(self.pa.encode('Wilkinson'), 'ALKNSN,FLKNSN')
-        self.assertEqual(self.pa.encode('Willets'), 'ALTS,FLTS')
-        self.assertEqual(self.pa.encode('Willett'), 'ALT,FLT')
-        self.assertEqual(self.pa.encode('Willey'), 'AL,FL')
-        self.assertEqual(self.pa.encode('Williams'), 'ALMS,FLMS')
-        self.assertEqual(self.pa.encode('Williston'), 'ALSTN,FLSTN')
-        self.assertEqual(self.pa.encode('Wilson'), 'ALSN,FLSN')
-        self.assertEqual(self.pa.encode('Wimes'), 'AMS,FMS')
-        self.assertEqual(self.pa.encode('Winch'), 'ANX,FNK')
-        self.assertEqual(self.pa.encode('Winegar'), 'ANKR,FNKR')
-        self.assertEqual(self.pa.encode('Wing'), 'ANK,FNK')
-        self.assertEqual(self.pa.encode('Winsley'), 'ANSL,FNSL')
-        self.assertEqual(self.pa.encode('Winslow'), 'ANSL,FNSLF')
-        self.assertEqual(self.pa.encode('Winthrop'), 'AN0RP,FNTRP')
-        self.assertEqual(self.pa.encode('Wise'), 'AS,FS')
-        self.assertEqual(self.pa.encode('Wood'), 'AT,FT')
-        self.assertEqual(self.pa.encode('Woodbridge'), 'ATPRJ,FTPRJ')
-        self.assertEqual(self.pa.encode('Woodward'), 'ATRT,FTRT')
-        self.assertEqual(self.pa.encode('Wooley'), 'AL,FL')
-        self.assertEqual(self.pa.encode('Woolley'), 'AL,FL')
-        self.assertEqual(self.pa.encode('Worth'), 'AR0,FRT')
-        self.assertEqual(self.pa.encode('Worthen'), 'AR0N,FRTN')
-        self.assertEqual(self.pa.encode('Worthley'), 'AR0L,FRTL')
-        self.assertEqual(self.pa.encode('Wright'), 'RT,')
-        self.assertEqual(self.pa.encode('Wyer'), 'AR,FR')
-        self.assertEqual(self.pa.encode('Wyere'), 'AR,FR')
-        self.assertEqual(self.pa.encode('Wynkoop'), 'ANKP,FNKP')
-        self.assertEqual(self.pa.encode('Yarnall'), 'ARNL,')
-        self.assertEqual(self.pa.encode('Yeoman'), 'AMN,')
-        self.assertEqual(self.pa.encode('Yorke'), 'ARK,')
-        self.assertEqual(self.pa.encode('Young'), 'ANK,')
-        self.assertEqual(self.pa.encode('ab Wennonwen'), 'APNNN,')
-        self.assertEqual(self.pa.encode('ap Llewellyn'), 'APLLN,')
-        self.assertEqual(self.pa.encode('ap Lorwerth'), 'APLRR0,APLRRT')
-        self.assertEqual(self.pa.encode("d'Angouleme"), 'TNKLM,')
-        self.assertEqual(self.pa.encode('de Audeham'), 'TTHM,')
-        self.assertEqual(self.pa.encode('de Bavant'), 'TPFNT,')
-        self.assertEqual(self.pa.encode('de Beauchamp'), 'TPXMP,TPKMP')
-        self.assertEqual(self.pa.encode('de Beaumont'), 'TPMNT,')
-        self.assertEqual(self.pa.encode('de Bolbec'), 'TPLPK,')
-        self.assertEqual(self.pa.encode('de Braiose'), 'TPRS,')
-        self.assertEqual(self.pa.encode('de Braose'), 'TPRS,')
-        self.assertEqual(self.pa.encode('de Briwere'), 'TPRR,')
-        self.assertEqual(self.pa.encode('de Cantelou'), 'TKNTL,')
-        self.assertEqual(self.pa.encode('de Cherelton'), 'TXRLTN,TKRLTN')
-        self.assertEqual(self.pa.encode('de Cherleton'), 'TXRLTN,TKRLTN')
-        self.assertEqual(self.pa.encode('de Clare'), 'TKLR,')
-        self.assertEqual(self.pa.encode('de Claremont'), 'TKLRMNT,')
-        self.assertEqual(self.pa.encode('de Clifford'), 'TKLFRT,')
-        self.assertEqual(self.pa.encode('de Colville'), 'TKLFL,')
-        self.assertEqual(self.pa.encode('de Courtenay'), 'TKRTN,')
-        self.assertEqual(self.pa.encode('de Fauconberg'), 'TFKNPRK,')
-        self.assertEqual(self.pa.encode('de Forest'), 'TFRST,')
-        self.assertEqual(self.pa.encode('de Gai'), 'TK,')
-        self.assertEqual(self.pa.encode('de Grey'), 'TKR,')
-        self.assertEqual(self.pa.encode('de Guernons'), 'TKRNNS,')
-        self.assertEqual(self.pa.encode('de Haia'), 'T,')
-        self.assertEqual(self.pa.encode('de Harcourt'), 'TRKRT,')
-        self.assertEqual(self.pa.encode('de Hastings'), 'TSTNKS,')
-        self.assertEqual(self.pa.encode('de Hoke'), 'TK,')
-        self.assertEqual(self.pa.encode('de Hooch'), 'TK,')
-        self.assertEqual(self.pa.encode('de Hugelville'), 'TJLFL,TKLFL')
-        self.assertEqual(self.pa.encode('de Huntingdon'), 'TNTNKTN,')
-        self.assertEqual(self.pa.encode('de Insula'), 'TNSL,')
-        self.assertEqual(self.pa.encode('de Keynes'), 'TKNS,')
-        self.assertEqual(self.pa.encode('de Lacy'), 'TLS,')
-        self.assertEqual(self.pa.encode('de Lexington'), 'TLKSNKTN,')
-        self.assertEqual(self.pa.encode('de Lusignan'), 'TLSNN,TLSKNN')
-        self.assertEqual(self.pa.encode('de Manvers'), 'TMNFRS,')
-        self.assertEqual(self.pa.encode('de Montagu'), 'TMNTK,')
-        self.assertEqual(self.pa.encode('de Montault'), 'TMNTLT,')
-        self.assertEqual(self.pa.encode('de Montfort'), 'TMNTFRT,')
-        self.assertEqual(self.pa.encode('de Mortimer'), 'TMRTMR,')
-        self.assertEqual(self.pa.encode('de Morville'), 'TMRFL,')
-        self.assertEqual(self.pa.encode('de Morvois'), 'TMRF,TMRFS')
-        self.assertEqual(self.pa.encode('de Neufmarche'), 'TNFMRX,TNFMRK')
-        self.assertEqual(self.pa.encode('de Odingsells'), 'TTNKSLS,')
-        self.assertEqual(self.pa.encode('de Odyngsells'), 'TTNKSLS,')
-        self.assertEqual(self.pa.encode('de Percy'), 'TPRS,')
-        self.assertEqual(self.pa.encode('de Pierrepont'), 'TPRPNT,')
-        self.assertEqual(self.pa.encode('de Plessetis'), 'TPLSTS,')
-        self.assertEqual(self.pa.encode('de Porhoet'), 'TPRT,')
-        self.assertEqual(self.pa.encode('de Prouz'), 'TPRS,')
-        self.assertEqual(self.pa.encode('de Quincy'), 'TKNS,')
-        self.assertEqual(self.pa.encode('de Ripellis'), 'TRPLS,')
-        self.assertEqual(self.pa.encode('de Ros'), 'TRS,')
-        self.assertEqual(self.pa.encode('de Salisbury'), 'TSLSPR,')
-        self.assertEqual(self.pa.encode('de Sanford'), 'TSNFRT,')
-        self.assertEqual(self.pa.encode('de Somery'), 'TSMR,')
-        self.assertEqual(self.pa.encode('de St. Hilary'), 'TSTLR,')
-        self.assertEqual(self.pa.encode('de St. Liz'), 'TSTLS,')
-        self.assertEqual(self.pa.encode('de Sutton'), 'TSTN,')
-        self.assertEqual(self.pa.encode('de Toeni'), 'TTN,')
-        self.assertEqual(self.pa.encode('de Tony'), 'TTN,')
-        self.assertEqual(self.pa.encode('de Umfreville'), 'TMFRFL,')
-        self.assertEqual(self.pa.encode('de Valognes'), 'TFLNS,TFLKNS')
-        self.assertEqual(self.pa.encode('de Vaux'), 'TF,')
-        self.assertEqual(self.pa.encode('de Vere'), 'TFR,')
-        self.assertEqual(self.pa.encode('de Vermandois'), 'TFRMNT,TFRMNTS')
-        self.assertEqual(self.pa.encode('de Vernon'), 'TFRNN,')
-        self.assertEqual(self.pa.encode('de Vexin'), 'TFKSN,')
-        self.assertEqual(self.pa.encode('de Vitre'), 'TFTR,')
-        self.assertEqual(self.pa.encode('de Wandesford'), 'TNTSFRT,')
-        self.assertEqual(self.pa.encode('de Warenne'), 'TRN,')
-        self.assertEqual(self.pa.encode('de Westbury'), 'TSTPR,')
-        self.assertEqual(self.pa.encode('di Saluzzo'), 'TSLS,TSLTS')
-        self.assertEqual(self.pa.encode('fitz Alan'), 'FTSLN,')
-        self.assertEqual(self.pa.encode('fitz Geoffrey'), 'FTSJFR,FTSKFR')
-        self.assertEqual(self.pa.encode('fitz Herbert'), 'FTSRPRT,')
-        self.assertEqual(self.pa.encode('fitz John'), 'FTSJN,')
-        self.assertEqual(self.pa.encode('fitz Patrick'), 'FTSPTRK,')
-        self.assertEqual(self.pa.encode('fitz Payn'), 'FTSPN,')
-        self.assertEqual(self.pa.encode('fitz Piers'), 'FTSPRS,')
-        self.assertEqual(self.pa.encode('fitz Randolph'), 'FTSRNTLF,')
-        self.assertEqual(self.pa.encode('fitz Richard'), 'FTSRXRT,FTSRKRT')
-        self.assertEqual(self.pa.encode('fitz Robert'), 'FTSRPRT,')
-        self.assertEqual(self.pa.encode('fitz Roy'), 'FTSR,')
-        self.assertEqual(self.pa.encode('fitz Scrob'), 'FTSSKP,')
-        self.assertEqual(self.pa.encode('fitz Walter'), 'FTSLTR,')
-        self.assertEqual(self.pa.encode('fitz Warin'), 'FTSRN,')
-        self.assertEqual(self.pa.encode('fitz Williams'), 'FTSLMS,')
-        self.assertEqual(self.pa.encode('la Zouche'), 'LSX,LSK')
-        self.assertEqual(self.pa.encode('le Botiller'), 'LPTLR,')
-        self.assertEqual(self.pa.encode('le Despenser'), 'LTSPNSR,')
-        self.assertEqual(self.pa.encode('le deSpencer'), 'LTSPNSR,')
-        self.assertEqual(self.pa.encode('of Allendale'), 'AFLNTL,')
-        self.assertEqual(self.pa.encode('of Angouleme'), 'AFNKLM,')
-        self.assertEqual(self.pa.encode('of Anjou'), 'AFNJ,')
-        self.assertEqual(self.pa.encode('of Aquitaine'), 'AFKTN,')
-        self.assertEqual(self.pa.encode('of Aumale'), 'AFML,')
-        self.assertEqual(self.pa.encode('of Bavaria'), 'AFPFR,')
-        self.assertEqual(self.pa.encode('of Boulogne'), 'AFPLN,AFPLKN')
-        self.assertEqual(self.pa.encode('of Brittany'), 'AFPRTN,')
-        self.assertEqual(self.pa.encode('of Brittary'), 'AFPRTR,')
-        self.assertEqual(self.pa.encode('of Castile'), 'AFKSTL,')
-        self.assertEqual(self.pa.encode('of Chester'), 'AFXSTR,AFKSTR')
-        self.assertEqual(self.pa.encode('of Clermont'), 'AFKLRMNT,')
-        self.assertEqual(self.pa.encode('of Cologne'), 'AFKLN,AFKLKN')
-        self.assertEqual(self.pa.encode('of Dinan'), 'AFTNN,')
-        self.assertEqual(self.pa.encode('of Dunbar'), 'AFTNPR,')
-        self.assertEqual(self.pa.encode('of England'), 'AFNKLNT,')
-        self.assertEqual(self.pa.encode('of Essex'), 'AFSKS,')
-        self.assertEqual(self.pa.encode('of Falaise'), 'AFFLS,')
-        self.assertEqual(self.pa.encode('of Flanders'), 'AFFLNTRS,')
-        self.assertEqual(self.pa.encode('of Galloway'), 'AFKL,')
-        self.assertEqual(self.pa.encode('of Germany'), 'AFKRMN,AFJRMN')
-        self.assertEqual(self.pa.encode('of Gloucester'), 'AFKLSSTR,')
-        self.assertEqual(self.pa.encode('of Heristal'), 'AFRSTL,')
-        self.assertEqual(self.pa.encode('of Hungary'), 'AFNKR,')
-        self.assertEqual(self.pa.encode('of Huntington'), 'AFNTNKTN,')
-        self.assertEqual(self.pa.encode('of Kiev'), 'AFKF,')
-        self.assertEqual(self.pa.encode('of Kuno'), 'AFKN,')
-        self.assertEqual(self.pa.encode('of Landen'), 'AFLNTN,')
-        self.assertEqual(self.pa.encode('of Laon'), 'AFLN,')
-        self.assertEqual(self.pa.encode('of Leinster'), 'AFLNSTR,')
-        self.assertEqual(self.pa.encode('of Lens'), 'AFLNS,')
-        self.assertEqual(self.pa.encode('of Lorraine'), 'AFLRN,')
-        self.assertEqual(self.pa.encode('of Louvain'), 'AFLFN,')
-        self.assertEqual(self.pa.encode('of Mercia'), 'AFMRS,AFMRX')
-        self.assertEqual(self.pa.encode('of Metz'), 'AFMTS,')
-        self.assertEqual(self.pa.encode('of Meulan'), 'AFMLN,')
-        self.assertEqual(self.pa.encode('of Nass'), 'AFNS,')
-        self.assertEqual(self.pa.encode('of Normandy'), 'AFNRMNT,')
-        self.assertEqual(self.pa.encode('of Ohningen'), 'AFNNJN,AFNNKN')
-        self.assertEqual(self.pa.encode('of Orleans'), 'AFRLNS,')
-        self.assertEqual(self.pa.encode('of Poitou'), 'AFPT,')
-        self.assertEqual(self.pa.encode('of Polotzk'), 'AFPLTSK,')
-        self.assertEqual(self.pa.encode('of Provence'), 'AFPRFNS,')
-        self.assertEqual(self.pa.encode('of Ringelheim'), 'AFRNJLM,AFRNKLM')
-        self.assertEqual(self.pa.encode('of Salisbury'), 'AFSLSPR,')
-        self.assertEqual(self.pa.encode('of Saxony'), 'AFSKSN,')
-        self.assertEqual(self.pa.encode('of Scotland'), 'AFSKTLNT,')
-        self.assertEqual(self.pa.encode('of Senlis'), 'AFSNLS,')
-        self.assertEqual(self.pa.encode('of Stafford'), 'AFSTFRT,')
-        self.assertEqual(self.pa.encode('of Swabia'), 'AFSP,')
-        self.assertEqual(self.pa.encode('of Tongres'), 'AFTNKRS,')
-        self.assertEqual(
-            self.pa.encode('of the Tributes'), 'AF0TRPTS,AFTTRPTS'
-        )
-        self.assertEqual(self.pa.encode('unknown'), 'ANKNN,')
-        self.assertEqual(self.pa.encode('van der Gouda'), 'FNTRKT,')
-        self.assertEqual(self.pa.encode('von Adenbaugh'), 'FNTNP,')
-        self.assertEqual(self.pa.encode('ARCHITure'), 'ARKTR,')
-        self.assertEqual(self.pa.encode('Arnoff'), 'ARNF,')
-        self.assertEqual(self.pa.encode('Arnow'), 'ARN,ARNF')
-        self.assertEqual(self.pa.encode('DANGER'), 'TNJR,TNKR')
-        self.assertEqual(self.pa.encode('Jankelowicz'), 'JNKLTS,ANKLFX')
-        self.assertEqual(self.pa.encode('MANGER'), 'MNJR,MNKR')
-        self.assertEqual(self.pa.encode('McClellan'), 'MKLLN,')
-        self.assertEqual(self.pa.encode('McHugh'), 'MK,')
-        self.assertEqual(self.pa.encode('McLaughlin'), 'MKLFLN,')
-        self.assertEqual(self.pa.encode('ORCHEStra'), 'ARKSTR,')
-        self.assertEqual(self.pa.encode('ORCHID'), 'ARKT,')
-        self.assertEqual(self.pa.encode('Pierce'), 'PRS,')
-        self.assertEqual(self.pa.encode('RANGER'), 'RNJR,RNKR')
-        self.assertEqual(self.pa.encode('Schlesinger'), 'XLSNKR,SLSNJR')
-        self.assertEqual(self.pa.encode('Uomo'), 'AM,')
-        self.assertEqual(self.pa.encode('Vasserman'), 'FSRMN,')
-        self.assertEqual(self.pa.encode('Wasserman'), 'ASRMN,FSRMN')
-        self.assertEqual(self.pa.encode('Womo'), 'AM,FM')
-        self.assertEqual(self.pa.encode('Yankelovich'), 'ANKLFX,ANKLFK')
-        self.assertEqual(self.pa.encode('accede'), 'AKST,')
-        self.assertEqual(self.pa.encode('accident'), 'AKSTNT,')
-        self.assertEqual(self.pa.encode('adelsheim'), 'ATLSM,')
-        self.assertEqual(self.pa.encode('aged'), 'AJT,AKT')
-        self.assertEqual(self.pa.encode('ageless'), 'AJLS,AKLS')
-        self.assertEqual(self.pa.encode('agency'), 'AJNS,AKNS')
-        self.assertEqual(self.pa.encode('aghast'), 'AKST,')
-        self.assertEqual(self.pa.encode('agio'), 'AJ,AK')
-        self.assertEqual(self.pa.encode('agrimony'), 'AKRMN,')
-        self.assertEqual(self.pa.encode('album'), 'ALPM,')
-        self.assertEqual(self.pa.encode('alcmene'), 'ALKMN,')
-        self.assertEqual(self.pa.encode('alehouse'), 'ALHS,')
-        self.assertEqual(self.pa.encode('antique'), 'ANTK,')
-        self.assertEqual(self.pa.encode('artois'), 'ART,ARTS')
-        self.assertEqual(self.pa.encode('automation'), 'ATMXN,')
-        self.assertEqual(self.pa.encode('bacchus'), 'PKS,')
-        self.assertEqual(self.pa.encode('bacci'), 'PX,')
-        self.assertEqual(self.pa.encode('bajador'), 'PJTR,PHTR')
-        self.assertEqual(self.pa.encode('bellocchio'), 'PLX,')
-        self.assertEqual(self.pa.encode('bertucci'), 'PRTX,')
-        self.assertEqual(self.pa.encode('biaggi'), 'PJ,PK')
-        self.assertEqual(self.pa.encode('bough'), 'P,')
-        self.assertEqual(self.pa.encode('breaux'), 'PR,')
-        self.assertEqual(self.pa.encode('broughton'), 'PRTN,')
-        self.assertEqual(self.pa.encode('cabrillo'), 'KPRL,KPR')
-        self.assertEqual(self.pa.encode('caesar'), 'SSR,')
-        self.assertEqual(self.pa.encode('cagney'), 'KKN,')
-        self.assertEqual(self.pa.encode('campbell'), 'KMPL,')
-        self.assertEqual(self.pa.encode('carlisle'), 'KRLL,')
-        self.assertEqual(self.pa.encode('carlysle'), 'KRLL,')
-        self.assertEqual(self.pa.encode('chemistry'), 'KMSTR,')
-        self.assertEqual(self.pa.encode('chianti'), 'KNT,')
-        self.assertEqual(self.pa.encode('chorus'), 'KRS,')
-        self.assertEqual(self.pa.encode('cough'), 'KF,')
-        self.assertEqual(self.pa.encode('czerny'), 'SRN,XRN')
-        self.assertEqual(self.pa.encode('deffenbacher'), 'TFNPKR,')
-        self.assertEqual(self.pa.encode('dumb'), 'TM,')
-        self.assertEqual(self.pa.encode('edgar'), 'ATKR,')
-        self.assertEqual(self.pa.encode('edge'), 'AJ,')
-        self.assertEqual(self.pa.encode('filipowicz'), 'FLPTS,FLPFX')
-        self.assertEqual(self.pa.encode('focaccia'), 'FKX,')
-        self.assertEqual(self.pa.encode('gallegos'), 'KLKS,KKS')
-        self.assertEqual(self.pa.encode('gambrelli'), 'KMPRL,')
-        self.assertEqual(self.pa.encode('geithain'), 'K0N,JTN')
-        self.assertEqual(self.pa.encode('ghiradelli'), 'JRTL,')
-        self.assertEqual(self.pa.encode('ghislane'), 'JLN,')
-        self.assertEqual(self.pa.encode('gough'), 'KF,')
-        self.assertEqual(self.pa.encode('hartheim'), 'HR0M,HRTM')
-        self.assertEqual(self.pa.encode('heimsheim'), 'HMSM,')
-        self.assertEqual(self.pa.encode('hochmeier'), 'HKMR,')
-        self.assertEqual(self.pa.encode('hugh'), 'H,')
-        self.assertEqual(self.pa.encode('hunger'), 'HNKR,HNJR')
-        self.assertEqual(self.pa.encode('hungry'), 'HNKR,')
-        self.assertEqual(self.pa.encode('island'), 'ALNT,')
-        self.assertEqual(self.pa.encode('isle'), 'AL,')
-        self.assertEqual(self.pa.encode('jose'), 'HS,')
-        self.assertEqual(self.pa.encode('laugh'), 'LF,')
-        self.assertEqual(self.pa.encode('mac caffrey'), 'MKFR,')
-        self.assertEqual(self.pa.encode('mac gregor'), 'MKRKR,')
-        self.assertEqual(self.pa.encode('pegnitz'), 'PNTS,PKNTS')
-        self.assertEqual(self.pa.encode('piskowitz'), 'PSKTS,PSKFX')
-        self.assertEqual(self.pa.encode('queen'), 'KN,')
-        self.assertEqual(self.pa.encode('raspberry'), 'RSPR,')
-        self.assertEqual(self.pa.encode('resnais'), 'RSN,RSNS')
-        self.assertEqual(self.pa.encode('rogier'), 'RJ,RJR')
-        self.assertEqual(self.pa.encode('rough'), 'RF,')
-        self.assertEqual(self.pa.encode('san jacinto'), 'SNHSNT,')
-        self.assertEqual(self.pa.encode('schenker'), 'XNKR,SKNKR')
-        self.assertEqual(self.pa.encode('schermerhorn'), 'XRMRRN,SKRMRRN')
-        self.assertEqual(self.pa.encode('schmidt'), 'XMT,SMT')
-        self.assertEqual(self.pa.encode('schneider'), 'XNTR,SNTR')
-        self.assertEqual(self.pa.encode('school'), 'SKL,')
-        self.assertEqual(self.pa.encode('schooner'), 'SKNR,')
-        self.assertEqual(self.pa.encode('schrozberg'), 'XRSPRK,SRSPRK')
-        self.assertEqual(self.pa.encode('schulman'), 'XLMN,')
-        self.assertEqual(self.pa.encode('schwabach'), 'XPK,XFPK')
-        self.assertEqual(self.pa.encode('schwarzach'), 'XRSK,XFRTSK')
-        self.assertEqual(self.pa.encode('smith'), 'SM0,XMT')
-        self.assertEqual(self.pa.encode('snider'), 'SNTR,XNTR')
-        self.assertEqual(self.pa.encode('succeed'), 'SKST,')
-        self.assertEqual(self.pa.encode('sugarcane'), 'XKRKN,SKRKN')
-        self.assertEqual(self.pa.encode('svobodka'), 'SFPTK,')
-        self.assertEqual(self.pa.encode('tagliaro'), 'TKLR,TLR')
-        self.assertEqual(self.pa.encode('thames'), 'TMS,')
-        self.assertEqual(self.pa.encode('theilheim'), '0LM,TLM')
-        self.assertEqual(self.pa.encode('thomas'), 'TMS,')
-        self.assertEqual(self.pa.encode('thumb'), '0M,TM')
-        self.assertEqual(self.pa.encode('tichner'), 'TXNR,TKNR')
-        self.assertEqual(self.pa.encode('tough'), 'TF,')
-        self.assertEqual(self.pa.encode('umbrella'), 'AMPRL,')
-        self.assertEqual(self.pa.encode('vilshofen'), 'FLXFN,')
-        self.assertEqual(self.pa.encode('von schuller'), 'FNXLR,')
-        self.assertEqual(self.pa.encode('wachtler'), 'AKTLR,FKTLR')
-        self.assertEqual(self.pa.encode('wechsler'), 'AKSLR,FKSLR')
-        self.assertEqual(self.pa.encode('weikersheim'), 'AKRSM,FKRSM')
-        self.assertEqual(self.pa.encode('zhao'), 'J,')
+        assert self.pa.encode('') == ','
+        assert self.pa.encode('ALLERTON') == 'ALRTN,'
+        assert self.pa.encode('Acton') == 'AKTN,'
+        assert self.pa.encode('Adams') == 'ATMS,'
+        assert self.pa.encode('Aggar') == 'AKR,'
+        assert self.pa.encode('Ahl') == 'AL,'
+        assert self.pa.encode('Aiken') == 'AKN,'
+        assert self.pa.encode('Alan') == 'ALN,'
+        assert self.pa.encode('Alcock') == 'ALKK,'
+        assert self.pa.encode('Alden') == 'ALTN,'
+        assert self.pa.encode('Aldham') == 'ALTM,'
+        assert self.pa.encode('Allen') == 'ALN,'
+        assert self.pa.encode('Allerton') == 'ALRTN,'
+        assert self.pa.encode('Alsop') == 'ALSP,'
+        assert self.pa.encode('Alwein') == 'ALN,'
+        assert self.pa.encode('Ambler') == 'AMPLR,'
+        assert self.pa.encode('Andevill') == 'ANTFL,'
+        assert self.pa.encode('Andrews') == 'ANTRS,'
+        assert self.pa.encode('Andreyco') == 'ANTRK,'
+        assert self.pa.encode('Andriesse') == 'ANTRS,'
+        assert self.pa.encode('Angier') == 'ANJ,ANJR'
+        assert self.pa.encode('Annabel') == 'ANPL,'
+        assert self.pa.encode('Anne') == 'AN,'
+        assert self.pa.encode('Anstye') == 'ANST,'
+        assert self.pa.encode('Appling') == 'APLNK,'
+        assert self.pa.encode('Apuke') == 'APK,'
+        assert self.pa.encode('Arnold') == 'ARNLT,'
+        assert self.pa.encode('Ashby') == 'AXP,'
+        assert self.pa.encode('Astwood') == 'ASTT,'
+        assert self.pa.encode('Atkinson') == 'ATKNSN,'
+        assert self.pa.encode('Audley') == 'ATL,'
+        assert self.pa.encode('Austin') == 'ASTN,'
+        assert self.pa.encode('Avenal') == 'AFNL,'
+        assert self.pa.encode('Ayer') == 'AR,'
+        assert self.pa.encode('Ayot') == 'AT,'
+        assert self.pa.encode('Babbitt') == 'PPT,'
+        assert self.pa.encode('Bachelor') == 'PXLR,PKLR'
+        assert self.pa.encode('Bachelour') == 'PXLR,PKLR'
+        assert self.pa.encode('Bailey') == 'PL,'
+        assert self.pa.encode('Baivel') == 'PFL,'
+        assert self.pa.encode('Baker') == 'PKR,'
+        assert self.pa.encode('Baldwin') == 'PLTN,'
+        assert self.pa.encode('Balsley') == 'PLSL,'
+        assert self.pa.encode('Barber') == 'PRPR,'
+        assert self.pa.encode('Barker') == 'PRKR,'
+        assert self.pa.encode('Barlow') == 'PRL,PRLF'
+        assert self.pa.encode('Barnard') == 'PRNRT,'
+        assert self.pa.encode('Barnes') == 'PRNS,'
+        assert self.pa.encode('Barnsley') == 'PRNSL,'
+        assert self.pa.encode('Barouxis') == 'PRKSS,'
+        assert self.pa.encode('Bartlet') == 'PRTLT,'
+        assert self.pa.encode('Basley') == 'PSL,'
+        assert self.pa.encode('Basset') == 'PST,'
+        assert self.pa.encode('Bassett') == 'PST,'
+        assert self.pa.encode('Batchlor') == 'PXLR,'
+        assert self.pa.encode('Bates') == 'PTS,'
+        assert self.pa.encode('Batson') == 'PTSN,'
+        assert self.pa.encode('Bayes') == 'PS,'
+        assert self.pa.encode('Bayley') == 'PL,'
+        assert self.pa.encode('Beale') == 'PL,'
+        assert self.pa.encode('Beauchamp') == 'PXMP,PKMP'
+        assert self.pa.encode('Beauclerc') == 'PKLRK,'
+        assert self.pa.encode('Beech') == 'PK,'
+        assert self.pa.encode('Beers') == 'PRS,'
+        assert self.pa.encode('Beke') == 'PK,'
+        assert self.pa.encode('Belcher') == 'PLXR,PLKR'
+        assert self.pa.encode('Benjamin') == 'PNJMN,'
+        assert self.pa.encode('Benningham') == 'PNNKM,'
+        assert self.pa.encode('Bereford') == 'PRFRT,'
+        assert self.pa.encode('Bergen') == 'PRJN,PRKN'
+        assert self.pa.encode('Berkeley') == 'PRKL,'
+        assert self.pa.encode('Berry') == 'PR,'
+        assert self.pa.encode('Besse') == 'PS,'
+        assert self.pa.encode('Bessey') == 'PS,'
+        assert self.pa.encode('Bessiles') == 'PSLS,'
+        assert self.pa.encode('Bigelow') == 'PJL,PKLF'
+        assert self.pa.encode('Bigg') == 'PK,'
+        assert self.pa.encode('Bigod') == 'PKT,'
+        assert self.pa.encode('Billings') == 'PLNKS,'
+        assert self.pa.encode('Bimper') == 'PMPR,'
+        assert self.pa.encode('Binker') == 'PNKR,'
+        assert self.pa.encode('Birdsill') == 'PRTSL,'
+        assert self.pa.encode('Bishop') == 'PXP,'
+        assert self.pa.encode('Black') == 'PLK,'
+        assert self.pa.encode('Blagge') == 'PLK,'
+        assert self.pa.encode('Blake') == 'PLK,'
+        assert self.pa.encode('Blanck') == 'PLNK,'
+        assert self.pa.encode('Bledsoe') == 'PLTS,'
+        assert self.pa.encode('Blennerhasset') == 'PLNRST,'
+        assert self.pa.encode('Blessing') == 'PLSNK,'
+        assert self.pa.encode('Blewett') == 'PLT,'
+        assert self.pa.encode('Bloctgoed') == 'PLKTKT,'
+        assert self.pa.encode('Bloetgoet') == 'PLTKT,'
+        assert self.pa.encode('Bloodgood') == 'PLTKT,'
+        assert self.pa.encode('Blossom') == 'PLSM,'
+        assert self.pa.encode('Blount') == 'PLNT,'
+        assert self.pa.encode('Bodine') == 'PTN,'
+        assert self.pa.encode('Bodman') == 'PTMN,'
+        assert self.pa.encode('BonCoeur') == 'PNKR,'
+        assert self.pa.encode('Bond') == 'PNT,'
+        assert self.pa.encode('Boscawen') == 'PSKN,'
+        assert self.pa.encode('Bosworth') == 'PSR0,PSRT'
+        assert self.pa.encode('Bouchier') == 'PX,PKR'
+        assert self.pa.encode('Bowne') == 'PN,'
+        assert self.pa.encode('Bradbury') == 'PRTPR,'
+        assert self.pa.encode('Bradder') == 'PRTR,'
+        assert self.pa.encode('Bradford') == 'PRTFRT,'
+        assert self.pa.encode('Bradstreet') == 'PRTSTRT,'
+        assert self.pa.encode('Braham') == 'PRHM,'
+        assert self.pa.encode('Brailsford') == 'PRLSFRT,'
+        assert self.pa.encode('Brainard') == 'PRNRT,'
+        assert self.pa.encode('Brandish') == 'PRNTX,'
+        assert self.pa.encode('Braun') == 'PRN,'
+        assert self.pa.encode('Brecc') == 'PRK,'
+        assert self.pa.encode('Brent') == 'PRNT,'
+        assert self.pa.encode('Brenton') == 'PRNTN,'
+        assert self.pa.encode('Briggs') == 'PRKS,'
+        assert self.pa.encode('Brigham') == 'PRM,'
+        assert self.pa.encode('Brobst') == 'PRPST,'
+        assert self.pa.encode('Brome') == 'PRM,'
+        assert self.pa.encode('Bronson') == 'PRNSN,'
+        assert self.pa.encode('Brooks') == 'PRKS,'
+        assert self.pa.encode('Brouillard') == 'PRLRT,'
+        assert self.pa.encode('Brown') == 'PRN,'
+        assert self.pa.encode('Browne') == 'PRN,'
+        assert self.pa.encode('Brownell') == 'PRNL,'
+        assert self.pa.encode('Bruley') == 'PRL,'
+        assert self.pa.encode('Bryant') == 'PRNT,'
+        assert self.pa.encode('Brzozowski') == 'PRSSSK,PRTSTSFSK'
+        assert self.pa.encode('Buide') == 'PT,'
+        assert self.pa.encode('Bulmer') == 'PLMR,'
+        assert self.pa.encode('Bunker') == 'PNKR,'
+        assert self.pa.encode('Burden') == 'PRTN,'
+        assert self.pa.encode('Burge') == 'PRJ,PRK'
+        assert self.pa.encode('Burgoyne') == 'PRKN,'
+        assert self.pa.encode('Burke') == 'PRK,'
+        assert self.pa.encode('Burnett') == 'PRNT,'
+        assert self.pa.encode('Burpee') == 'PRP,'
+        assert self.pa.encode('Bursley') == 'PRSL,'
+        assert self.pa.encode('Burton') == 'PRTN,'
+        assert self.pa.encode('Bushnell') == 'PXNL,'
+        assert self.pa.encode('Buss') == 'PS,'
+        assert self.pa.encode('Buswell') == 'PSL,'
+        assert self.pa.encode('Butler') == 'PTLR,'
+        assert self.pa.encode('Calkin') == 'KLKN,'
+        assert self.pa.encode('Canada') == 'KNT,'
+        assert self.pa.encode('Canmore') == 'KNMR,'
+        assert self.pa.encode('Canney') == 'KN,'
+        assert self.pa.encode('Capet') == 'KPT,'
+        assert self.pa.encode('Card') == 'KRT,'
+        assert self.pa.encode('Carman') == 'KRMN,'
+        assert self.pa.encode('Carpenter') == 'KRPNTR,'
+        assert self.pa.encode('Cartwright') == 'KRTRT,'
+        assert self.pa.encode('Casey') == 'KS,'
+        assert self.pa.encode('Catterfield') == 'KTRFLT,'
+        assert self.pa.encode('Ceeley') == 'SL,'
+        assert self.pa.encode('Chambers') == 'XMPRS,'
+        assert self.pa.encode('Champion') == 'XMPN,'
+        assert self.pa.encode('Chapman') == 'XPMN,'
+        assert self.pa.encode('Chase') == 'XS,'
+        assert self.pa.encode('Cheney') == 'XN,'
+        assert self.pa.encode('Chetwynd') == 'XTNT,'
+        assert self.pa.encode('Chevalier') == 'XFL,XFLR'
+        assert self.pa.encode('Chillingsworth') == 'XLNKSR0,XLNKSRT'
+        assert self.pa.encode('Christie') == 'KRST,'
+        assert self.pa.encode('Chubbuck') == 'XPK,'
+        assert self.pa.encode('Church') == 'XRX,XRK'
+        assert self.pa.encode('Clark') == 'KLRK,'
+        assert self.pa.encode('Clarke') == 'KLRK,'
+        assert self.pa.encode('Cleare') == 'KLR,'
+        assert self.pa.encode('Clement') == 'KLMNT,'
+        assert self.pa.encode('Clerke') == 'KLRK,'
+        assert self.pa.encode('Clibben') == 'KLPN,'
+        assert self.pa.encode('Clifford') == 'KLFRT,'
+        assert self.pa.encode('Clivedon') == 'KLFTN,'
+        assert self.pa.encode('Close') == 'KLS,'
+        assert self.pa.encode('Clothilde') == 'KL0LT,KLTLT'
+        assert self.pa.encode('Cobb') == 'KP,'
+        assert self.pa.encode('Coburn') == 'KPRN,'
+        assert self.pa.encode('Coburne') == 'KPRN,'
+        assert self.pa.encode('Cocke') == 'KK,'
+        assert self.pa.encode('Coffin') == 'KFN,'
+        assert self.pa.encode('Coffyn') == 'KFN,'
+        assert self.pa.encode('Colborne') == 'KLPRN,'
+        assert self.pa.encode('Colby') == 'KLP,'
+        assert self.pa.encode('Cole') == 'KL,'
+        assert self.pa.encode('Coleman') == 'KLMN,'
+        assert self.pa.encode('Collier') == 'KL,KLR'
+        assert self.pa.encode('Compton') == 'KMPTN,'
+        assert self.pa.encode('Cone') == 'KN,'
+        assert self.pa.encode('Cook') == 'KK,'
+        assert self.pa.encode('Cooke') == 'KK,'
+        assert self.pa.encode('Cooper') == 'KPR,'
+        assert self.pa.encode('Copperthwaite') == 'KPR0T,KPRTT'
+        assert self.pa.encode('Corbet') == 'KRPT,'
+        assert self.pa.encode('Corell') == 'KRL,'
+        assert self.pa.encode('Corey') == 'KR,'
+        assert self.pa.encode('Corlies') == 'KRLS,'
+        assert self.pa.encode('Corneliszen') == 'KRNLSN,KRNLXN'
+        assert self.pa.encode('Cornelius') == 'KRNLS,'
+        assert self.pa.encode('Cornwallis') == 'KRNLS,'
+        assert self.pa.encode('Cosgrove') == 'KSKRF,'
+        assert self.pa.encode('Count of Brionne') == 'KNTFPRN,'
+        assert self.pa.encode('Covill') == 'KFL,'
+        assert self.pa.encode('Cowperthwaite') == 'KPR0T,KPRTT'
+        assert self.pa.encode('Cowperwaite') == 'KPRT,'
+        assert self.pa.encode('Crane') == 'KRN,'
+        assert self.pa.encode('Creagmile') == 'KRKML,'
+        assert self.pa.encode('Crew') == 'KR,KRF'
+        assert self.pa.encode('Crispin') == 'KRSPN,'
+        assert self.pa.encode('Crocker') == 'KRKR,'
+        assert self.pa.encode('Crockett') == 'KRKT,'
+        assert self.pa.encode('Crosby') == 'KRSP,'
+        assert self.pa.encode('Crump') == 'KRMP,'
+        assert self.pa.encode('Cunningham') == 'KNNKM,'
+        assert self.pa.encode('Curtis') == 'KRTS,'
+        assert self.pa.encode('Cutha') == 'K0,KT'
+        assert self.pa.encode('Cutter') == 'KTR,'
+        assert self.pa.encode("D'Aubigny") == 'TPN,TPKN'
+        assert self.pa.encode('DAVIS') == 'TFS,'
+        assert self.pa.encode('Dabinott') == 'TPNT,'
+        assert self.pa.encode('Dacre') == 'TKR,'
+        assert self.pa.encode('Daggett') == 'TKT,'
+        assert self.pa.encode('Danvers') == 'TNFRS,'
+        assert self.pa.encode('Darcy') == 'TRS,'
+        assert self.pa.encode('Davis') == 'TFS,'
+        assert self.pa.encode('Dawn') == 'TN,'
+        assert self.pa.encode('Dawson') == 'TSN,'
+        assert self.pa.encode('Day') == 'T,'
+        assert self.pa.encode('Daye') == 'T,'
+        assert self.pa.encode('DeGrenier') == 'TKRN,TKRNR'
+        assert self.pa.encode('Dean') == 'TN,'
+        assert self.pa.encode('Deekindaugh') == 'TKNT,'
+        assert self.pa.encode('Dennis') == 'TNS,'
+        assert self.pa.encode('Denny') == 'TN,'
+        assert self.pa.encode('Denton') == 'TNTN,'
+        assert self.pa.encode('Desborough') == 'TSPRF,'
+        assert self.pa.encode('Despenser') == 'TSPNSR,'
+        assert self.pa.encode('Deverill') == 'TFRL,'
+        assert self.pa.encode('Devine') == 'TFN,'
+        assert self.pa.encode('Dexter') == 'TKSTR,'
+        assert self.pa.encode('Dillaway') == 'TL,'
+        assert self.pa.encode('Dimmick') == 'TMK,'
+        assert self.pa.encode('Dinan') == 'TNN,'
+        assert self.pa.encode('Dix') == 'TKS,'
+        assert self.pa.encode('Doggett') == 'TKT,'
+        assert self.pa.encode('Donahue') == 'TNH,'
+        assert self.pa.encode('Dorfman') == 'TRFMN,'
+        assert self.pa.encode('Dorris') == 'TRS,'
+        assert self.pa.encode('Dow') == 'T,TF'
+        assert self.pa.encode('Downey') == 'TN,'
+        assert self.pa.encode('Downing') == 'TNNK,'
+        assert self.pa.encode('Dowsett') == 'TST,'
+        assert self.pa.encode('Duck?') == 'TK,'
+        assert self.pa.encode('Dudley') == 'TTL,'
+        assert self.pa.encode('Duffy') == 'TF,'
+        assert self.pa.encode('Dunn') == 'TN,'
+        assert self.pa.encode('Dunsterville') == 'TNSTRFL,'
+        assert self.pa.encode('Durrant') == 'TRNT,'
+        assert self.pa.encode('Durrin') == 'TRN,'
+        assert self.pa.encode('Dustin') == 'TSTN,'
+        assert self.pa.encode('Duston') == 'TSTN,'
+        assert self.pa.encode('Eames') == 'AMS,'
+        assert self.pa.encode('Early') == 'ARL,'
+        assert self.pa.encode('Easty') == 'AST,'
+        assert self.pa.encode('Ebbett') == 'APT,'
+        assert self.pa.encode('Eberbach') == 'APRPK,'
+        assert self.pa.encode('Eberhard') == 'APRRT,'
+        assert self.pa.encode('Eddy') == 'AT,'
+        assert self.pa.encode('Edenden') == 'ATNTN,'
+        assert self.pa.encode('Edwards') == 'ATRTS,'
+        assert self.pa.encode('Eglinton') == 'AKLNTN,ALNTN'
+        assert self.pa.encode('Eliot') == 'ALT,'
+        assert self.pa.encode('Elizabeth') == 'ALSP0,ALSPT'
+        assert self.pa.encode('Ellis') == 'ALS,'
+        assert self.pa.encode('Ellison') == 'ALSN,'
+        assert self.pa.encode('Ellot') == 'ALT,'
+        assert self.pa.encode('Elny') == 'ALN,'
+        assert self.pa.encode('Elsner') == 'ALSNR,'
+        assert self.pa.encode('Emerson') == 'AMRSN,'
+        assert self.pa.encode('Empson') == 'AMPSN,'
+        assert self.pa.encode('Est') == 'AST,'
+        assert self.pa.encode('Estabrook') == 'ASTPRK,'
+        assert self.pa.encode('Estes') == 'ASTS,'
+        assert self.pa.encode('Estey') == 'AST,'
+        assert self.pa.encode('Evans') == 'AFNS,'
+        assert self.pa.encode('Fallowell') == 'FLL,'
+        assert self.pa.encode('Farnsworth') == 'FRNSR0,FRNSRT'
+        assert self.pa.encode('Feake') == 'FK,'
+        assert self.pa.encode('Feke') == 'FK,'
+        assert self.pa.encode('Fellows') == 'FLS,'
+        assert self.pa.encode('Fettiplace') == 'FTPLS,'
+        assert self.pa.encode('Finney') == 'FN,'
+        assert self.pa.encode('Fischer') == 'FXR,FSKR'
+        assert self.pa.encode('Fisher') == 'FXR,'
+        assert self.pa.encode('Fisk') == 'FSK,'
+        assert self.pa.encode('Fiske') == 'FSK,'
+        assert self.pa.encode('Fletcher') == 'FLXR,'
+        assert self.pa.encode('Folger') == 'FLKR,FLJR'
+        assert self.pa.encode('Foliot') == 'FLT,'
+        assert self.pa.encode('Folyot') == 'FLT,'
+        assert self.pa.encode('Fones') == 'FNS,'
+        assert self.pa.encode('Fordham') == 'FRTM,'
+        assert self.pa.encode('Forstner') == 'FRSTNR,'
+        assert self.pa.encode('Fosten') == 'FSTN,'
+        assert self.pa.encode('Foster') == 'FSTR,'
+        assert self.pa.encode('Foulke') == 'FLK,'
+        assert self.pa.encode('Fowler') == 'FLR,'
+        assert self.pa.encode('Foxwell') == 'FKSL,'
+        assert self.pa.encode('Fraley') == 'FRL,'
+        assert self.pa.encode('Franceys') == 'FRNSS,'
+        assert self.pa.encode('Franke') == 'FRNK,'
+        assert self.pa.encode('Frascella') == 'FRSL,'
+        assert self.pa.encode('Frazer') == 'FRSR,'
+        assert self.pa.encode('Fredd') == 'FRT,'
+        assert self.pa.encode('Freeman') == 'FRMN,'
+        assert self.pa.encode('French') == 'FRNX,FRNK'
+        assert self.pa.encode('Freville') == 'FRFL,'
+        assert self.pa.encode('Frey') == 'FR,'
+        assert self.pa.encode('Frick') == 'FRK,'
+        assert self.pa.encode('Frier') == 'FR,FRR'
+        assert self.pa.encode('Froe') == 'FR,'
+        assert self.pa.encode('Frorer') == 'FRRR,'
+        assert self.pa.encode('Frost') == 'FRST,'
+        assert self.pa.encode('Frothingham') == 'FR0NKM,FRTNKM'
+        assert self.pa.encode('Fry') == 'FR,'
+        assert self.pa.encode('Gaffney') == 'KFN,'
+        assert self.pa.encode('Gage') == 'KJ,KK'
+        assert self.pa.encode('Gallion') == 'KLN,'
+        assert self.pa.encode('Gallishan') == 'KLXN,'
+        assert self.pa.encode('Gamble') == 'KMPL,'
+        assert self.pa.encode('Garbrand') == 'KRPRNT,'
+        assert self.pa.encode('Gardner') == 'KRTNR,'
+        assert self.pa.encode('Garrett') == 'KRT,'
+        assert self.pa.encode('Gassner') == 'KSNR,'
+        assert self.pa.encode('Gater') == 'KTR,'
+        assert self.pa.encode('Gaunt') == 'KNT,'
+        assert self.pa.encode('Gayer') == 'KR,'
+        assert self.pa.encode('Gerken') == 'KRKN,JRKN'
+        assert self.pa.encode('Gerritsen') == 'KRTSN,JRTSN'
+        assert self.pa.encode('Gibbs') == 'KPS,JPS'
+        assert self.pa.encode('Giffard') == 'JFRT,KFRT'
+        assert self.pa.encode('Gilbert') == 'KLPRT,JLPRT'
+        assert self.pa.encode('Gill') == 'KL,JL'
+        assert self.pa.encode('Gilman') == 'KLMN,JLMN'
+        assert self.pa.encode('Glass') == 'KLS,'
+        assert self.pa.encode('GoddardGifford') == 'KTRJFRT,'
+        assert self.pa.encode('Godfrey') == 'KTFR,'
+        assert self.pa.encode('Godwin') == 'KTN,'
+        assert self.pa.encode('Goodale') == 'KTL,'
+        assert self.pa.encode('Goodnow') == 'KTN,KTNF'
+        assert self.pa.encode('Gorham') == 'KRM,'
+        assert self.pa.encode('Goseline') == 'KSLN,'
+        assert self.pa.encode('Gott') == 'KT,'
+        assert self.pa.encode('Gould') == 'KLT,'
+        assert self.pa.encode('Grafton') == 'KRFTN,'
+        assert self.pa.encode('Grant') == 'KRNT,'
+        assert self.pa.encode('Gray') == 'KR,'
+        assert self.pa.encode('Green') == 'KRN,'
+        assert self.pa.encode('Griffin') == 'KRFN,'
+        assert self.pa.encode('Grill') == 'KRL,'
+        assert self.pa.encode('Grim') == 'KRM,'
+        assert self.pa.encode('Grisgonelle') == 'KRSKNL,'
+        assert self.pa.encode('Gross') == 'KRS,'
+        assert self.pa.encode('Guba') == 'KP,'
+        assert self.pa.encode('Gybbes') == 'KPS,JPS'
+        assert self.pa.encode('Haburne') == 'HPRN,'
+        assert self.pa.encode('Hackburne') == 'HKPRN,'
+        assert self.pa.encode('Haddon?') == 'HTN,'
+        assert self.pa.encode('Haines') == 'HNS,'
+        assert self.pa.encode('Hale') == 'HL,'
+        assert self.pa.encode('Hall') == 'HL,'
+        assert self.pa.encode('Hallet') == 'HLT,'
+        assert self.pa.encode('Hallock') == 'HLK,'
+        assert self.pa.encode('Halstead') == 'HLSTT,'
+        assert self.pa.encode('Hammond') == 'HMNT,'
+        assert self.pa.encode('Hance') == 'HNS,'
+        assert self.pa.encode('Handy') == 'HNT,'
+        assert self.pa.encode('Hanson') == 'HNSN,'
+        assert self.pa.encode('Harasek') == 'HRSK,'
+        assert self.pa.encode('Harcourt') == 'HRKRT,'
+        assert self.pa.encode('Hardy') == 'HRT,'
+        assert self.pa.encode('Harlock') == 'HRLK,'
+        assert self.pa.encode('Harris') == 'HRS,'
+        assert self.pa.encode('Hartley') == 'HRTL,'
+        assert self.pa.encode('Harvey') == 'HRF,'
+        assert self.pa.encode('Harvie') == 'HRF,'
+        assert self.pa.encode('Harwood') == 'HRT,'
+        assert self.pa.encode('Hathaway') == 'H0,HT'
+        assert self.pa.encode('Haukeness') == 'HKNS,'
+        assert self.pa.encode('Hawkes') == 'HKS,'
+        assert self.pa.encode('Hawkhurst') == 'HKRST,'
+        assert self.pa.encode('Hawkins') == 'HKNS,'
+        assert self.pa.encode('Hawley') == 'HL,'
+        assert self.pa.encode('Heald') == 'HLT,'
+        assert self.pa.encode('Helsdon') == 'HLSTN,'
+        assert self.pa.encode('Hemenway') == 'HMN,'
+        assert self.pa.encode('Hemmenway') == 'HMN,'
+        assert self.pa.encode('Henck') == 'HNK,'
+        assert self.pa.encode('Henderson') == 'HNTRSN,'
+        assert self.pa.encode('Hendricks') == 'HNTRKS,'
+        assert self.pa.encode('Hersey') == 'HRS,'
+        assert self.pa.encode('Hewes') == 'HS,'
+        assert self.pa.encode('Heyman') == 'HMN,'
+        assert self.pa.encode('Hicks') == 'HKS,'
+        assert self.pa.encode('Hidden') == 'HTN,'
+        assert self.pa.encode('Higgs') == 'HKS,'
+        assert self.pa.encode('Hill') == 'HL,'
+        assert self.pa.encode('Hills') == 'HLS,'
+        assert self.pa.encode('Hinckley') == 'HNKL,'
+        assert self.pa.encode('Hipwell') == 'HPL,'
+        assert self.pa.encode('Hobart') == 'HPRT,'
+        assert self.pa.encode('Hoben') == 'HPN,'
+        assert self.pa.encode('Hoffmann') == 'HFMN,'
+        assert self.pa.encode('Hogan') == 'HKN,'
+        assert self.pa.encode('Holmes') == 'HLMS,'
+        assert self.pa.encode('Hoo') == 'H,'
+        assert self.pa.encode('Hooker') == 'HKR,'
+        assert self.pa.encode('Hopcott') == 'HPKT,'
+        assert self.pa.encode('Hopkins') == 'HPKNS,'
+        assert self.pa.encode('Hopkinson') == 'HPKNSN,'
+        assert self.pa.encode('Hornsey') == 'HRNS,'
+        assert self.pa.encode('Houckgeest') == 'HKJST,HKKST'
+        assert self.pa.encode('Hough') == 'H,'
+        assert self.pa.encode('Houstin') == 'HSTN,'
+        assert self.pa.encode('How') == 'H,HF'
+        assert self.pa.encode('Howe') == 'H,'
+        assert self.pa.encode('Howland') == 'HLNT,'
+        assert self.pa.encode('Hubner') == 'HPNR,'
+        assert self.pa.encode('Hudnut') == 'HTNT,'
+        assert self.pa.encode('Hughes') == 'HS,'
+        assert self.pa.encode('Hull') == 'HL,'
+        assert self.pa.encode('Hulme') == 'HLM,'
+        assert self.pa.encode('Hume') == 'HM,'
+        assert self.pa.encode('Hundertumark') == 'HNTRTMRK,'
+        assert self.pa.encode('Hundley') == 'HNTL,'
+        assert self.pa.encode('Hungerford') == 'HNKRFRT,HNJRFRT'
+        assert self.pa.encode('Hunt') == 'HNT,'
+        assert self.pa.encode('Hurst') == 'HRST,'
+        assert self.pa.encode('Husbands') == 'HSPNTS,'
+        assert self.pa.encode('Hussey') == 'HS,'
+        assert self.pa.encode('Husted') == 'HSTT,'
+        assert self.pa.encode('Hutchins') == 'HXNS,'
+        assert self.pa.encode('Hutchinson') == 'HXNSN,'
+        assert self.pa.encode('Huttinger') == 'HTNKR,HTNJR'
+        assert self.pa.encode('Huybertsen') == 'HPRTSN,'
+        assert self.pa.encode('Iddenden') == 'ATNTN,'
+        assert self.pa.encode('Ingraham') == 'ANKRHM,'
+        assert self.pa.encode('Ives') == 'AFS,'
+        assert self.pa.encode('Jackson') == 'JKSN,AKSN'
+        assert self.pa.encode('Jacob') == 'JKP,AKP'
+        assert self.pa.encode('Jans') == 'JNS,ANS'
+        assert self.pa.encode('Jenkins') == 'JNKNS,ANKNS'
+        assert self.pa.encode('Jewett') == 'JT,AT'
+        assert self.pa.encode('Jewitt') == 'JT,AT'
+        assert self.pa.encode('Johnson') == 'JNSN,ANSN'
+        assert self.pa.encode('Jones') == 'JNS,ANS'
+        assert self.pa.encode('Josephine') == 'JSFN,HSFN'
+        assert self.pa.encode('Judd') == 'JT,AT'
+        assert self.pa.encode('June') == 'JN,AN'
+        assert self.pa.encode('Kamarowska') == 'KMRSK,'
+        assert self.pa.encode('Kay') == 'K,'
+        assert self.pa.encode('Kelley') == 'KL,'
+        assert self.pa.encode('Kelly') == 'KL,'
+        assert self.pa.encode('Keymber') == 'KMPR,'
+        assert self.pa.encode('Keynes') == 'KNS,'
+        assert self.pa.encode('Kilham') == 'KLM,'
+        assert self.pa.encode('Kim') == 'KM,'
+        assert self.pa.encode('Kimball') == 'KMPL,'
+        assert self.pa.encode('King') == 'KNK,'
+        assert self.pa.encode('Kinsey') == 'KNS,'
+        assert self.pa.encode('Kirk') == 'KRK,'
+        assert self.pa.encode('Kirton') == 'KRTN,'
+        assert self.pa.encode('Kistler') == 'KSTLR,'
+        assert self.pa.encode('Kitchen') == 'KXN,'
+        assert self.pa.encode('Kitson') == 'KTSN,'
+        assert self.pa.encode('Klett') == 'KLT,'
+        assert self.pa.encode('Kline') == 'KLN,'
+        assert self.pa.encode('Knapp') == 'NP,'
+        assert self.pa.encode('Knight') == 'NT,'
+        assert self.pa.encode('Knote') == 'NT,'
+        assert self.pa.encode('Knott') == 'NT,'
+        assert self.pa.encode('Knox') == 'NKS,'
+        assert self.pa.encode('Koeller') == 'KLR,'
+        assert self.pa.encode('La Pointe') == 'LPNT,'
+        assert self.pa.encode('LaPlante') == 'LPLNT,'
+        assert self.pa.encode('Laimbeer') == 'LMPR,'
+        assert self.pa.encode('Lamb') == 'LMP,'
+        assert self.pa.encode('Lambertson') == 'LMPRTSN,'
+        assert self.pa.encode('Lancto') == 'LNKT,'
+        assert self.pa.encode('Landry') == 'LNTR,'
+        assert self.pa.encode('Lane') == 'LN,'
+        assert self.pa.encode('Langendyck') == 'LNJNTK,LNKNTK'
+        assert self.pa.encode('Langer') == 'LNKR,LNJR'
+        assert self.pa.encode('Langford') == 'LNKFRT,'
+        assert self.pa.encode('Lantersee') == 'LNTRS,'
+        assert self.pa.encode('Laquer') == 'LKR,'
+        assert self.pa.encode('Larkin') == 'LRKN,'
+        assert self.pa.encode('Latham') == 'LTM,'
+        assert self.pa.encode('Lathrop') == 'L0RP,LTRP'
+        assert self.pa.encode('Lauter') == 'LTR,'
+        assert self.pa.encode('Lawrence') == 'LRNS,'
+        assert self.pa.encode('Leach') == 'LK,'
+        assert self.pa.encode('Leager') == 'LKR,LJR'
+        assert self.pa.encode('Learned') == 'LRNT,'
+        assert self.pa.encode('Leavitt') == 'LFT,'
+        assert self.pa.encode('Lee') == 'L,'
+        assert self.pa.encode('Leete') == 'LT,'
+        assert self.pa.encode('Leggett') == 'LKT,'
+        assert self.pa.encode('Leland') == 'LLNT,'
+        assert self.pa.encode('Leonard') == 'LNRT,'
+        assert self.pa.encode('Lester') == 'LSTR,'
+        assert self.pa.encode('Lestrange') == 'LSTRNJ,LSTRNK'
+        assert self.pa.encode('Lethem') == 'L0M,LTM'
+        assert self.pa.encode('Levine') == 'LFN,'
+        assert self.pa.encode('Lewes') == 'LS,'
+        assert self.pa.encode('Lewis') == 'LS,'
+        assert self.pa.encode('Lincoln') == 'LNKLN,'
+        assert self.pa.encode('Lindsey') == 'LNTS,'
+        assert self.pa.encode('Linher') == 'LNR,'
+        assert self.pa.encode('Lippet') == 'LPT,'
+        assert self.pa.encode('Lippincott') == 'LPNKT,'
+        assert self.pa.encode('Lockwood') == 'LKT,'
+        assert self.pa.encode('Loines') == 'LNS,'
+        assert self.pa.encode('Lombard') == 'LMPRT,'
+        assert self.pa.encode('Long') == 'LNK,'
+        assert self.pa.encode('Longespee') == 'LNJSP,LNKSP'
+        assert self.pa.encode('Look') == 'LK,'
+        assert self.pa.encode('Lounsberry') == 'LNSPR,'
+        assert self.pa.encode('Lounsbury') == 'LNSPR,'
+        assert self.pa.encode('Louthe') == 'L0,LT'
+        assert self.pa.encode('Loveyne') == 'LFN,'
+        assert self.pa.encode('Lowe') == 'L,'
+        assert self.pa.encode('Ludlam') == 'LTLM,'
+        assert self.pa.encode('Lumbard') == 'LMPRT,'
+        assert self.pa.encode('Lund') == 'LNT,'
+        assert self.pa.encode('Luno') == 'LN,'
+        assert self.pa.encode('Lutz') == 'LTS,'
+        assert self.pa.encode('Lydia') == 'LT,'
+        assert self.pa.encode('Lynne') == 'LN,'
+        assert self.pa.encode('Lyon') == 'LN,'
+        assert self.pa.encode('MacAlpin') == 'MKLPN,'
+        assert self.pa.encode('MacBricc') == 'MKPRK,'
+        assert self.pa.encode('MacCrinan') == 'MKRNN,'
+        assert self.pa.encode('MacKenneth') == 'MKN0,MKNT'
+        assert self.pa.encode('MacMael nam Bo') == 'MKMLNMP,'
+        assert self.pa.encode('MacMurchada') == 'MKMRXT,MKMRKT'
+        assert self.pa.encode('Macomber') == 'MKMPR,'
+        assert self.pa.encode('Macy') == 'MS,'
+        assert self.pa.encode('Magnus') == 'MNS,MKNS'
+        assert self.pa.encode('Mahien') == 'MHN,'
+        assert self.pa.encode('Malmains') == 'MLMNS,'
+        assert self.pa.encode('Malory') == 'MLR,'
+        assert self.pa.encode('Mancinelli') == 'MNSNL,'
+        assert self.pa.encode('Mancini') == 'MNSN,'
+        assert self.pa.encode('Mann') == 'MN,'
+        assert self.pa.encode('Manning') == 'MNNK,'
+        assert self.pa.encode('Manter') == 'MNTR,'
+        assert self.pa.encode('Marion') == 'MRN,'
+        assert self.pa.encode('Marley') == 'MRL,'
+        assert self.pa.encode('Marmion') == 'MRMN,'
+        assert self.pa.encode('Marquart') == 'MRKRT,'
+        assert self.pa.encode('Marsh') == 'MRX,'
+        assert self.pa.encode('Marshal') == 'MRXL,'
+        assert self.pa.encode('Marshall') == 'MRXL,'
+        assert self.pa.encode('Martel') == 'MRTL,'
+        assert self.pa.encode('Martha') == 'MR0,MRT'
+        assert self.pa.encode('Martin') == 'MRTN,'
+        assert self.pa.encode('Marturano') == 'MRTRN,'
+        assert self.pa.encode('Marvin') == 'MRFN,'
+        assert self.pa.encode('Mary') == 'MR,'
+        assert self.pa.encode('Mason') == 'MSN,'
+        assert self.pa.encode('Maxwell') == 'MKSL,'
+        assert self.pa.encode('Mayhew') == 'MH,MHF'
+        assert self.pa.encode('McAllaster') == 'MKLSTR,'
+        assert self.pa.encode('McAllister') == 'MKLSTR,'
+        assert self.pa.encode('McConnell') == 'MKNL,'
+        assert self.pa.encode('McFarland') == 'MKFRLNT,'
+        assert self.pa.encode('McIlroy') == 'MSLR,'
+        assert self.pa.encode('McNair') == 'MKNR,'
+        assert self.pa.encode('McNair-Landry') == 'MKNRLNTR,'
+        assert self.pa.encode('McRaven') == 'MKRFN,'
+        assert self.pa.encode('Mead') == 'MT,'
+        assert self.pa.encode('Meade') == 'MT,'
+        assert self.pa.encode('Meck') == 'MK,'
+        assert self.pa.encode('Melton') == 'MLTN,'
+        assert self.pa.encode('Mendenhall') == 'MNTNL,'
+        assert self.pa.encode('Mering') == 'MRNK,'
+        assert self.pa.encode('Merrick') == 'MRK,'
+        assert self.pa.encode('Merry') == 'MR,'
+        assert self.pa.encode('Mighill') == 'ML,'
+        assert self.pa.encode('Miller') == 'MLR,'
+        assert self.pa.encode('Milton') == 'MLTN,'
+        assert self.pa.encode('Mohun') == 'MHN,'
+        assert self.pa.encode('Montague') == 'MNTK,'
+        assert self.pa.encode('Montboucher') == 'MNTPXR,MNTPKR'
+        assert self.pa.encode('Moore') == 'MR,'
+        assert self.pa.encode('Morrel') == 'MRL,'
+        assert self.pa.encode('Morrill') == 'MRL,'
+        assert self.pa.encode('Morris') == 'MRS,'
+        assert self.pa.encode('Morton') == 'MRTN,'
+        assert self.pa.encode('Moton') == 'MTN,'
+        assert self.pa.encode('Muir') == 'MR,'
+        assert self.pa.encode('Mulferd') == 'MLFRT,'
+        assert self.pa.encode('Mullins') == 'MLNS,'
+        assert self.pa.encode('Mulso') == 'MLS,'
+        assert self.pa.encode('Munger') == 'MNKR,MNJR'
+        assert self.pa.encode('Munt') == 'MNT,'
+        assert self.pa.encode('Murchad') == 'MRXT,MRKT'
+        assert self.pa.encode('Murdock') == 'MRTK,'
+        assert self.pa.encode('Murray') == 'MR,'
+        assert self.pa.encode('Muskett') == 'MSKT,'
+        assert self.pa.encode('Myers') == 'MRS,'
+        assert self.pa.encode('Myrick') == 'MRK,'
+        assert self.pa.encode('NORRIS') == 'NRS,'
+        assert self.pa.encode('Nayle') == 'NL,'
+        assert self.pa.encode('Newcomb') == 'NKMP,'
+        assert self.pa.encode('Newcomb(e)') == 'NKMP,'
+        assert self.pa.encode('Newkirk') == 'NKRK,'
+        assert self.pa.encode('Newton') == 'NTN,'
+        assert self.pa.encode('Niles') == 'NLS,'
+        assert self.pa.encode('Noble') == 'NPL,'
+        assert self.pa.encode('Noel') == 'NL,'
+        assert self.pa.encode('Northend') == 'NR0NT,NRTNT'
+        assert self.pa.encode('Norton') == 'NRTN,'
+        assert self.pa.encode('Nutter') == 'NTR,'
+        assert self.pa.encode('Odding') == 'ATNK,'
+        assert self.pa.encode('Odenbaugh') == 'ATNP,'
+        assert self.pa.encode('Ogborn') == 'AKPRN,'
+        assert self.pa.encode('Oppenheimer') == 'APNMR,'
+        assert self.pa.encode('Otis') == 'ATS,'
+        assert self.pa.encode('Oviatt') == 'AFT,'
+        assert self.pa.encode('PRUST?') == 'PRST,'
+        assert self.pa.encode('Paddock') == 'PTK,'
+        assert self.pa.encode('Page') == 'PJ,PK'
+        assert self.pa.encode('Paine') == 'PN,'
+        assert self.pa.encode('Paist') == 'PST,'
+        assert self.pa.encode('Palmer') == 'PLMR,'
+        assert self.pa.encode('Park') == 'PRK,'
+        assert self.pa.encode('Parker') == 'PRKR,'
+        assert self.pa.encode('Parkhurst') == 'PRKRST,'
+        assert self.pa.encode('Parrat') == 'PRT,'
+        assert self.pa.encode('Parsons') == 'PRSNS,'
+        assert self.pa.encode('Partridge') == 'PRTRJ,'
+        assert self.pa.encode('Pashley') == 'PXL,'
+        assert self.pa.encode('Pasley') == 'PSL,'
+        assert self.pa.encode('Patrick') == 'PTRK,'
+        assert self.pa.encode('Pattee') == 'PT,'
+        assert self.pa.encode('Patten') == 'PTN,'
+        assert self.pa.encode('Pawley') == 'PL,'
+        assert self.pa.encode('Payne') == 'PN,'
+        assert self.pa.encode('Peabody') == 'PPT,'
+        assert self.pa.encode('Peake') == 'PK,'
+        assert self.pa.encode('Pearson') == 'PRSN,'
+        assert self.pa.encode('Peat') == 'PT,'
+        assert self.pa.encode('Pedersen') == 'PTRSN,'
+        assert self.pa.encode('Percy') == 'PRS,'
+        assert self.pa.encode('Perkins') == 'PRKNS,'
+        assert self.pa.encode('Perrine') == 'PRN,'
+        assert self.pa.encode('Perry') == 'PR,'
+        assert self.pa.encode('Peson') == 'PSN,'
+        assert self.pa.encode('Peterson') == 'PTRSN,'
+        assert self.pa.encode('Peyton') == 'PTN,'
+        assert self.pa.encode('Phinney') == 'FN,'
+        assert self.pa.encode('Pickard') == 'PKRT,'
+        assert self.pa.encode('Pierce') == 'PRS,'
+        assert self.pa.encode('Pierrepont') == 'PRPNT,'
+        assert self.pa.encode('Pike') == 'PK,'
+        assert self.pa.encode('Pinkham') == 'PNKM,'
+        assert self.pa.encode('Pitman') == 'PTMN,'
+        assert self.pa.encode('Pitt') == 'PT,'
+        assert self.pa.encode('Pitts') == 'PTS,'
+        assert self.pa.encode('Plantagenet') == 'PLNTJNT,PLNTKNT'
+        assert self.pa.encode('Platt') == 'PLT,'
+        assert self.pa.encode('Platts') == 'PLTS,'
+        assert self.pa.encode('Pleis') == 'PLS,'
+        assert self.pa.encode('Pleiss') == 'PLS,'
+        assert self.pa.encode('Plisko') == 'PLSK,'
+        assert self.pa.encode('Pliskovitch') == 'PLSKFX,'
+        assert self.pa.encode('Plum') == 'PLM,'
+        assert self.pa.encode('Plume') == 'PLM,'
+        assert self.pa.encode('Poitou') == 'PT,'
+        assert self.pa.encode('Pomeroy') == 'PMR,'
+        assert self.pa.encode('Poretiers') == 'PRTRS,'
+        assert self.pa.encode('Pote') == 'PT,'
+        assert self.pa.encode('Potter') == 'PTR,'
+        assert self.pa.encode('Potts') == 'PTS,'
+        assert self.pa.encode('Powell') == 'PL,'
+        assert self.pa.encode('Pratt') == 'PRT,'
+        assert self.pa.encode('Presbury') == 'PRSPR,'
+        assert self.pa.encode('Priest') == 'PRST,'
+        assert self.pa.encode('Prindle') == 'PRNTL,'
+        assert self.pa.encode('Prior') == 'PRR,'
+        assert self.pa.encode('Profumo') == 'PRFM,'
+        assert self.pa.encode('Purdy') == 'PRT,'
+        assert self.pa.encode('Purefoy') == 'PRF,'
+        assert self.pa.encode('Pury') == 'PR,'
+        assert self.pa.encode('Quinter') == 'KNTR,'
+        assert self.pa.encode('Rachel') == 'RXL,RKL'
+        assert self.pa.encode('Rand') == 'RNT,'
+        assert self.pa.encode('Rankin') == 'RNKN,'
+        assert self.pa.encode('Ravenscroft') == 'RFNSKFT,'
+        assert self.pa.encode('Raynsford') == 'RNSFRT,'
+        assert self.pa.encode('Reakirt') == 'RKRT,'
+        assert self.pa.encode('Reaves') == 'RFS,'
+        assert self.pa.encode('Reeves') == 'RFS,'
+        assert self.pa.encode('Reichert') == 'RXRT,RKRT'
+        assert self.pa.encode('Remmele') == 'RML,'
+        assert self.pa.encode('Reynolds') == 'RNLTS,'
+        assert self.pa.encode('Rhodes') == 'RTS,'
+        assert self.pa.encode('Richards') == 'RXRTS,RKRTS'
+        assert self.pa.encode('Richardson') == 'RXRTSN,RKRTSN'
+        assert self.pa.encode('Ring') == 'RNK,'
+        assert self.pa.encode('Roberts') == 'RPRTS,'
+        assert self.pa.encode('Robertson') == 'RPRTSN,'
+        assert self.pa.encode('Robson') == 'RPSN,'
+        assert self.pa.encode('Rodie') == 'RT,'
+        assert self.pa.encode('Rody') == 'RT,'
+        assert self.pa.encode('Rogers') == 'RKRS,RJRS'
+        assert self.pa.encode('Ross') == 'RS,'
+        assert self.pa.encode('Rosslevin') == 'RSLFN,'
+        assert self.pa.encode('Rowland') == 'RLNT,'
+        assert self.pa.encode('Ruehl') == 'RL,'
+        assert self.pa.encode('Russell') == 'RSL,'
+        assert self.pa.encode('Ruth') == 'R0,RT'
+        assert self.pa.encode('Ryan') == 'RN,'
+        assert self.pa.encode('Rysse') == 'RS,'
+        assert self.pa.encode('Sadler') == 'STLR,'
+        assert self.pa.encode('Salmon') == 'SLMN,'
+        assert self.pa.encode('Salter') == 'SLTR,'
+        assert self.pa.encode('Salvatore') == 'SLFTR,'
+        assert self.pa.encode('Sanders') == 'SNTRS,'
+        assert self.pa.encode('Sands') == 'SNTS,'
+        assert self.pa.encode('Sanford') == 'SNFRT,'
+        assert self.pa.encode('Sanger') == 'SNKR,SNJR'
+        assert self.pa.encode('Sargent') == 'SRJNT,SRKNT'
+        assert self.pa.encode('Saunders') == 'SNTRS,'
+        assert self.pa.encode('Schilling') == 'XLNK,'
+        assert self.pa.encode('Schlegel') == 'XLKL,SLKL'
+        assert self.pa.encode('Scott') == 'SKT,'
+        assert self.pa.encode('Sears') == 'SRS,'
+        assert self.pa.encode('Segersall') == 'SJRSL,SKRSL'
+        assert self.pa.encode('Senecal') == 'SNKL,'
+        assert self.pa.encode('Sergeaux') == 'SRJ,SRK'
+        assert self.pa.encode('Severance') == 'SFRNS,'
+        assert self.pa.encode('Sharp') == 'XRP,'
+        assert self.pa.encode('Sharpe') == 'XRP,'
+        assert self.pa.encode('Sharply') == 'XRPL,'
+        assert self.pa.encode('Shatswell') == 'XTSL,'
+        assert self.pa.encode('Shattack') == 'XTK,'
+        assert self.pa.encode('Shattock') == 'XTK,'
+        assert self.pa.encode('Shattuck') == 'XTK,'
+        assert self.pa.encode('Shaw') == 'X,XF'
+        assert self.pa.encode('Sheldon') == 'XLTN,'
+        assert self.pa.encode('Sherman') == 'XRMN,'
+        assert self.pa.encode('Shinn') == 'XN,'
+        assert self.pa.encode('Shirford') == 'XRFRT,'
+        assert self.pa.encode('Shirley') == 'XRL,'
+        assert self.pa.encode('Shively') == 'XFL,'
+        assert self.pa.encode('Shoemaker') == 'XMKR,'
+        assert self.pa.encode('Short') == 'XRT,'
+        assert self.pa.encode('Shotwell') == 'XTL,'
+        assert self.pa.encode('Shute') == 'XT,'
+        assert self.pa.encode('Sibley') == 'SPL,'
+        assert self.pa.encode('Silver') == 'SLFR,'
+        assert self.pa.encode('Simes') == 'SMS,'
+        assert self.pa.encode('Sinken') == 'SNKN,'
+        assert self.pa.encode('Sinn') == 'SN,'
+        assert self.pa.encode('Skelton') == 'SKLTN,'
+        assert self.pa.encode('Skiffe') == 'SKF,'
+        assert self.pa.encode('Skotkonung') == 'SKTKNNK,'
+        assert self.pa.encode('Slade') == 'SLT,XLT'
+        assert self.pa.encode('Slye') == 'SL,XL'
+        assert self.pa.encode('Smedley') == 'SMTL,XMTL'
+        assert self.pa.encode('Smith') == 'SM0,XMT'
+        assert self.pa.encode('Snow') == 'SN,XNF'
+        assert self.pa.encode('Soole') == 'SL,'
+        assert self.pa.encode('Soule') == 'SL,'
+        assert self.pa.encode('Southworth') == 'S0R0,STRT'
+        assert self.pa.encode('Sowles') == 'SLS,'
+        assert self.pa.encode('Spalding') == 'SPLTNK,'
+        assert self.pa.encode('Spark') == 'SPRK,'
+        assert self.pa.encode('Spencer') == 'SPNSR,'
+        assert self.pa.encode('Sperry') == 'SPR,'
+        assert self.pa.encode('Spofford') == 'SPFRT,'
+        assert self.pa.encode('Spooner') == 'SPNR,'
+        assert self.pa.encode('Sprague') == 'SPRK,'
+        assert self.pa.encode('Springer') == 'SPRNKR,SPRNJR'
+        assert self.pa.encode('St. Clair') == 'STKLR,'
+        assert self.pa.encode('St. Claire') == 'STKLR,'
+        assert self.pa.encode('St. Leger') == 'STLJR,STLKR'
+        assert self.pa.encode('St. Omer') == 'STMR,'
+        assert self.pa.encode('Stafferton') == 'STFRTN,'
+        assert self.pa.encode('Stafford') == 'STFRT,'
+        assert self.pa.encode('Stalham') == 'STLM,'
+        assert self.pa.encode('Stanford') == 'STNFRT,'
+        assert self.pa.encode('Stanton') == 'STNTN,'
+        assert self.pa.encode('Star') == 'STR,'
+        assert self.pa.encode('Starbuck') == 'STRPK,'
+        assert self.pa.encode('Starkey') == 'STRK,'
+        assert self.pa.encode('Starkweather') == 'STRK0R,STRKTR'
+        assert self.pa.encode('Stearns') == 'STRNS,'
+        assert self.pa.encode('Stebbins') == 'STPNS,'
+        assert self.pa.encode('Steele') == 'STL,'
+        assert self.pa.encode('Stephenson') == 'STFNSN,'
+        assert self.pa.encode('Stevens') == 'STFNS,'
+        assert self.pa.encode('Stoddard') == 'STTRT,'
+        assert self.pa.encode('Stodder') == 'STTR,'
+        assert self.pa.encode('Stone') == 'STN,'
+        assert self.pa.encode('Storey') == 'STR,'
+        assert self.pa.encode('Storrada') == 'STRT,'
+        assert self.pa.encode('Story') == 'STR,'
+        assert self.pa.encode('Stoughton') == 'STFTN,'
+        assert self.pa.encode('Stout') == 'STT,'
+        assert self.pa.encode('Stow') == 'ST,STF'
+        assert self.pa.encode('Strong') == 'STRNK,'
+        assert self.pa.encode('Strutt') == 'STRT,'
+        assert self.pa.encode('Stryker') == 'STRKR,'
+        assert self.pa.encode('Stuckeley') == 'STKL,'
+        assert self.pa.encode('Sturges') == 'STRJS,STRKS'
+        assert self.pa.encode('Sturgess') == 'STRJS,STRKS'
+        assert self.pa.encode('Sturgis') == 'STRJS,STRKS'
+        assert self.pa.encode('Suevain') == 'SFN,'
+        assert self.pa.encode('Sulyard') == 'SLRT,'
+        assert self.pa.encode('Sutton') == 'STN,'
+        assert self.pa.encode('Swain') == 'SN,XN'
+        assert self.pa.encode('Swayne') == 'SN,XN'
+        assert self.pa.encode('Swayze') == 'SS,XTS'
+        assert self.pa.encode('Swift') == 'SFT,XFT'
+        assert self.pa.encode('Taber') == 'TPR,'
+        assert self.pa.encode('Talcott') == 'TLKT,'
+        assert self.pa.encode('Tarne') == 'TRN,'
+        assert self.pa.encode('Tatum') == 'TTM,'
+        assert self.pa.encode('Taverner') == 'TFRNR,'
+        assert self.pa.encode('Taylor') == 'TLR,'
+        assert self.pa.encode('Tenney') == 'TN,'
+        assert self.pa.encode('Thayer') == '0R,TR'
+        assert self.pa.encode('Thember') == '0MPR,TMPR'
+        assert self.pa.encode('Thomas') == 'TMS,'
+        assert self.pa.encode('Thompson') == 'TMPSN,'
+        assert self.pa.encode('Thorne') == '0RN,TRN'
+        assert self.pa.encode('Thornycraft') == '0RNKRFT,TRNKRFT'
+        assert self.pa.encode('Threlkeld') == '0RLKLT,TRLKLT'
+        assert self.pa.encode('Throckmorton') == '0RKMRTN,TRKMRTN'
+        assert self.pa.encode('Thwaits') == '0TS,TTS'
+        assert self.pa.encode('Tibbetts') == 'TPTS,'
+        assert self.pa.encode('Tidd') == 'TT,'
+        assert self.pa.encode('Tierney') == 'TRN,'
+        assert self.pa.encode('Tilley') == 'TL,'
+        assert self.pa.encode('Tillieres') == 'TLRS,'
+        assert self.pa.encode('Tilly') == 'TL,'
+        assert self.pa.encode('Tisdale') == 'TSTL,'
+        assert self.pa.encode('Titus') == 'TTS,'
+        assert self.pa.encode('Tobey') == 'TP,'
+        assert self.pa.encode('Tooker') == 'TKR,'
+        assert self.pa.encode('Towle') == 'TL,'
+        assert self.pa.encode('Towne') == 'TN,'
+        assert self.pa.encode('Townsend') == 'TNSNT,'
+        assert self.pa.encode('Treadway') == 'TRT,'
+        assert self.pa.encode('Trelawney') == 'TRLN,'
+        assert self.pa.encode('Trinder') == 'TRNTR,'
+        assert self.pa.encode('Tripp') == 'TRP,'
+        assert self.pa.encode('Trippe') == 'TRP,'
+        assert self.pa.encode('Trott') == 'TRT,'
+        assert self.pa.encode('True') == 'TR,'
+        assert self.pa.encode('Trussebut') == 'TRSPT,'
+        assert self.pa.encode('Tucker') == 'TKR,'
+        assert self.pa.encode('Turgeon') == 'TRJN,TRKN'
+        assert self.pa.encode('Turner') == 'TRNR,'
+        assert self.pa.encode('Tuttle') == 'TTL,'
+        assert self.pa.encode('Tyler') == 'TLR,'
+        assert self.pa.encode('Tylle') == 'TL,'
+        assert self.pa.encode('Tyrrel') == 'TRL,'
+        assert self.pa.encode('Ua Tuathail') == 'AT0L,ATTL'
+        assert self.pa.encode('Ulrich') == 'ALRX,ALRK'
+        assert self.pa.encode('Underhill') == 'ANTRL,'
+        assert self.pa.encode('Underwood') == 'ANTRT,'
+        assert self.pa.encode('Unknown') == 'ANKNN,'
+        assert self.pa.encode('Valentine') == 'FLNTN,'
+        assert self.pa.encode('Van Egmond') == 'FNKMNT,'
+        assert self.pa.encode('Van der Beek') == 'FNTRPK,'
+        assert self.pa.encode('Vaughan') == 'FKN,'
+        assert self.pa.encode('Vermenlen') == 'FRMNLN,'
+        assert self.pa.encode('Vincent') == 'FNSNT,'
+        assert self.pa.encode('Volentine') == 'FLNTN,'
+        assert self.pa.encode('Wagner') == 'AKNR,FKNR'
+        assert self.pa.encode('Waite') == 'AT,FT'
+        assert self.pa.encode('Walker') == 'ALKR,FLKR'
+        assert self.pa.encode('Walter') == 'ALTR,FLTR'
+        assert self.pa.encode('Wandell') == 'ANTL,FNTL'
+        assert self.pa.encode('Wandesford') == 'ANTSFRT,FNTSFRT'
+        assert self.pa.encode('Warbleton') == 'ARPLTN,FRPLTN'
+        assert self.pa.encode('Ward') == 'ART,FRT'
+        assert self.pa.encode('Warde') == 'ART,FRT'
+        assert self.pa.encode('Ware') == 'AR,FR'
+        assert self.pa.encode('Wareham') == 'ARHM,FRHM'
+        assert self.pa.encode('Warner') == 'ARNR,FRNR'
+        assert self.pa.encode('Warren') == 'ARN,FRN'
+        assert self.pa.encode('Washburne') == 'AXPRN,FXPRN'
+        assert self.pa.encode('Waterbury') == 'ATRPR,FTRPR'
+        assert self.pa.encode('Watson') == 'ATSN,FTSN'
+        assert self.pa.encode('WatsonEllithorpe') == 'ATSNL0RP,FTSNLTRP'
+        assert self.pa.encode('Watts') == 'ATS,FTS'
+        assert self.pa.encode('Wayne') == 'AN,FN'
+        assert self.pa.encode('Webb') == 'AP,FP'
+        assert self.pa.encode('Weber') == 'APR,FPR'
+        assert self.pa.encode('Webster') == 'APSTR,FPSTR'
+        assert self.pa.encode('Weed') == 'AT,FT'
+        assert self.pa.encode('Weeks') == 'AKS,FKS'
+        assert self.pa.encode('Wells') == 'ALS,FLS'
+        assert self.pa.encode('Wenzell') == 'ANSL,FNTSL'
+        assert self.pa.encode('West') == 'AST,FST'
+        assert self.pa.encode('Westbury') == 'ASTPR,FSTPR'
+        assert self.pa.encode('Whatlocke') == 'ATLK,'
+        assert self.pa.encode('Wheeler') == 'ALR,'
+        assert self.pa.encode('Whiston') == 'ASTN,'
+        assert self.pa.encode('White') == 'AT,'
+        assert self.pa.encode('Whitman') == 'ATMN,'
+        assert self.pa.encode('Whiton') == 'ATN,'
+        assert self.pa.encode('Whitson') == 'ATSN,'
+        assert self.pa.encode('Wickes') == 'AKS,FKS'
+        assert self.pa.encode('Wilbur') == 'ALPR,FLPR'
+        assert self.pa.encode('Wilcotes') == 'ALKTS,FLKTS'
+        assert self.pa.encode('Wilkinson') == 'ALKNSN,FLKNSN'
+        assert self.pa.encode('Willets') == 'ALTS,FLTS'
+        assert self.pa.encode('Willett') == 'ALT,FLT'
+        assert self.pa.encode('Willey') == 'AL,FL'
+        assert self.pa.encode('Williams') == 'ALMS,FLMS'
+        assert self.pa.encode('Williston') == 'ALSTN,FLSTN'
+        assert self.pa.encode('Wilson') == 'ALSN,FLSN'
+        assert self.pa.encode('Wimes') == 'AMS,FMS'
+        assert self.pa.encode('Winch') == 'ANX,FNK'
+        assert self.pa.encode('Winegar') == 'ANKR,FNKR'
+        assert self.pa.encode('Wing') == 'ANK,FNK'
+        assert self.pa.encode('Winsley') == 'ANSL,FNSL'
+        assert self.pa.encode('Winslow') == 'ANSL,FNSLF'
+        assert self.pa.encode('Winthrop') == 'AN0RP,FNTRP'
+        assert self.pa.encode('Wise') == 'AS,FS'
+        assert self.pa.encode('Wood') == 'AT,FT'
+        assert self.pa.encode('Woodbridge') == 'ATPRJ,FTPRJ'
+        assert self.pa.encode('Woodward') == 'ATRT,FTRT'
+        assert self.pa.encode('Wooley') == 'AL,FL'
+        assert self.pa.encode('Woolley') == 'AL,FL'
+        assert self.pa.encode('Worth') == 'AR0,FRT'
+        assert self.pa.encode('Worthen') == 'AR0N,FRTN'
+        assert self.pa.encode('Worthley') == 'AR0L,FRTL'
+        assert self.pa.encode('Wright') == 'RT,'
+        assert self.pa.encode('Wyer') == 'AR,FR'
+        assert self.pa.encode('Wyere') == 'AR,FR'
+        assert self.pa.encode('Wynkoop') == 'ANKP,FNKP'
+        assert self.pa.encode('Yarnall') == 'ARNL,'
+        assert self.pa.encode('Yeoman') == 'AMN,'
+        assert self.pa.encode('Yorke') == 'ARK,'
+        assert self.pa.encode('Young') == 'ANK,'
+        assert self.pa.encode('ab Wennonwen') == 'APNNN,'
+        assert self.pa.encode('ap Llewellyn') == 'APLLN,'
+        assert self.pa.encode('ap Lorwerth') == 'APLRR0,APLRRT'
+        assert self.pa.encode("d'Angouleme") == 'TNKLM,'
+        assert self.pa.encode('de Audeham') == 'TTHM,'
+        assert self.pa.encode('de Bavant') == 'TPFNT,'
+        assert self.pa.encode('de Beauchamp') == 'TPXMP,TPKMP'
+        assert self.pa.encode('de Beaumont') == 'TPMNT,'
+        assert self.pa.encode('de Bolbec') == 'TPLPK,'
+        assert self.pa.encode('de Braiose') == 'TPRS,'
+        assert self.pa.encode('de Braose') == 'TPRS,'
+        assert self.pa.encode('de Briwere') == 'TPRR,'
+        assert self.pa.encode('de Cantelou') == 'TKNTL,'
+        assert self.pa.encode('de Cherelton') == 'TXRLTN,TKRLTN'
+        assert self.pa.encode('de Cherleton') == 'TXRLTN,TKRLTN'
+        assert self.pa.encode('de Clare') == 'TKLR,'
+        assert self.pa.encode('de Claremont') == 'TKLRMNT,'
+        assert self.pa.encode('de Clifford') == 'TKLFRT,'
+        assert self.pa.encode('de Colville') == 'TKLFL,'
+        assert self.pa.encode('de Courtenay') == 'TKRTN,'
+        assert self.pa.encode('de Fauconberg') == 'TFKNPRK,'
+        assert self.pa.encode('de Forest') == 'TFRST,'
+        assert self.pa.encode('de Gai') == 'TK,'
+        assert self.pa.encode('de Grey') == 'TKR,'
+        assert self.pa.encode('de Guernons') == 'TKRNNS,'
+        assert self.pa.encode('de Haia') == 'T,'
+        assert self.pa.encode('de Harcourt') == 'TRKRT,'
+        assert self.pa.encode('de Hastings') == 'TSTNKS,'
+        assert self.pa.encode('de Hoke') == 'TK,'
+        assert self.pa.encode('de Hooch') == 'TK,'
+        assert self.pa.encode('de Hugelville') == 'TJLFL,TKLFL'
+        assert self.pa.encode('de Huntingdon') == 'TNTNKTN,'
+        assert self.pa.encode('de Insula') == 'TNSL,'
+        assert self.pa.encode('de Keynes') == 'TKNS,'
+        assert self.pa.encode('de Lacy') == 'TLS,'
+        assert self.pa.encode('de Lexington') == 'TLKSNKTN,'
+        assert self.pa.encode('de Lusignan') == 'TLSNN,TLSKNN'
+        assert self.pa.encode('de Manvers') == 'TMNFRS,'
+        assert self.pa.encode('de Montagu') == 'TMNTK,'
+        assert self.pa.encode('de Montault') == 'TMNTLT,'
+        assert self.pa.encode('de Montfort') == 'TMNTFRT,'
+        assert self.pa.encode('de Mortimer') == 'TMRTMR,'
+        assert self.pa.encode('de Morville') == 'TMRFL,'
+        assert self.pa.encode('de Morvois') == 'TMRF,TMRFS'
+        assert self.pa.encode('de Neufmarche') == 'TNFMRX,TNFMRK'
+        assert self.pa.encode('de Odingsells') == 'TTNKSLS,'
+        assert self.pa.encode('de Odyngsells') == 'TTNKSLS,'
+        assert self.pa.encode('de Percy') == 'TPRS,'
+        assert self.pa.encode('de Pierrepont') == 'TPRPNT,'
+        assert self.pa.encode('de Plessetis') == 'TPLSTS,'
+        assert self.pa.encode('de Porhoet') == 'TPRT,'
+        assert self.pa.encode('de Prouz') == 'TPRS,'
+        assert self.pa.encode('de Quincy') == 'TKNS,'
+        assert self.pa.encode('de Ripellis') == 'TRPLS,'
+        assert self.pa.encode('de Ros') == 'TRS,'
+        assert self.pa.encode('de Salisbury') == 'TSLSPR,'
+        assert self.pa.encode('de Sanford') == 'TSNFRT,'
+        assert self.pa.encode('de Somery') == 'TSMR,'
+        assert self.pa.encode('de St. Hilary') == 'TSTLR,'
+        assert self.pa.encode('de St. Liz') == 'TSTLS,'
+        assert self.pa.encode('de Sutton') == 'TSTN,'
+        assert self.pa.encode('de Toeni') == 'TTN,'
+        assert self.pa.encode('de Tony') == 'TTN,'
+        assert self.pa.encode('de Umfreville') == 'TMFRFL,'
+        assert self.pa.encode('de Valognes') == 'TFLNS,TFLKNS'
+        assert self.pa.encode('de Vaux') == 'TF,'
+        assert self.pa.encode('de Vere') == 'TFR,'
+        assert self.pa.encode('de Vermandois') == 'TFRMNT,TFRMNTS'
+        assert self.pa.encode('de Vernon') == 'TFRNN,'
+        assert self.pa.encode('de Vexin') == 'TFKSN,'
+        assert self.pa.encode('de Vitre') == 'TFTR,'
+        assert self.pa.encode('de Wandesford') == 'TNTSFRT,'
+        assert self.pa.encode('de Warenne') == 'TRN,'
+        assert self.pa.encode('de Westbury') == 'TSTPR,'
+        assert self.pa.encode('di Saluzzo') == 'TSLS,TSLTS'
+        assert self.pa.encode('fitz Alan') == 'FTSLN,'
+        assert self.pa.encode('fitz Geoffrey') == 'FTSJFR,FTSKFR'
+        assert self.pa.encode('fitz Herbert') == 'FTSRPRT,'
+        assert self.pa.encode('fitz John') == 'FTSJN,'
+        assert self.pa.encode('fitz Patrick') == 'FTSPTRK,'
+        assert self.pa.encode('fitz Payn') == 'FTSPN,'
+        assert self.pa.encode('fitz Piers') == 'FTSPRS,'
+        assert self.pa.encode('fitz Randolph') == 'FTSRNTLF,'
+        assert self.pa.encode('fitz Richard') == 'FTSRXRT,FTSRKRT'
+        assert self.pa.encode('fitz Robert') == 'FTSRPRT,'
+        assert self.pa.encode('fitz Roy') == 'FTSR,'
+        assert self.pa.encode('fitz Scrob') == 'FTSSKP,'
+        assert self.pa.encode('fitz Walter') == 'FTSLTR,'
+        assert self.pa.encode('fitz Warin') == 'FTSRN,'
+        assert self.pa.encode('fitz Williams') == 'FTSLMS,'
+        assert self.pa.encode('la Zouche') == 'LSX,LSK'
+        assert self.pa.encode('le Botiller') == 'LPTLR,'
+        assert self.pa.encode('le Despenser') == 'LTSPNSR,'
+        assert self.pa.encode('le deSpencer') == 'LTSPNSR,'
+        assert self.pa.encode('of Allendale') == 'AFLNTL,'
+        assert self.pa.encode('of Angouleme') == 'AFNKLM,'
+        assert self.pa.encode('of Anjou') == 'AFNJ,'
+        assert self.pa.encode('of Aquitaine') == 'AFKTN,'
+        assert self.pa.encode('of Aumale') == 'AFML,'
+        assert self.pa.encode('of Bavaria') == 'AFPFR,'
+        assert self.pa.encode('of Boulogne') == 'AFPLN,AFPLKN'
+        assert self.pa.encode('of Brittany') == 'AFPRTN,'
+        assert self.pa.encode('of Brittary') == 'AFPRTR,'
+        assert self.pa.encode('of Castile') == 'AFKSTL,'
+        assert self.pa.encode('of Chester') == 'AFXSTR,AFKSTR'
+        assert self.pa.encode('of Clermont') == 'AFKLRMNT,'
+        assert self.pa.encode('of Cologne') == 'AFKLN,AFKLKN'
+        assert self.pa.encode('of Dinan') == 'AFTNN,'
+        assert self.pa.encode('of Dunbar') == 'AFTNPR,'
+        assert self.pa.encode('of England') == 'AFNKLNT,'
+        assert self.pa.encode('of Essex') == 'AFSKS,'
+        assert self.pa.encode('of Falaise') == 'AFFLS,'
+        assert self.pa.encode('of Flanders') == 'AFFLNTRS,'
+        assert self.pa.encode('of Galloway') == 'AFKL,'
+        assert self.pa.encode('of Germany') == 'AFKRMN,AFJRMN'
+        assert self.pa.encode('of Gloucester') == 'AFKLSSTR,'
+        assert self.pa.encode('of Heristal') == 'AFRSTL,'
+        assert self.pa.encode('of Hungary') == 'AFNKR,'
+        assert self.pa.encode('of Huntington') == 'AFNTNKTN,'
+        assert self.pa.encode('of Kiev') == 'AFKF,'
+        assert self.pa.encode('of Kuno') == 'AFKN,'
+        assert self.pa.encode('of Landen') == 'AFLNTN,'
+        assert self.pa.encode('of Laon') == 'AFLN,'
+        assert self.pa.encode('of Leinster') == 'AFLNSTR,'
+        assert self.pa.encode('of Lens') == 'AFLNS,'
+        assert self.pa.encode('of Lorraine') == 'AFLRN,'
+        assert self.pa.encode('of Louvain') == 'AFLFN,'
+        assert self.pa.encode('of Mercia') == 'AFMRS,AFMRX'
+        assert self.pa.encode('of Metz') == 'AFMTS,'
+        assert self.pa.encode('of Meulan') == 'AFMLN,'
+        assert self.pa.encode('of Nass') == 'AFNS,'
+        assert self.pa.encode('of Normandy') == 'AFNRMNT,'
+        assert self.pa.encode('of Ohningen') == 'AFNNJN,AFNNKN'
+        assert self.pa.encode('of Orleans') == 'AFRLNS,'
+        assert self.pa.encode('of Poitou') == 'AFPT,'
+        assert self.pa.encode('of Polotzk') == 'AFPLTSK,'
+        assert self.pa.encode('of Provence') == 'AFPRFNS,'
+        assert self.pa.encode('of Ringelheim') == 'AFRNJLM,AFRNKLM'
+        assert self.pa.encode('of Salisbury') == 'AFSLSPR,'
+        assert self.pa.encode('of Saxony') == 'AFSKSN,'
+        assert self.pa.encode('of Scotland') == 'AFSKTLNT,'
+        assert self.pa.encode('of Senlis') == 'AFSNLS,'
+        assert self.pa.encode('of Stafford') == 'AFSTFRT,'
+        assert self.pa.encode('of Swabia') == 'AFSP,'
+        assert self.pa.encode('of Tongres') == 'AFTNKRS,'
+        assert self.pa.encode('of the Tributes') == 'AF0TRPTS,AFTTRPTS'
+        assert self.pa.encode('unknown') == 'ANKNN,'
+        assert self.pa.encode('van der Gouda') == 'FNTRKT,'
+        assert self.pa.encode('von Adenbaugh') == 'FNTNP,'
+        assert self.pa.encode('ARCHITure') == 'ARKTR,'
+        assert self.pa.encode('Arnoff') == 'ARNF,'
+        assert self.pa.encode('Arnow') == 'ARN,ARNF'
+        assert self.pa.encode('DANGER') == 'TNJR,TNKR'
+        assert self.pa.encode('Jankelowicz') == 'JNKLTS,ANKLFX'
+        assert self.pa.encode('MANGER') == 'MNJR,MNKR'
+        assert self.pa.encode('McClellan') == 'MKLLN,'
+        assert self.pa.encode('McHugh') == 'MK,'
+        assert self.pa.encode('McLaughlin') == 'MKLFLN,'
+        assert self.pa.encode('ORCHEStra') == 'ARKSTR,'
+        assert self.pa.encode('ORCHID') == 'ARKT,'
+        assert self.pa.encode('Pierce') == 'PRS,'
+        assert self.pa.encode('RANGER') == 'RNJR,RNKR'
+        assert self.pa.encode('Schlesinger') == 'XLSNKR,SLSNJR'
+        assert self.pa.encode('Uomo') == 'AM,'
+        assert self.pa.encode('Vasserman') == 'FSRMN,'
+        assert self.pa.encode('Wasserman') == 'ASRMN,FSRMN'
+        assert self.pa.encode('Womo') == 'AM,FM'
+        assert self.pa.encode('Yankelovich') == 'ANKLFX,ANKLFK'
+        assert self.pa.encode('accede') == 'AKST,'
+        assert self.pa.encode('accident') == 'AKSTNT,'
+        assert self.pa.encode('adelsheim') == 'ATLSM,'
+        assert self.pa.encode('aged') == 'AJT,AKT'
+        assert self.pa.encode('ageless') == 'AJLS,AKLS'
+        assert self.pa.encode('agency') == 'AJNS,AKNS'
+        assert self.pa.encode('aghast') == 'AKST,'
+        assert self.pa.encode('agio') == 'AJ,AK'
+        assert self.pa.encode('agrimony') == 'AKRMN,'
+        assert self.pa.encode('album') == 'ALPM,'
+        assert self.pa.encode('alcmene') == 'ALKMN,'
+        assert self.pa.encode('alehouse') == 'ALHS,'
+        assert self.pa.encode('antique') == 'ANTK,'
+        assert self.pa.encode('artois') == 'ART,ARTS'
+        assert self.pa.encode('automation') == 'ATMXN,'
+        assert self.pa.encode('bacchus') == 'PKS,'
+        assert self.pa.encode('bacci') == 'PX,'
+        assert self.pa.encode('bajador') == 'PJTR,PHTR'
+        assert self.pa.encode('bellocchio') == 'PLX,'
+        assert self.pa.encode('bertucci') == 'PRTX,'
+        assert self.pa.encode('biaggi') == 'PJ,PK'
+        assert self.pa.encode('bough') == 'P,'
+        assert self.pa.encode('breaux') == 'PR,'
+        assert self.pa.encode('broughton') == 'PRTN,'
+        assert self.pa.encode('cabrillo') == 'KPRL,KPR'
+        assert self.pa.encode('caesar') == 'SSR,'
+        assert self.pa.encode('cagney') == 'KKN,'
+        assert self.pa.encode('campbell') == 'KMPL,'
+        assert self.pa.encode('carlisle') == 'KRLL,'
+        assert self.pa.encode('carlysle') == 'KRLL,'
+        assert self.pa.encode('chemistry') == 'KMSTR,'
+        assert self.pa.encode('chianti') == 'KNT,'
+        assert self.pa.encode('chorus') == 'KRS,'
+        assert self.pa.encode('cough') == 'KF,'
+        assert self.pa.encode('czerny') == 'SRN,XRN'
+        assert self.pa.encode('deffenbacher') == 'TFNPKR,'
+        assert self.pa.encode('dumb') == 'TM,'
+        assert self.pa.encode('edgar') == 'ATKR,'
+        assert self.pa.encode('edge') == 'AJ,'
+        assert self.pa.encode('filipowicz') == 'FLPTS,FLPFX'
+        assert self.pa.encode('focaccia') == 'FKX,'
+        assert self.pa.encode('gallegos') == 'KLKS,KKS'
+        assert self.pa.encode('gambrelli') == 'KMPRL,'
+        assert self.pa.encode('geithain') == 'K0N,JTN'
+        assert self.pa.encode('ghiradelli') == 'JRTL,'
+        assert self.pa.encode('ghislane') == 'JLN,'
+        assert self.pa.encode('gough') == 'KF,'
+        assert self.pa.encode('hartheim') == 'HR0M,HRTM'
+        assert self.pa.encode('heimsheim') == 'HMSM,'
+        assert self.pa.encode('hochmeier') == 'HKMR,'
+        assert self.pa.encode('hugh') == 'H,'
+        assert self.pa.encode('hunger') == 'HNKR,HNJR'
+        assert self.pa.encode('hungry') == 'HNKR,'
+        assert self.pa.encode('island') == 'ALNT,'
+        assert self.pa.encode('isle') == 'AL,'
+        assert self.pa.encode('jose') == 'HS,'
+        assert self.pa.encode('laugh') == 'LF,'
+        assert self.pa.encode('mac caffrey') == 'MKFR,'
+        assert self.pa.encode('mac gregor') == 'MKRKR,'
+        assert self.pa.encode('pegnitz') == 'PNTS,PKNTS'
+        assert self.pa.encode('piskowitz') == 'PSKTS,PSKFX'
+        assert self.pa.encode('queen') == 'KN,'
+        assert self.pa.encode('raspberry') == 'RSPR,'
+        assert self.pa.encode('resnais') == 'RSN,RSNS'
+        assert self.pa.encode('rogier') == 'RJ,RJR'
+        assert self.pa.encode('rough') == 'RF,'
+        assert self.pa.encode('san jacinto') == 'SNHSNT,'
+        assert self.pa.encode('schenker') == 'XNKR,SKNKR'
+        assert self.pa.encode('schermerhorn') == 'XRMRRN,SKRMRRN'
+        assert self.pa.encode('schmidt') == 'XMT,SMT'
+        assert self.pa.encode('schneider') == 'XNTR,SNTR'
+        assert self.pa.encode('school') == 'SKL,'
+        assert self.pa.encode('schooner') == 'SKNR,'
+        assert self.pa.encode('schrozberg') == 'XRSPRK,SRSPRK'
+        assert self.pa.encode('schulman') == 'XLMN,'
+        assert self.pa.encode('schwabach') == 'XPK,XFPK'
+        assert self.pa.encode('schwarzach') == 'XRSK,XFRTSK'
+        assert self.pa.encode('smith') == 'SM0,XMT'
+        assert self.pa.encode('snider') == 'SNTR,XNTR'
+        assert self.pa.encode('succeed') == 'SKST,'
+        assert self.pa.encode('sugarcane') == 'XKRKN,SKRKN'
+        assert self.pa.encode('svobodka') == 'SFPTK,'
+        assert self.pa.encode('tagliaro') == 'TKLR,TLR'
+        assert self.pa.encode('thames') == 'TMS,'
+        assert self.pa.encode('theilheim') == '0LM,TLM'
+        assert self.pa.encode('thomas') == 'TMS,'
+        assert self.pa.encode('thumb') == '0M,TM'
+        assert self.pa.encode('tichner') == 'TXNR,TKNR'
+        assert self.pa.encode('tough') == 'TF,'
+        assert self.pa.encode('umbrella') == 'AMPRL,'
+        assert self.pa.encode('vilshofen') == 'FLXFN,'
+        assert self.pa.encode('von schuller') == 'FNXLR,'
+        assert self.pa.encode('wachtler') == 'AKTLR,FKTLR'
+        assert self.pa.encode('wechsler') == 'AKSLR,FKSLR'
+        assert self.pa.encode('weikersheim') == 'AKRSM,FKRSM'
+        assert self.pa.encode('zhao') == 'J,'
 
     def test_double_metaphone_surnames4(self):
         """Test abydos.phonetic.DoubleMetaphone (surname data, 4-letter)."""
-        self.assertEqual(self.pa_4.encode(''), ',')
-        self.assertEqual(self.pa_4.encode('ALLERTON'), 'ALRT,')
-        self.assertEqual(self.pa_4.encode('Acton'), 'AKTN,')
-        self.assertEqual(self.pa_4.encode('Adams'), 'ATMS,')
-        self.assertEqual(self.pa_4.encode('Aggar'), 'AKR,')
-        self.assertEqual(self.pa_4.encode('Ahl'), 'AL,')
-        self.assertEqual(self.pa_4.encode('Aiken'), 'AKN,')
-        self.assertEqual(self.pa_4.encode('Alan'), 'ALN,')
-        self.assertEqual(self.pa_4.encode('Alcock'), 'ALKK,')
-        self.assertEqual(self.pa_4.encode('Alden'), 'ALTN,')
-        self.assertEqual(self.pa_4.encode('Aldham'), 'ALTM,')
-        self.assertEqual(self.pa_4.encode('Allen'), 'ALN,')
-        self.assertEqual(self.pa_4.encode('Allerton'), 'ALRT,')
-        self.assertEqual(self.pa_4.encode('Alsop'), 'ALSP,')
-        self.assertEqual(self.pa_4.encode('Alwein'), 'ALN,')
-        self.assertEqual(self.pa_4.encode('Ambler'), 'AMPL,')
-        self.assertEqual(self.pa_4.encode('Andevill'), 'ANTF,')
-        self.assertEqual(self.pa_4.encode('Andrews'), 'ANTR,')
-        self.assertEqual(self.pa_4.encode('Andreyco'), 'ANTR,')
-        self.assertEqual(self.pa_4.encode('Andriesse'), 'ANTR,')
-        self.assertEqual(self.pa_4.encode('Angier'), 'ANJ,ANJR')
-        self.assertEqual(self.pa_4.encode('Annabel'), 'ANPL,')
-        self.assertEqual(self.pa_4.encode('Anne'), 'AN,')
-        self.assertEqual(self.pa_4.encode('Anstye'), 'ANST,')
-        self.assertEqual(self.pa_4.encode('Appling'), 'APLN,')
-        self.assertEqual(self.pa_4.encode('Apuke'), 'APK,')
-        self.assertEqual(self.pa_4.encode('Arnold'), 'ARNL,')
-        self.assertEqual(self.pa_4.encode('Ashby'), 'AXP,')
-        self.assertEqual(self.pa_4.encode('Astwood'), 'ASTT,')
-        self.assertEqual(self.pa_4.encode('Atkinson'), 'ATKN,')
-        self.assertEqual(self.pa_4.encode('Audley'), 'ATL,')
-        self.assertEqual(self.pa_4.encode('Austin'), 'ASTN,')
-        self.assertEqual(self.pa_4.encode('Avenal'), 'AFNL,')
-        self.assertEqual(self.pa_4.encode('Ayer'), 'AR,')
-        self.assertEqual(self.pa_4.encode('Ayot'), 'AT,')
-        self.assertEqual(self.pa_4.encode('Babbitt'), 'PPT,')
-        self.assertEqual(self.pa_4.encode('Bachelor'), 'PXLR,PKLR')
-        self.assertEqual(self.pa_4.encode('Bachelour'), 'PXLR,PKLR')
-        self.assertEqual(self.pa_4.encode('Bailey'), 'PL,')
-        self.assertEqual(self.pa_4.encode('Baivel'), 'PFL,')
-        self.assertEqual(self.pa_4.encode('Baker'), 'PKR,')
-        self.assertEqual(self.pa_4.encode('Baldwin'), 'PLTN,')
-        self.assertEqual(self.pa_4.encode('Balsley'), 'PLSL,')
-        self.assertEqual(self.pa_4.encode('Barber'), 'PRPR,')
-        self.assertEqual(self.pa_4.encode('Barker'), 'PRKR,')
-        self.assertEqual(self.pa_4.encode('Barlow'), 'PRL,PRLF')
-        self.assertEqual(self.pa_4.encode('Barnard'), 'PRNR,')
-        self.assertEqual(self.pa_4.encode('Barnes'), 'PRNS,')
-        self.assertEqual(self.pa_4.encode('Barnsley'), 'PRNS,')
-        self.assertEqual(self.pa_4.encode('Barouxis'), 'PRKS,')
-        self.assertEqual(self.pa_4.encode('Bartlet'), 'PRTL,')
-        self.assertEqual(self.pa_4.encode('Basley'), 'PSL,')
-        self.assertEqual(self.pa_4.encode('Basset'), 'PST,')
-        self.assertEqual(self.pa_4.encode('Bassett'), 'PST,')
-        self.assertEqual(self.pa_4.encode('Batchlor'), 'PXLR,')
-        self.assertEqual(self.pa_4.encode('Bates'), 'PTS,')
-        self.assertEqual(self.pa_4.encode('Batson'), 'PTSN,')
-        self.assertEqual(self.pa_4.encode('Bayes'), 'PS,')
-        self.assertEqual(self.pa_4.encode('Bayley'), 'PL,')
-        self.assertEqual(self.pa_4.encode('Beale'), 'PL,')
-        self.assertEqual(self.pa_4.encode('Beauchamp'), 'PXMP,PKMP')
-        self.assertEqual(self.pa_4.encode('Beauclerc'), 'PKLR,')
-        self.assertEqual(self.pa_4.encode('Beech'), 'PK,')
-        self.assertEqual(self.pa_4.encode('Beers'), 'PRS,')
-        self.assertEqual(self.pa_4.encode('Beke'), 'PK,')
-        self.assertEqual(self.pa_4.encode('Belcher'), 'PLXR,PLKR')
-        self.assertEqual(self.pa_4.encode('Benjamin'), 'PNJM,')
-        self.assertEqual(self.pa_4.encode('Benningham'), 'PNNK,')
-        self.assertEqual(self.pa_4.encode('Bereford'), 'PRFR,')
-        self.assertEqual(self.pa_4.encode('Bergen'), 'PRJN,PRKN')
-        self.assertEqual(self.pa_4.encode('Berkeley'), 'PRKL,')
-        self.assertEqual(self.pa_4.encode('Berry'), 'PR,')
-        self.assertEqual(self.pa_4.encode('Besse'), 'PS,')
-        self.assertEqual(self.pa_4.encode('Bessey'), 'PS,')
-        self.assertEqual(self.pa_4.encode('Bessiles'), 'PSLS,')
-        self.assertEqual(self.pa_4.encode('Bigelow'), 'PJL,PKLF')
-        self.assertEqual(self.pa_4.encode('Bigg'), 'PK,')
-        self.assertEqual(self.pa_4.encode('Bigod'), 'PKT,')
-        self.assertEqual(self.pa_4.encode('Billings'), 'PLNK,')
-        self.assertEqual(self.pa_4.encode('Bimper'), 'PMPR,')
-        self.assertEqual(self.pa_4.encode('Binker'), 'PNKR,')
-        self.assertEqual(self.pa_4.encode('Birdsill'), 'PRTS,')
-        self.assertEqual(self.pa_4.encode('Bishop'), 'PXP,')
-        self.assertEqual(self.pa_4.encode('Black'), 'PLK,')
-        self.assertEqual(self.pa_4.encode('Blagge'), 'PLK,')
-        self.assertEqual(self.pa_4.encode('Blake'), 'PLK,')
-        self.assertEqual(self.pa_4.encode('Blanck'), 'PLNK,')
-        self.assertEqual(self.pa_4.encode('Bledsoe'), 'PLTS,')
-        self.assertEqual(self.pa_4.encode('Blennerhasset'), 'PLNR,')
-        self.assertEqual(self.pa_4.encode('Blessing'), 'PLSN,')
-        self.assertEqual(self.pa_4.encode('Blewett'), 'PLT,')
-        self.assertEqual(self.pa_4.encode('Bloctgoed'), 'PLKT,')
-        self.assertEqual(self.pa_4.encode('Bloetgoet'), 'PLTK,')
-        self.assertEqual(self.pa_4.encode('Bloodgood'), 'PLTK,')
-        self.assertEqual(self.pa_4.encode('Blossom'), 'PLSM,')
-        self.assertEqual(self.pa_4.encode('Blount'), 'PLNT,')
-        self.assertEqual(self.pa_4.encode('Bodine'), 'PTN,')
-        self.assertEqual(self.pa_4.encode('Bodman'), 'PTMN,')
-        self.assertEqual(self.pa_4.encode('BonCoeur'), 'PNKR,')
-        self.assertEqual(self.pa_4.encode('Bond'), 'PNT,')
-        self.assertEqual(self.pa_4.encode('Boscawen'), 'PSKN,')
-        self.assertEqual(self.pa_4.encode('Bosworth'), 'PSR0,PSRT')
-        self.assertEqual(self.pa_4.encode('Bouchier'), 'PX,PKR')
-        self.assertEqual(self.pa_4.encode('Bowne'), 'PN,')
-        self.assertEqual(self.pa_4.encode('Bradbury'), 'PRTP,')
-        self.assertEqual(self.pa_4.encode('Bradder'), 'PRTR,')
-        self.assertEqual(self.pa_4.encode('Bradford'), 'PRTF,')
-        self.assertEqual(self.pa_4.encode('Bradstreet'), 'PRTS,')
-        self.assertEqual(self.pa_4.encode('Braham'), 'PRHM,')
-        self.assertEqual(self.pa_4.encode('Brailsford'), 'PRLS,')
-        self.assertEqual(self.pa_4.encode('Brainard'), 'PRNR,')
-        self.assertEqual(self.pa_4.encode('Brandish'), 'PRNT,')
-        self.assertEqual(self.pa_4.encode('Braun'), 'PRN,')
-        self.assertEqual(self.pa_4.encode('Brecc'), 'PRK,')
-        self.assertEqual(self.pa_4.encode('Brent'), 'PRNT,')
-        self.assertEqual(self.pa_4.encode('Brenton'), 'PRNT,')
-        self.assertEqual(self.pa_4.encode('Briggs'), 'PRKS,')
-        self.assertEqual(self.pa_4.encode('Brigham'), 'PRM,')
-        self.assertEqual(self.pa_4.encode('Brobst'), 'PRPS,')
-        self.assertEqual(self.pa_4.encode('Brome'), 'PRM,')
-        self.assertEqual(self.pa_4.encode('Bronson'), 'PRNS,')
-        self.assertEqual(self.pa_4.encode('Brooks'), 'PRKS,')
-        self.assertEqual(self.pa_4.encode('Brouillard'), 'PRLR,')
-        self.assertEqual(self.pa_4.encode('Brown'), 'PRN,')
-        self.assertEqual(self.pa_4.encode('Browne'), 'PRN,')
-        self.assertEqual(self.pa_4.encode('Brownell'), 'PRNL,')
-        self.assertEqual(self.pa_4.encode('Bruley'), 'PRL,')
-        self.assertEqual(self.pa_4.encode('Bryant'), 'PRNT,')
-        self.assertEqual(self.pa_4.encode('Brzozowski'), 'PRSS,PRTS')
-        self.assertEqual(self.pa_4.encode('Buide'), 'PT,')
-        self.assertEqual(self.pa_4.encode('Bulmer'), 'PLMR,')
-        self.assertEqual(self.pa_4.encode('Bunker'), 'PNKR,')
-        self.assertEqual(self.pa_4.encode('Burden'), 'PRTN,')
-        self.assertEqual(self.pa_4.encode('Burge'), 'PRJ,PRK')
-        self.assertEqual(self.pa_4.encode('Burgoyne'), 'PRKN,')
-        self.assertEqual(self.pa_4.encode('Burke'), 'PRK,')
-        self.assertEqual(self.pa_4.encode('Burnett'), 'PRNT,')
-        self.assertEqual(self.pa_4.encode('Burpee'), 'PRP,')
-        self.assertEqual(self.pa_4.encode('Bursley'), 'PRSL,')
-        self.assertEqual(self.pa_4.encode('Burton'), 'PRTN,')
-        self.assertEqual(self.pa_4.encode('Bushnell'), 'PXNL,')
-        self.assertEqual(self.pa_4.encode('Buss'), 'PS,')
-        self.assertEqual(self.pa_4.encode('Buswell'), 'PSL,')
-        self.assertEqual(self.pa_4.encode('Butler'), 'PTLR,')
-        self.assertEqual(self.pa_4.encode('Calkin'), 'KLKN,')
-        self.assertEqual(self.pa_4.encode('Canada'), 'KNT,')
-        self.assertEqual(self.pa_4.encode('Canmore'), 'KNMR,')
-        self.assertEqual(self.pa_4.encode('Canney'), 'KN,')
-        self.assertEqual(self.pa_4.encode('Capet'), 'KPT,')
-        self.assertEqual(self.pa_4.encode('Card'), 'KRT,')
-        self.assertEqual(self.pa_4.encode('Carman'), 'KRMN,')
-        self.assertEqual(self.pa_4.encode('Carpenter'), 'KRPN,')
-        self.assertEqual(self.pa_4.encode('Cartwright'), 'KRTR,')
-        self.assertEqual(self.pa_4.encode('Casey'), 'KS,')
-        self.assertEqual(self.pa_4.encode('Catterfield'), 'KTRF,')
-        self.assertEqual(self.pa_4.encode('Ceeley'), 'SL,')
-        self.assertEqual(self.pa_4.encode('Chambers'), 'XMPR,')
-        self.assertEqual(self.pa_4.encode('Champion'), 'XMPN,')
-        self.assertEqual(self.pa_4.encode('Chapman'), 'XPMN,')
-        self.assertEqual(self.pa_4.encode('Chase'), 'XS,')
-        self.assertEqual(self.pa_4.encode('Cheney'), 'XN,')
-        self.assertEqual(self.pa_4.encode('Chetwynd'), 'XTNT,')
-        self.assertEqual(self.pa_4.encode('Chevalier'), 'XFL,XFLR')
-        self.assertEqual(self.pa_4.encode('Chillingsworth'), 'XLNK,')
-        self.assertEqual(self.pa_4.encode('Christie'), 'KRST,')
-        self.assertEqual(self.pa_4.encode('Chubbuck'), 'XPK,')
-        self.assertEqual(self.pa_4.encode('Church'), 'XRX,XRK')
-        self.assertEqual(self.pa_4.encode('Clark'), 'KLRK,')
-        self.assertEqual(self.pa_4.encode('Clarke'), 'KLRK,')
-        self.assertEqual(self.pa_4.encode('Cleare'), 'KLR,')
-        self.assertEqual(self.pa_4.encode('Clement'), 'KLMN,')
-        self.assertEqual(self.pa_4.encode('Clerke'), 'KLRK,')
-        self.assertEqual(self.pa_4.encode('Clibben'), 'KLPN,')
-        self.assertEqual(self.pa_4.encode('Clifford'), 'KLFR,')
-        self.assertEqual(self.pa_4.encode('Clivedon'), 'KLFT,')
-        self.assertEqual(self.pa_4.encode('Close'), 'KLS,')
-        self.assertEqual(self.pa_4.encode('Clothilde'), 'KL0L,KLTL')
-        self.assertEqual(self.pa_4.encode('Cobb'), 'KP,')
-        self.assertEqual(self.pa_4.encode('Coburn'), 'KPRN,')
-        self.assertEqual(self.pa_4.encode('Coburne'), 'KPRN,')
-        self.assertEqual(self.pa_4.encode('Cocke'), 'KK,')
-        self.assertEqual(self.pa_4.encode('Coffin'), 'KFN,')
-        self.assertEqual(self.pa_4.encode('Coffyn'), 'KFN,')
-        self.assertEqual(self.pa_4.encode('Colborne'), 'KLPR,')
-        self.assertEqual(self.pa_4.encode('Colby'), 'KLP,')
-        self.assertEqual(self.pa_4.encode('Cole'), 'KL,')
-        self.assertEqual(self.pa_4.encode('Coleman'), 'KLMN,')
-        self.assertEqual(self.pa_4.encode('Collier'), 'KL,KLR')
-        self.assertEqual(self.pa_4.encode('Compton'), 'KMPT,')
-        self.assertEqual(self.pa_4.encode('Cone'), 'KN,')
-        self.assertEqual(self.pa_4.encode('Cook'), 'KK,')
-        self.assertEqual(self.pa_4.encode('Cooke'), 'KK,')
-        self.assertEqual(self.pa_4.encode('Cooper'), 'KPR,')
-        self.assertEqual(self.pa_4.encode('Copperthwaite'), 'KPR0,KPRT')
-        self.assertEqual(self.pa_4.encode('Corbet'), 'KRPT,')
-        self.assertEqual(self.pa_4.encode('Corell'), 'KRL,')
-        self.assertEqual(self.pa_4.encode('Corey'), 'KR,')
-        self.assertEqual(self.pa_4.encode('Corlies'), 'KRLS,')
-        self.assertEqual(self.pa_4.encode('Corneliszen'), 'KRNL,')
-        self.assertEqual(self.pa_4.encode('Cornelius'), 'KRNL,')
-        self.assertEqual(self.pa_4.encode('Cornwallis'), 'KRNL,')
-        self.assertEqual(self.pa_4.encode('Cosgrove'), 'KSKR,')
-        self.assertEqual(self.pa_4.encode('Count of Brionne'), 'KNTF,')
-        self.assertEqual(self.pa_4.encode('Covill'), 'KFL,')
-        self.assertEqual(self.pa_4.encode('Cowperthwaite'), 'KPR0,KPRT')
-        self.assertEqual(self.pa_4.encode('Cowperwaite'), 'KPRT,')
-        self.assertEqual(self.pa_4.encode('Crane'), 'KRN,')
-        self.assertEqual(self.pa_4.encode('Creagmile'), 'KRKM,')
-        self.assertEqual(self.pa_4.encode('Crew'), 'KR,KRF')
-        self.assertEqual(self.pa_4.encode('Crispin'), 'KRSP,')
-        self.assertEqual(self.pa_4.encode('Crocker'), 'KRKR,')
-        self.assertEqual(self.pa_4.encode('Crockett'), 'KRKT,')
-        self.assertEqual(self.pa_4.encode('Crosby'), 'KRSP,')
-        self.assertEqual(self.pa_4.encode('Crump'), 'KRMP,')
-        self.assertEqual(self.pa_4.encode('Cunningham'), 'KNNK,')
-        self.assertEqual(self.pa_4.encode('Curtis'), 'KRTS,')
-        self.assertEqual(self.pa_4.encode('Cutha'), 'K0,KT')
-        self.assertEqual(self.pa_4.encode('Cutter'), 'KTR,')
-        self.assertEqual(self.pa_4.encode("D'Aubigny"), 'TPN,TPKN')
-        self.assertEqual(self.pa_4.encode('DAVIS'), 'TFS,')
-        self.assertEqual(self.pa_4.encode('Dabinott'), 'TPNT,')
-        self.assertEqual(self.pa_4.encode('Dacre'), 'TKR,')
-        self.assertEqual(self.pa_4.encode('Daggett'), 'TKT,')
-        self.assertEqual(self.pa_4.encode('Danvers'), 'TNFR,')
-        self.assertEqual(self.pa_4.encode('Darcy'), 'TRS,')
-        self.assertEqual(self.pa_4.encode('Davis'), 'TFS,')
-        self.assertEqual(self.pa_4.encode('Dawn'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Dawson'), 'TSN,')
-        self.assertEqual(self.pa_4.encode('Day'), 'T,')
-        self.assertEqual(self.pa_4.encode('Daye'), 'T,')
-        self.assertEqual(self.pa_4.encode('DeGrenier'), 'TKRN,')
-        self.assertEqual(self.pa_4.encode('Dean'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Deekindaugh'), 'TKNT,')
-        self.assertEqual(self.pa_4.encode('Dennis'), 'TNS,')
-        self.assertEqual(self.pa_4.encode('Denny'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Denton'), 'TNTN,')
-        self.assertEqual(self.pa_4.encode('Desborough'), 'TSPR,')
-        self.assertEqual(self.pa_4.encode('Despenser'), 'TSPN,')
-        self.assertEqual(self.pa_4.encode('Deverill'), 'TFRL,')
-        self.assertEqual(self.pa_4.encode('Devine'), 'TFN,')
-        self.assertEqual(self.pa_4.encode('Dexter'), 'TKST,')
-        self.assertEqual(self.pa_4.encode('Dillaway'), 'TL,')
-        self.assertEqual(self.pa_4.encode('Dimmick'), 'TMK,')
-        self.assertEqual(self.pa_4.encode('Dinan'), 'TNN,')
-        self.assertEqual(self.pa_4.encode('Dix'), 'TKS,')
-        self.assertEqual(self.pa_4.encode('Doggett'), 'TKT,')
-        self.assertEqual(self.pa_4.encode('Donahue'), 'TNH,')
-        self.assertEqual(self.pa_4.encode('Dorfman'), 'TRFM,')
-        self.assertEqual(self.pa_4.encode('Dorris'), 'TRS,')
-        self.assertEqual(self.pa_4.encode('Dow'), 'T,TF')
-        self.assertEqual(self.pa_4.encode('Downey'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Downing'), 'TNNK,')
-        self.assertEqual(self.pa_4.encode('Dowsett'), 'TST,')
-        self.assertEqual(self.pa_4.encode('Duck?'), 'TK,')
-        self.assertEqual(self.pa_4.encode('Dudley'), 'TTL,')
-        self.assertEqual(self.pa_4.encode('Duffy'), 'TF,')
-        self.assertEqual(self.pa_4.encode('Dunn'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Dunsterville'), 'TNST,')
-        self.assertEqual(self.pa_4.encode('Durrant'), 'TRNT,')
-        self.assertEqual(self.pa_4.encode('Durrin'), 'TRN,')
-        self.assertEqual(self.pa_4.encode('Dustin'), 'TSTN,')
-        self.assertEqual(self.pa_4.encode('Duston'), 'TSTN,')
-        self.assertEqual(self.pa_4.encode('Eames'), 'AMS,')
-        self.assertEqual(self.pa_4.encode('Early'), 'ARL,')
-        self.assertEqual(self.pa_4.encode('Easty'), 'AST,')
-        self.assertEqual(self.pa_4.encode('Ebbett'), 'APT,')
-        self.assertEqual(self.pa_4.encode('Eberbach'), 'APRP,')
-        self.assertEqual(self.pa_4.encode('Eberhard'), 'APRR,')
-        self.assertEqual(self.pa_4.encode('Eddy'), 'AT,')
-        self.assertEqual(self.pa_4.encode('Edenden'), 'ATNT,')
-        self.assertEqual(self.pa_4.encode('Edwards'), 'ATRT,')
-        self.assertEqual(self.pa_4.encode('Eglinton'), 'AKLN,ALNT')
-        self.assertEqual(self.pa_4.encode('Eliot'), 'ALT,')
-        self.assertEqual(self.pa_4.encode('Elizabeth'), 'ALSP,')
-        self.assertEqual(self.pa_4.encode('Ellis'), 'ALS,')
-        self.assertEqual(self.pa_4.encode('Ellison'), 'ALSN,')
-        self.assertEqual(self.pa_4.encode('Ellot'), 'ALT,')
-        self.assertEqual(self.pa_4.encode('Elny'), 'ALN,')
-        self.assertEqual(self.pa_4.encode('Elsner'), 'ALSN,')
-        self.assertEqual(self.pa_4.encode('Emerson'), 'AMRS,')
-        self.assertEqual(self.pa_4.encode('Empson'), 'AMPS,')
-        self.assertEqual(self.pa_4.encode('Est'), 'AST,')
-        self.assertEqual(self.pa_4.encode('Estabrook'), 'ASTP,')
-        self.assertEqual(self.pa_4.encode('Estes'), 'ASTS,')
-        self.assertEqual(self.pa_4.encode('Estey'), 'AST,')
-        self.assertEqual(self.pa_4.encode('Evans'), 'AFNS,')
-        self.assertEqual(self.pa_4.encode('Fallowell'), 'FLL,')
-        self.assertEqual(self.pa_4.encode('Farnsworth'), 'FRNS,')
-        self.assertEqual(self.pa_4.encode('Feake'), 'FK,')
-        self.assertEqual(self.pa_4.encode('Feke'), 'FK,')
-        self.assertEqual(self.pa_4.encode('Fellows'), 'FLS,')
-        self.assertEqual(self.pa_4.encode('Fettiplace'), 'FTPL,')
-        self.assertEqual(self.pa_4.encode('Finney'), 'FN,')
-        self.assertEqual(self.pa_4.encode('Fischer'), 'FXR,FSKR')
-        self.assertEqual(self.pa_4.encode('Fisher'), 'FXR,')
-        self.assertEqual(self.pa_4.encode('Fisk'), 'FSK,')
-        self.assertEqual(self.pa_4.encode('Fiske'), 'FSK,')
-        self.assertEqual(self.pa_4.encode('Fletcher'), 'FLXR,')
-        self.assertEqual(self.pa_4.encode('Folger'), 'FLKR,FLJR')
-        self.assertEqual(self.pa_4.encode('Foliot'), 'FLT,')
-        self.assertEqual(self.pa_4.encode('Folyot'), 'FLT,')
-        self.assertEqual(self.pa_4.encode('Fones'), 'FNS,')
-        self.assertEqual(self.pa_4.encode('Fordham'), 'FRTM,')
-        self.assertEqual(self.pa_4.encode('Forstner'), 'FRST,')
-        self.assertEqual(self.pa_4.encode('Fosten'), 'FSTN,')
-        self.assertEqual(self.pa_4.encode('Foster'), 'FSTR,')
-        self.assertEqual(self.pa_4.encode('Foulke'), 'FLK,')
-        self.assertEqual(self.pa_4.encode('Fowler'), 'FLR,')
-        self.assertEqual(self.pa_4.encode('Foxwell'), 'FKSL,')
-        self.assertEqual(self.pa_4.encode('Fraley'), 'FRL,')
-        self.assertEqual(self.pa_4.encode('Franceys'), 'FRNS,')
-        self.assertEqual(self.pa_4.encode('Franke'), 'FRNK,')
-        self.assertEqual(self.pa_4.encode('Frascella'), 'FRSL,')
-        self.assertEqual(self.pa_4.encode('Frazer'), 'FRSR,')
-        self.assertEqual(self.pa_4.encode('Fredd'), 'FRT,')
-        self.assertEqual(self.pa_4.encode('Freeman'), 'FRMN,')
-        self.assertEqual(self.pa_4.encode('French'), 'FRNX,FRNK')
-        self.assertEqual(self.pa_4.encode('Freville'), 'FRFL,')
-        self.assertEqual(self.pa_4.encode('Frey'), 'FR,')
-        self.assertEqual(self.pa_4.encode('Frick'), 'FRK,')
-        self.assertEqual(self.pa_4.encode('Frier'), 'FR,FRR')
-        self.assertEqual(self.pa_4.encode('Froe'), 'FR,')
-        self.assertEqual(self.pa_4.encode('Frorer'), 'FRRR,')
-        self.assertEqual(self.pa_4.encode('Frost'), 'FRST,')
-        self.assertEqual(self.pa_4.encode('Frothingham'), 'FR0N,FRTN')
-        self.assertEqual(self.pa_4.encode('Fry'), 'FR,')
-        self.assertEqual(self.pa_4.encode('Gaffney'), 'KFN,')
-        self.assertEqual(self.pa_4.encode('Gage'), 'KJ,KK')
-        self.assertEqual(self.pa_4.encode('Gallion'), 'KLN,')
-        self.assertEqual(self.pa_4.encode('Gallishan'), 'KLXN,')
-        self.assertEqual(self.pa_4.encode('Gamble'), 'KMPL,')
-        self.assertEqual(self.pa_4.encode('Garbrand'), 'KRPR,')
-        self.assertEqual(self.pa_4.encode('Gardner'), 'KRTN,')
-        self.assertEqual(self.pa_4.encode('Garrett'), 'KRT,')
-        self.assertEqual(self.pa_4.encode('Gassner'), 'KSNR,')
-        self.assertEqual(self.pa_4.encode('Gater'), 'KTR,')
-        self.assertEqual(self.pa_4.encode('Gaunt'), 'KNT,')
-        self.assertEqual(self.pa_4.encode('Gayer'), 'KR,')
-        self.assertEqual(self.pa_4.encode('Gerken'), 'KRKN,JRKN')
-        self.assertEqual(self.pa_4.encode('Gerritsen'), 'KRTS,JRTS')
-        self.assertEqual(self.pa_4.encode('Gibbs'), 'KPS,JPS')
-        self.assertEqual(self.pa_4.encode('Giffard'), 'JFRT,KFRT')
-        self.assertEqual(self.pa_4.encode('Gilbert'), 'KLPR,JLPR')
-        self.assertEqual(self.pa_4.encode('Gill'), 'KL,JL')
-        self.assertEqual(self.pa_4.encode('Gilman'), 'KLMN,JLMN')
-        self.assertEqual(self.pa_4.encode('Glass'), 'KLS,')
-        self.assertEqual(self.pa_4.encode('GoddardGifford'), 'KTRJ,')
-        self.assertEqual(self.pa_4.encode('Godfrey'), 'KTFR,')
-        self.assertEqual(self.pa_4.encode('Godwin'), 'KTN,')
-        self.assertEqual(self.pa_4.encode('Goodale'), 'KTL,')
-        self.assertEqual(self.pa_4.encode('Goodnow'), 'KTN,KTNF')
-        self.assertEqual(self.pa_4.encode('Gorham'), 'KRM,')
-        self.assertEqual(self.pa_4.encode('Goseline'), 'KSLN,')
-        self.assertEqual(self.pa_4.encode('Gott'), 'KT,')
-        self.assertEqual(self.pa_4.encode('Gould'), 'KLT,')
-        self.assertEqual(self.pa_4.encode('Grafton'), 'KRFT,')
-        self.assertEqual(self.pa_4.encode('Grant'), 'KRNT,')
-        self.assertEqual(self.pa_4.encode('Gray'), 'KR,')
-        self.assertEqual(self.pa_4.encode('Green'), 'KRN,')
-        self.assertEqual(self.pa_4.encode('Griffin'), 'KRFN,')
-        self.assertEqual(self.pa_4.encode('Grill'), 'KRL,')
-        self.assertEqual(self.pa_4.encode('Grim'), 'KRM,')
-        self.assertEqual(self.pa_4.encode('Grisgonelle'), 'KRSK,')
-        self.assertEqual(self.pa_4.encode('Gross'), 'KRS,')
-        self.assertEqual(self.pa_4.encode('Guba'), 'KP,')
-        self.assertEqual(self.pa_4.encode('Gybbes'), 'KPS,JPS')
-        self.assertEqual(self.pa_4.encode('Haburne'), 'HPRN,')
-        self.assertEqual(self.pa_4.encode('Hackburne'), 'HKPR,')
-        self.assertEqual(self.pa_4.encode('Haddon?'), 'HTN,')
-        self.assertEqual(self.pa_4.encode('Haines'), 'HNS,')
-        self.assertEqual(self.pa_4.encode('Hale'), 'HL,')
-        self.assertEqual(self.pa_4.encode('Hall'), 'HL,')
-        self.assertEqual(self.pa_4.encode('Hallet'), 'HLT,')
-        self.assertEqual(self.pa_4.encode('Hallock'), 'HLK,')
-        self.assertEqual(self.pa_4.encode('Halstead'), 'HLST,')
-        self.assertEqual(self.pa_4.encode('Hammond'), 'HMNT,')
-        self.assertEqual(self.pa_4.encode('Hance'), 'HNS,')
-        self.assertEqual(self.pa_4.encode('Handy'), 'HNT,')
-        self.assertEqual(self.pa_4.encode('Hanson'), 'HNSN,')
-        self.assertEqual(self.pa_4.encode('Harasek'), 'HRSK,')
-        self.assertEqual(self.pa_4.encode('Harcourt'), 'HRKR,')
-        self.assertEqual(self.pa_4.encode('Hardy'), 'HRT,')
-        self.assertEqual(self.pa_4.encode('Harlock'), 'HRLK,')
-        self.assertEqual(self.pa_4.encode('Harris'), 'HRS,')
-        self.assertEqual(self.pa_4.encode('Hartley'), 'HRTL,')
-        self.assertEqual(self.pa_4.encode('Harvey'), 'HRF,')
-        self.assertEqual(self.pa_4.encode('Harvie'), 'HRF,')
-        self.assertEqual(self.pa_4.encode('Harwood'), 'HRT,')
-        self.assertEqual(self.pa_4.encode('Hathaway'), 'H0,HT')
-        self.assertEqual(self.pa_4.encode('Haukeness'), 'HKNS,')
-        self.assertEqual(self.pa_4.encode('Hawkes'), 'HKS,')
-        self.assertEqual(self.pa_4.encode('Hawkhurst'), 'HKRS,')
-        self.assertEqual(self.pa_4.encode('Hawkins'), 'HKNS,')
-        self.assertEqual(self.pa_4.encode('Hawley'), 'HL,')
-        self.assertEqual(self.pa_4.encode('Heald'), 'HLT,')
-        self.assertEqual(self.pa_4.encode('Helsdon'), 'HLST,')
-        self.assertEqual(self.pa_4.encode('Hemenway'), 'HMN,')
-        self.assertEqual(self.pa_4.encode('Hemmenway'), 'HMN,')
-        self.assertEqual(self.pa_4.encode('Henck'), 'HNK,')
-        self.assertEqual(self.pa_4.encode('Henderson'), 'HNTR,')
-        self.assertEqual(self.pa_4.encode('Hendricks'), 'HNTR,')
-        self.assertEqual(self.pa_4.encode('Hersey'), 'HRS,')
-        self.assertEqual(self.pa_4.encode('Hewes'), 'HS,')
-        self.assertEqual(self.pa_4.encode('Heyman'), 'HMN,')
-        self.assertEqual(self.pa_4.encode('Hicks'), 'HKS,')
-        self.assertEqual(self.pa_4.encode('Hidden'), 'HTN,')
-        self.assertEqual(self.pa_4.encode('Higgs'), 'HKS,')
-        self.assertEqual(self.pa_4.encode('Hill'), 'HL,')
-        self.assertEqual(self.pa_4.encode('Hills'), 'HLS,')
-        self.assertEqual(self.pa_4.encode('Hinckley'), 'HNKL,')
-        self.assertEqual(self.pa_4.encode('Hipwell'), 'HPL,')
-        self.assertEqual(self.pa_4.encode('Hobart'), 'HPRT,')
-        self.assertEqual(self.pa_4.encode('Hoben'), 'HPN,')
-        self.assertEqual(self.pa_4.encode('Hoffmann'), 'HFMN,')
-        self.assertEqual(self.pa_4.encode('Hogan'), 'HKN,')
-        self.assertEqual(self.pa_4.encode('Holmes'), 'HLMS,')
-        self.assertEqual(self.pa_4.encode('Hoo'), 'H,')
-        self.assertEqual(self.pa_4.encode('Hooker'), 'HKR,')
-        self.assertEqual(self.pa_4.encode('Hopcott'), 'HPKT,')
-        self.assertEqual(self.pa_4.encode('Hopkins'), 'HPKN,')
-        self.assertEqual(self.pa_4.encode('Hopkinson'), 'HPKN,')
-        self.assertEqual(self.pa_4.encode('Hornsey'), 'HRNS,')
-        self.assertEqual(self.pa_4.encode('Houckgeest'), 'HKJS,HKKS')
-        self.assertEqual(self.pa_4.encode('Hough'), 'H,')
-        self.assertEqual(self.pa_4.encode('Houstin'), 'HSTN,')
-        self.assertEqual(self.pa_4.encode('How'), 'H,HF')
-        self.assertEqual(self.pa_4.encode('Howe'), 'H,')
-        self.assertEqual(self.pa_4.encode('Howland'), 'HLNT,')
-        self.assertEqual(self.pa_4.encode('Hubner'), 'HPNR,')
-        self.assertEqual(self.pa_4.encode('Hudnut'), 'HTNT,')
-        self.assertEqual(self.pa_4.encode('Hughes'), 'HS,')
-        self.assertEqual(self.pa_4.encode('Hull'), 'HL,')
-        self.assertEqual(self.pa_4.encode('Hulme'), 'HLM,')
-        self.assertEqual(self.pa_4.encode('Hume'), 'HM,')
-        self.assertEqual(self.pa_4.encode('Hundertumark'), 'HNTR,')
-        self.assertEqual(self.pa_4.encode('Hundley'), 'HNTL,')
-        self.assertEqual(self.pa_4.encode('Hungerford'), 'HNKR,HNJR')
-        self.assertEqual(self.pa_4.encode('Hunt'), 'HNT,')
-        self.assertEqual(self.pa_4.encode('Hurst'), 'HRST,')
-        self.assertEqual(self.pa_4.encode('Husbands'), 'HSPN,')
-        self.assertEqual(self.pa_4.encode('Hussey'), 'HS,')
-        self.assertEqual(self.pa_4.encode('Husted'), 'HSTT,')
-        self.assertEqual(self.pa_4.encode('Hutchins'), 'HXNS,')
-        self.assertEqual(self.pa_4.encode('Hutchinson'), 'HXNS,')
-        self.assertEqual(self.pa_4.encode('Huttinger'), 'HTNK,HTNJ')
-        self.assertEqual(self.pa_4.encode('Huybertsen'), 'HPRT,')
-        self.assertEqual(self.pa_4.encode('Iddenden'), 'ATNT,')
-        self.assertEqual(self.pa_4.encode('Ingraham'), 'ANKR,')
-        self.assertEqual(self.pa_4.encode('Ives'), 'AFS,')
-        self.assertEqual(self.pa_4.encode('Jackson'), 'JKSN,AKSN')
-        self.assertEqual(self.pa_4.encode('Jacob'), 'JKP,AKP')
-        self.assertEqual(self.pa_4.encode('Jans'), 'JNS,ANS')
-        self.assertEqual(self.pa_4.encode('Jenkins'), 'JNKN,ANKN')
-        self.assertEqual(self.pa_4.encode('Jewett'), 'JT,AT')
-        self.assertEqual(self.pa_4.encode('Jewitt'), 'JT,AT')
-        self.assertEqual(self.pa_4.encode('Johnson'), 'JNSN,ANSN')
-        self.assertEqual(self.pa_4.encode('Jones'), 'JNS,ANS')
-        self.assertEqual(self.pa_4.encode('Josephine'), 'JSFN,HSFN')
-        self.assertEqual(self.pa_4.encode('Judd'), 'JT,AT')
-        self.assertEqual(self.pa_4.encode('June'), 'JN,AN')
-        self.assertEqual(self.pa_4.encode('Kamarowska'), 'KMRS,')
-        self.assertEqual(self.pa_4.encode('Kay'), 'K,')
-        self.assertEqual(self.pa_4.encode('Kelley'), 'KL,')
-        self.assertEqual(self.pa_4.encode('Kelly'), 'KL,')
-        self.assertEqual(self.pa_4.encode('Keymber'), 'KMPR,')
-        self.assertEqual(self.pa_4.encode('Keynes'), 'KNS,')
-        self.assertEqual(self.pa_4.encode('Kilham'), 'KLM,')
-        self.assertEqual(self.pa_4.encode('Kim'), 'KM,')
-        self.assertEqual(self.pa_4.encode('Kimball'), 'KMPL,')
-        self.assertEqual(self.pa_4.encode('King'), 'KNK,')
-        self.assertEqual(self.pa_4.encode('Kinsey'), 'KNS,')
-        self.assertEqual(self.pa_4.encode('Kirk'), 'KRK,')
-        self.assertEqual(self.pa_4.encode('Kirton'), 'KRTN,')
-        self.assertEqual(self.pa_4.encode('Kistler'), 'KSTL,')
-        self.assertEqual(self.pa_4.encode('Kitchen'), 'KXN,')
-        self.assertEqual(self.pa_4.encode('Kitson'), 'KTSN,')
-        self.assertEqual(self.pa_4.encode('Klett'), 'KLT,')
-        self.assertEqual(self.pa_4.encode('Kline'), 'KLN,')
-        self.assertEqual(self.pa_4.encode('Knapp'), 'NP,')
-        self.assertEqual(self.pa_4.encode('Knight'), 'NT,')
-        self.assertEqual(self.pa_4.encode('Knote'), 'NT,')
-        self.assertEqual(self.pa_4.encode('Knott'), 'NT,')
-        self.assertEqual(self.pa_4.encode('Knox'), 'NKS,')
-        self.assertEqual(self.pa_4.encode('Koeller'), 'KLR,')
-        self.assertEqual(self.pa_4.encode('La Pointe'), 'LPNT,')
-        self.assertEqual(self.pa_4.encode('LaPlante'), 'LPLN,')
-        self.assertEqual(self.pa_4.encode('Laimbeer'), 'LMPR,')
-        self.assertEqual(self.pa_4.encode('Lamb'), 'LMP,')
-        self.assertEqual(self.pa_4.encode('Lambertson'), 'LMPR,')
-        self.assertEqual(self.pa_4.encode('Lancto'), 'LNKT,')
-        self.assertEqual(self.pa_4.encode('Landry'), 'LNTR,')
-        self.assertEqual(self.pa_4.encode('Lane'), 'LN,')
-        self.assertEqual(self.pa_4.encode('Langendyck'), 'LNJN,LNKN')
-        self.assertEqual(self.pa_4.encode('Langer'), 'LNKR,LNJR')
-        self.assertEqual(self.pa_4.encode('Langford'), 'LNKF,')
-        self.assertEqual(self.pa_4.encode('Lantersee'), 'LNTR,')
-        self.assertEqual(self.pa_4.encode('Laquer'), 'LKR,')
-        self.assertEqual(self.pa_4.encode('Larkin'), 'LRKN,')
-        self.assertEqual(self.pa_4.encode('Latham'), 'LTM,')
-        self.assertEqual(self.pa_4.encode('Lathrop'), 'L0RP,LTRP')
-        self.assertEqual(self.pa_4.encode('Lauter'), 'LTR,')
-        self.assertEqual(self.pa_4.encode('Lawrence'), 'LRNS,')
-        self.assertEqual(self.pa_4.encode('Leach'), 'LK,')
-        self.assertEqual(self.pa_4.encode('Leager'), 'LKR,LJR')
-        self.assertEqual(self.pa_4.encode('Learned'), 'LRNT,')
-        self.assertEqual(self.pa_4.encode('Leavitt'), 'LFT,')
-        self.assertEqual(self.pa_4.encode('Lee'), 'L,')
-        self.assertEqual(self.pa_4.encode('Leete'), 'LT,')
-        self.assertEqual(self.pa_4.encode('Leggett'), 'LKT,')
-        self.assertEqual(self.pa_4.encode('Leland'), 'LLNT,')
-        self.assertEqual(self.pa_4.encode('Leonard'), 'LNRT,')
-        self.assertEqual(self.pa_4.encode('Lester'), 'LSTR,')
-        self.assertEqual(self.pa_4.encode('Lestrange'), 'LSTR,')
-        self.assertEqual(self.pa_4.encode('Lethem'), 'L0M,LTM')
-        self.assertEqual(self.pa_4.encode('Levine'), 'LFN,')
-        self.assertEqual(self.pa_4.encode('Lewes'), 'LS,')
-        self.assertEqual(self.pa_4.encode('Lewis'), 'LS,')
-        self.assertEqual(self.pa_4.encode('Lincoln'), 'LNKL,')
-        self.assertEqual(self.pa_4.encode('Lindsey'), 'LNTS,')
-        self.assertEqual(self.pa_4.encode('Linher'), 'LNR,')
-        self.assertEqual(self.pa_4.encode('Lippet'), 'LPT,')
-        self.assertEqual(self.pa_4.encode('Lippincott'), 'LPNK,')
-        self.assertEqual(self.pa_4.encode('Lockwood'), 'LKT,')
-        self.assertEqual(self.pa_4.encode('Loines'), 'LNS,')
-        self.assertEqual(self.pa_4.encode('Lombard'), 'LMPR,')
-        self.assertEqual(self.pa_4.encode('Long'), 'LNK,')
-        self.assertEqual(self.pa_4.encode('Longespee'), 'LNJS,LNKS')
-        self.assertEqual(self.pa_4.encode('Look'), 'LK,')
-        self.assertEqual(self.pa_4.encode('Lounsberry'), 'LNSP,')
-        self.assertEqual(self.pa_4.encode('Lounsbury'), 'LNSP,')
-        self.assertEqual(self.pa_4.encode('Louthe'), 'L0,LT')
-        self.assertEqual(self.pa_4.encode('Loveyne'), 'LFN,')
-        self.assertEqual(self.pa_4.encode('Lowe'), 'L,')
-        self.assertEqual(self.pa_4.encode('Ludlam'), 'LTLM,')
-        self.assertEqual(self.pa_4.encode('Lumbard'), 'LMPR,')
-        self.assertEqual(self.pa_4.encode('Lund'), 'LNT,')
-        self.assertEqual(self.pa_4.encode('Luno'), 'LN,')
-        self.assertEqual(self.pa_4.encode('Lutz'), 'LTS,')
-        self.assertEqual(self.pa_4.encode('Lydia'), 'LT,')
-        self.assertEqual(self.pa_4.encode('Lynne'), 'LN,')
-        self.assertEqual(self.pa_4.encode('Lyon'), 'LN,')
-        self.assertEqual(self.pa_4.encode('MacAlpin'), 'MKLP,')
-        self.assertEqual(self.pa_4.encode('MacBricc'), 'MKPR,')
-        self.assertEqual(self.pa_4.encode('MacCrinan'), 'MKRN,')
-        self.assertEqual(self.pa_4.encode('MacKenneth'), 'MKN0,MKNT')
-        self.assertEqual(self.pa_4.encode('MacMael nam Bo'), 'MKML,')
-        self.assertEqual(self.pa_4.encode('MacMurchada'), 'MKMR,')
-        self.assertEqual(self.pa_4.encode('Macomber'), 'MKMP,')
-        self.assertEqual(self.pa_4.encode('Macy'), 'MS,')
-        self.assertEqual(self.pa_4.encode('Magnus'), 'MNS,MKNS')
-        self.assertEqual(self.pa_4.encode('Mahien'), 'MHN,')
-        self.assertEqual(self.pa_4.encode('Malmains'), 'MLMN,')
-        self.assertEqual(self.pa_4.encode('Malory'), 'MLR,')
-        self.assertEqual(self.pa_4.encode('Mancinelli'), 'MNSN,')
-        self.assertEqual(self.pa_4.encode('Mancini'), 'MNSN,')
-        self.assertEqual(self.pa_4.encode('Mann'), 'MN,')
-        self.assertEqual(self.pa_4.encode('Manning'), 'MNNK,')
-        self.assertEqual(self.pa_4.encode('Manter'), 'MNTR,')
-        self.assertEqual(self.pa_4.encode('Marion'), 'MRN,')
-        self.assertEqual(self.pa_4.encode('Marley'), 'MRL,')
-        self.assertEqual(self.pa_4.encode('Marmion'), 'MRMN,')
-        self.assertEqual(self.pa_4.encode('Marquart'), 'MRKR,')
-        self.assertEqual(self.pa_4.encode('Marsh'), 'MRX,')
-        self.assertEqual(self.pa_4.encode('Marshal'), 'MRXL,')
-        self.assertEqual(self.pa_4.encode('Marshall'), 'MRXL,')
-        self.assertEqual(self.pa_4.encode('Martel'), 'MRTL,')
-        self.assertEqual(self.pa_4.encode('Martha'), 'MR0,MRT')
-        self.assertEqual(self.pa_4.encode('Martin'), 'MRTN,')
-        self.assertEqual(self.pa_4.encode('Marturano'), 'MRTR,')
-        self.assertEqual(self.pa_4.encode('Marvin'), 'MRFN,')
-        self.assertEqual(self.pa_4.encode('Mary'), 'MR,')
-        self.assertEqual(self.pa_4.encode('Mason'), 'MSN,')
-        self.assertEqual(self.pa_4.encode('Maxwell'), 'MKSL,')
-        self.assertEqual(self.pa_4.encode('Mayhew'), 'MH,MHF')
-        self.assertEqual(self.pa_4.encode('McAllaster'), 'MKLS,')
-        self.assertEqual(self.pa_4.encode('McAllister'), 'MKLS,')
-        self.assertEqual(self.pa_4.encode('McConnell'), 'MKNL,')
-        self.assertEqual(self.pa_4.encode('McFarland'), 'MKFR,')
-        self.assertEqual(self.pa_4.encode('McIlroy'), 'MSLR,')
-        self.assertEqual(self.pa_4.encode('McNair'), 'MKNR,')
-        self.assertEqual(self.pa_4.encode('McNair-Landry'), 'MKNR,')
-        self.assertEqual(self.pa_4.encode('McRaven'), 'MKRF,')
-        self.assertEqual(self.pa_4.encode('Mead'), 'MT,')
-        self.assertEqual(self.pa_4.encode('Meade'), 'MT,')
-        self.assertEqual(self.pa_4.encode('Meck'), 'MK,')
-        self.assertEqual(self.pa_4.encode('Melton'), 'MLTN,')
-        self.assertEqual(self.pa_4.encode('Mendenhall'), 'MNTN,')
-        self.assertEqual(self.pa_4.encode('Mering'), 'MRNK,')
-        self.assertEqual(self.pa_4.encode('Merrick'), 'MRK,')
-        self.assertEqual(self.pa_4.encode('Merry'), 'MR,')
-        self.assertEqual(self.pa_4.encode('Mighill'), 'ML,')
-        self.assertEqual(self.pa_4.encode('Miller'), 'MLR,')
-        self.assertEqual(self.pa_4.encode('Milton'), 'MLTN,')
-        self.assertEqual(self.pa_4.encode('Mohun'), 'MHN,')
-        self.assertEqual(self.pa_4.encode('Montague'), 'MNTK,')
-        self.assertEqual(self.pa_4.encode('Montboucher'), 'MNTP,')
-        self.assertEqual(self.pa_4.encode('Moore'), 'MR,')
-        self.assertEqual(self.pa_4.encode('Morrel'), 'MRL,')
-        self.assertEqual(self.pa_4.encode('Morrill'), 'MRL,')
-        self.assertEqual(self.pa_4.encode('Morris'), 'MRS,')
-        self.assertEqual(self.pa_4.encode('Morton'), 'MRTN,')
-        self.assertEqual(self.pa_4.encode('Moton'), 'MTN,')
-        self.assertEqual(self.pa_4.encode('Muir'), 'MR,')
-        self.assertEqual(self.pa_4.encode('Mulferd'), 'MLFR,')
-        self.assertEqual(self.pa_4.encode('Mullins'), 'MLNS,')
-        self.assertEqual(self.pa_4.encode('Mulso'), 'MLS,')
-        self.assertEqual(self.pa_4.encode('Munger'), 'MNKR,MNJR')
-        self.assertEqual(self.pa_4.encode('Munt'), 'MNT,')
-        self.assertEqual(self.pa_4.encode('Murchad'), 'MRXT,MRKT')
-        self.assertEqual(self.pa_4.encode('Murdock'), 'MRTK,')
-        self.assertEqual(self.pa_4.encode('Murray'), 'MR,')
-        self.assertEqual(self.pa_4.encode('Muskett'), 'MSKT,')
-        self.assertEqual(self.pa_4.encode('Myers'), 'MRS,')
-        self.assertEqual(self.pa_4.encode('Myrick'), 'MRK,')
-        self.assertEqual(self.pa_4.encode('NORRIS'), 'NRS,')
-        self.assertEqual(self.pa_4.encode('Nayle'), 'NL,')
-        self.assertEqual(self.pa_4.encode('Newcomb'), 'NKMP,')
-        self.assertEqual(self.pa_4.encode('Newcomb(e)'), 'NKMP,')
-        self.assertEqual(self.pa_4.encode('Newkirk'), 'NKRK,')
-        self.assertEqual(self.pa_4.encode('Newton'), 'NTN,')
-        self.assertEqual(self.pa_4.encode('Niles'), 'NLS,')
-        self.assertEqual(self.pa_4.encode('Noble'), 'NPL,')
-        self.assertEqual(self.pa_4.encode('Noel'), 'NL,')
-        self.assertEqual(self.pa_4.encode('Northend'), 'NR0N,NRTN')
-        self.assertEqual(self.pa_4.encode('Norton'), 'NRTN,')
-        self.assertEqual(self.pa_4.encode('Nutter'), 'NTR,')
-        self.assertEqual(self.pa_4.encode('Odding'), 'ATNK,')
-        self.assertEqual(self.pa_4.encode('Odenbaugh'), 'ATNP,')
-        self.assertEqual(self.pa_4.encode('Ogborn'), 'AKPR,')
-        self.assertEqual(self.pa_4.encode('Oppenheimer'), 'APNM,')
-        self.assertEqual(self.pa_4.encode('Otis'), 'ATS,')
-        self.assertEqual(self.pa_4.encode('Oviatt'), 'AFT,')
-        self.assertEqual(self.pa_4.encode('PRUST?'), 'PRST,')
-        self.assertEqual(self.pa_4.encode('Paddock'), 'PTK,')
-        self.assertEqual(self.pa_4.encode('Page'), 'PJ,PK')
-        self.assertEqual(self.pa_4.encode('Paine'), 'PN,')
-        self.assertEqual(self.pa_4.encode('Paist'), 'PST,')
-        self.assertEqual(self.pa_4.encode('Palmer'), 'PLMR,')
-        self.assertEqual(self.pa_4.encode('Park'), 'PRK,')
-        self.assertEqual(self.pa_4.encode('Parker'), 'PRKR,')
-        self.assertEqual(self.pa_4.encode('Parkhurst'), 'PRKR,')
-        self.assertEqual(self.pa_4.encode('Parrat'), 'PRT,')
-        self.assertEqual(self.pa_4.encode('Parsons'), 'PRSN,')
-        self.assertEqual(self.pa_4.encode('Partridge'), 'PRTR,')
-        self.assertEqual(self.pa_4.encode('Pashley'), 'PXL,')
-        self.assertEqual(self.pa_4.encode('Pasley'), 'PSL,')
-        self.assertEqual(self.pa_4.encode('Patrick'), 'PTRK,')
-        self.assertEqual(self.pa_4.encode('Pattee'), 'PT,')
-        self.assertEqual(self.pa_4.encode('Patten'), 'PTN,')
-        self.assertEqual(self.pa_4.encode('Pawley'), 'PL,')
-        self.assertEqual(self.pa_4.encode('Payne'), 'PN,')
-        self.assertEqual(self.pa_4.encode('Peabody'), 'PPT,')
-        self.assertEqual(self.pa_4.encode('Peake'), 'PK,')
-        self.assertEqual(self.pa_4.encode('Pearson'), 'PRSN,')
-        self.assertEqual(self.pa_4.encode('Peat'), 'PT,')
-        self.assertEqual(self.pa_4.encode('Pedersen'), 'PTRS,')
-        self.assertEqual(self.pa_4.encode('Percy'), 'PRS,')
-        self.assertEqual(self.pa_4.encode('Perkins'), 'PRKN,')
-        self.assertEqual(self.pa_4.encode('Perrine'), 'PRN,')
-        self.assertEqual(self.pa_4.encode('Perry'), 'PR,')
-        self.assertEqual(self.pa_4.encode('Peson'), 'PSN,')
-        self.assertEqual(self.pa_4.encode('Peterson'), 'PTRS,')
-        self.assertEqual(self.pa_4.encode('Peyton'), 'PTN,')
-        self.assertEqual(self.pa_4.encode('Phinney'), 'FN,')
-        self.assertEqual(self.pa_4.encode('Pickard'), 'PKRT,')
-        self.assertEqual(self.pa_4.encode('Pierce'), 'PRS,')
-        self.assertEqual(self.pa_4.encode('Pierrepont'), 'PRPN,')
-        self.assertEqual(self.pa_4.encode('Pike'), 'PK,')
-        self.assertEqual(self.pa_4.encode('Pinkham'), 'PNKM,')
-        self.assertEqual(self.pa_4.encode('Pitman'), 'PTMN,')
-        self.assertEqual(self.pa_4.encode('Pitt'), 'PT,')
-        self.assertEqual(self.pa_4.encode('Pitts'), 'PTS,')
-        self.assertEqual(self.pa_4.encode('Plantagenet'), 'PLNT,')
-        self.assertEqual(self.pa_4.encode('Platt'), 'PLT,')
-        self.assertEqual(self.pa_4.encode('Platts'), 'PLTS,')
-        self.assertEqual(self.pa_4.encode('Pleis'), 'PLS,')
-        self.assertEqual(self.pa_4.encode('Pleiss'), 'PLS,')
-        self.assertEqual(self.pa_4.encode('Plisko'), 'PLSK,')
-        self.assertEqual(self.pa_4.encode('Pliskovitch'), 'PLSK,')
-        self.assertEqual(self.pa_4.encode('Plum'), 'PLM,')
-        self.assertEqual(self.pa_4.encode('Plume'), 'PLM,')
-        self.assertEqual(self.pa_4.encode('Poitou'), 'PT,')
-        self.assertEqual(self.pa_4.encode('Pomeroy'), 'PMR,')
-        self.assertEqual(self.pa_4.encode('Poretiers'), 'PRTR,')
-        self.assertEqual(self.pa_4.encode('Pote'), 'PT,')
-        self.assertEqual(self.pa_4.encode('Potter'), 'PTR,')
-        self.assertEqual(self.pa_4.encode('Potts'), 'PTS,')
-        self.assertEqual(self.pa_4.encode('Powell'), 'PL,')
-        self.assertEqual(self.pa_4.encode('Pratt'), 'PRT,')
-        self.assertEqual(self.pa_4.encode('Presbury'), 'PRSP,')
-        self.assertEqual(self.pa_4.encode('Priest'), 'PRST,')
-        self.assertEqual(self.pa_4.encode('Prindle'), 'PRNT,')
-        self.assertEqual(self.pa_4.encode('Prior'), 'PRR,')
-        self.assertEqual(self.pa_4.encode('Profumo'), 'PRFM,')
-        self.assertEqual(self.pa_4.encode('Purdy'), 'PRT,')
-        self.assertEqual(self.pa_4.encode('Purefoy'), 'PRF,')
-        self.assertEqual(self.pa_4.encode('Pury'), 'PR,')
-        self.assertEqual(self.pa_4.encode('Quinter'), 'KNTR,')
-        self.assertEqual(self.pa_4.encode('Rachel'), 'RXL,RKL')
-        self.assertEqual(self.pa_4.encode('Rand'), 'RNT,')
-        self.assertEqual(self.pa_4.encode('Rankin'), 'RNKN,')
-        self.assertEqual(self.pa_4.encode('Ravenscroft'), 'RFNS,')
-        self.assertEqual(self.pa_4.encode('Raynsford'), 'RNSF,')
-        self.assertEqual(self.pa_4.encode('Reakirt'), 'RKRT,')
-        self.assertEqual(self.pa_4.encode('Reaves'), 'RFS,')
-        self.assertEqual(self.pa_4.encode('Reeves'), 'RFS,')
-        self.assertEqual(self.pa_4.encode('Reichert'), 'RXRT,RKRT')
-        self.assertEqual(self.pa_4.encode('Remmele'), 'RML,')
-        self.assertEqual(self.pa_4.encode('Reynolds'), 'RNLT,')
-        self.assertEqual(self.pa_4.encode('Rhodes'), 'RTS,')
-        self.assertEqual(self.pa_4.encode('Richards'), 'RXRT,RKRT')
-        self.assertEqual(self.pa_4.encode('Richardson'), 'RXRT,RKRT')
-        self.assertEqual(self.pa_4.encode('Ring'), 'RNK,')
-        self.assertEqual(self.pa_4.encode('Roberts'), 'RPRT,')
-        self.assertEqual(self.pa_4.encode('Robertson'), 'RPRT,')
-        self.assertEqual(self.pa_4.encode('Robson'), 'RPSN,')
-        self.assertEqual(self.pa_4.encode('Rodie'), 'RT,')
-        self.assertEqual(self.pa_4.encode('Rody'), 'RT,')
-        self.assertEqual(self.pa_4.encode('Rogers'), 'RKRS,RJRS')
-        self.assertEqual(self.pa_4.encode('Ross'), 'RS,')
-        self.assertEqual(self.pa_4.encode('Rosslevin'), 'RSLF,')
-        self.assertEqual(self.pa_4.encode('Rowland'), 'RLNT,')
-        self.assertEqual(self.pa_4.encode('Ruehl'), 'RL,')
-        self.assertEqual(self.pa_4.encode('Russell'), 'RSL,')
-        self.assertEqual(self.pa_4.encode('Ruth'), 'R0,RT')
-        self.assertEqual(self.pa_4.encode('Ryan'), 'RN,')
-        self.assertEqual(self.pa_4.encode('Rysse'), 'RS,')
-        self.assertEqual(self.pa_4.encode('Sadler'), 'STLR,')
-        self.assertEqual(self.pa_4.encode('Salmon'), 'SLMN,')
-        self.assertEqual(self.pa_4.encode('Salter'), 'SLTR,')
-        self.assertEqual(self.pa_4.encode('Salvatore'), 'SLFT,')
-        self.assertEqual(self.pa_4.encode('Sanders'), 'SNTR,')
-        self.assertEqual(self.pa_4.encode('Sands'), 'SNTS,')
-        self.assertEqual(self.pa_4.encode('Sanford'), 'SNFR,')
-        self.assertEqual(self.pa_4.encode('Sanger'), 'SNKR,SNJR')
-        self.assertEqual(self.pa_4.encode('Sargent'), 'SRJN,SRKN')
-        self.assertEqual(self.pa_4.encode('Saunders'), 'SNTR,')
-        self.assertEqual(self.pa_4.encode('Schilling'), 'XLNK,')
-        self.assertEqual(self.pa_4.encode('Schlegel'), 'XLKL,SLKL')
-        self.assertEqual(self.pa_4.encode('Scott'), 'SKT,')
-        self.assertEqual(self.pa_4.encode('Sears'), 'SRS,')
-        self.assertEqual(self.pa_4.encode('Segersall'), 'SJRS,SKRS')
-        self.assertEqual(self.pa_4.encode('Senecal'), 'SNKL,')
-        self.assertEqual(self.pa_4.encode('Sergeaux'), 'SRJ,SRK')
-        self.assertEqual(self.pa_4.encode('Severance'), 'SFRN,')
-        self.assertEqual(self.pa_4.encode('Sharp'), 'XRP,')
-        self.assertEqual(self.pa_4.encode('Sharpe'), 'XRP,')
-        self.assertEqual(self.pa_4.encode('Sharply'), 'XRPL,')
-        self.assertEqual(self.pa_4.encode('Shatswell'), 'XTSL,')
-        self.assertEqual(self.pa_4.encode('Shattack'), 'XTK,')
-        self.assertEqual(self.pa_4.encode('Shattock'), 'XTK,')
-        self.assertEqual(self.pa_4.encode('Shattuck'), 'XTK,')
-        self.assertEqual(self.pa_4.encode('Shaw'), 'X,XF')
-        self.assertEqual(self.pa_4.encode('Sheldon'), 'XLTN,')
-        self.assertEqual(self.pa_4.encode('Sherman'), 'XRMN,')
-        self.assertEqual(self.pa_4.encode('Shinn'), 'XN,')
-        self.assertEqual(self.pa_4.encode('Shirford'), 'XRFR,')
-        self.assertEqual(self.pa_4.encode('Shirley'), 'XRL,')
-        self.assertEqual(self.pa_4.encode('Shively'), 'XFL,')
-        self.assertEqual(self.pa_4.encode('Shoemaker'), 'XMKR,')
-        self.assertEqual(self.pa_4.encode('Short'), 'XRT,')
-        self.assertEqual(self.pa_4.encode('Shotwell'), 'XTL,')
-        self.assertEqual(self.pa_4.encode('Shute'), 'XT,')
-        self.assertEqual(self.pa_4.encode('Sibley'), 'SPL,')
-        self.assertEqual(self.pa_4.encode('Silver'), 'SLFR,')
-        self.assertEqual(self.pa_4.encode('Simes'), 'SMS,')
-        self.assertEqual(self.pa_4.encode('Sinken'), 'SNKN,')
-        self.assertEqual(self.pa_4.encode('Sinn'), 'SN,')
-        self.assertEqual(self.pa_4.encode('Skelton'), 'SKLT,')
-        self.assertEqual(self.pa_4.encode('Skiffe'), 'SKF,')
-        self.assertEqual(self.pa_4.encode('Skotkonung'), 'SKTK,')
-        self.assertEqual(self.pa_4.encode('Slade'), 'SLT,XLT')
-        self.assertEqual(self.pa_4.encode('Slye'), 'SL,XL')
-        self.assertEqual(self.pa_4.encode('Smedley'), 'SMTL,XMTL')
-        self.assertEqual(self.pa_4.encode('Smith'), 'SM0,XMT')
-        self.assertEqual(self.pa_4.encode('Snow'), 'SN,XNF')
-        self.assertEqual(self.pa_4.encode('Soole'), 'SL,')
-        self.assertEqual(self.pa_4.encode('Soule'), 'SL,')
-        self.assertEqual(self.pa_4.encode('Southworth'), 'S0R0,STRT')
-        self.assertEqual(self.pa_4.encode('Sowles'), 'SLS,')
-        self.assertEqual(self.pa_4.encode('Spalding'), 'SPLT,')
-        self.assertEqual(self.pa_4.encode('Spark'), 'SPRK,')
-        self.assertEqual(self.pa_4.encode('Spencer'), 'SPNS,')
-        self.assertEqual(self.pa_4.encode('Sperry'), 'SPR,')
-        self.assertEqual(self.pa_4.encode('Spofford'), 'SPFR,')
-        self.assertEqual(self.pa_4.encode('Spooner'), 'SPNR,')
-        self.assertEqual(self.pa_4.encode('Sprague'), 'SPRK,')
-        self.assertEqual(self.pa_4.encode('Springer'), 'SPRN,')
-        self.assertEqual(self.pa_4.encode('St. Clair'), 'STKL,')
-        self.assertEqual(self.pa_4.encode('St. Claire'), 'STKL,')
-        self.assertEqual(self.pa_4.encode('St. Leger'), 'STLJ,STLK')
-        self.assertEqual(self.pa_4.encode('St. Omer'), 'STMR,')
-        self.assertEqual(self.pa_4.encode('Stafferton'), 'STFR,')
-        self.assertEqual(self.pa_4.encode('Stafford'), 'STFR,')
-        self.assertEqual(self.pa_4.encode('Stalham'), 'STLM,')
-        self.assertEqual(self.pa_4.encode('Stanford'), 'STNF,')
-        self.assertEqual(self.pa_4.encode('Stanton'), 'STNT,')
-        self.assertEqual(self.pa_4.encode('Star'), 'STR,')
-        self.assertEqual(self.pa_4.encode('Starbuck'), 'STRP,')
-        self.assertEqual(self.pa_4.encode('Starkey'), 'STRK,')
-        self.assertEqual(self.pa_4.encode('Starkweather'), 'STRK,')
-        self.assertEqual(self.pa_4.encode('Stearns'), 'STRN,')
-        self.assertEqual(self.pa_4.encode('Stebbins'), 'STPN,')
-        self.assertEqual(self.pa_4.encode('Steele'), 'STL,')
-        self.assertEqual(self.pa_4.encode('Stephenson'), 'STFN,')
-        self.assertEqual(self.pa_4.encode('Stevens'), 'STFN,')
-        self.assertEqual(self.pa_4.encode('Stoddard'), 'STTR,')
-        self.assertEqual(self.pa_4.encode('Stodder'), 'STTR,')
-        self.assertEqual(self.pa_4.encode('Stone'), 'STN,')
-        self.assertEqual(self.pa_4.encode('Storey'), 'STR,')
-        self.assertEqual(self.pa_4.encode('Storrada'), 'STRT,')
-        self.assertEqual(self.pa_4.encode('Story'), 'STR,')
-        self.assertEqual(self.pa_4.encode('Stoughton'), 'STFT,')
-        self.assertEqual(self.pa_4.encode('Stout'), 'STT,')
-        self.assertEqual(self.pa_4.encode('Stow'), 'ST,STF')
-        self.assertEqual(self.pa_4.encode('Strong'), 'STRN,')
-        self.assertEqual(self.pa_4.encode('Strutt'), 'STRT,')
-        self.assertEqual(self.pa_4.encode('Stryker'), 'STRK,')
-        self.assertEqual(self.pa_4.encode('Stuckeley'), 'STKL,')
-        self.assertEqual(self.pa_4.encode('Sturges'), 'STRJ,STRK')
-        self.assertEqual(self.pa_4.encode('Sturgess'), 'STRJ,STRK')
-        self.assertEqual(self.pa_4.encode('Sturgis'), 'STRJ,STRK')
-        self.assertEqual(self.pa_4.encode('Suevain'), 'SFN,')
-        self.assertEqual(self.pa_4.encode('Sulyard'), 'SLRT,')
-        self.assertEqual(self.pa_4.encode('Sutton'), 'STN,')
-        self.assertEqual(self.pa_4.encode('Swain'), 'SN,XN')
-        self.assertEqual(self.pa_4.encode('Swayne'), 'SN,XN')
-        self.assertEqual(self.pa_4.encode('Swayze'), 'SS,XTS')
-        self.assertEqual(self.pa_4.encode('Swift'), 'SFT,XFT')
-        self.assertEqual(self.pa_4.encode('Taber'), 'TPR,')
-        self.assertEqual(self.pa_4.encode('Talcott'), 'TLKT,')
-        self.assertEqual(self.pa_4.encode('Tarne'), 'TRN,')
-        self.assertEqual(self.pa_4.encode('Tatum'), 'TTM,')
-        self.assertEqual(self.pa_4.encode('Taverner'), 'TFRN,')
-        self.assertEqual(self.pa_4.encode('Taylor'), 'TLR,')
-        self.assertEqual(self.pa_4.encode('Tenney'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Thayer'), '0R,TR')
-        self.assertEqual(self.pa_4.encode('Thember'), '0MPR,TMPR')
-        self.assertEqual(self.pa_4.encode('Thomas'), 'TMS,')
-        self.assertEqual(self.pa_4.encode('Thompson'), 'TMPS,')
-        self.assertEqual(self.pa_4.encode('Thorne'), '0RN,TRN')
-        self.assertEqual(self.pa_4.encode('Thornycraft'), '0RNK,TRNK')
-        self.assertEqual(self.pa_4.encode('Threlkeld'), '0RLK,TRLK')
-        self.assertEqual(self.pa_4.encode('Throckmorton'), '0RKM,TRKM')
-        self.assertEqual(self.pa_4.encode('Thwaits'), '0TS,TTS')
-        self.assertEqual(self.pa_4.encode('Tibbetts'), 'TPTS,')
-        self.assertEqual(self.pa_4.encode('Tidd'), 'TT,')
-        self.assertEqual(self.pa_4.encode('Tierney'), 'TRN,')
-        self.assertEqual(self.pa_4.encode('Tilley'), 'TL,')
-        self.assertEqual(self.pa_4.encode('Tillieres'), 'TLRS,')
-        self.assertEqual(self.pa_4.encode('Tilly'), 'TL,')
-        self.assertEqual(self.pa_4.encode('Tisdale'), 'TSTL,')
-        self.assertEqual(self.pa_4.encode('Titus'), 'TTS,')
-        self.assertEqual(self.pa_4.encode('Tobey'), 'TP,')
-        self.assertEqual(self.pa_4.encode('Tooker'), 'TKR,')
-        self.assertEqual(self.pa_4.encode('Towle'), 'TL,')
-        self.assertEqual(self.pa_4.encode('Towne'), 'TN,')
-        self.assertEqual(self.pa_4.encode('Townsend'), 'TNSN,')
-        self.assertEqual(self.pa_4.encode('Treadway'), 'TRT,')
-        self.assertEqual(self.pa_4.encode('Trelawney'), 'TRLN,')
-        self.assertEqual(self.pa_4.encode('Trinder'), 'TRNT,')
-        self.assertEqual(self.pa_4.encode('Tripp'), 'TRP,')
-        self.assertEqual(self.pa_4.encode('Trippe'), 'TRP,')
-        self.assertEqual(self.pa_4.encode('Trott'), 'TRT,')
-        self.assertEqual(self.pa_4.encode('True'), 'TR,')
-        self.assertEqual(self.pa_4.encode('Trussebut'), 'TRSP,')
-        self.assertEqual(self.pa_4.encode('Tucker'), 'TKR,')
-        self.assertEqual(self.pa_4.encode('Turgeon'), 'TRJN,TRKN')
-        self.assertEqual(self.pa_4.encode('Turner'), 'TRNR,')
-        self.assertEqual(self.pa_4.encode('Tuttle'), 'TTL,')
-        self.assertEqual(self.pa_4.encode('Tyler'), 'TLR,')
-        self.assertEqual(self.pa_4.encode('Tylle'), 'TL,')
-        self.assertEqual(self.pa_4.encode('Tyrrel'), 'TRL,')
-        self.assertEqual(self.pa_4.encode('Ua Tuathail'), 'AT0L,ATTL')
-        self.assertEqual(self.pa_4.encode('Ulrich'), 'ALRX,ALRK')
-        self.assertEqual(self.pa_4.encode('Underhill'), 'ANTR,')
-        self.assertEqual(self.pa_4.encode('Underwood'), 'ANTR,')
-        self.assertEqual(self.pa_4.encode('Unknown'), 'ANKN,')
-        self.assertEqual(self.pa_4.encode('Valentine'), 'FLNT,')
-        self.assertEqual(self.pa_4.encode('Van Egmond'), 'FNKM,')
-        self.assertEqual(self.pa_4.encode('Van der Beek'), 'FNTR,')
-        self.assertEqual(self.pa_4.encode('Vaughan'), 'FKN,')
-        self.assertEqual(self.pa_4.encode('Vermenlen'), 'FRMN,')
-        self.assertEqual(self.pa_4.encode('Vincent'), 'FNSN,')
-        self.assertEqual(self.pa_4.encode('Volentine'), 'FLNT,')
-        self.assertEqual(self.pa_4.encode('Wagner'), 'AKNR,FKNR')
-        self.assertEqual(self.pa_4.encode('Waite'), 'AT,FT')
-        self.assertEqual(self.pa_4.encode('Walker'), 'ALKR,FLKR')
-        self.assertEqual(self.pa_4.encode('Walter'), 'ALTR,FLTR')
-        self.assertEqual(self.pa_4.encode('Wandell'), 'ANTL,FNTL')
-        self.assertEqual(self.pa_4.encode('Wandesford'), 'ANTS,FNTS')
-        self.assertEqual(self.pa_4.encode('Warbleton'), 'ARPL,FRPL')
-        self.assertEqual(self.pa_4.encode('Ward'), 'ART,FRT')
-        self.assertEqual(self.pa_4.encode('Warde'), 'ART,FRT')
-        self.assertEqual(self.pa_4.encode('Ware'), 'AR,FR')
-        self.assertEqual(self.pa_4.encode('Wareham'), 'ARHM,FRHM')
-        self.assertEqual(self.pa_4.encode('Warner'), 'ARNR,FRNR')
-        self.assertEqual(self.pa_4.encode('Warren'), 'ARN,FRN')
-        self.assertEqual(self.pa_4.encode('Washburne'), 'AXPR,FXPR')
-        self.assertEqual(self.pa_4.encode('Waterbury'), 'ATRP,FTRP')
-        self.assertEqual(self.pa_4.encode('Watson'), 'ATSN,FTSN')
-        self.assertEqual(self.pa_4.encode('WatsonEllithorpe'), 'ATSN,FTSN')
-        self.assertEqual(self.pa_4.encode('Watts'), 'ATS,FTS')
-        self.assertEqual(self.pa_4.encode('Wayne'), 'AN,FN')
-        self.assertEqual(self.pa_4.encode('Webb'), 'AP,FP')
-        self.assertEqual(self.pa_4.encode('Weber'), 'APR,FPR')
-        self.assertEqual(self.pa_4.encode('Webster'), 'APST,FPST')
-        self.assertEqual(self.pa_4.encode('Weed'), 'AT,FT')
-        self.assertEqual(self.pa_4.encode('Weeks'), 'AKS,FKS')
-        self.assertEqual(self.pa_4.encode('Wells'), 'ALS,FLS')
-        self.assertEqual(self.pa_4.encode('Wenzell'), 'ANSL,FNTS')
-        self.assertEqual(self.pa_4.encode('West'), 'AST,FST')
-        self.assertEqual(self.pa_4.encode('Westbury'), 'ASTP,FSTP')
-        self.assertEqual(self.pa_4.encode('Whatlocke'), 'ATLK,')
-        self.assertEqual(self.pa_4.encode('Wheeler'), 'ALR,')
-        self.assertEqual(self.pa_4.encode('Whiston'), 'ASTN,')
-        self.assertEqual(self.pa_4.encode('White'), 'AT,')
-        self.assertEqual(self.pa_4.encode('Whitman'), 'ATMN,')
-        self.assertEqual(self.pa_4.encode('Whiton'), 'ATN,')
-        self.assertEqual(self.pa_4.encode('Whitson'), 'ATSN,')
-        self.assertEqual(self.pa_4.encode('Wickes'), 'AKS,FKS')
-        self.assertEqual(self.pa_4.encode('Wilbur'), 'ALPR,FLPR')
-        self.assertEqual(self.pa_4.encode('Wilcotes'), 'ALKT,FLKT')
-        self.assertEqual(self.pa_4.encode('Wilkinson'), 'ALKN,FLKN')
-        self.assertEqual(self.pa_4.encode('Willets'), 'ALTS,FLTS')
-        self.assertEqual(self.pa_4.encode('Willett'), 'ALT,FLT')
-        self.assertEqual(self.pa_4.encode('Willey'), 'AL,FL')
-        self.assertEqual(self.pa_4.encode('Williams'), 'ALMS,FLMS')
-        self.assertEqual(self.pa_4.encode('Williston'), 'ALST,FLST')
-        self.assertEqual(self.pa_4.encode('Wilson'), 'ALSN,FLSN')
-        self.assertEqual(self.pa_4.encode('Wimes'), 'AMS,FMS')
-        self.assertEqual(self.pa_4.encode('Winch'), 'ANX,FNK')
-        self.assertEqual(self.pa_4.encode('Winegar'), 'ANKR,FNKR')
-        self.assertEqual(self.pa_4.encode('Wing'), 'ANK,FNK')
-        self.assertEqual(self.pa_4.encode('Winsley'), 'ANSL,FNSL')
-        self.assertEqual(self.pa_4.encode('Winslow'), 'ANSL,FNSL')
-        self.assertEqual(self.pa_4.encode('Winthrop'), 'AN0R,FNTR')
-        self.assertEqual(self.pa_4.encode('Wise'), 'AS,FS')
-        self.assertEqual(self.pa_4.encode('Wood'), 'AT,FT')
-        self.assertEqual(self.pa_4.encode('Woodbridge'), 'ATPR,FTPR')
-        self.assertEqual(self.pa_4.encode('Woodward'), 'ATRT,FTRT')
-        self.assertEqual(self.pa_4.encode('Wooley'), 'AL,FL')
-        self.assertEqual(self.pa_4.encode('Woolley'), 'AL,FL')
-        self.assertEqual(self.pa_4.encode('Worth'), 'AR0,FRT')
-        self.assertEqual(self.pa_4.encode('Worthen'), 'AR0N,FRTN')
-        self.assertEqual(self.pa_4.encode('Worthley'), 'AR0L,FRTL')
-        self.assertEqual(self.pa_4.encode('Wright'), 'RT,')
-        self.assertEqual(self.pa_4.encode('Wyer'), 'AR,FR')
-        self.assertEqual(self.pa_4.encode('Wyere'), 'AR,FR')
-        self.assertEqual(self.pa_4.encode('Wynkoop'), 'ANKP,FNKP')
-        self.assertEqual(self.pa_4.encode('Yarnall'), 'ARNL,')
-        self.assertEqual(self.pa_4.encode('Yeoman'), 'AMN,')
-        self.assertEqual(self.pa_4.encode('Yorke'), 'ARK,')
-        self.assertEqual(self.pa_4.encode('Young'), 'ANK,')
-        self.assertEqual(self.pa_4.encode('ab Wennonwen'), 'APNN,')
-        self.assertEqual(self.pa_4.encode('ap Llewellyn'), 'APLL,')
-        self.assertEqual(self.pa_4.encode('ap Lorwerth'), 'APLR,')
-        self.assertEqual(self.pa_4.encode("d'Angouleme"), 'TNKL,')
-        self.assertEqual(self.pa_4.encode('de Audeham'), 'TTHM,')
-        self.assertEqual(self.pa_4.encode('de Bavant'), 'TPFN,')
-        self.assertEqual(self.pa_4.encode('de Beauchamp'), 'TPXM,TPKM')
-        self.assertEqual(self.pa_4.encode('de Beaumont'), 'TPMN,')
-        self.assertEqual(self.pa_4.encode('de Bolbec'), 'TPLP,')
-        self.assertEqual(self.pa_4.encode('de Braiose'), 'TPRS,')
-        self.assertEqual(self.pa_4.encode('de Braose'), 'TPRS,')
-        self.assertEqual(self.pa_4.encode('de Briwere'), 'TPRR,')
-        self.assertEqual(self.pa_4.encode('de Cantelou'), 'TKNT,')
-        self.assertEqual(self.pa_4.encode('de Cherelton'), 'TXRL,TKRL')
-        self.assertEqual(self.pa_4.encode('de Cherleton'), 'TXRL,TKRL')
-        self.assertEqual(self.pa_4.encode('de Clare'), 'TKLR,')
-        self.assertEqual(self.pa_4.encode('de Claremont'), 'TKLR,')
-        self.assertEqual(self.pa_4.encode('de Clifford'), 'TKLF,')
-        self.assertEqual(self.pa_4.encode('de Colville'), 'TKLF,')
-        self.assertEqual(self.pa_4.encode('de Courtenay'), 'TKRT,')
-        self.assertEqual(self.pa_4.encode('de Fauconberg'), 'TFKN,')
-        self.assertEqual(self.pa_4.encode('de Forest'), 'TFRS,')
-        self.assertEqual(self.pa_4.encode('de Gai'), 'TK,')
-        self.assertEqual(self.pa_4.encode('de Grey'), 'TKR,')
-        self.assertEqual(self.pa_4.encode('de Guernons'), 'TKRN,')
-        self.assertEqual(self.pa_4.encode('de Haia'), 'T,')
-        self.assertEqual(self.pa_4.encode('de Harcourt'), 'TRKR,')
-        self.assertEqual(self.pa_4.encode('de Hastings'), 'TSTN,')
-        self.assertEqual(self.pa_4.encode('de Hoke'), 'TK,')
-        self.assertEqual(self.pa_4.encode('de Hooch'), 'TK,')
-        self.assertEqual(self.pa_4.encode('de Hugelville'), 'TJLF,TKLF')
-        self.assertEqual(self.pa_4.encode('de Huntingdon'), 'TNTN,')
-        self.assertEqual(self.pa_4.encode('de Insula'), 'TNSL,')
-        self.assertEqual(self.pa_4.encode('de Keynes'), 'TKNS,')
-        self.assertEqual(self.pa_4.encode('de Lacy'), 'TLS,')
-        self.assertEqual(self.pa_4.encode('de Lexington'), 'TLKS,')
-        self.assertEqual(self.pa_4.encode('de Lusignan'), 'TLSN,TLSK')
-        self.assertEqual(self.pa_4.encode('de Manvers'), 'TMNF,')
-        self.assertEqual(self.pa_4.encode('de Montagu'), 'TMNT,')
-        self.assertEqual(self.pa_4.encode('de Montault'), 'TMNT,')
-        self.assertEqual(self.pa_4.encode('de Montfort'), 'TMNT,')
-        self.assertEqual(self.pa_4.encode('de Mortimer'), 'TMRT,')
-        self.assertEqual(self.pa_4.encode('de Morville'), 'TMRF,')
-        self.assertEqual(self.pa_4.encode('de Morvois'), 'TMRF,')
-        self.assertEqual(self.pa_4.encode('de Neufmarche'), 'TNFM,')
-        self.assertEqual(self.pa_4.encode('de Odingsells'), 'TTNK,')
-        self.assertEqual(self.pa_4.encode('de Odyngsells'), 'TTNK,')
-        self.assertEqual(self.pa_4.encode('de Percy'), 'TPRS,')
-        self.assertEqual(self.pa_4.encode('de Pierrepont'), 'TPRP,')
-        self.assertEqual(self.pa_4.encode('de Plessetis'), 'TPLS,')
-        self.assertEqual(self.pa_4.encode('de Porhoet'), 'TPRT,')
-        self.assertEqual(self.pa_4.encode('de Prouz'), 'TPRS,')
-        self.assertEqual(self.pa_4.encode('de Quincy'), 'TKNS,')
-        self.assertEqual(self.pa_4.encode('de Ripellis'), 'TRPL,')
-        self.assertEqual(self.pa_4.encode('de Ros'), 'TRS,')
-        self.assertEqual(self.pa_4.encode('de Salisbury'), 'TSLS,')
-        self.assertEqual(self.pa_4.encode('de Sanford'), 'TSNF,')
-        self.assertEqual(self.pa_4.encode('de Somery'), 'TSMR,')
-        self.assertEqual(self.pa_4.encode('de St. Hilary'), 'TSTL,')
-        self.assertEqual(self.pa_4.encode('de St. Liz'), 'TSTL,')
-        self.assertEqual(self.pa_4.encode('de Sutton'), 'TSTN,')
-        self.assertEqual(self.pa_4.encode('de Toeni'), 'TTN,')
-        self.assertEqual(self.pa_4.encode('de Tony'), 'TTN,')
-        self.assertEqual(self.pa_4.encode('de Umfreville'), 'TMFR,')
-        self.assertEqual(self.pa_4.encode('de Valognes'), 'TFLN,TFLK')
-        self.assertEqual(self.pa_4.encode('de Vaux'), 'TF,')
-        self.assertEqual(self.pa_4.encode('de Vere'), 'TFR,')
-        self.assertEqual(self.pa_4.encode('de Vermandois'), 'TFRM,')
-        self.assertEqual(self.pa_4.encode('de Vernon'), 'TFRN,')
-        self.assertEqual(self.pa_4.encode('de Vexin'), 'TFKS,')
-        self.assertEqual(self.pa_4.encode('de Vitre'), 'TFTR,')
-        self.assertEqual(self.pa_4.encode('de Wandesford'), 'TNTS,')
-        self.assertEqual(self.pa_4.encode('de Warenne'), 'TRN,')
-        self.assertEqual(self.pa_4.encode('de Westbury'), 'TSTP,')
-        self.assertEqual(self.pa_4.encode('di Saluzzo'), 'TSLS,TSLT')
-        self.assertEqual(self.pa_4.encode('fitz Alan'), 'FTSL,')
-        self.assertEqual(self.pa_4.encode('fitz Geoffrey'), 'FTSJ,FTSK')
-        self.assertEqual(self.pa_4.encode('fitz Herbert'), 'FTSR,')
-        self.assertEqual(self.pa_4.encode('fitz John'), 'FTSJ,')
-        self.assertEqual(self.pa_4.encode('fitz Patrick'), 'FTSP,')
-        self.assertEqual(self.pa_4.encode('fitz Payn'), 'FTSP,')
-        self.assertEqual(self.pa_4.encode('fitz Piers'), 'FTSP,')
-        self.assertEqual(self.pa_4.encode('fitz Randolph'), 'FTSR,')
-        self.assertEqual(self.pa_4.encode('fitz Richard'), 'FTSR,')
-        self.assertEqual(self.pa_4.encode('fitz Robert'), 'FTSR,')
-        self.assertEqual(self.pa_4.encode('fitz Roy'), 'FTSR,')
-        self.assertEqual(self.pa_4.encode('fitz Scrob'), 'FTSS,')
-        self.assertEqual(self.pa_4.encode('fitz Walter'), 'FTSL,')
-        self.assertEqual(self.pa_4.encode('fitz Warin'), 'FTSR,')
-        self.assertEqual(self.pa_4.encode('fitz Williams'), 'FTSL,')
-        self.assertEqual(self.pa_4.encode('la Zouche'), 'LSX,LSK')
-        self.assertEqual(self.pa_4.encode('le Botiller'), 'LPTL,')
-        self.assertEqual(self.pa_4.encode('le Despenser'), 'LTSP,')
-        self.assertEqual(self.pa_4.encode('le deSpencer'), 'LTSP,')
-        self.assertEqual(self.pa_4.encode('of Allendale'), 'AFLN,')
-        self.assertEqual(self.pa_4.encode('of Angouleme'), 'AFNK,')
-        self.assertEqual(self.pa_4.encode('of Anjou'), 'AFNJ,')
-        self.assertEqual(self.pa_4.encode('of Aquitaine'), 'AFKT,')
-        self.assertEqual(self.pa_4.encode('of Aumale'), 'AFML,')
-        self.assertEqual(self.pa_4.encode('of Bavaria'), 'AFPF,')
-        self.assertEqual(self.pa_4.encode('of Boulogne'), 'AFPL,')
-        self.assertEqual(self.pa_4.encode('of Brittany'), 'AFPR,')
-        self.assertEqual(self.pa_4.encode('of Brittary'), 'AFPR,')
-        self.assertEqual(self.pa_4.encode('of Castile'), 'AFKS,')
-        self.assertEqual(self.pa_4.encode('of Chester'), 'AFXS,AFKS')
-        self.assertEqual(self.pa_4.encode('of Clermont'), 'AFKL,')
-        self.assertEqual(self.pa_4.encode('of Cologne'), 'AFKL,')
-        self.assertEqual(self.pa_4.encode('of Dinan'), 'AFTN,')
-        self.assertEqual(self.pa_4.encode('of Dunbar'), 'AFTN,')
-        self.assertEqual(self.pa_4.encode('of England'), 'AFNK,')
-        self.assertEqual(self.pa_4.encode('of Essex'), 'AFSK,')
-        self.assertEqual(self.pa_4.encode('of Falaise'), 'AFFL,')
-        self.assertEqual(self.pa_4.encode('of Flanders'), 'AFFL,')
-        self.assertEqual(self.pa_4.encode('of Galloway'), 'AFKL,')
-        self.assertEqual(self.pa_4.encode('of Germany'), 'AFKR,AFJR')
-        self.assertEqual(self.pa_4.encode('of Gloucester'), 'AFKL,')
-        self.assertEqual(self.pa_4.encode('of Heristal'), 'AFRS,')
-        self.assertEqual(self.pa_4.encode('of Hungary'), 'AFNK,')
-        self.assertEqual(self.pa_4.encode('of Huntington'), 'AFNT,')
-        self.assertEqual(self.pa_4.encode('of Kiev'), 'AFKF,')
-        self.assertEqual(self.pa_4.encode('of Kuno'), 'AFKN,')
-        self.assertEqual(self.pa_4.encode('of Landen'), 'AFLN,')
-        self.assertEqual(self.pa_4.encode('of Laon'), 'AFLN,')
-        self.assertEqual(self.pa_4.encode('of Leinster'), 'AFLN,')
-        self.assertEqual(self.pa_4.encode('of Lens'), 'AFLN,')
-        self.assertEqual(self.pa_4.encode('of Lorraine'), 'AFLR,')
-        self.assertEqual(self.pa_4.encode('of Louvain'), 'AFLF,')
-        self.assertEqual(self.pa_4.encode('of Mercia'), 'AFMR,')
-        self.assertEqual(self.pa_4.encode('of Metz'), 'AFMT,')
-        self.assertEqual(self.pa_4.encode('of Meulan'), 'AFML,')
-        self.assertEqual(self.pa_4.encode('of Nass'), 'AFNS,')
-        self.assertEqual(self.pa_4.encode('of Normandy'), 'AFNR,')
-        self.assertEqual(self.pa_4.encode('of Ohningen'), 'AFNN,')
-        self.assertEqual(self.pa_4.encode('of Orleans'), 'AFRL,')
-        self.assertEqual(self.pa_4.encode('of Poitou'), 'AFPT,')
-        self.assertEqual(self.pa_4.encode('of Polotzk'), 'AFPL,')
-        self.assertEqual(self.pa_4.encode('of Provence'), 'AFPR,')
-        self.assertEqual(self.pa_4.encode('of Ringelheim'), 'AFRN,')
-        self.assertEqual(self.pa_4.encode('of Salisbury'), 'AFSL,')
-        self.assertEqual(self.pa_4.encode('of Saxony'), 'AFSK,')
-        self.assertEqual(self.pa_4.encode('of Scotland'), 'AFSK,')
-        self.assertEqual(self.pa_4.encode('of Senlis'), 'AFSN,')
-        self.assertEqual(self.pa_4.encode('of Stafford'), 'AFST,')
-        self.assertEqual(self.pa_4.encode('of Swabia'), 'AFSP,')
-        self.assertEqual(self.pa_4.encode('of Tongres'), 'AFTN,')
-        self.assertEqual(self.pa_4.encode('of the Tributes'), 'AF0T,AFTT')
-        self.assertEqual(self.pa_4.encode('unknown'), 'ANKN,')
-        self.assertEqual(self.pa_4.encode('van der Gouda'), 'FNTR,')
-        self.assertEqual(self.pa_4.encode('von Adenbaugh'), 'FNTN,')
-        self.assertEqual(self.pa_4.encode('ARCHITure'), 'ARKT,')
-        self.assertEqual(self.pa_4.encode('Arnoff'), 'ARNF,')
-        self.assertEqual(self.pa_4.encode('Arnow'), 'ARN,ARNF')
-        self.assertEqual(self.pa_4.encode('DANGER'), 'TNJR,TNKR')
-        self.assertEqual(self.pa_4.encode('Jankelowicz'), 'JNKL,ANKL')
-        self.assertEqual(self.pa_4.encode('MANGER'), 'MNJR,MNKR')
-        self.assertEqual(self.pa_4.encode('McClellan'), 'MKLL,')
-        self.assertEqual(self.pa_4.encode('McHugh'), 'MK,')
-        self.assertEqual(self.pa_4.encode('McLaughlin'), 'MKLF,')
-        self.assertEqual(self.pa_4.encode('ORCHEStra'), 'ARKS,')
-        self.assertEqual(self.pa_4.encode('ORCHID'), 'ARKT,')
-        self.assertEqual(self.pa_4.encode('Pierce'), 'PRS,')
-        self.assertEqual(self.pa_4.encode('RANGER'), 'RNJR,RNKR')
-        self.assertEqual(self.pa_4.encode('Schlesinger'), 'XLSN,SLSN')
-        self.assertEqual(self.pa_4.encode('Uomo'), 'AM,')
-        self.assertEqual(self.pa_4.encode('Vasserman'), 'FSRM,')
-        self.assertEqual(self.pa_4.encode('Wasserman'), 'ASRM,FSRM')
-        self.assertEqual(self.pa_4.encode('Womo'), 'AM,FM')
-        self.assertEqual(self.pa_4.encode('Yankelovich'), 'ANKL,')
-        self.assertEqual(self.pa_4.encode('accede'), 'AKST,')
-        self.assertEqual(self.pa_4.encode('accident'), 'AKST,')
-        self.assertEqual(self.pa_4.encode('adelsheim'), 'ATLS,')
-        self.assertEqual(self.pa_4.encode('aged'), 'AJT,AKT')
-        self.assertEqual(self.pa_4.encode('ageless'), 'AJLS,AKLS')
-        self.assertEqual(self.pa_4.encode('agency'), 'AJNS,AKNS')
-        self.assertEqual(self.pa_4.encode('aghast'), 'AKST,')
-        self.assertEqual(self.pa_4.encode('agio'), 'AJ,AK')
-        self.assertEqual(self.pa_4.encode('agrimony'), 'AKRM,')
-        self.assertEqual(self.pa_4.encode('album'), 'ALPM,')
-        self.assertEqual(self.pa_4.encode('alcmene'), 'ALKM,')
-        self.assertEqual(self.pa_4.encode('alehouse'), 'ALHS,')
-        self.assertEqual(self.pa_4.encode('antique'), 'ANTK,')
-        self.assertEqual(self.pa_4.encode('artois'), 'ART,ARTS')
-        self.assertEqual(self.pa_4.encode('automation'), 'ATMX,')
-        self.assertEqual(self.pa_4.encode('bacchus'), 'PKS,')
-        self.assertEqual(self.pa_4.encode('bacci'), 'PX,')
-        self.assertEqual(self.pa_4.encode('bajador'), 'PJTR,PHTR')
-        self.assertEqual(self.pa_4.encode('bellocchio'), 'PLX,')
-        self.assertEqual(self.pa_4.encode('bertucci'), 'PRTX,')
-        self.assertEqual(self.pa_4.encode('biaggi'), 'PJ,PK')
-        self.assertEqual(self.pa_4.encode('bough'), 'P,')
-        self.assertEqual(self.pa_4.encode('breaux'), 'PR,')
-        self.assertEqual(self.pa_4.encode('broughton'), 'PRTN,')
-        self.assertEqual(self.pa_4.encode('cabrillo'), 'KPRL,KPR')
-        self.assertEqual(self.pa_4.encode('caesar'), 'SSR,')
-        self.assertEqual(self.pa_4.encode('cagney'), 'KKN,')
-        self.assertEqual(self.pa_4.encode('campbell'), 'KMPL,')
-        self.assertEqual(self.pa_4.encode('carlisle'), 'KRLL,')
-        self.assertEqual(self.pa_4.encode('carlysle'), 'KRLL,')
-        self.assertEqual(self.pa_4.encode('chemistry'), 'KMST,')
-        self.assertEqual(self.pa_4.encode('chianti'), 'KNT,')
-        self.assertEqual(self.pa_4.encode('chorus'), 'KRS,')
-        self.assertEqual(self.pa_4.encode('cough'), 'KF,')
-        self.assertEqual(self.pa_4.encode('czerny'), 'SRN,XRN')
-        self.assertEqual(self.pa_4.encode('deffenbacher'), 'TFNP,')
-        self.assertEqual(self.pa_4.encode('dumb'), 'TM,')
-        self.assertEqual(self.pa_4.encode('edgar'), 'ATKR,')
-        self.assertEqual(self.pa_4.encode('edge'), 'AJ,')
-        self.assertEqual(self.pa_4.encode('filipowicz'), 'FLPT,FLPF')
-        self.assertEqual(self.pa_4.encode('focaccia'), 'FKX,')
-        self.assertEqual(self.pa_4.encode('gallegos'), 'KLKS,KKS')
-        self.assertEqual(self.pa_4.encode('gambrelli'), 'KMPR,')
-        self.assertEqual(self.pa_4.encode('geithain'), 'K0N,JTN')
-        self.assertEqual(self.pa_4.encode('ghiradelli'), 'JRTL,')
-        self.assertEqual(self.pa_4.encode('ghislane'), 'JLN,')
-        self.assertEqual(self.pa_4.encode('gough'), 'KF,')
-        self.assertEqual(self.pa_4.encode('hartheim'), 'HR0M,HRTM')
-        self.assertEqual(self.pa_4.encode('heimsheim'), 'HMSM,')
-        self.assertEqual(self.pa_4.encode('hochmeier'), 'HKMR,')
-        self.assertEqual(self.pa_4.encode('hugh'), 'H,')
-        self.assertEqual(self.pa_4.encode('hunger'), 'HNKR,HNJR')
-        self.assertEqual(self.pa_4.encode('hungry'), 'HNKR,')
-        self.assertEqual(self.pa_4.encode('island'), 'ALNT,')
-        self.assertEqual(self.pa_4.encode('isle'), 'AL,')
-        self.assertEqual(self.pa_4.encode('jose'), 'HS,')
-        self.assertEqual(self.pa_4.encode('laugh'), 'LF,')
-        self.assertEqual(self.pa_4.encode('mac caffrey'), 'MKFR,')
-        self.assertEqual(self.pa_4.encode('mac gregor'), 'MKRK,')
-        self.assertEqual(self.pa_4.encode('pegnitz'), 'PNTS,PKNT')
-        self.assertEqual(self.pa_4.encode('piskowitz'), 'PSKT,PSKF')
-        self.assertEqual(self.pa_4.encode('queen'), 'KN,')
-        self.assertEqual(self.pa_4.encode('raspberry'), 'RSPR,')
-        self.assertEqual(self.pa_4.encode('resnais'), 'RSN,RSNS')
-        self.assertEqual(self.pa_4.encode('rogier'), 'RJ,RJR')
-        self.assertEqual(self.pa_4.encode('rough'), 'RF,')
-        self.assertEqual(self.pa_4.encode('san jacinto'), 'SNHS,')
-        self.assertEqual(self.pa_4.encode('schenker'), 'XNKR,SKNK')
-        self.assertEqual(self.pa_4.encode('schermerhorn'), 'XRMR,SKRM')
-        self.assertEqual(self.pa_4.encode('schmidt'), 'XMT,SMT')
-        self.assertEqual(self.pa_4.encode('schneider'), 'XNTR,SNTR')
-        self.assertEqual(self.pa_4.encode('school'), 'SKL,')
-        self.assertEqual(self.pa_4.encode('schooner'), 'SKNR,')
-        self.assertEqual(self.pa_4.encode('schrozberg'), 'XRSP,SRSP')
-        self.assertEqual(self.pa_4.encode('schulman'), 'XLMN,')
-        self.assertEqual(self.pa_4.encode('schwabach'), 'XPK,XFPK')
-        self.assertEqual(self.pa_4.encode('schwarzach'), 'XRSK,XFRT')
-        self.assertEqual(self.pa_4.encode('smith'), 'SM0,XMT')
-        self.assertEqual(self.pa_4.encode('snider'), 'SNTR,XNTR')
-        self.assertEqual(self.pa_4.encode('succeed'), 'SKST,')
-        self.assertEqual(self.pa_4.encode('sugarcane'), 'XKRK,SKRK')
-        self.assertEqual(self.pa_4.encode('svobodka'), 'SFPT,')
-        self.assertEqual(self.pa_4.encode('tagliaro'), 'TKLR,TLR')
-        self.assertEqual(self.pa_4.encode('thames'), 'TMS,')
-        self.assertEqual(self.pa_4.encode('theilheim'), '0LM,TLM')
-        self.assertEqual(self.pa_4.encode('thomas'), 'TMS,')
-        self.assertEqual(self.pa_4.encode('thumb'), '0M,TM')
-        self.assertEqual(self.pa_4.encode('tichner'), 'TXNR,TKNR')
-        self.assertEqual(self.pa_4.encode('tough'), 'TF,')
-        self.assertEqual(self.pa_4.encode('umbrella'), 'AMPR,')
-        self.assertEqual(self.pa_4.encode('vilshofen'), 'FLXF,')
-        self.assertEqual(self.pa_4.encode('von schuller'), 'FNXL,')
-        self.assertEqual(self.pa_4.encode('wachtler'), 'AKTL,FKTL')
-        self.assertEqual(self.pa_4.encode('wechsler'), 'AKSL,FKSL')
-        self.assertEqual(self.pa_4.encode('weikersheim'), 'AKRS,FKRS')
-        self.assertEqual(self.pa_4.encode('zhao'), 'J,')
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.pa_4.encode('') == ','
+        assert self.pa_4.encode('ALLERTON') == 'ALRT,'
+        assert self.pa_4.encode('Acton') == 'AKTN,'
+        assert self.pa_4.encode('Adams') == 'ATMS,'
+        assert self.pa_4.encode('Aggar') == 'AKR,'
+        assert self.pa_4.encode('Ahl') == 'AL,'
+        assert self.pa_4.encode('Aiken') == 'AKN,'
+        assert self.pa_4.encode('Alan') == 'ALN,'
+        assert self.pa_4.encode('Alcock') == 'ALKK,'
+        assert self.pa_4.encode('Alden') == 'ALTN,'
+        assert self.pa_4.encode('Aldham') == 'ALTM,'
+        assert self.pa_4.encode('Allen') == 'ALN,'
+        assert self.pa_4.encode('Allerton') == 'ALRT,'
+        assert self.pa_4.encode('Alsop') == 'ALSP,'
+        assert self.pa_4.encode('Alwein') == 'ALN,'
+        assert self.pa_4.encode('Ambler') == 'AMPL,'
+        assert self.pa_4.encode('Andevill') == 'ANTF,'
+        assert self.pa_4.encode('Andrews') == 'ANTR,'
+        assert self.pa_4.encode('Andreyco') == 'ANTR,'
+        assert self.pa_4.encode('Andriesse') == 'ANTR,'
+        assert self.pa_4.encode('Angier') == 'ANJ,ANJR'
+        assert self.pa_4.encode('Annabel') == 'ANPL,'
+        assert self.pa_4.encode('Anne') == 'AN,'
+        assert self.pa_4.encode('Anstye') == 'ANST,'
+        assert self.pa_4.encode('Appling') == 'APLN,'
+        assert self.pa_4.encode('Apuke') == 'APK,'
+        assert self.pa_4.encode('Arnold') == 'ARNL,'
+        assert self.pa_4.encode('Ashby') == 'AXP,'
+        assert self.pa_4.encode('Astwood') == 'ASTT,'
+        assert self.pa_4.encode('Atkinson') == 'ATKN,'
+        assert self.pa_4.encode('Audley') == 'ATL,'
+        assert self.pa_4.encode('Austin') == 'ASTN,'
+        assert self.pa_4.encode('Avenal') == 'AFNL,'
+        assert self.pa_4.encode('Ayer') == 'AR,'
+        assert self.pa_4.encode('Ayot') == 'AT,'
+        assert self.pa_4.encode('Babbitt') == 'PPT,'
+        assert self.pa_4.encode('Bachelor') == 'PXLR,PKLR'
+        assert self.pa_4.encode('Bachelour') == 'PXLR,PKLR'
+        assert self.pa_4.encode('Bailey') == 'PL,'
+        assert self.pa_4.encode('Baivel') == 'PFL,'
+        assert self.pa_4.encode('Baker') == 'PKR,'
+        assert self.pa_4.encode('Baldwin') == 'PLTN,'
+        assert self.pa_4.encode('Balsley') == 'PLSL,'
+        assert self.pa_4.encode('Barber') == 'PRPR,'
+        assert self.pa_4.encode('Barker') == 'PRKR,'
+        assert self.pa_4.encode('Barlow') == 'PRL,PRLF'
+        assert self.pa_4.encode('Barnard') == 'PRNR,'
+        assert self.pa_4.encode('Barnes') == 'PRNS,'
+        assert self.pa_4.encode('Barnsley') == 'PRNS,'
+        assert self.pa_4.encode('Barouxis') == 'PRKS,'
+        assert self.pa_4.encode('Bartlet') == 'PRTL,'
+        assert self.pa_4.encode('Basley') == 'PSL,'
+        assert self.pa_4.encode('Basset') == 'PST,'
+        assert self.pa_4.encode('Bassett') == 'PST,'
+        assert self.pa_4.encode('Batchlor') == 'PXLR,'
+        assert self.pa_4.encode('Bates') == 'PTS,'
+        assert self.pa_4.encode('Batson') == 'PTSN,'
+        assert self.pa_4.encode('Bayes') == 'PS,'
+        assert self.pa_4.encode('Bayley') == 'PL,'
+        assert self.pa_4.encode('Beale') == 'PL,'
+        assert self.pa_4.encode('Beauchamp') == 'PXMP,PKMP'
+        assert self.pa_4.encode('Beauclerc') == 'PKLR,'
+        assert self.pa_4.encode('Beech') == 'PK,'
+        assert self.pa_4.encode('Beers') == 'PRS,'
+        assert self.pa_4.encode('Beke') == 'PK,'
+        assert self.pa_4.encode('Belcher') == 'PLXR,PLKR'
+        assert self.pa_4.encode('Benjamin') == 'PNJM,'
+        assert self.pa_4.encode('Benningham') == 'PNNK,'
+        assert self.pa_4.encode('Bereford') == 'PRFR,'
+        assert self.pa_4.encode('Bergen') == 'PRJN,PRKN'
+        assert self.pa_4.encode('Berkeley') == 'PRKL,'
+        assert self.pa_4.encode('Berry') == 'PR,'
+        assert self.pa_4.encode('Besse') == 'PS,'
+        assert self.pa_4.encode('Bessey') == 'PS,'
+        assert self.pa_4.encode('Bessiles') == 'PSLS,'
+        assert self.pa_4.encode('Bigelow') == 'PJL,PKLF'
+        assert self.pa_4.encode('Bigg') == 'PK,'
+        assert self.pa_4.encode('Bigod') == 'PKT,'
+        assert self.pa_4.encode('Billings') == 'PLNK,'
+        assert self.pa_4.encode('Bimper') == 'PMPR,'
+        assert self.pa_4.encode('Binker') == 'PNKR,'
+        assert self.pa_4.encode('Birdsill') == 'PRTS,'
+        assert self.pa_4.encode('Bishop') == 'PXP,'
+        assert self.pa_4.encode('Black') == 'PLK,'
+        assert self.pa_4.encode('Blagge') == 'PLK,'
+        assert self.pa_4.encode('Blake') == 'PLK,'
+        assert self.pa_4.encode('Blanck') == 'PLNK,'
+        assert self.pa_4.encode('Bledsoe') == 'PLTS,'
+        assert self.pa_4.encode('Blennerhasset') == 'PLNR,'
+        assert self.pa_4.encode('Blessing') == 'PLSN,'
+        assert self.pa_4.encode('Blewett') == 'PLT,'
+        assert self.pa_4.encode('Bloctgoed') == 'PLKT,'
+        assert self.pa_4.encode('Bloetgoet') == 'PLTK,'
+        assert self.pa_4.encode('Bloodgood') == 'PLTK,'
+        assert self.pa_4.encode('Blossom') == 'PLSM,'
+        assert self.pa_4.encode('Blount') == 'PLNT,'
+        assert self.pa_4.encode('Bodine') == 'PTN,'
+        assert self.pa_4.encode('Bodman') == 'PTMN,'
+        assert self.pa_4.encode('BonCoeur') == 'PNKR,'
+        assert self.pa_4.encode('Bond') == 'PNT,'
+        assert self.pa_4.encode('Boscawen') == 'PSKN,'
+        assert self.pa_4.encode('Bosworth') == 'PSR0,PSRT'
+        assert self.pa_4.encode('Bouchier') == 'PX,PKR'
+        assert self.pa_4.encode('Bowne') == 'PN,'
+        assert self.pa_4.encode('Bradbury') == 'PRTP,'
+        assert self.pa_4.encode('Bradder') == 'PRTR,'
+        assert self.pa_4.encode('Bradford') == 'PRTF,'
+        assert self.pa_4.encode('Bradstreet') == 'PRTS,'
+        assert self.pa_4.encode('Braham') == 'PRHM,'
+        assert self.pa_4.encode('Brailsford') == 'PRLS,'
+        assert self.pa_4.encode('Brainard') == 'PRNR,'
+        assert self.pa_4.encode('Brandish') == 'PRNT,'
+        assert self.pa_4.encode('Braun') == 'PRN,'
+        assert self.pa_4.encode('Brecc') == 'PRK,'
+        assert self.pa_4.encode('Brent') == 'PRNT,'
+        assert self.pa_4.encode('Brenton') == 'PRNT,'
+        assert self.pa_4.encode('Briggs') == 'PRKS,'
+        assert self.pa_4.encode('Brigham') == 'PRM,'
+        assert self.pa_4.encode('Brobst') == 'PRPS,'
+        assert self.pa_4.encode('Brome') == 'PRM,'
+        assert self.pa_4.encode('Bronson') == 'PRNS,'
+        assert self.pa_4.encode('Brooks') == 'PRKS,'
+        assert self.pa_4.encode('Brouillard') == 'PRLR,'
+        assert self.pa_4.encode('Brown') == 'PRN,'
+        assert self.pa_4.encode('Browne') == 'PRN,'
+        assert self.pa_4.encode('Brownell') == 'PRNL,'
+        assert self.pa_4.encode('Bruley') == 'PRL,'
+        assert self.pa_4.encode('Bryant') == 'PRNT,'
+        assert self.pa_4.encode('Brzozowski') == 'PRSS,PRTS'
+        assert self.pa_4.encode('Buide') == 'PT,'
+        assert self.pa_4.encode('Bulmer') == 'PLMR,'
+        assert self.pa_4.encode('Bunker') == 'PNKR,'
+        assert self.pa_4.encode('Burden') == 'PRTN,'
+        assert self.pa_4.encode('Burge') == 'PRJ,PRK'
+        assert self.pa_4.encode('Burgoyne') == 'PRKN,'
+        assert self.pa_4.encode('Burke') == 'PRK,'
+        assert self.pa_4.encode('Burnett') == 'PRNT,'
+        assert self.pa_4.encode('Burpee') == 'PRP,'
+        assert self.pa_4.encode('Bursley') == 'PRSL,'
+        assert self.pa_4.encode('Burton') == 'PRTN,'
+        assert self.pa_4.encode('Bushnell') == 'PXNL,'
+        assert self.pa_4.encode('Buss') == 'PS,'
+        assert self.pa_4.encode('Buswell') == 'PSL,'
+        assert self.pa_4.encode('Butler') == 'PTLR,'
+        assert self.pa_4.encode('Calkin') == 'KLKN,'
+        assert self.pa_4.encode('Canada') == 'KNT,'
+        assert self.pa_4.encode('Canmore') == 'KNMR,'
+        assert self.pa_4.encode('Canney') == 'KN,'
+        assert self.pa_4.encode('Capet') == 'KPT,'
+        assert self.pa_4.encode('Card') == 'KRT,'
+        assert self.pa_4.encode('Carman') == 'KRMN,'
+        assert self.pa_4.encode('Carpenter') == 'KRPN,'
+        assert self.pa_4.encode('Cartwright') == 'KRTR,'
+        assert self.pa_4.encode('Casey') == 'KS,'
+        assert self.pa_4.encode('Catterfield') == 'KTRF,'
+        assert self.pa_4.encode('Ceeley') == 'SL,'
+        assert self.pa_4.encode('Chambers') == 'XMPR,'
+        assert self.pa_4.encode('Champion') == 'XMPN,'
+        assert self.pa_4.encode('Chapman') == 'XPMN,'
+        assert self.pa_4.encode('Chase') == 'XS,'
+        assert self.pa_4.encode('Cheney') == 'XN,'
+        assert self.pa_4.encode('Chetwynd') == 'XTNT,'
+        assert self.pa_4.encode('Chevalier') == 'XFL,XFLR'
+        assert self.pa_4.encode('Chillingsworth') == 'XLNK,'
+        assert self.pa_4.encode('Christie') == 'KRST,'
+        assert self.pa_4.encode('Chubbuck') == 'XPK,'
+        assert self.pa_4.encode('Church') == 'XRX,XRK'
+        assert self.pa_4.encode('Clark') == 'KLRK,'
+        assert self.pa_4.encode('Clarke') == 'KLRK,'
+        assert self.pa_4.encode('Cleare') == 'KLR,'
+        assert self.pa_4.encode('Clement') == 'KLMN,'
+        assert self.pa_4.encode('Clerke') == 'KLRK,'
+        assert self.pa_4.encode('Clibben') == 'KLPN,'
+        assert self.pa_4.encode('Clifford') == 'KLFR,'
+        assert self.pa_4.encode('Clivedon') == 'KLFT,'
+        assert self.pa_4.encode('Close') == 'KLS,'
+        assert self.pa_4.encode('Clothilde') == 'KL0L,KLTL'
+        assert self.pa_4.encode('Cobb') == 'KP,'
+        assert self.pa_4.encode('Coburn') == 'KPRN,'
+        assert self.pa_4.encode('Coburne') == 'KPRN,'
+        assert self.pa_4.encode('Cocke') == 'KK,'
+        assert self.pa_4.encode('Coffin') == 'KFN,'
+        assert self.pa_4.encode('Coffyn') == 'KFN,'
+        assert self.pa_4.encode('Colborne') == 'KLPR,'
+        assert self.pa_4.encode('Colby') == 'KLP,'
+        assert self.pa_4.encode('Cole') == 'KL,'
+        assert self.pa_4.encode('Coleman') == 'KLMN,'
+        assert self.pa_4.encode('Collier') == 'KL,KLR'
+        assert self.pa_4.encode('Compton') == 'KMPT,'
+        assert self.pa_4.encode('Cone') == 'KN,'
+        assert self.pa_4.encode('Cook') == 'KK,'
+        assert self.pa_4.encode('Cooke') == 'KK,'
+        assert self.pa_4.encode('Cooper') == 'KPR,'
+        assert self.pa_4.encode('Copperthwaite') == 'KPR0,KPRT'
+        assert self.pa_4.encode('Corbet') == 'KRPT,'
+        assert self.pa_4.encode('Corell') == 'KRL,'
+        assert self.pa_4.encode('Corey') == 'KR,'
+        assert self.pa_4.encode('Corlies') == 'KRLS,'
+        assert self.pa_4.encode('Corneliszen') == 'KRNL,'
+        assert self.pa_4.encode('Cornelius') == 'KRNL,'
+        assert self.pa_4.encode('Cornwallis') == 'KRNL,'
+        assert self.pa_4.encode('Cosgrove') == 'KSKR,'
+        assert self.pa_4.encode('Count of Brionne') == 'KNTF,'
+        assert self.pa_4.encode('Covill') == 'KFL,'
+        assert self.pa_4.encode('Cowperthwaite') == 'KPR0,KPRT'
+        assert self.pa_4.encode('Cowperwaite') == 'KPRT,'
+        assert self.pa_4.encode('Crane') == 'KRN,'
+        assert self.pa_4.encode('Creagmile') == 'KRKM,'
+        assert self.pa_4.encode('Crew') == 'KR,KRF'
+        assert self.pa_4.encode('Crispin') == 'KRSP,'
+        assert self.pa_4.encode('Crocker') == 'KRKR,'
+        assert self.pa_4.encode('Crockett') == 'KRKT,'
+        assert self.pa_4.encode('Crosby') == 'KRSP,'
+        assert self.pa_4.encode('Crump') == 'KRMP,'
+        assert self.pa_4.encode('Cunningham') == 'KNNK,'
+        assert self.pa_4.encode('Curtis') == 'KRTS,'
+        assert self.pa_4.encode('Cutha') == 'K0,KT'
+        assert self.pa_4.encode('Cutter') == 'KTR,'
+        assert self.pa_4.encode("D'Aubigny") == 'TPN,TPKN'
+        assert self.pa_4.encode('DAVIS') == 'TFS,'
+        assert self.pa_4.encode('Dabinott') == 'TPNT,'
+        assert self.pa_4.encode('Dacre') == 'TKR,'
+        assert self.pa_4.encode('Daggett') == 'TKT,'
+        assert self.pa_4.encode('Danvers') == 'TNFR,'
+        assert self.pa_4.encode('Darcy') == 'TRS,'
+        assert self.pa_4.encode('Davis') == 'TFS,'
+        assert self.pa_4.encode('Dawn') == 'TN,'
+        assert self.pa_4.encode('Dawson') == 'TSN,'
+        assert self.pa_4.encode('Day') == 'T,'
+        assert self.pa_4.encode('Daye') == 'T,'
+        assert self.pa_4.encode('DeGrenier') == 'TKRN,'
+        assert self.pa_4.encode('Dean') == 'TN,'
+        assert self.pa_4.encode('Deekindaugh') == 'TKNT,'
+        assert self.pa_4.encode('Dennis') == 'TNS,'
+        assert self.pa_4.encode('Denny') == 'TN,'
+        assert self.pa_4.encode('Denton') == 'TNTN,'
+        assert self.pa_4.encode('Desborough') == 'TSPR,'
+        assert self.pa_4.encode('Despenser') == 'TSPN,'
+        assert self.pa_4.encode('Deverill') == 'TFRL,'
+        assert self.pa_4.encode('Devine') == 'TFN,'
+        assert self.pa_4.encode('Dexter') == 'TKST,'
+        assert self.pa_4.encode('Dillaway') == 'TL,'
+        assert self.pa_4.encode('Dimmick') == 'TMK,'
+        assert self.pa_4.encode('Dinan') == 'TNN,'
+        assert self.pa_4.encode('Dix') == 'TKS,'
+        assert self.pa_4.encode('Doggett') == 'TKT,'
+        assert self.pa_4.encode('Donahue') == 'TNH,'
+        assert self.pa_4.encode('Dorfman') == 'TRFM,'
+        assert self.pa_4.encode('Dorris') == 'TRS,'
+        assert self.pa_4.encode('Dow') == 'T,TF'
+        assert self.pa_4.encode('Downey') == 'TN,'
+        assert self.pa_4.encode('Downing') == 'TNNK,'
+        assert self.pa_4.encode('Dowsett') == 'TST,'
+        assert self.pa_4.encode('Duck?') == 'TK,'
+        assert self.pa_4.encode('Dudley') == 'TTL,'
+        assert self.pa_4.encode('Duffy') == 'TF,'
+        assert self.pa_4.encode('Dunn') == 'TN,'
+        assert self.pa_4.encode('Dunsterville') == 'TNST,'
+        assert self.pa_4.encode('Durrant') == 'TRNT,'
+        assert self.pa_4.encode('Durrin') == 'TRN,'
+        assert self.pa_4.encode('Dustin') == 'TSTN,'
+        assert self.pa_4.encode('Duston') == 'TSTN,'
+        assert self.pa_4.encode('Eames') == 'AMS,'
+        assert self.pa_4.encode('Early') == 'ARL,'
+        assert self.pa_4.encode('Easty') == 'AST,'
+        assert self.pa_4.encode('Ebbett') == 'APT,'
+        assert self.pa_4.encode('Eberbach') == 'APRP,'
+        assert self.pa_4.encode('Eberhard') == 'APRR,'
+        assert self.pa_4.encode('Eddy') == 'AT,'
+        assert self.pa_4.encode('Edenden') == 'ATNT,'
+        assert self.pa_4.encode('Edwards') == 'ATRT,'
+        assert self.pa_4.encode('Eglinton') == 'AKLN,ALNT'
+        assert self.pa_4.encode('Eliot') == 'ALT,'
+        assert self.pa_4.encode('Elizabeth') == 'ALSP,'
+        assert self.pa_4.encode('Ellis') == 'ALS,'
+        assert self.pa_4.encode('Ellison') == 'ALSN,'
+        assert self.pa_4.encode('Ellot') == 'ALT,'
+        assert self.pa_4.encode('Elny') == 'ALN,'
+        assert self.pa_4.encode('Elsner') == 'ALSN,'
+        assert self.pa_4.encode('Emerson') == 'AMRS,'
+        assert self.pa_4.encode('Empson') == 'AMPS,'
+        assert self.pa_4.encode('Est') == 'AST,'
+        assert self.pa_4.encode('Estabrook') == 'ASTP,'
+        assert self.pa_4.encode('Estes') == 'ASTS,'
+        assert self.pa_4.encode('Estey') == 'AST,'
+        assert self.pa_4.encode('Evans') == 'AFNS,'
+        assert self.pa_4.encode('Fallowell') == 'FLL,'
+        assert self.pa_4.encode('Farnsworth') == 'FRNS,'
+        assert self.pa_4.encode('Feake') == 'FK,'
+        assert self.pa_4.encode('Feke') == 'FK,'
+        assert self.pa_4.encode('Fellows') == 'FLS,'
+        assert self.pa_4.encode('Fettiplace') == 'FTPL,'
+        assert self.pa_4.encode('Finney') == 'FN,'
+        assert self.pa_4.encode('Fischer') == 'FXR,FSKR'
+        assert self.pa_4.encode('Fisher') == 'FXR,'
+        assert self.pa_4.encode('Fisk') == 'FSK,'
+        assert self.pa_4.encode('Fiske') == 'FSK,'
+        assert self.pa_4.encode('Fletcher') == 'FLXR,'
+        assert self.pa_4.encode('Folger') == 'FLKR,FLJR'
+        assert self.pa_4.encode('Foliot') == 'FLT,'
+        assert self.pa_4.encode('Folyot') == 'FLT,'
+        assert self.pa_4.encode('Fones') == 'FNS,'
+        assert self.pa_4.encode('Fordham') == 'FRTM,'
+        assert self.pa_4.encode('Forstner') == 'FRST,'
+        assert self.pa_4.encode('Fosten') == 'FSTN,'
+        assert self.pa_4.encode('Foster') == 'FSTR,'
+        assert self.pa_4.encode('Foulke') == 'FLK,'
+        assert self.pa_4.encode('Fowler') == 'FLR,'
+        assert self.pa_4.encode('Foxwell') == 'FKSL,'
+        assert self.pa_4.encode('Fraley') == 'FRL,'
+        assert self.pa_4.encode('Franceys') == 'FRNS,'
+        assert self.pa_4.encode('Franke') == 'FRNK,'
+        assert self.pa_4.encode('Frascella') == 'FRSL,'
+        assert self.pa_4.encode('Frazer') == 'FRSR,'
+        assert self.pa_4.encode('Fredd') == 'FRT,'
+        assert self.pa_4.encode('Freeman') == 'FRMN,'
+        assert self.pa_4.encode('French') == 'FRNX,FRNK'
+        assert self.pa_4.encode('Freville') == 'FRFL,'
+        assert self.pa_4.encode('Frey') == 'FR,'
+        assert self.pa_4.encode('Frick') == 'FRK,'
+        assert self.pa_4.encode('Frier') == 'FR,FRR'
+        assert self.pa_4.encode('Froe') == 'FR,'
+        assert self.pa_4.encode('Frorer') == 'FRRR,'
+        assert self.pa_4.encode('Frost') == 'FRST,'
+        assert self.pa_4.encode('Frothingham') == 'FR0N,FRTN'
+        assert self.pa_4.encode('Fry') == 'FR,'
+        assert self.pa_4.encode('Gaffney') == 'KFN,'
+        assert self.pa_4.encode('Gage') == 'KJ,KK'
+        assert self.pa_4.encode('Gallion') == 'KLN,'
+        assert self.pa_4.encode('Gallishan') == 'KLXN,'
+        assert self.pa_4.encode('Gamble') == 'KMPL,'
+        assert self.pa_4.encode('Garbrand') == 'KRPR,'
+        assert self.pa_4.encode('Gardner') == 'KRTN,'
+        assert self.pa_4.encode('Garrett') == 'KRT,'
+        assert self.pa_4.encode('Gassner') == 'KSNR,'
+        assert self.pa_4.encode('Gater') == 'KTR,'
+        assert self.pa_4.encode('Gaunt') == 'KNT,'
+        assert self.pa_4.encode('Gayer') == 'KR,'
+        assert self.pa_4.encode('Gerken') == 'KRKN,JRKN'
+        assert self.pa_4.encode('Gerritsen') == 'KRTS,JRTS'
+        assert self.pa_4.encode('Gibbs') == 'KPS,JPS'
+        assert self.pa_4.encode('Giffard') == 'JFRT,KFRT'
+        assert self.pa_4.encode('Gilbert') == 'KLPR,JLPR'
+        assert self.pa_4.encode('Gill') == 'KL,JL'
+        assert self.pa_4.encode('Gilman') == 'KLMN,JLMN'
+        assert self.pa_4.encode('Glass') == 'KLS,'
+        assert self.pa_4.encode('GoddardGifford') == 'KTRJ,'
+        assert self.pa_4.encode('Godfrey') == 'KTFR,'
+        assert self.pa_4.encode('Godwin') == 'KTN,'
+        assert self.pa_4.encode('Goodale') == 'KTL,'
+        assert self.pa_4.encode('Goodnow') == 'KTN,KTNF'
+        assert self.pa_4.encode('Gorham') == 'KRM,'
+        assert self.pa_4.encode('Goseline') == 'KSLN,'
+        assert self.pa_4.encode('Gott') == 'KT,'
+        assert self.pa_4.encode('Gould') == 'KLT,'
+        assert self.pa_4.encode('Grafton') == 'KRFT,'
+        assert self.pa_4.encode('Grant') == 'KRNT,'
+        assert self.pa_4.encode('Gray') == 'KR,'
+        assert self.pa_4.encode('Green') == 'KRN,'
+        assert self.pa_4.encode('Griffin') == 'KRFN,'
+        assert self.pa_4.encode('Grill') == 'KRL,'
+        assert self.pa_4.encode('Grim') == 'KRM,'
+        assert self.pa_4.encode('Grisgonelle') == 'KRSK,'
+        assert self.pa_4.encode('Gross') == 'KRS,'
+        assert self.pa_4.encode('Guba') == 'KP,'
+        assert self.pa_4.encode('Gybbes') == 'KPS,JPS'
+        assert self.pa_4.encode('Haburne') == 'HPRN,'
+        assert self.pa_4.encode('Hackburne') == 'HKPR,'
+        assert self.pa_4.encode('Haddon?') == 'HTN,'
+        assert self.pa_4.encode('Haines') == 'HNS,'
+        assert self.pa_4.encode('Hale') == 'HL,'
+        assert self.pa_4.encode('Hall') == 'HL,'
+        assert self.pa_4.encode('Hallet') == 'HLT,'
+        assert self.pa_4.encode('Hallock') == 'HLK,'
+        assert self.pa_4.encode('Halstead') == 'HLST,'
+        assert self.pa_4.encode('Hammond') == 'HMNT,'
+        assert self.pa_4.encode('Hance') == 'HNS,'
+        assert self.pa_4.encode('Handy') == 'HNT,'
+        assert self.pa_4.encode('Hanson') == 'HNSN,'
+        assert self.pa_4.encode('Harasek') == 'HRSK,'
+        assert self.pa_4.encode('Harcourt') == 'HRKR,'
+        assert self.pa_4.encode('Hardy') == 'HRT,'
+        assert self.pa_4.encode('Harlock') == 'HRLK,'
+        assert self.pa_4.encode('Harris') == 'HRS,'
+        assert self.pa_4.encode('Hartley') == 'HRTL,'
+        assert self.pa_4.encode('Harvey') == 'HRF,'
+        assert self.pa_4.encode('Harvie') == 'HRF,'
+        assert self.pa_4.encode('Harwood') == 'HRT,'
+        assert self.pa_4.encode('Hathaway') == 'H0,HT'
+        assert self.pa_4.encode('Haukeness') == 'HKNS,'
+        assert self.pa_4.encode('Hawkes') == 'HKS,'
+        assert self.pa_4.encode('Hawkhurst') == 'HKRS,'
+        assert self.pa_4.encode('Hawkins') == 'HKNS,'
+        assert self.pa_4.encode('Hawley') == 'HL,'
+        assert self.pa_4.encode('Heald') == 'HLT,'
+        assert self.pa_4.encode('Helsdon') == 'HLST,'
+        assert self.pa_4.encode('Hemenway') == 'HMN,'
+        assert self.pa_4.encode('Hemmenway') == 'HMN,'
+        assert self.pa_4.encode('Henck') == 'HNK,'
+        assert self.pa_4.encode('Henderson') == 'HNTR,'
+        assert self.pa_4.encode('Hendricks') == 'HNTR,'
+        assert self.pa_4.encode('Hersey') == 'HRS,'
+        assert self.pa_4.encode('Hewes') == 'HS,'
+        assert self.pa_4.encode('Heyman') == 'HMN,'
+        assert self.pa_4.encode('Hicks') == 'HKS,'
+        assert self.pa_4.encode('Hidden') == 'HTN,'
+        assert self.pa_4.encode('Higgs') == 'HKS,'
+        assert self.pa_4.encode('Hill') == 'HL,'
+        assert self.pa_4.encode('Hills') == 'HLS,'
+        assert self.pa_4.encode('Hinckley') == 'HNKL,'
+        assert self.pa_4.encode('Hipwell') == 'HPL,'
+        assert self.pa_4.encode('Hobart') == 'HPRT,'
+        assert self.pa_4.encode('Hoben') == 'HPN,'
+        assert self.pa_4.encode('Hoffmann') == 'HFMN,'
+        assert self.pa_4.encode('Hogan') == 'HKN,'
+        assert self.pa_4.encode('Holmes') == 'HLMS,'
+        assert self.pa_4.encode('Hoo') == 'H,'
+        assert self.pa_4.encode('Hooker') == 'HKR,'
+        assert self.pa_4.encode('Hopcott') == 'HPKT,'
+        assert self.pa_4.encode('Hopkins') == 'HPKN,'
+        assert self.pa_4.encode('Hopkinson') == 'HPKN,'
+        assert self.pa_4.encode('Hornsey') == 'HRNS,'
+        assert self.pa_4.encode('Houckgeest') == 'HKJS,HKKS'
+        assert self.pa_4.encode('Hough') == 'H,'
+        assert self.pa_4.encode('Houstin') == 'HSTN,'
+        assert self.pa_4.encode('How') == 'H,HF'
+        assert self.pa_4.encode('Howe') == 'H,'
+        assert self.pa_4.encode('Howland') == 'HLNT,'
+        assert self.pa_4.encode('Hubner') == 'HPNR,'
+        assert self.pa_4.encode('Hudnut') == 'HTNT,'
+        assert self.pa_4.encode('Hughes') == 'HS,'
+        assert self.pa_4.encode('Hull') == 'HL,'
+        assert self.pa_4.encode('Hulme') == 'HLM,'
+        assert self.pa_4.encode('Hume') == 'HM,'
+        assert self.pa_4.encode('Hundertumark') == 'HNTR,'
+        assert self.pa_4.encode('Hundley') == 'HNTL,'
+        assert self.pa_4.encode('Hungerford') == 'HNKR,HNJR'
+        assert self.pa_4.encode('Hunt') == 'HNT,'
+        assert self.pa_4.encode('Hurst') == 'HRST,'
+        assert self.pa_4.encode('Husbands') == 'HSPN,'
+        assert self.pa_4.encode('Hussey') == 'HS,'
+        assert self.pa_4.encode('Husted') == 'HSTT,'
+        assert self.pa_4.encode('Hutchins') == 'HXNS,'
+        assert self.pa_4.encode('Hutchinson') == 'HXNS,'
+        assert self.pa_4.encode('Huttinger') == 'HTNK,HTNJ'
+        assert self.pa_4.encode('Huybertsen') == 'HPRT,'
+        assert self.pa_4.encode('Iddenden') == 'ATNT,'
+        assert self.pa_4.encode('Ingraham') == 'ANKR,'
+        assert self.pa_4.encode('Ives') == 'AFS,'
+        assert self.pa_4.encode('Jackson') == 'JKSN,AKSN'
+        assert self.pa_4.encode('Jacob') == 'JKP,AKP'
+        assert self.pa_4.encode('Jans') == 'JNS,ANS'
+        assert self.pa_4.encode('Jenkins') == 'JNKN,ANKN'
+        assert self.pa_4.encode('Jewett') == 'JT,AT'
+        assert self.pa_4.encode('Jewitt') == 'JT,AT'
+        assert self.pa_4.encode('Johnson') == 'JNSN,ANSN'
+        assert self.pa_4.encode('Jones') == 'JNS,ANS'
+        assert self.pa_4.encode('Josephine') == 'JSFN,HSFN'
+        assert self.pa_4.encode('Judd') == 'JT,AT'
+        assert self.pa_4.encode('June') == 'JN,AN'
+        assert self.pa_4.encode('Kamarowska') == 'KMRS,'
+        assert self.pa_4.encode('Kay') == 'K,'
+        assert self.pa_4.encode('Kelley') == 'KL,'
+        assert self.pa_4.encode('Kelly') == 'KL,'
+        assert self.pa_4.encode('Keymber') == 'KMPR,'
+        assert self.pa_4.encode('Keynes') == 'KNS,'
+        assert self.pa_4.encode('Kilham') == 'KLM,'
+        assert self.pa_4.encode('Kim') == 'KM,'
+        assert self.pa_4.encode('Kimball') == 'KMPL,'
+        assert self.pa_4.encode('King') == 'KNK,'
+        assert self.pa_4.encode('Kinsey') == 'KNS,'
+        assert self.pa_4.encode('Kirk') == 'KRK,'
+        assert self.pa_4.encode('Kirton') == 'KRTN,'
+        assert self.pa_4.encode('Kistler') == 'KSTL,'
+        assert self.pa_4.encode('Kitchen') == 'KXN,'
+        assert self.pa_4.encode('Kitson') == 'KTSN,'
+        assert self.pa_4.encode('Klett') == 'KLT,'
+        assert self.pa_4.encode('Kline') == 'KLN,'
+        assert self.pa_4.encode('Knapp') == 'NP,'
+        assert self.pa_4.encode('Knight') == 'NT,'
+        assert self.pa_4.encode('Knote') == 'NT,'
+        assert self.pa_4.encode('Knott') == 'NT,'
+        assert self.pa_4.encode('Knox') == 'NKS,'
+        assert self.pa_4.encode('Koeller') == 'KLR,'
+        assert self.pa_4.encode('La Pointe') == 'LPNT,'
+        assert self.pa_4.encode('LaPlante') == 'LPLN,'
+        assert self.pa_4.encode('Laimbeer') == 'LMPR,'
+        assert self.pa_4.encode('Lamb') == 'LMP,'
+        assert self.pa_4.encode('Lambertson') == 'LMPR,'
+        assert self.pa_4.encode('Lancto') == 'LNKT,'
+        assert self.pa_4.encode('Landry') == 'LNTR,'
+        assert self.pa_4.encode('Lane') == 'LN,'
+        assert self.pa_4.encode('Langendyck') == 'LNJN,LNKN'
+        assert self.pa_4.encode('Langer') == 'LNKR,LNJR'
+        assert self.pa_4.encode('Langford') == 'LNKF,'
+        assert self.pa_4.encode('Lantersee') == 'LNTR,'
+        assert self.pa_4.encode('Laquer') == 'LKR,'
+        assert self.pa_4.encode('Larkin') == 'LRKN,'
+        assert self.pa_4.encode('Latham') == 'LTM,'
+        assert self.pa_4.encode('Lathrop') == 'L0RP,LTRP'
+        assert self.pa_4.encode('Lauter') == 'LTR,'
+        assert self.pa_4.encode('Lawrence') == 'LRNS,'
+        assert self.pa_4.encode('Leach') == 'LK,'
+        assert self.pa_4.encode('Leager') == 'LKR,LJR'
+        assert self.pa_4.encode('Learned') == 'LRNT,'
+        assert self.pa_4.encode('Leavitt') == 'LFT,'
+        assert self.pa_4.encode('Lee') == 'L,'
+        assert self.pa_4.encode('Leete') == 'LT,'
+        assert self.pa_4.encode('Leggett') == 'LKT,'
+        assert self.pa_4.encode('Leland') == 'LLNT,'
+        assert self.pa_4.encode('Leonard') == 'LNRT,'
+        assert self.pa_4.encode('Lester') == 'LSTR,'
+        assert self.pa_4.encode('Lestrange') == 'LSTR,'
+        assert self.pa_4.encode('Lethem') == 'L0M,LTM'
+        assert self.pa_4.encode('Levine') == 'LFN,'
+        assert self.pa_4.encode('Lewes') == 'LS,'
+        assert self.pa_4.encode('Lewis') == 'LS,'
+        assert self.pa_4.encode('Lincoln') == 'LNKL,'
+        assert self.pa_4.encode('Lindsey') == 'LNTS,'
+        assert self.pa_4.encode('Linher') == 'LNR,'
+        assert self.pa_4.encode('Lippet') == 'LPT,'
+        assert self.pa_4.encode('Lippincott') == 'LPNK,'
+        assert self.pa_4.encode('Lockwood') == 'LKT,'
+        assert self.pa_4.encode('Loines') == 'LNS,'
+        assert self.pa_4.encode('Lombard') == 'LMPR,'
+        assert self.pa_4.encode('Long') == 'LNK,'
+        assert self.pa_4.encode('Longespee') == 'LNJS,LNKS'
+        assert self.pa_4.encode('Look') == 'LK,'
+        assert self.pa_4.encode('Lounsberry') == 'LNSP,'
+        assert self.pa_4.encode('Lounsbury') == 'LNSP,'
+        assert self.pa_4.encode('Louthe') == 'L0,LT'
+        assert self.pa_4.encode('Loveyne') == 'LFN,'
+        assert self.pa_4.encode('Lowe') == 'L,'
+        assert self.pa_4.encode('Ludlam') == 'LTLM,'
+        assert self.pa_4.encode('Lumbard') == 'LMPR,'
+        assert self.pa_4.encode('Lund') == 'LNT,'
+        assert self.pa_4.encode('Luno') == 'LN,'
+        assert self.pa_4.encode('Lutz') == 'LTS,'
+        assert self.pa_4.encode('Lydia') == 'LT,'
+        assert self.pa_4.encode('Lynne') == 'LN,'
+        assert self.pa_4.encode('Lyon') == 'LN,'
+        assert self.pa_4.encode('MacAlpin') == 'MKLP,'
+        assert self.pa_4.encode('MacBricc') == 'MKPR,'
+        assert self.pa_4.encode('MacCrinan') == 'MKRN,'
+        assert self.pa_4.encode('MacKenneth') == 'MKN0,MKNT'
+        assert self.pa_4.encode('MacMael nam Bo') == 'MKML,'
+        assert self.pa_4.encode('MacMurchada') == 'MKMR,'
+        assert self.pa_4.encode('Macomber') == 'MKMP,'
+        assert self.pa_4.encode('Macy') == 'MS,'
+        assert self.pa_4.encode('Magnus') == 'MNS,MKNS'
+        assert self.pa_4.encode('Mahien') == 'MHN,'
+        assert self.pa_4.encode('Malmains') == 'MLMN,'
+        assert self.pa_4.encode('Malory') == 'MLR,'
+        assert self.pa_4.encode('Mancinelli') == 'MNSN,'
+        assert self.pa_4.encode('Mancini') == 'MNSN,'
+        assert self.pa_4.encode('Mann') == 'MN,'
+        assert self.pa_4.encode('Manning') == 'MNNK,'
+        assert self.pa_4.encode('Manter') == 'MNTR,'
+        assert self.pa_4.encode('Marion') == 'MRN,'
+        assert self.pa_4.encode('Marley') == 'MRL,'
+        assert self.pa_4.encode('Marmion') == 'MRMN,'
+        assert self.pa_4.encode('Marquart') == 'MRKR,'
+        assert self.pa_4.encode('Marsh') == 'MRX,'
+        assert self.pa_4.encode('Marshal') == 'MRXL,'
+        assert self.pa_4.encode('Marshall') == 'MRXL,'
+        assert self.pa_4.encode('Martel') == 'MRTL,'
+        assert self.pa_4.encode('Martha') == 'MR0,MRT'
+        assert self.pa_4.encode('Martin') == 'MRTN,'
+        assert self.pa_4.encode('Marturano') == 'MRTR,'
+        assert self.pa_4.encode('Marvin') == 'MRFN,'
+        assert self.pa_4.encode('Mary') == 'MR,'
+        assert self.pa_4.encode('Mason') == 'MSN,'
+        assert self.pa_4.encode('Maxwell') == 'MKSL,'
+        assert self.pa_4.encode('Mayhew') == 'MH,MHF'
+        assert self.pa_4.encode('McAllaster') == 'MKLS,'
+        assert self.pa_4.encode('McAllister') == 'MKLS,'
+        assert self.pa_4.encode('McConnell') == 'MKNL,'
+        assert self.pa_4.encode('McFarland') == 'MKFR,'
+        assert self.pa_4.encode('McIlroy') == 'MSLR,'
+        assert self.pa_4.encode('McNair') == 'MKNR,'
+        assert self.pa_4.encode('McNair-Landry') == 'MKNR,'
+        assert self.pa_4.encode('McRaven') == 'MKRF,'
+        assert self.pa_4.encode('Mead') == 'MT,'
+        assert self.pa_4.encode('Meade') == 'MT,'
+        assert self.pa_4.encode('Meck') == 'MK,'
+        assert self.pa_4.encode('Melton') == 'MLTN,'
+        assert self.pa_4.encode('Mendenhall') == 'MNTN,'
+        assert self.pa_4.encode('Mering') == 'MRNK,'
+        assert self.pa_4.encode('Merrick') == 'MRK,'
+        assert self.pa_4.encode('Merry') == 'MR,'
+        assert self.pa_4.encode('Mighill') == 'ML,'
+        assert self.pa_4.encode('Miller') == 'MLR,'
+        assert self.pa_4.encode('Milton') == 'MLTN,'
+        assert self.pa_4.encode('Mohun') == 'MHN,'
+        assert self.pa_4.encode('Montague') == 'MNTK,'
+        assert self.pa_4.encode('Montboucher') == 'MNTP,'
+        assert self.pa_4.encode('Moore') == 'MR,'
+        assert self.pa_4.encode('Morrel') == 'MRL,'
+        assert self.pa_4.encode('Morrill') == 'MRL,'
+        assert self.pa_4.encode('Morris') == 'MRS,'
+        assert self.pa_4.encode('Morton') == 'MRTN,'
+        assert self.pa_4.encode('Moton') == 'MTN,'
+        assert self.pa_4.encode('Muir') == 'MR,'
+        assert self.pa_4.encode('Mulferd') == 'MLFR,'
+        assert self.pa_4.encode('Mullins') == 'MLNS,'
+        assert self.pa_4.encode('Mulso') == 'MLS,'
+        assert self.pa_4.encode('Munger') == 'MNKR,MNJR'
+        assert self.pa_4.encode('Munt') == 'MNT,'
+        assert self.pa_4.encode('Murchad') == 'MRXT,MRKT'
+        assert self.pa_4.encode('Murdock') == 'MRTK,'
+        assert self.pa_4.encode('Murray') == 'MR,'
+        assert self.pa_4.encode('Muskett') == 'MSKT,'
+        assert self.pa_4.encode('Myers') == 'MRS,'
+        assert self.pa_4.encode('Myrick') == 'MRK,'
+        assert self.pa_4.encode('NORRIS') == 'NRS,'
+        assert self.pa_4.encode('Nayle') == 'NL,'
+        assert self.pa_4.encode('Newcomb') == 'NKMP,'
+        assert self.pa_4.encode('Newcomb(e)') == 'NKMP,'
+        assert self.pa_4.encode('Newkirk') == 'NKRK,'
+        assert self.pa_4.encode('Newton') == 'NTN,'
+        assert self.pa_4.encode('Niles') == 'NLS,'
+        assert self.pa_4.encode('Noble') == 'NPL,'
+        assert self.pa_4.encode('Noel') == 'NL,'
+        assert self.pa_4.encode('Northend') == 'NR0N,NRTN'
+        assert self.pa_4.encode('Norton') == 'NRTN,'
+        assert self.pa_4.encode('Nutter') == 'NTR,'
+        assert self.pa_4.encode('Odding') == 'ATNK,'
+        assert self.pa_4.encode('Odenbaugh') == 'ATNP,'
+        assert self.pa_4.encode('Ogborn') == 'AKPR,'
+        assert self.pa_4.encode('Oppenheimer') == 'APNM,'
+        assert self.pa_4.encode('Otis') == 'ATS,'
+        assert self.pa_4.encode('Oviatt') == 'AFT,'
+        assert self.pa_4.encode('PRUST?') == 'PRST,'
+        assert self.pa_4.encode('Paddock') == 'PTK,'
+        assert self.pa_4.encode('Page') == 'PJ,PK'
+        assert self.pa_4.encode('Paine') == 'PN,'
+        assert self.pa_4.encode('Paist') == 'PST,'
+        assert self.pa_4.encode('Palmer') == 'PLMR,'
+        assert self.pa_4.encode('Park') == 'PRK,'
+        assert self.pa_4.encode('Parker') == 'PRKR,'
+        assert self.pa_4.encode('Parkhurst') == 'PRKR,'
+        assert self.pa_4.encode('Parrat') == 'PRT,'
+        assert self.pa_4.encode('Parsons') == 'PRSN,'
+        assert self.pa_4.encode('Partridge') == 'PRTR,'
+        assert self.pa_4.encode('Pashley') == 'PXL,'
+        assert self.pa_4.encode('Pasley') == 'PSL,'
+        assert self.pa_4.encode('Patrick') == 'PTRK,'
+        assert self.pa_4.encode('Pattee') == 'PT,'
+        assert self.pa_4.encode('Patten') == 'PTN,'
+        assert self.pa_4.encode('Pawley') == 'PL,'
+        assert self.pa_4.encode('Payne') == 'PN,'
+        assert self.pa_4.encode('Peabody') == 'PPT,'
+        assert self.pa_4.encode('Peake') == 'PK,'
+        assert self.pa_4.encode('Pearson') == 'PRSN,'
+        assert self.pa_4.encode('Peat') == 'PT,'
+        assert self.pa_4.encode('Pedersen') == 'PTRS,'
+        assert self.pa_4.encode('Percy') == 'PRS,'
+        assert self.pa_4.encode('Perkins') == 'PRKN,'
+        assert self.pa_4.encode('Perrine') == 'PRN,'
+        assert self.pa_4.encode('Perry') == 'PR,'
+        assert self.pa_4.encode('Peson') == 'PSN,'
+        assert self.pa_4.encode('Peterson') == 'PTRS,'
+        assert self.pa_4.encode('Peyton') == 'PTN,'
+        assert self.pa_4.encode('Phinney') == 'FN,'
+        assert self.pa_4.encode('Pickard') == 'PKRT,'
+        assert self.pa_4.encode('Pierce') == 'PRS,'
+        assert self.pa_4.encode('Pierrepont') == 'PRPN,'
+        assert self.pa_4.encode('Pike') == 'PK,'
+        assert self.pa_4.encode('Pinkham') == 'PNKM,'
+        assert self.pa_4.encode('Pitman') == 'PTMN,'
+        assert self.pa_4.encode('Pitt') == 'PT,'
+        assert self.pa_4.encode('Pitts') == 'PTS,'
+        assert self.pa_4.encode('Plantagenet') == 'PLNT,'
+        assert self.pa_4.encode('Platt') == 'PLT,'
+        assert self.pa_4.encode('Platts') == 'PLTS,'
+        assert self.pa_4.encode('Pleis') == 'PLS,'
+        assert self.pa_4.encode('Pleiss') == 'PLS,'
+        assert self.pa_4.encode('Plisko') == 'PLSK,'
+        assert self.pa_4.encode('Pliskovitch') == 'PLSK,'
+        assert self.pa_4.encode('Plum') == 'PLM,'
+        assert self.pa_4.encode('Plume') == 'PLM,'
+        assert self.pa_4.encode('Poitou') == 'PT,'
+        assert self.pa_4.encode('Pomeroy') == 'PMR,'
+        assert self.pa_4.encode('Poretiers') == 'PRTR,'
+        assert self.pa_4.encode('Pote') == 'PT,'
+        assert self.pa_4.encode('Potter') == 'PTR,'
+        assert self.pa_4.encode('Potts') == 'PTS,'
+        assert self.pa_4.encode('Powell') == 'PL,'
+        assert self.pa_4.encode('Pratt') == 'PRT,'
+        assert self.pa_4.encode('Presbury') == 'PRSP,'
+        assert self.pa_4.encode('Priest') == 'PRST,'
+        assert self.pa_4.encode('Prindle') == 'PRNT,'
+        assert self.pa_4.encode('Prior') == 'PRR,'
+        assert self.pa_4.encode('Profumo') == 'PRFM,'
+        assert self.pa_4.encode('Purdy') == 'PRT,'
+        assert self.pa_4.encode('Purefoy') == 'PRF,'
+        assert self.pa_4.encode('Pury') == 'PR,'
+        assert self.pa_4.encode('Quinter') == 'KNTR,'
+        assert self.pa_4.encode('Rachel') == 'RXL,RKL'
+        assert self.pa_4.encode('Rand') == 'RNT,'
+        assert self.pa_4.encode('Rankin') == 'RNKN,'
+        assert self.pa_4.encode('Ravenscroft') == 'RFNS,'
+        assert self.pa_4.encode('Raynsford') == 'RNSF,'
+        assert self.pa_4.encode('Reakirt') == 'RKRT,'
+        assert self.pa_4.encode('Reaves') == 'RFS,'
+        assert self.pa_4.encode('Reeves') == 'RFS,'
+        assert self.pa_4.encode('Reichert') == 'RXRT,RKRT'
+        assert self.pa_4.encode('Remmele') == 'RML,'
+        assert self.pa_4.encode('Reynolds') == 'RNLT,'
+        assert self.pa_4.encode('Rhodes') == 'RTS,'
+        assert self.pa_4.encode('Richards') == 'RXRT,RKRT'
+        assert self.pa_4.encode('Richardson') == 'RXRT,RKRT'
+        assert self.pa_4.encode('Ring') == 'RNK,'
+        assert self.pa_4.encode('Roberts') == 'RPRT,'
+        assert self.pa_4.encode('Robertson') == 'RPRT,'
+        assert self.pa_4.encode('Robson') == 'RPSN,'
+        assert self.pa_4.encode('Rodie') == 'RT,'
+        assert self.pa_4.encode('Rody') == 'RT,'
+        assert self.pa_4.encode('Rogers') == 'RKRS,RJRS'
+        assert self.pa_4.encode('Ross') == 'RS,'
+        assert self.pa_4.encode('Rosslevin') == 'RSLF,'
+        assert self.pa_4.encode('Rowland') == 'RLNT,'
+        assert self.pa_4.encode('Ruehl') == 'RL,'
+        assert self.pa_4.encode('Russell') == 'RSL,'
+        assert self.pa_4.encode('Ruth') == 'R0,RT'
+        assert self.pa_4.encode('Ryan') == 'RN,'
+        assert self.pa_4.encode('Rysse') == 'RS,'
+        assert self.pa_4.encode('Sadler') == 'STLR,'
+        assert self.pa_4.encode('Salmon') == 'SLMN,'
+        assert self.pa_4.encode('Salter') == 'SLTR,'
+        assert self.pa_4.encode('Salvatore') == 'SLFT,'
+        assert self.pa_4.encode('Sanders') == 'SNTR,'
+        assert self.pa_4.encode('Sands') == 'SNTS,'
+        assert self.pa_4.encode('Sanford') == 'SNFR,'
+        assert self.pa_4.encode('Sanger') == 'SNKR,SNJR'
+        assert self.pa_4.encode('Sargent') == 'SRJN,SRKN'
+        assert self.pa_4.encode('Saunders') == 'SNTR,'
+        assert self.pa_4.encode('Schilling') == 'XLNK,'
+        assert self.pa_4.encode('Schlegel') == 'XLKL,SLKL'
+        assert self.pa_4.encode('Scott') == 'SKT,'
+        assert self.pa_4.encode('Sears') == 'SRS,'
+        assert self.pa_4.encode('Segersall') == 'SJRS,SKRS'
+        assert self.pa_4.encode('Senecal') == 'SNKL,'
+        assert self.pa_4.encode('Sergeaux') == 'SRJ,SRK'
+        assert self.pa_4.encode('Severance') == 'SFRN,'
+        assert self.pa_4.encode('Sharp') == 'XRP,'
+        assert self.pa_4.encode('Sharpe') == 'XRP,'
+        assert self.pa_4.encode('Sharply') == 'XRPL,'
+        assert self.pa_4.encode('Shatswell') == 'XTSL,'
+        assert self.pa_4.encode('Shattack') == 'XTK,'
+        assert self.pa_4.encode('Shattock') == 'XTK,'
+        assert self.pa_4.encode('Shattuck') == 'XTK,'
+        assert self.pa_4.encode('Shaw') == 'X,XF'
+        assert self.pa_4.encode('Sheldon') == 'XLTN,'
+        assert self.pa_4.encode('Sherman') == 'XRMN,'
+        assert self.pa_4.encode('Shinn') == 'XN,'
+        assert self.pa_4.encode('Shirford') == 'XRFR,'
+        assert self.pa_4.encode('Shirley') == 'XRL,'
+        assert self.pa_4.encode('Shively') == 'XFL,'
+        assert self.pa_4.encode('Shoemaker') == 'XMKR,'
+        assert self.pa_4.encode('Short') == 'XRT,'
+        assert self.pa_4.encode('Shotwell') == 'XTL,'
+        assert self.pa_4.encode('Shute') == 'XT,'
+        assert self.pa_4.encode('Sibley') == 'SPL,'
+        assert self.pa_4.encode('Silver') == 'SLFR,'
+        assert self.pa_4.encode('Simes') == 'SMS,'
+        assert self.pa_4.encode('Sinken') == 'SNKN,'
+        assert self.pa_4.encode('Sinn') == 'SN,'
+        assert self.pa_4.encode('Skelton') == 'SKLT,'
+        assert self.pa_4.encode('Skiffe') == 'SKF,'
+        assert self.pa_4.encode('Skotkonung') == 'SKTK,'
+        assert self.pa_4.encode('Slade') == 'SLT,XLT'
+        assert self.pa_4.encode('Slye') == 'SL,XL'
+        assert self.pa_4.encode('Smedley') == 'SMTL,XMTL'
+        assert self.pa_4.encode('Smith') == 'SM0,XMT'
+        assert self.pa_4.encode('Snow') == 'SN,XNF'
+        assert self.pa_4.encode('Soole') == 'SL,'
+        assert self.pa_4.encode('Soule') == 'SL,'
+        assert self.pa_4.encode('Southworth') == 'S0R0,STRT'
+        assert self.pa_4.encode('Sowles') == 'SLS,'
+        assert self.pa_4.encode('Spalding') == 'SPLT,'
+        assert self.pa_4.encode('Spark') == 'SPRK,'
+        assert self.pa_4.encode('Spencer') == 'SPNS,'
+        assert self.pa_4.encode('Sperry') == 'SPR,'
+        assert self.pa_4.encode('Spofford') == 'SPFR,'
+        assert self.pa_4.encode('Spooner') == 'SPNR,'
+        assert self.pa_4.encode('Sprague') == 'SPRK,'
+        assert self.pa_4.encode('Springer') == 'SPRN,'
+        assert self.pa_4.encode('St. Clair') == 'STKL,'
+        assert self.pa_4.encode('St. Claire') == 'STKL,'
+        assert self.pa_4.encode('St. Leger') == 'STLJ,STLK'
+        assert self.pa_4.encode('St. Omer') == 'STMR,'
+        assert self.pa_4.encode('Stafferton') == 'STFR,'
+        assert self.pa_4.encode('Stafford') == 'STFR,'
+        assert self.pa_4.encode('Stalham') == 'STLM,'
+        assert self.pa_4.encode('Stanford') == 'STNF,'
+        assert self.pa_4.encode('Stanton') == 'STNT,'
+        assert self.pa_4.encode('Star') == 'STR,'
+        assert self.pa_4.encode('Starbuck') == 'STRP,'
+        assert self.pa_4.encode('Starkey') == 'STRK,'
+        assert self.pa_4.encode('Starkweather') == 'STRK,'
+        assert self.pa_4.encode('Stearns') == 'STRN,'
+        assert self.pa_4.encode('Stebbins') == 'STPN,'
+        assert self.pa_4.encode('Steele') == 'STL,'
+        assert self.pa_4.encode('Stephenson') == 'STFN,'
+        assert self.pa_4.encode('Stevens') == 'STFN,'
+        assert self.pa_4.encode('Stoddard') == 'STTR,'
+        assert self.pa_4.encode('Stodder') == 'STTR,'
+        assert self.pa_4.encode('Stone') == 'STN,'
+        assert self.pa_4.encode('Storey') == 'STR,'
+        assert self.pa_4.encode('Storrada') == 'STRT,'
+        assert self.pa_4.encode('Story') == 'STR,'
+        assert self.pa_4.encode('Stoughton') == 'STFT,'
+        assert self.pa_4.encode('Stout') == 'STT,'
+        assert self.pa_4.encode('Stow') == 'ST,STF'
+        assert self.pa_4.encode('Strong') == 'STRN,'
+        assert self.pa_4.encode('Strutt') == 'STRT,'
+        assert self.pa_4.encode('Stryker') == 'STRK,'
+        assert self.pa_4.encode('Stuckeley') == 'STKL,'
+        assert self.pa_4.encode('Sturges') == 'STRJ,STRK'
+        assert self.pa_4.encode('Sturgess') == 'STRJ,STRK'
+        assert self.pa_4.encode('Sturgis') == 'STRJ,STRK'
+        assert self.pa_4.encode('Suevain') == 'SFN,'
+        assert self.pa_4.encode('Sulyard') == 'SLRT,'
+        assert self.pa_4.encode('Sutton') == 'STN,'
+        assert self.pa_4.encode('Swain') == 'SN,XN'
+        assert self.pa_4.encode('Swayne') == 'SN,XN'
+        assert self.pa_4.encode('Swayze') == 'SS,XTS'
+        assert self.pa_4.encode('Swift') == 'SFT,XFT'
+        assert self.pa_4.encode('Taber') == 'TPR,'
+        assert self.pa_4.encode('Talcott') == 'TLKT,'
+        assert self.pa_4.encode('Tarne') == 'TRN,'
+        assert self.pa_4.encode('Tatum') == 'TTM,'
+        assert self.pa_4.encode('Taverner') == 'TFRN,'
+        assert self.pa_4.encode('Taylor') == 'TLR,'
+        assert self.pa_4.encode('Tenney') == 'TN,'
+        assert self.pa_4.encode('Thayer') == '0R,TR'
+        assert self.pa_4.encode('Thember') == '0MPR,TMPR'
+        assert self.pa_4.encode('Thomas') == 'TMS,'
+        assert self.pa_4.encode('Thompson') == 'TMPS,'
+        assert self.pa_4.encode('Thorne') == '0RN,TRN'
+        assert self.pa_4.encode('Thornycraft') == '0RNK,TRNK'
+        assert self.pa_4.encode('Threlkeld') == '0RLK,TRLK'
+        assert self.pa_4.encode('Throckmorton') == '0RKM,TRKM'
+        assert self.pa_4.encode('Thwaits') == '0TS,TTS'
+        assert self.pa_4.encode('Tibbetts') == 'TPTS,'
+        assert self.pa_4.encode('Tidd') == 'TT,'
+        assert self.pa_4.encode('Tierney') == 'TRN,'
+        assert self.pa_4.encode('Tilley') == 'TL,'
+        assert self.pa_4.encode('Tillieres') == 'TLRS,'
+        assert self.pa_4.encode('Tilly') == 'TL,'
+        assert self.pa_4.encode('Tisdale') == 'TSTL,'
+        assert self.pa_4.encode('Titus') == 'TTS,'
+        assert self.pa_4.encode('Tobey') == 'TP,'
+        assert self.pa_4.encode('Tooker') == 'TKR,'
+        assert self.pa_4.encode('Towle') == 'TL,'
+        assert self.pa_4.encode('Towne') == 'TN,'
+        assert self.pa_4.encode('Townsend') == 'TNSN,'
+        assert self.pa_4.encode('Treadway') == 'TRT,'
+        assert self.pa_4.encode('Trelawney') == 'TRLN,'
+        assert self.pa_4.encode('Trinder') == 'TRNT,'
+        assert self.pa_4.encode('Tripp') == 'TRP,'
+        assert self.pa_4.encode('Trippe') == 'TRP,'
+        assert self.pa_4.encode('Trott') == 'TRT,'
+        assert self.pa_4.encode('True') == 'TR,'
+        assert self.pa_4.encode('Trussebut') == 'TRSP,'
+        assert self.pa_4.encode('Tucker') == 'TKR,'
+        assert self.pa_4.encode('Turgeon') == 'TRJN,TRKN'
+        assert self.pa_4.encode('Turner') == 'TRNR,'
+        assert self.pa_4.encode('Tuttle') == 'TTL,'
+        assert self.pa_4.encode('Tyler') == 'TLR,'
+        assert self.pa_4.encode('Tylle') == 'TL,'
+        assert self.pa_4.encode('Tyrrel') == 'TRL,'
+        assert self.pa_4.encode('Ua Tuathail') == 'AT0L,ATTL'
+        assert self.pa_4.encode('Ulrich') == 'ALRX,ALRK'
+        assert self.pa_4.encode('Underhill') == 'ANTR,'
+        assert self.pa_4.encode('Underwood') == 'ANTR,'
+        assert self.pa_4.encode('Unknown') == 'ANKN,'
+        assert self.pa_4.encode('Valentine') == 'FLNT,'
+        assert self.pa_4.encode('Van Egmond') == 'FNKM,'
+        assert self.pa_4.encode('Van der Beek') == 'FNTR,'
+        assert self.pa_4.encode('Vaughan') == 'FKN,'
+        assert self.pa_4.encode('Vermenlen') == 'FRMN,'
+        assert self.pa_4.encode('Vincent') == 'FNSN,'
+        assert self.pa_4.encode('Volentine') == 'FLNT,'
+        assert self.pa_4.encode('Wagner') == 'AKNR,FKNR'
+        assert self.pa_4.encode('Waite') == 'AT,FT'
+        assert self.pa_4.encode('Walker') == 'ALKR,FLKR'
+        assert self.pa_4.encode('Walter') == 'ALTR,FLTR'
+        assert self.pa_4.encode('Wandell') == 'ANTL,FNTL'
+        assert self.pa_4.encode('Wandesford') == 'ANTS,FNTS'
+        assert self.pa_4.encode('Warbleton') == 'ARPL,FRPL'
+        assert self.pa_4.encode('Ward') == 'ART,FRT'
+        assert self.pa_4.encode('Warde') == 'ART,FRT'
+        assert self.pa_4.encode('Ware') == 'AR,FR'
+        assert self.pa_4.encode('Wareham') == 'ARHM,FRHM'
+        assert self.pa_4.encode('Warner') == 'ARNR,FRNR'
+        assert self.pa_4.encode('Warren') == 'ARN,FRN'
+        assert self.pa_4.encode('Washburne') == 'AXPR,FXPR'
+        assert self.pa_4.encode('Waterbury') == 'ATRP,FTRP'
+        assert self.pa_4.encode('Watson') == 'ATSN,FTSN'
+        assert self.pa_4.encode('WatsonEllithorpe') == 'ATSN,FTSN'
+        assert self.pa_4.encode('Watts') == 'ATS,FTS'
+        assert self.pa_4.encode('Wayne') == 'AN,FN'
+        assert self.pa_4.encode('Webb') == 'AP,FP'
+        assert self.pa_4.encode('Weber') == 'APR,FPR'
+        assert self.pa_4.encode('Webster') == 'APST,FPST'
+        assert self.pa_4.encode('Weed') == 'AT,FT'
+        assert self.pa_4.encode('Weeks') == 'AKS,FKS'
+        assert self.pa_4.encode('Wells') == 'ALS,FLS'
+        assert self.pa_4.encode('Wenzell') == 'ANSL,FNTS'
+        assert self.pa_4.encode('West') == 'AST,FST'
+        assert self.pa_4.encode('Westbury') == 'ASTP,FSTP'
+        assert self.pa_4.encode('Whatlocke') == 'ATLK,'
+        assert self.pa_4.encode('Wheeler') == 'ALR,'
+        assert self.pa_4.encode('Whiston') == 'ASTN,'
+        assert self.pa_4.encode('White') == 'AT,'
+        assert self.pa_4.encode('Whitman') == 'ATMN,'
+        assert self.pa_4.encode('Whiton') == 'ATN,'
+        assert self.pa_4.encode('Whitson') == 'ATSN,'
+        assert self.pa_4.encode('Wickes') == 'AKS,FKS'
+        assert self.pa_4.encode('Wilbur') == 'ALPR,FLPR'
+        assert self.pa_4.encode('Wilcotes') == 'ALKT,FLKT'
+        assert self.pa_4.encode('Wilkinson') == 'ALKN,FLKN'
+        assert self.pa_4.encode('Willets') == 'ALTS,FLTS'
+        assert self.pa_4.encode('Willett') == 'ALT,FLT'
+        assert self.pa_4.encode('Willey') == 'AL,FL'
+        assert self.pa_4.encode('Williams') == 'ALMS,FLMS'
+        assert self.pa_4.encode('Williston') == 'ALST,FLST'
+        assert self.pa_4.encode('Wilson') == 'ALSN,FLSN'
+        assert self.pa_4.encode('Wimes') == 'AMS,FMS'
+        assert self.pa_4.encode('Winch') == 'ANX,FNK'
+        assert self.pa_4.encode('Winegar') == 'ANKR,FNKR'
+        assert self.pa_4.encode('Wing') == 'ANK,FNK'
+        assert self.pa_4.encode('Winsley') == 'ANSL,FNSL'
+        assert self.pa_4.encode('Winslow') == 'ANSL,FNSL'
+        assert self.pa_4.encode('Winthrop') == 'AN0R,FNTR'
+        assert self.pa_4.encode('Wise') == 'AS,FS'
+        assert self.pa_4.encode('Wood') == 'AT,FT'
+        assert self.pa_4.encode('Woodbridge') == 'ATPR,FTPR'
+        assert self.pa_4.encode('Woodward') == 'ATRT,FTRT'
+        assert self.pa_4.encode('Wooley') == 'AL,FL'
+        assert self.pa_4.encode('Woolley') == 'AL,FL'
+        assert self.pa_4.encode('Worth') == 'AR0,FRT'
+        assert self.pa_4.encode('Worthen') == 'AR0N,FRTN'
+        assert self.pa_4.encode('Worthley') == 'AR0L,FRTL'
+        assert self.pa_4.encode('Wright') == 'RT,'
+        assert self.pa_4.encode('Wyer') == 'AR,FR'
+        assert self.pa_4.encode('Wyere') == 'AR,FR'
+        assert self.pa_4.encode('Wynkoop') == 'ANKP,FNKP'
+        assert self.pa_4.encode('Yarnall') == 'ARNL,'
+        assert self.pa_4.encode('Yeoman') == 'AMN,'
+        assert self.pa_4.encode('Yorke') == 'ARK,'
+        assert self.pa_4.encode('Young') == 'ANK,'
+        assert self.pa_4.encode('ab Wennonwen') == 'APNN,'
+        assert self.pa_4.encode('ap Llewellyn') == 'APLL,'
+        assert self.pa_4.encode('ap Lorwerth') == 'APLR,'
+        assert self.pa_4.encode("d'Angouleme") == 'TNKL,'
+        assert self.pa_4.encode('de Audeham') == 'TTHM,'
+        assert self.pa_4.encode('de Bavant') == 'TPFN,'
+        assert self.pa_4.encode('de Beauchamp') == 'TPXM,TPKM'
+        assert self.pa_4.encode('de Beaumont') == 'TPMN,'
+        assert self.pa_4.encode('de Bolbec') == 'TPLP,'
+        assert self.pa_4.encode('de Braiose') == 'TPRS,'
+        assert self.pa_4.encode('de Braose') == 'TPRS,'
+        assert self.pa_4.encode('de Briwere') == 'TPRR,'
+        assert self.pa_4.encode('de Cantelou') == 'TKNT,'
+        assert self.pa_4.encode('de Cherelton') == 'TXRL,TKRL'
+        assert self.pa_4.encode('de Cherleton') == 'TXRL,TKRL'
+        assert self.pa_4.encode('de Clare') == 'TKLR,'
+        assert self.pa_4.encode('de Claremont') == 'TKLR,'
+        assert self.pa_4.encode('de Clifford') == 'TKLF,'
+        assert self.pa_4.encode('de Colville') == 'TKLF,'
+        assert self.pa_4.encode('de Courtenay') == 'TKRT,'
+        assert self.pa_4.encode('de Fauconberg') == 'TFKN,'
+        assert self.pa_4.encode('de Forest') == 'TFRS,'
+        assert self.pa_4.encode('de Gai') == 'TK,'
+        assert self.pa_4.encode('de Grey') == 'TKR,'
+        assert self.pa_4.encode('de Guernons') == 'TKRN,'
+        assert self.pa_4.encode('de Haia') == 'T,'
+        assert self.pa_4.encode('de Harcourt') == 'TRKR,'
+        assert self.pa_4.encode('de Hastings') == 'TSTN,'
+        assert self.pa_4.encode('de Hoke') == 'TK,'
+        assert self.pa_4.encode('de Hooch') == 'TK,'
+        assert self.pa_4.encode('de Hugelville') == 'TJLF,TKLF'
+        assert self.pa_4.encode('de Huntingdon') == 'TNTN,'
+        assert self.pa_4.encode('de Insula') == 'TNSL,'
+        assert self.pa_4.encode('de Keynes') == 'TKNS,'
+        assert self.pa_4.encode('de Lacy') == 'TLS,'
+        assert self.pa_4.encode('de Lexington') == 'TLKS,'
+        assert self.pa_4.encode('de Lusignan') == 'TLSN,TLSK'
+        assert self.pa_4.encode('de Manvers') == 'TMNF,'
+        assert self.pa_4.encode('de Montagu') == 'TMNT,'
+        assert self.pa_4.encode('de Montault') == 'TMNT,'
+        assert self.pa_4.encode('de Montfort') == 'TMNT,'
+        assert self.pa_4.encode('de Mortimer') == 'TMRT,'
+        assert self.pa_4.encode('de Morville') == 'TMRF,'
+        assert self.pa_4.encode('de Morvois') == 'TMRF,'
+        assert self.pa_4.encode('de Neufmarche') == 'TNFM,'
+        assert self.pa_4.encode('de Odingsells') == 'TTNK,'
+        assert self.pa_4.encode('de Odyngsells') == 'TTNK,'
+        assert self.pa_4.encode('de Percy') == 'TPRS,'
+        assert self.pa_4.encode('de Pierrepont') == 'TPRP,'
+        assert self.pa_4.encode('de Plessetis') == 'TPLS,'
+        assert self.pa_4.encode('de Porhoet') == 'TPRT,'
+        assert self.pa_4.encode('de Prouz') == 'TPRS,'
+        assert self.pa_4.encode('de Quincy') == 'TKNS,'
+        assert self.pa_4.encode('de Ripellis') == 'TRPL,'
+        assert self.pa_4.encode('de Ros') == 'TRS,'
+        assert self.pa_4.encode('de Salisbury') == 'TSLS,'
+        assert self.pa_4.encode('de Sanford') == 'TSNF,'
+        assert self.pa_4.encode('de Somery') == 'TSMR,'
+        assert self.pa_4.encode('de St. Hilary') == 'TSTL,'
+        assert self.pa_4.encode('de St. Liz') == 'TSTL,'
+        assert self.pa_4.encode('de Sutton') == 'TSTN,'
+        assert self.pa_4.encode('de Toeni') == 'TTN,'
+        assert self.pa_4.encode('de Tony') == 'TTN,'
+        assert self.pa_4.encode('de Umfreville') == 'TMFR,'
+        assert self.pa_4.encode('de Valognes') == 'TFLN,TFLK'
+        assert self.pa_4.encode('de Vaux') == 'TF,'
+        assert self.pa_4.encode('de Vere') == 'TFR,'
+        assert self.pa_4.encode('de Vermandois') == 'TFRM,'
+        assert self.pa_4.encode('de Vernon') == 'TFRN,'
+        assert self.pa_4.encode('de Vexin') == 'TFKS,'
+        assert self.pa_4.encode('de Vitre') == 'TFTR,'
+        assert self.pa_4.encode('de Wandesford') == 'TNTS,'
+        assert self.pa_4.encode('de Warenne') == 'TRN,'
+        assert self.pa_4.encode('de Westbury') == 'TSTP,'
+        assert self.pa_4.encode('di Saluzzo') == 'TSLS,TSLT'
+        assert self.pa_4.encode('fitz Alan') == 'FTSL,'
+        assert self.pa_4.encode('fitz Geoffrey') == 'FTSJ,FTSK'
+        assert self.pa_4.encode('fitz Herbert') == 'FTSR,'
+        assert self.pa_4.encode('fitz John') == 'FTSJ,'
+        assert self.pa_4.encode('fitz Patrick') == 'FTSP,'
+        assert self.pa_4.encode('fitz Payn') == 'FTSP,'
+        assert self.pa_4.encode('fitz Piers') == 'FTSP,'
+        assert self.pa_4.encode('fitz Randolph') == 'FTSR,'
+        assert self.pa_4.encode('fitz Richard') == 'FTSR,'
+        assert self.pa_4.encode('fitz Robert') == 'FTSR,'
+        assert self.pa_4.encode('fitz Roy') == 'FTSR,'
+        assert self.pa_4.encode('fitz Scrob') == 'FTSS,'
+        assert self.pa_4.encode('fitz Walter') == 'FTSL,'
+        assert self.pa_4.encode('fitz Warin') == 'FTSR,'
+        assert self.pa_4.encode('fitz Williams') == 'FTSL,'
+        assert self.pa_4.encode('la Zouche') == 'LSX,LSK'
+        assert self.pa_4.encode('le Botiller') == 'LPTL,'
+        assert self.pa_4.encode('le Despenser') == 'LTSP,'
+        assert self.pa_4.encode('le deSpencer') == 'LTSP,'
+        assert self.pa_4.encode('of Allendale') == 'AFLN,'
+        assert self.pa_4.encode('of Angouleme') == 'AFNK,'
+        assert self.pa_4.encode('of Anjou') == 'AFNJ,'
+        assert self.pa_4.encode('of Aquitaine') == 'AFKT,'
+        assert self.pa_4.encode('of Aumale') == 'AFML,'
+        assert self.pa_4.encode('of Bavaria') == 'AFPF,'
+        assert self.pa_4.encode('of Boulogne') == 'AFPL,'
+        assert self.pa_4.encode('of Brittany') == 'AFPR,'
+        assert self.pa_4.encode('of Brittary') == 'AFPR,'
+        assert self.pa_4.encode('of Castile') == 'AFKS,'
+        assert self.pa_4.encode('of Chester') == 'AFXS,AFKS'
+        assert self.pa_4.encode('of Clermont') == 'AFKL,'
+        assert self.pa_4.encode('of Cologne') == 'AFKL,'
+        assert self.pa_4.encode('of Dinan') == 'AFTN,'
+        assert self.pa_4.encode('of Dunbar') == 'AFTN,'
+        assert self.pa_4.encode('of England') == 'AFNK,'
+        assert self.pa_4.encode('of Essex') == 'AFSK,'
+        assert self.pa_4.encode('of Falaise') == 'AFFL,'
+        assert self.pa_4.encode('of Flanders') == 'AFFL,'
+        assert self.pa_4.encode('of Galloway') == 'AFKL,'
+        assert self.pa_4.encode('of Germany') == 'AFKR,AFJR'
+        assert self.pa_4.encode('of Gloucester') == 'AFKL,'
+        assert self.pa_4.encode('of Heristal') == 'AFRS,'
+        assert self.pa_4.encode('of Hungary') == 'AFNK,'
+        assert self.pa_4.encode('of Huntington') == 'AFNT,'
+        assert self.pa_4.encode('of Kiev') == 'AFKF,'
+        assert self.pa_4.encode('of Kuno') == 'AFKN,'
+        assert self.pa_4.encode('of Landen') == 'AFLN,'
+        assert self.pa_4.encode('of Laon') == 'AFLN,'
+        assert self.pa_4.encode('of Leinster') == 'AFLN,'
+        assert self.pa_4.encode('of Lens') == 'AFLN,'
+        assert self.pa_4.encode('of Lorraine') == 'AFLR,'
+        assert self.pa_4.encode('of Louvain') == 'AFLF,'
+        assert self.pa_4.encode('of Mercia') == 'AFMR,'
+        assert self.pa_4.encode('of Metz') == 'AFMT,'
+        assert self.pa_4.encode('of Meulan') == 'AFML,'
+        assert self.pa_4.encode('of Nass') == 'AFNS,'
+        assert self.pa_4.encode('of Normandy') == 'AFNR,'
+        assert self.pa_4.encode('of Ohningen') == 'AFNN,'
+        assert self.pa_4.encode('of Orleans') == 'AFRL,'
+        assert self.pa_4.encode('of Poitou') == 'AFPT,'
+        assert self.pa_4.encode('of Polotzk') == 'AFPL,'
+        assert self.pa_4.encode('of Provence') == 'AFPR,'
+        assert self.pa_4.encode('of Ringelheim') == 'AFRN,'
+        assert self.pa_4.encode('of Salisbury') == 'AFSL,'
+        assert self.pa_4.encode('of Saxony') == 'AFSK,'
+        assert self.pa_4.encode('of Scotland') == 'AFSK,'
+        assert self.pa_4.encode('of Senlis') == 'AFSN,'
+        assert self.pa_4.encode('of Stafford') == 'AFST,'
+        assert self.pa_4.encode('of Swabia') == 'AFSP,'
+        assert self.pa_4.encode('of Tongres') == 'AFTN,'
+        assert self.pa_4.encode('of the Tributes') == 'AF0T,AFTT'
+        assert self.pa_4.encode('unknown') == 'ANKN,'
+        assert self.pa_4.encode('van der Gouda') == 'FNTR,'
+        assert self.pa_4.encode('von Adenbaugh') == 'FNTN,'
+        assert self.pa_4.encode('ARCHITure') == 'ARKT,'
+        assert self.pa_4.encode('Arnoff') == 'ARNF,'
+        assert self.pa_4.encode('Arnow') == 'ARN,ARNF'
+        assert self.pa_4.encode('DANGER') == 'TNJR,TNKR'
+        assert self.pa_4.encode('Jankelowicz') == 'JNKL,ANKL'
+        assert self.pa_4.encode('MANGER') == 'MNJR,MNKR'
+        assert self.pa_4.encode('McClellan') == 'MKLL,'
+        assert self.pa_4.encode('McHugh') == 'MK,'
+        assert self.pa_4.encode('McLaughlin') == 'MKLF,'
+        assert self.pa_4.encode('ORCHEStra') == 'ARKS,'
+        assert self.pa_4.encode('ORCHID') == 'ARKT,'
+        assert self.pa_4.encode('Pierce') == 'PRS,'
+        assert self.pa_4.encode('RANGER') == 'RNJR,RNKR'
+        assert self.pa_4.encode('Schlesinger') == 'XLSN,SLSN'
+        assert self.pa_4.encode('Uomo') == 'AM,'
+        assert self.pa_4.encode('Vasserman') == 'FSRM,'
+        assert self.pa_4.encode('Wasserman') == 'ASRM,FSRM'
+        assert self.pa_4.encode('Womo') == 'AM,FM'
+        assert self.pa_4.encode('Yankelovich') == 'ANKL,'
+        assert self.pa_4.encode('accede') == 'AKST,'
+        assert self.pa_4.encode('accident') == 'AKST,'
+        assert self.pa_4.encode('adelsheim') == 'ATLS,'
+        assert self.pa_4.encode('aged') == 'AJT,AKT'
+        assert self.pa_4.encode('ageless') == 'AJLS,AKLS'
+        assert self.pa_4.encode('agency') == 'AJNS,AKNS'
+        assert self.pa_4.encode('aghast') == 'AKST,'
+        assert self.pa_4.encode('agio') == 'AJ,AK'
+        assert self.pa_4.encode('agrimony') == 'AKRM,'
+        assert self.pa_4.encode('album') == 'ALPM,'
+        assert self.pa_4.encode('alcmene') == 'ALKM,'
+        assert self.pa_4.encode('alehouse') == 'ALHS,'
+        assert self.pa_4.encode('antique') == 'ANTK,'
+        assert self.pa_4.encode('artois') == 'ART,ARTS'
+        assert self.pa_4.encode('automation') == 'ATMX,'
+        assert self.pa_4.encode('bacchus') == 'PKS,'
+        assert self.pa_4.encode('bacci') == 'PX,'
+        assert self.pa_4.encode('bajador') == 'PJTR,PHTR'
+        assert self.pa_4.encode('bellocchio') == 'PLX,'
+        assert self.pa_4.encode('bertucci') == 'PRTX,'
+        assert self.pa_4.encode('biaggi') == 'PJ,PK'
+        assert self.pa_4.encode('bough') == 'P,'
+        assert self.pa_4.encode('breaux') == 'PR,'
+        assert self.pa_4.encode('broughton') == 'PRTN,'
+        assert self.pa_4.encode('cabrillo') == 'KPRL,KPR'
+        assert self.pa_4.encode('caesar') == 'SSR,'
+        assert self.pa_4.encode('cagney') == 'KKN,'
+        assert self.pa_4.encode('campbell') == 'KMPL,'
+        assert self.pa_4.encode('carlisle') == 'KRLL,'
+        assert self.pa_4.encode('carlysle') == 'KRLL,'
+        assert self.pa_4.encode('chemistry') == 'KMST,'
+        assert self.pa_4.encode('chianti') == 'KNT,'
+        assert self.pa_4.encode('chorus') == 'KRS,'
+        assert self.pa_4.encode('cough') == 'KF,'
+        assert self.pa_4.encode('czerny') == 'SRN,XRN'
+        assert self.pa_4.encode('deffenbacher') == 'TFNP,'
+        assert self.pa_4.encode('dumb') == 'TM,'
+        assert self.pa_4.encode('edgar') == 'ATKR,'
+        assert self.pa_4.encode('edge') == 'AJ,'
+        assert self.pa_4.encode('filipowicz') == 'FLPT,FLPF'
+        assert self.pa_4.encode('focaccia') == 'FKX,'
+        assert self.pa_4.encode('gallegos') == 'KLKS,KKS'
+        assert self.pa_4.encode('gambrelli') == 'KMPR,'
+        assert self.pa_4.encode('geithain') == 'K0N,JTN'
+        assert self.pa_4.encode('ghiradelli') == 'JRTL,'
+        assert self.pa_4.encode('ghislane') == 'JLN,'
+        assert self.pa_4.encode('gough') == 'KF,'
+        assert self.pa_4.encode('hartheim') == 'HR0M,HRTM'
+        assert self.pa_4.encode('heimsheim') == 'HMSM,'
+        assert self.pa_4.encode('hochmeier') == 'HKMR,'
+        assert self.pa_4.encode('hugh') == 'H,'
+        assert self.pa_4.encode('hunger') == 'HNKR,HNJR'
+        assert self.pa_4.encode('hungry') == 'HNKR,'
+        assert self.pa_4.encode('island') == 'ALNT,'
+        assert self.pa_4.encode('isle') == 'AL,'
+        assert self.pa_4.encode('jose') == 'HS,'
+        assert self.pa_4.encode('laugh') == 'LF,'
+        assert self.pa_4.encode('mac caffrey') == 'MKFR,'
+        assert self.pa_4.encode('mac gregor') == 'MKRK,'
+        assert self.pa_4.encode('pegnitz') == 'PNTS,PKNT'
+        assert self.pa_4.encode('piskowitz') == 'PSKT,PSKF'
+        assert self.pa_4.encode('queen') == 'KN,'
+        assert self.pa_4.encode('raspberry') == 'RSPR,'
+        assert self.pa_4.encode('resnais') == 'RSN,RSNS'
+        assert self.pa_4.encode('rogier') == 'RJ,RJR'
+        assert self.pa_4.encode('rough') == 'RF,'
+        assert self.pa_4.encode('san jacinto') == 'SNHS,'
+        assert self.pa_4.encode('schenker') == 'XNKR,SKNK'
+        assert self.pa_4.encode('schermerhorn') == 'XRMR,SKRM'
+        assert self.pa_4.encode('schmidt') == 'XMT,SMT'
+        assert self.pa_4.encode('schneider') == 'XNTR,SNTR'
+        assert self.pa_4.encode('school') == 'SKL,'
+        assert self.pa_4.encode('schooner') == 'SKNR,'
+        assert self.pa_4.encode('schrozberg') == 'XRSP,SRSP'
+        assert self.pa_4.encode('schulman') == 'XLMN,'
+        assert self.pa_4.encode('schwabach') == 'XPK,XFPK'
+        assert self.pa_4.encode('schwarzach') == 'XRSK,XFRT'
+        assert self.pa_4.encode('smith') == 'SM0,XMT'
+        assert self.pa_4.encode('snider') == 'SNTR,XNTR'
+        assert self.pa_4.encode('succeed') == 'SKST,'
+        assert self.pa_4.encode('sugarcane') == 'XKRK,SKRK'
+        assert self.pa_4.encode('svobodka') == 'SFPT,'
+        assert self.pa_4.encode('tagliaro') == 'TKLR,TLR'
+        assert self.pa_4.encode('thames') == 'TMS,'
+        assert self.pa_4.encode('theilheim') == '0LM,TLM'
+        assert self.pa_4.encode('thomas') == 'TMS,'
+        assert self.pa_4.encode('thumb') == '0M,TM'
+        assert self.pa_4.encode('tichner') == 'TXNR,TKNR'
+        assert self.pa_4.encode('tough') == 'TF,'
+        assert self.pa_4.encode('umbrella') == 'AMPR,'
+        assert self.pa_4.encode('vilshofen') == 'FLXF,'
+        assert self.pa_4.encode('von schuller') == 'FNXL,'
+        assert self.pa_4.encode('wachtler') == 'AKTL,FKTL'
+        assert self.pa_4.encode('wechsler') == 'AKSL,FKSL'
+        assert self.pa_4.encode('weikersheim') == 'AKRS,FKRS'
+        assert self.pa_4.encode('zhao') == 'J,'

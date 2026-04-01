@@ -13,15 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Abydos. If not, see <http://www.gnu.org/licenses/>.
-
-
 """abydos.tests.util.
 
 This module contains unit tests for abydos.util
 """
-
-import unittest
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -19,59 +19,41 @@
 This module contains unit tests for abydos.distance.Morisita
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Morisita
 
 
-class MorisitaTestCases(unittest.TestCase):
-    """Test Morisita functions.
-
-    abydos.distance.Morisita
-    """
-
-    cmp = Morisita()
-
-    def test_morisita_sim_score(self):
-        """Test abydos.distance.Morisita.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', 'abc'), 0.5)
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Nigel', 'Niall'), 0.1666666666
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Niall', 'Nigel'), 0.1666666666
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Colin', 'Coiln'), 0.1666666666
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('Coiln', 'Colin'), 0.1666666666
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 0.12727272727
-        )
-
-        self.assertAlmostEqual(
-            self.cmp.sim_score('sadklsalkdhsa', 'slksajdlkasj'), 1.44
-        )
-
-    def test_morisita_dist(self):
-        """Test abydos.distance.Morisita.dist."""
-        self.assertRaises(NotImplementedError, self.cmp.dist)
-
-    def test_morisita_sim(self):
-        """Test abydos.distance.Morisita.sim."""
-        self.assertRaises(NotImplementedError, self.cmp.sim)
+cmp = Morisita()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_morisita_sim_score():
+    """Test abydos.distance.Morisita.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == 0.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('a', 'a') == 1.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == 0.5
+    assert cmp.sim_score('abcd', 'efgh') == 0.0
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.1666666666)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.1666666666)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.1666666666)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.1666666666)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.12727272727)
+
+    assert cmp.sim_score('sadklsalkdhsa', 'slksajdlkasj') == pytest.approx(abs=1e-7, expected=1.44)
+
+def test_morisita_dist():
+    """Test abydos.distance.Morisita.dist."""
+    with pytest.raises(NotImplementedError):
+        cmp.dist()
+
+def test_morisita_sim():
+    """Test abydos.distance.Morisita.sim."""
+    with pytest.raises(NotImplementedError):
+        cmp.sim()

@@ -27,6 +27,7 @@ including:
     - Match Rating Algorithm (:py:class:`.phonetic.MRA`)
     - Metaphone (:py:class:`.Metaphone`)
     - Double Metaphone (:py:class:`.DoubleMetaphone`)
+    - Metaphone 3 (:py:class:`.Metaphone3`)
     - Caverphone (:py:class:`.Caverphone`)
     - Alpha Search Inquiry System (:py:class:`.AlphaSIS`)
     - Fuzzy Soundex (:py:class:`.FuzzySoundex`)
@@ -75,6 +76,10 @@ For Norwegian:
 
     - Norphone (:py:class:`.Norphone`)
 
+For Russian:
+
+    - Polyphon (:py:class:`.Polyphon`)
+
 For Brazilian Portuguese:
 
     - SoundexBR (:py:class:`.SoundexBR`)
@@ -118,6 +123,7 @@ from ._koelner import Koelner
 from ._lein import LEIN
 from ._meta_soundex import MetaSoundex
 from ._metaphone import Metaphone
+from ._metaphone3 import Metaphone3
 from ._mra import MRA
 from ._norphone import Norphone
 from ._nrl import NRL
@@ -131,6 +137,7 @@ from ._phonetic_spanish import PhoneticSpanish
 from ._phonex import Phonex
 from ._phonic import PHONIC
 from ._phonix import Phonix
+from ._polyphon import Polyphon
 from ._pshp_soundex_first import PSHPSoundexFirst
 from ._pshp_soundex_last import PSHPSoundexLast
 from ._refined_soundex import RefinedSoundex
@@ -146,10 +153,23 @@ from ._spfc import SPFC
 from ._statistics_canada import StatisticsCanada
 from ._waahlin import Waahlin
 
+# Aliases for commonly used external names and names used in
+# `/Users/daniellopezdecastro/Desktop/Phonetic algorithms/Phonetic algorithms .docx`.
+AmericanSoundex = Soundex
+OriginalSoundex = Soundex
+ColognePhonetics = Koelner
+Caverphone2 = Caverphone
+BMPM = BeiderMorse
+MatchRatingApproach = MRA
+CFE = PhoneticSpanish
+Polyphone = Polyphon
+
 __all__ = [
     '_Phonetic',
     'RussellIndex',
     'Soundex',
+    'AmericanSoundex',
+    'OriginalSoundex',
     'RefinedSoundex',
     'DaitchMokotoff',
     'FuzzySoundex',
@@ -161,7 +181,9 @@ __all__ = [
     'PSHPSoundexLast',
     'NYSIIS',
     'MRA',
+    'MatchRatingApproach',
     'Caverphone',
+    'Caverphone2',
     'AlphaSIS',
     'Davidson',
     'Dolby',
@@ -172,20 +194,26 @@ __all__ = [
     'ParmarKumbharana',
     'Metaphone',
     'DoubleMetaphone',
+    'Metaphone3',
     'Eudex',
     'BeiderMorse',
+    'BMPM',
     'NRL',
     'MetaSoundex',
     'ONCA',
     'FONEM',
     'HenryEarly',
     'Koelner',
+    'ColognePhonetics',
     'Haase',
     'RethSchek',
     'Phonem',
     'Phonet',
+    'Polyphon',
+    'Polyphone',
     'SoundexBR',
     'PhoneticSpanish',
+    'CFE',
     'SpanishMetaphone',
     'SfinxBis',
     'Waahlin',

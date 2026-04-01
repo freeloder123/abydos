@@ -162,7 +162,6 @@ class SPFC(_Phonetic):
             Encapsulated in class
 
         """
-
         def _raise_word_ex() -> NoReturn:
             """Raise an AttributeError.
 

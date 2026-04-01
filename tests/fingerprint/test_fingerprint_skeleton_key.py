@@ -19,37 +19,27 @@
 This module contains unit tests for abydos.fingerprint.SkeletonKey
 """
 
-import unittest
 
 from abydos.fingerprint import SkeletonKey
 
 
-class SkeletonKeyTestCases(unittest.TestCase):
-    """Test SkeletonKey functions.
-
-    abydos.fingerprint.SkeletonKey
-    """
-
-    fp = SkeletonKey()
-
-    def test_skeleton_key(self):
-        """Test abydos.fingerprint.SkeletonKey."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
-
-        # http://dl.acm.org/citation.cfm?id=358048
-        self.assertEqual(self.fp.fingerprint('chemogenic'), 'CHMGNEOI')
-        self.assertEqual(self.fp.fingerprint('chemomagnetic'), 'CHMGNTEOAI')
-        self.assertEqual(self.fp.fingerprint('chemcal'), 'CHMLEA')
-        self.assertEqual(self.fp.fingerprint('chemcial'), 'CHMLEIA')
-        self.assertEqual(self.fp.fingerprint('chemical'), 'CHMLEIA')
-        self.assertEqual(self.fp.fingerprint('chemicial'), 'CHMLEIA')
-        self.assertEqual(self.fp.fingerprint('chimical'), 'CHMLIA')
-        self.assertEqual(self.fp.fingerprint('chemiluminescence'), 'CHMLNSEIU')
-        self.assertEqual(self.fp.fingerprint('chemiluminescent'), 'CHMLNSTEIU')
-        self.assertEqual(self.fp.fingerprint('chemicals'), 'CHMLSEIA')
-        self.assertEqual(self.fp.fingerprint('chemically'), 'CHMLYEIA')
+fp = SkeletonKey()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_skeleton_key():
+    """Test abydos.fingerprint.SkeletonKey."""
+    # Base case
+    assert fp.fingerprint('') == ''
+
+    # http://dl.acm.org/citation.cfm?id=358048
+    assert fp.fingerprint('chemogenic') == 'CHMGNEOI'
+    assert fp.fingerprint('chemomagnetic') == 'CHMGNTEOAI'
+    assert fp.fingerprint('chemcal') == 'CHMLEA'
+    assert fp.fingerprint('chemcial') == 'CHMLEIA'
+    assert fp.fingerprint('chemical') == 'CHMLEIA'
+    assert fp.fingerprint('chemicial') == 'CHMLEIA'
+    assert fp.fingerprint('chimical') == 'CHMLIA'
+    assert fp.fingerprint('chemiluminescence') == 'CHMLNSEIU'
+    assert fp.fingerprint('chemiluminescent') == 'CHMLNSTEIU'
+    assert fp.fingerprint('chemicals') == 'CHMLSEIA'
+    assert fp.fingerprint('chemically') == 'CHMLYEIA'

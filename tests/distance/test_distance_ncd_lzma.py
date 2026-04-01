@@ -19,31 +19,23 @@
 This module contains unit tests for abydos.distance.NCDlzma
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import NCDlzma
 
 
-class CompressionTestCases(unittest.TestCase):
-    """Test compression distance functions.
-
-    abydos.distance.NCDlzma
-    """
-
-    cmp = NCDlzma()
-
-    def test_ncd_lzma_dist(self):
-        """Test abydos.distance.NCDlzma.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertAlmostEqual(self.cmp.dist('a', ''), 0.6086956521739)
-        self.assertAlmostEqual(self.cmp.dist('abcdefg', 'fg'), 0.16)
-
-    def test_ncd_lzma_sim(self):
-        """Test abydos.distance.NCDlzma.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertAlmostEqual(self.cmp.sim('a', ''), 0.391304347826)
-        self.assertAlmostEqual(self.cmp.sim('abcdefg', 'fg'), 0.84)
+cmp = NCDlzma()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_ncd_lzma_dist():
+    """Test abydos.distance.NCDlzma.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('a', '') == pytest.approx(abs=1e-7, expected=0.6086956521739)
+    assert cmp.dist('abcdefg', 'fg') == pytest.approx(abs=1e-7, expected=0.16)
+
+def test_ncd_lzma_sim():
+    """Test abydos.distance.NCDlzma.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('a', '') == pytest.approx(abs=1e-7, expected=0.391304347826)
+    assert cmp.sim('abcdefg', 'fg') == pytest.approx(abs=1e-7, expected=0.84)

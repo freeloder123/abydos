@@ -19,155 +19,144 @@
 This module contains unit tests for abydos.phonetic.SpanishMetaphone
 """
 
-import unittest
-
 from abydos.phonetic import SpanishMetaphone
 
 
-class SpanishMetaphoneTestCases(unittest.TestCase):
-    """Test Spanish Metaphone functions.
+pa = SpanishMetaphone()
 
-    test cases for abydos.phonetic.SpanishMetaphone
-    """
+pa_mod = SpanishMetaphone(modified=True)
 
-    pa = SpanishMetaphone()
-    pa_mod = SpanishMetaphone(modified=True)
+def test_spanish_metaphone():
+    """Test abydos.phonetic.SpanishMetaphone."""
+    # Base case
+    assert pa.encode('') == ''
 
-    def test_spanish_metaphone(self):
-        """Test abydos.phonetic.SpanishMetaphone."""
-        # Base case
-        self.assertEqual(self.pa.encode(''), '')
+    # Examples given in
+    # https://github.com/amsqr/Spanish-Metaphone/blob/master/phonetic_algorithms_es.py
+    assert pa.encode('X') == 'X'
+    assert pa.encode('xplosion') == 'EXPLSN'
+    assert pa.encode('escalera') == 'ESKLR'
+    assert pa.encode('scalera') == 'ESKLR'
+    assert pa.encode('mi') == 'M'
+    assert pa.encode('tu') == 'T'
+    assert pa.encode('su') == 'S'
+    assert pa.encode('te') == 'T'
+    assert pa.encode('ochooomiiiillllllll') == 'OXMYY'
+    assert pa.encode('complicado') == 'KMPLKD'
+    assert pa.encode('ácaro') == 'AKR'
+    assert pa.encode('ácido') == 'AZD'
+    assert pa.encode('clown') == 'KLUN'
+    assert pa.encode('down') == 'DUN'
+    assert pa.encode('col') == 'KL'
+    assert pa.encode('clon') == 'KLN'
+    assert pa.encode('waterpolo') == 'UTRPL'
+    assert pa.encode('aquino') == 'AKN'
+    assert pa.encode('rebosar') == 'RVSR'
+    assert pa.encode('rebozar') == 'RVZR'
+    assert pa.encode('grajea') == 'GRJ'
+    assert pa.encode('gragea') == 'GRJ'
+    assert pa.encode('encima') == 'ENZM'
+    assert pa.encode('enzima') == 'ENZM'
+    assert pa.encode('alhamar') == 'ALAMR'
+    assert pa.encode('abollar') == 'AVYR'
+    assert pa.encode('aboyar') == 'AVYR'
+    assert pa.encode('huevo') == 'UV'
+    assert pa.encode('webo') == 'UV'
+    assert pa.encode('macho') == 'MX'
+    assert pa.encode('xocolate') == 'XKLT'
+    assert pa.encode('chocolate') == 'XKLT'
+    assert pa.encode('axioma') == 'AXM'
+    assert pa.encode('abedul') == 'AVDL'
+    assert pa.encode('a') == 'A'
+    assert pa.encode('gengibre') == 'JNJVR'
+    assert pa.encode('yema') == 'YM'
+    assert pa.encode('wHISKY') == 'UISKY'
+    assert pa.encode('google') == 'GGL'
+    assert pa.encode('xilófono') == 'XLFN'
+    assert pa.encode('web') == 'UV'
+    assert pa.encode('guerra') == 'GRR'
+    assert pa.encode('pingüino') == 'PNUN'
+    assert pa.encode('si') == 'S'
+    assert pa.encode('ke') == 'K'
+    assert pa.encode('que') == 'K'
+    assert pa.encode('tu') == 'T'
+    assert pa.encode('gato') == 'GT'
+    assert pa.encode('gitano') == 'JTN'
+    assert pa.encode('queso') == 'KS'
+    assert pa.encode('paquete') == 'PKT'
+    assert pa.encode('cuco') == 'KK'
+    assert pa.encode('perro') == 'PRR'
+    assert pa.encode('pero') == 'PR'
+    assert pa.encode('arrebato') == 'ARRVT'
+    assert pa.encode('hola') == 'OL'
+    assert pa.encode('zapato') == 'ZPT'
+    assert pa.encode('españa') == 'ESPNY'
+    assert pa.encode('garrulo') == 'GRRL'
+    assert pa.encode('expansión') == 'EXPNSN'
+    assert pa.encode('membrillo') == 'MMVRY'
+    assert pa.encode('jamón') == 'JMN'
+    assert pa.encode('risa') == 'RS'
+    assert pa.encode('caricia') == 'KRZ'
+    assert pa.encode('llaves') == 'YVS'
+    assert pa.encode('paella') == 'PY'
+    assert pa.encode('cerilla') == 'ZRY'
 
-        # Examples given in
-        # https://github.com/amsqr/Spanish-Metaphone/blob/master/phonetic_algorithms_es.py
-        self.assertEqual(self.pa.encode('X'), 'X')
-        self.assertEqual(self.pa.encode('xplosion'), 'EXPLSN')
-        self.assertEqual(self.pa.encode('escalera'), 'ESKLR')
-        self.assertEqual(self.pa.encode('scalera'), 'ESKLR')
-        self.assertEqual(self.pa.encode('mi'), 'M')
-        self.assertEqual(self.pa.encode('tu'), 'T')
-        self.assertEqual(self.pa.encode('su'), 'S')
-        self.assertEqual(self.pa.encode('te'), 'T')
-        self.assertEqual(self.pa.encode('ochooomiiiillllllll'), 'OXMYY')
-        self.assertEqual(self.pa.encode('complicado'), 'KMPLKD')
-        self.assertEqual(self.pa.encode('ácaro'), 'AKR')
-        self.assertEqual(self.pa.encode('ácido'), 'AZD')
-        self.assertEqual(self.pa.encode('clown'), 'KLUN')
-        self.assertEqual(self.pa.encode('down'), 'DUN')
-        self.assertEqual(self.pa.encode('col'), 'KL')
-        self.assertEqual(self.pa.encode('clon'), 'KLN')
-        self.assertEqual(self.pa.encode('waterpolo'), 'UTRPL')
-        self.assertEqual(self.pa.encode('aquino'), 'AKN')
-        self.assertEqual(self.pa.encode('rebosar'), 'RVSR')
-        self.assertEqual(self.pa.encode('rebozar'), 'RVZR')
-        self.assertEqual(self.pa.encode('grajea'), 'GRJ')
-        self.assertEqual(self.pa.encode('gragea'), 'GRJ')
-        self.assertEqual(self.pa.encode('encima'), 'ENZM')
-        self.assertEqual(self.pa.encode('enzima'), 'ENZM')
-        self.assertEqual(self.pa.encode('alhamar'), 'ALAMR')
-        self.assertEqual(self.pa.encode('abollar'), 'AVYR')
-        self.assertEqual(self.pa.encode('aboyar'), 'AVYR')
-        self.assertEqual(self.pa.encode('huevo'), 'UV')
-        self.assertEqual(self.pa.encode('webo'), 'UV')
-        self.assertEqual(self.pa.encode('macho'), 'MX')
-        self.assertEqual(self.pa.encode('xocolate'), 'XKLT')
-        self.assertEqual(self.pa.encode('chocolate'), 'XKLT')
-        self.assertEqual(self.pa.encode('axioma'), 'AXM')
-        self.assertEqual(self.pa.encode('abedul'), 'AVDL')
-        self.assertEqual(self.pa.encode('a'), 'A')
-        self.assertEqual(self.pa.encode('gengibre'), 'JNJVR')
-        self.assertEqual(self.pa.encode('yema'), 'YM')
-        self.assertEqual(self.pa.encode('wHISKY'), 'UISKY')
-        self.assertEqual(self.pa.encode('google'), 'GGL')
-        self.assertEqual(self.pa.encode('xilófono'), 'XLFN')
-        self.assertEqual(self.pa.encode('web'), 'UV')
-        self.assertEqual(self.pa.encode('guerra'), 'GRR')
-        self.assertEqual(self.pa.encode('pingüino'), 'PNUN')
-        self.assertEqual(self.pa.encode('si'), 'S')
-        self.assertEqual(self.pa.encode('ke'), 'K')
-        self.assertEqual(self.pa.encode('que'), 'K')
-        self.assertEqual(self.pa.encode('tu'), 'T')
-        self.assertEqual(self.pa.encode('gato'), 'GT')
-        self.assertEqual(self.pa.encode('gitano'), 'JTN')
-        self.assertEqual(self.pa.encode('queso'), 'KS')
-        self.assertEqual(self.pa.encode('paquete'), 'PKT')
-        self.assertEqual(self.pa.encode('cuco'), 'KK')
-        self.assertEqual(self.pa.encode('perro'), 'PRR')
-        self.assertEqual(self.pa.encode('pero'), 'PR')
-        self.assertEqual(self.pa.encode('arrebato'), 'ARRVT')
-        self.assertEqual(self.pa.encode('hola'), 'OL')
-        self.assertEqual(self.pa.encode('zapato'), 'ZPT')
-        self.assertEqual(self.pa.encode('españa'), 'ESPNY')
-        self.assertEqual(self.pa.encode('garrulo'), 'GRRL')
-        self.assertEqual(self.pa.encode('expansión'), 'EXPNSN')
-        self.assertEqual(self.pa.encode('membrillo'), 'MMVRY')
-        self.assertEqual(self.pa.encode('jamón'), 'JMN')
-        self.assertEqual(self.pa.encode('risa'), 'RS')
-        self.assertEqual(self.pa.encode('caricia'), 'KRZ')
-        self.assertEqual(self.pa.encode('llaves'), 'YVS')
-        self.assertEqual(self.pa.encode('paella'), 'PY')
-        self.assertEqual(self.pa.encode('cerilla'), 'ZRY')
+    # tests from file:///home/chrislit/Downloads/ICTRS_2016_12.pdf
+    # including of the modified version of the algorithm
+    assert pa.encode('Caricia') == 'KRZ'
+    assert pa_mod.encode('Caricia') == 'KRZ'
+    assert pa.encode('Llaves') == 'YVS'
+    assert pa_mod.encode('Llaves') == 'YVZ'
+    assert pa.encode('Paella') == 'PY'
+    assert pa_mod.encode('Paella') == 'PY'
+    assert pa.encode('Cerilla') == 'ZRY'
+    assert pa_mod.encode('Cerilla') == 'ZRY'
+    assert pa.encode('Empeorar') == 'EMPRR'
+    assert pa_mod.encode('Empeorar') == 'ENPRR'
+    assert pa.encode('Embotellar') == 'EMVTYR'
+    assert pa_mod.encode('Embotellar') == 'ENVTYR'
+    assert pa.encode('Hoy') == 'OY'
+    assert pa_mod.encode('Hoy') == 'OY'
+    assert pa.encode('Xochimilco') == 'XXMLK'
+    assert pa_mod.encode('Xochimilco') == 'XXMLK'
+    assert pa.encode('Psiquiatra') == 'PSKTR'
+    assert pa_mod.encode('Psiquiatra') == 'ZKTR'
+    assert pa.encode('siquiatra') == 'SKTR'
+    assert pa_mod.encode('siquiatra') == 'ZKTR'
+    assert pa.encode('Obscuro') == 'OVSKR'
+    assert pa_mod.encode('Obscuro') == 'OZKR'
+    assert pa.encode('Oscuro') == 'OSKR'
+    assert pa_mod.encode('Oscuro') == 'OZKR'
+    assert pa.encode('Combate') == 'KMVT'
+    assert pa_mod.encode('Combate') == 'KNVT'
+    assert pa.encode('Convate') == 'KNVT'
+    assert pa_mod.encode('Convate') == 'KNVT'
+    assert pa.encode('Conbate') == 'KNVT'
+    assert pa_mod.encode('Conbate') == 'KNVT'
+    assert pa.encode('Comportar') == 'KMPRTR'
+    assert pa_mod.encode('Comportar') == 'KNPRTR'
+    assert pa.encode('Conportar') == 'KNPRTR'
+    assert pa_mod.encode('Conportar') == 'KNPRTR'
+    assert pa.encode('Zapato') == 'ZPT'
+    assert pa_mod.encode('Zapato') == 'ZPT'
+    assert pa.encode('Sapato') == 'SPT'
+    assert pa_mod.encode('Sapato') == 'ZPT'
+    assert pa.encode('Escalera') == 'ESKLR'
+    assert pa_mod.encode('Escalera') == 'EZKLR'
+    assert pa.encode('scalera') == 'ESKLR'
+    assert pa_mod.encode('scalera') == 'EZKLR'
 
-        # tests from file:///home/chrislit/Downloads/ICTRS_2016_12.pdf
-        # including of the modified version of the algorithm
-        self.assertEqual(self.pa.encode('Caricia'), 'KRZ')
-        self.assertEqual(self.pa_mod.encode('Caricia'), 'KRZ')
-        self.assertEqual(self.pa.encode('Llaves'), 'YVS')
-        self.assertEqual(self.pa_mod.encode('Llaves'), 'YVZ')
-        self.assertEqual(self.pa.encode('Paella'), 'PY')
-        self.assertEqual(self.pa_mod.encode('Paella'), 'PY')
-        self.assertEqual(self.pa.encode('Cerilla'), 'ZRY')
-        self.assertEqual(self.pa_mod.encode('Cerilla'), 'ZRY')
-        self.assertEqual(self.pa.encode('Empeorar'), 'EMPRR')
-        self.assertEqual(self.pa_mod.encode('Empeorar'), 'ENPRR')
-        self.assertEqual(self.pa.encode('Embotellar'), 'EMVTYR')
-        self.assertEqual(self.pa_mod.encode('Embotellar'), 'ENVTYR')
-        self.assertEqual(self.pa.encode('Hoy'), 'OY')
-        self.assertEqual(self.pa_mod.encode('Hoy'), 'OY')
-        self.assertEqual(self.pa.encode('Xochimilco'), 'XXMLK')
-        self.assertEqual(self.pa_mod.encode('Xochimilco'), 'XXMLK')
-        self.assertEqual(self.pa.encode('Psiquiatra'), 'PSKTR')
-        self.assertEqual(self.pa_mod.encode('Psiquiatra'), 'ZKTR')
-        self.assertEqual(self.pa.encode('siquiatra'), 'SKTR')
-        self.assertEqual(self.pa_mod.encode('siquiatra'), 'ZKTR')
-        self.assertEqual(self.pa.encode('Obscuro'), 'OVSKR')
-        self.assertEqual(self.pa_mod.encode('Obscuro'), 'OZKR')
-        self.assertEqual(self.pa.encode('Oscuro'), 'OSKR')
-        self.assertEqual(self.pa_mod.encode('Oscuro'), 'OZKR')
-        self.assertEqual(self.pa.encode('Combate'), 'KMVT')
-        self.assertEqual(self.pa_mod.encode('Combate'), 'KNVT')
-        self.assertEqual(self.pa.encode('Convate'), 'KNVT')
-        self.assertEqual(self.pa_mod.encode('Convate'), 'KNVT')
-        self.assertEqual(self.pa.encode('Conbate'), 'KNVT')
-        self.assertEqual(self.pa_mod.encode('Conbate'), 'KNVT')
-        self.assertEqual(self.pa.encode('Comportar'), 'KMPRTR')
-        self.assertEqual(self.pa_mod.encode('Comportar'), 'KNPRTR')
-        self.assertEqual(self.pa.encode('Conportar'), 'KNPRTR')
-        self.assertEqual(self.pa_mod.encode('Conportar'), 'KNPRTR')
-        self.assertEqual(self.pa.encode('Zapato'), 'ZPT')
-        self.assertEqual(self.pa_mod.encode('Zapato'), 'ZPT')
-        self.assertEqual(self.pa.encode('Sapato'), 'SPT')
-        self.assertEqual(self.pa_mod.encode('Sapato'), 'ZPT')
-        self.assertEqual(self.pa.encode('Escalera'), 'ESKLR')
-        self.assertEqual(self.pa_mod.encode('Escalera'), 'EZKLR')
-        self.assertEqual(self.pa.encode('scalera'), 'ESKLR')
-        self.assertEqual(self.pa_mod.encode('scalera'), 'EZKLR')
+    # terms from algorithm/source
+    assert pa.encode('acción') == 'AXN'
+    assert pa.encode('reacción') == 'RXN'
+    assert pa.encode('cesar') == 'ZSR'
+    assert pa.encode('cien') == 'ZN'
+    assert pa.encode('cid') == 'ZD'
+    assert pa.encode('conciencia') == 'KNZNZ'
+    assert pa.encode('gente') == 'JNT'
+    assert pa.encode('ecologia') == 'EKLJ'
 
-        # terms from algorithm/source
-        self.assertEqual(self.pa.encode('acción'), 'AXN')
-        self.assertEqual(self.pa.encode('reacción'), 'RXN')
-        self.assertEqual(self.pa.encode('cesar'), 'ZSR')
-        self.assertEqual(self.pa.encode('cien'), 'ZN')
-        self.assertEqual(self.pa.encode('cid'), 'ZD')
-        self.assertEqual(self.pa.encode('conciencia'), 'KNZNZ')
-        self.assertEqual(self.pa.encode('gente'), 'JNT')
-        self.assertEqual(self.pa.encode('ecologia'), 'EKLJ')
-
-        # completing coverage
-        self.assertEqual(self.pa.encode('hola'), 'OL')
-        self.assertEqual(self.pa.encode('aqi'), 'AK')
-        self.assertEqual(self.pa.encode('hjordis'), 'HJRDS')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # completing coverage
+    assert pa.encode('hola') == 'OL'
+    assert pa.encode('aqi') == 'AK'
+    assert pa.encode('hjordis') == 'HJRDS'

@@ -208,6 +208,8 @@ class Eudex(_Phonetic):
             Made return a str instead of int
 
         """
+        self._validate_word(word)
+
         # Lowercase input & filter unknown characters
         word = ''.join(
             char for char in word.lower() if char in self._initial_phones

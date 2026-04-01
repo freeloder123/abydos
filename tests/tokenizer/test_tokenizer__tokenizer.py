@@ -20,86 +20,59 @@ This module contains unit tests for abydos.tokenizer._Tokenizer
 """
 
 import sys
-import unittest
 from collections import Counter
 from math import log1p
+
+import pytest
 
 from abydos.tokenizer import QGrams, QSkipgrams, _Tokenizer
 
 
-class TokenizerTestCases(unittest.TestCase):
+class TestTokenizer:
     """Test abydos.tokenizer._Tokenizer."""
 
     def test__tokenizer(self):
         """Test abydos.tokenizer._Tokenizer."""
-        self.assertEqual(
-            _Tokenizer().tokenize('').get_counter(), Counter({'': 1})
-        )
-        self.assertEqual(
-            _Tokenizer().tokenize('a').get_counter(), Counter({'a': 1})
-        )
+        assert _Tokenizer().tokenize('').get_counter() == Counter({'': 1})
+        assert _Tokenizer().tokenize('a').get_counter() == Counter({'a': 1})
 
-        self.assertEqual(
-            _Tokenizer().tokenize('NELSON').get_counter(),
-            Counter({'NELSON': 1}),
-        )
-        self.assertEqual(
-            _Tokenizer().tokenize('NEILSEN').get_counter(),
-            Counter({'NEILSEN': 1}),
-        )
-        self.assertEqual(_Tokenizer().tokenize('NEILSEN').count(), 1)
-        self.assertEqual(_Tokenizer().tokenize('NEILSEN').count_unique(), 1)
+        assert _Tokenizer().tokenize('NELSON').get_counter() == Counter({'NELSON': 1})
+        assert _Tokenizer().tokenize('NEILSEN').get_counter() == Counter({'NEILSEN': 1})
+        assert _Tokenizer().tokenize('NEILSEN').count() == 1
+        assert _Tokenizer().tokenize('NEILSEN').count_unique() == 1
 
         tweet = 'Good to be home for a night'
-        self.assertEqual(
-            _Tokenizer().tokenize(tweet).get_counter(),
-            Counter({'Good to be home for a night': 1}),
-        )
+        assert _Tokenizer().tokenize(tweet).get_counter() == Counter({'Good to be home for a night': 1})
 
         nelson = QGrams().tokenize('NELSON')
         neilsen = QGrams().tokenize('NEILSEN')
-        self.assertEqual(
-            nelson.get_set(), {'$N', 'EL', 'LS', 'N#', 'NE', 'ON', 'SO'}
-        )
-        self.assertEqual(
-            nelson.get_list(), ['$N', 'NE', 'EL', 'LS', 'SO', 'ON', 'N#']
-        )
+        assert nelson.get_set() == {'$N', 'EL', 'LS', 'N#', 'NE', 'ON', 'SO'}
+        assert nelson.get_list() == ['$N', 'NE', 'EL', 'LS', 'SO', 'ON', 'N#']
         if sys.version_info >= (3, 6):
-            self.assertEqual(
-                repr(nelson),
-                "QGrams({'$N': 1, 'NE': 1, 'EL': 1, 'LS': 1, 'SO': 1, 'ON': 1, \
-'N#': 1})",
-            )
-        self.assertEqual(
-            nelson & neilsen, Counter({'$N': 1, 'NE': 1, 'LS': 1, 'N#': 1})
+            assert repr(nelson) == "QGrams({'$N': 1, 'NE': 1, 'EL': 1, 'LS': 1, 'SO': 1, 'ON': 1, 'N#': 1})"
+        assert (nelson & neilsen) == Counter({'$N': 1, 'NE': 1, 'LS': 1, 'N#': 1})
+        assert (nelson + neilsen) == Counter(
+            {
+                '$N': 2,
+                'NE': 2,
+                'EL': 1,
+                'LS': 2,
+                'SO': 1,
+                'ON': 1,
+                'N#': 2,
+                'EI': 1,
+                'IL': 1,
+                'SE': 1,
+                'EN': 1,
+            }
         )
-        self.assertEqual(
-            nelson + neilsen,
-            Counter(
-                {
-                    '$N': 2,
-                    'NE': 2,
-                    'EL': 1,
-                    'LS': 2,
-                    'SO': 1,
-                    'ON': 1,
-                    'N#': 2,
-                    'EI': 1,
-                    'IL': 1,
-                    'SE': 1,
-                    'EN': 1,
-                }
-            ),
-        )
-        self.assertEqual(
-            nelson - neilsen, Counter({'EL': 1, 'SO': 1, 'ON': 1})
-        )
+        assert (nelson - neilsen) == Counter({'EL': 1, 'SO': 1, 'ON': 1})
 
         nelsonnelson = QGrams(scaler='set').tokenize('NELSONNELSON')
-        self.assertEqual(nelsonnelson.count(), 8)
+        assert nelsonnelson.count() == 8
 
         nelson_ssk = QSkipgrams(scaler='SSK').tokenize('NELSON')
-        self.assertAlmostEqual(nelson_ssk.count(), 18.66784401)
+        assert nelson_ssk.count() == pytest.approx(abs=1e-7, expected=18.66784401)
 
         nelson_log = QSkipgrams(qval=3, scaler=log1p).tokenize('NELSON')
         gold_standard = Counter(
@@ -175,11 +148,7 @@ class TokenizerTestCases(unittest.TestCase):
         )
         test_counter = nelson_log.get_counter()
         for key in test_counter:
-            self.assertAlmostEqual(test_counter[key], gold_standard[key])
+            assert test_counter[key] == pytest.approx(abs=1e-7, expected=gold_standard[key])
 
         nelson_entropy = QSkipgrams(scaler='entropy').tokenize('NELSON')
-        self.assertAlmostEqual(nelson_entropy.count(), 4.6644977792)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert nelson_entropy.count() == pytest.approx(abs=1e-7, expected=4.6644977792)

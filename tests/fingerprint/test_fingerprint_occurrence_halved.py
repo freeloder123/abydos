@@ -19,40 +19,28 @@
 This module contains unit tests for abydos.fingerprint.OccurrenceHalved
 """
 
-import unittest
 
 from abydos.fingerprint import OccurrenceHalved
 
 
-class OccurrenceHalvedFingerprintTestCases(unittest.TestCase):
-    """Test Cisłak & Grabowski's occurrence halved fingerprint functions.
-
-    abydos.fingerprint.OccurrenceHalved
-    """
-
-    fp = OccurrenceHalved()
-
-    def test_occurrence_halved_fingerprint(self):
-        """Test abydos.fingerprint.OccurrenceHalved."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '0' * 16)
-
-        # https://arxiv.org/pdf/1711.08475.pdf
-        self.assertEqual(self.fp.fingerprint('instance'), '0110010010111000')
-
-        self.assertEqual(self.fp.fingerprint('inst'), '0001000010100100')
-        self.assertEqual(
-            OccurrenceHalved(15).fingerprint('instance'), '110010010111000'
-        )
-        self.assertEqual(
-            OccurrenceHalved(32).fingerprint('instance'),
-            '01100100101110000000000100000000',
-        )
-        self.assertEqual(
-            OccurrenceHalved(64).fingerprint('instance'),
-            '01100100101110000000000100000000' + '0' * 32,
-        )
+fp = OccurrenceHalved()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_occurrence_halved_fingerprint():
+    """Test abydos.fingerprint.OccurrenceHalved."""
+    # Base case
+    assert fp.fingerprint('') == '0' * 16
+
+    # https://arxiv.org/pdf/1711.08475.pdf
+    assert fp.fingerprint('instance') == '0110010010111000'
+
+    assert fp.fingerprint('inst') == '0001000010100100'
+    assert OccurrenceHalved(15).fingerprint('instance') == '110010010111000'
+    assert (
+        OccurrenceHalved(32).fingerprint('instance')
+        == '01100100101110000000000100000000'
+    )
+    assert (
+        OccurrenceHalved(64).fingerprint('instance')
+        == '01100100101110000000000100000000' + '0' * 32
+    )

@@ -156,6 +156,8 @@ class PSHPSoundexFirst(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(fname)
+
         fname = unicode_normalize('NFKD', fname.upper())
         fname = ''.join(c for c in fname if c in self._uc_set)
 

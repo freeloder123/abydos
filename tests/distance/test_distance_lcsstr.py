@@ -19,146 +19,126 @@
 This module contains unit tests for abydos.distance.LCSstr
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import LCSstr
 
 
-class LCSstrTestCases(unittest.TestCase):
-    """Test LCSstr functions.
-
-    abydos.distance.LCSstr
-    """
-
-    cmp = LCSstr()
-
-    def test_lcsstr(self):
-        """Test abydos.distance.LCSstr.lcsstr."""
-        self.assertEqual(self.cmp.lcsstr('', ''), '')
-        self.assertEqual(self.cmp.lcsstr('A', ''), '')
-        self.assertEqual(self.cmp.lcsstr('', 'A'), '')
-        self.assertEqual(self.cmp.lcsstr('A', 'A'), 'A')
-        self.assertEqual(self.cmp.lcsstr('ABCD', ''), '')
-        self.assertEqual(self.cmp.lcsstr('', 'ABCD'), '')
-        self.assertEqual(self.cmp.lcsstr('ABCD', 'ABCD'), 'ABCD')
-        self.assertEqual(self.cmp.lcsstr('ABCD', 'BC'), 'BC')
-        self.assertEqual(self.cmp.lcsstr('ABCD', 'AD'), 'A')
-        self.assertEqual(self.cmp.lcsstr('ABCD', 'AC'), 'A')
-        self.assertEqual(self.cmp.lcsstr('AB', 'CD'), '')
-        self.assertEqual(self.cmp.lcsstr('ABC', 'BCD'), 'BC')
-
-        self.assertEqual(self.cmp.lcsstr('DIXON', 'DICKSONX'), 'DI')
-
-        # https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
-        self.assertEqual(self.cmp.lcsstr('AGCAT', 'GAC'), 'A')
-        self.assertEqual(self.cmp.lcsstr('XMJYAUZ', 'MZJAWXU'), 'X')
-
-        # https://github.com/jwmerrill/factor/blob/master/basis/lcs/lcs-tests.factor
-        self.assertEqual(self.cmp.lcsstr('hell', 'hello'), 'hell')
-        self.assertEqual(self.cmp.lcsstr('hello', 'hell'), 'hell')
-        self.assertEqual(self.cmp.lcsstr('ell', 'hell'), 'ell')
-        self.assertEqual(self.cmp.lcsstr('hell', 'ell'), 'ell')
-        self.assertEqual(self.cmp.lcsstr('faxbcd', 'abdef'), 'f')
-
-        # http://www.unesco.org/culture/languages-atlas/assets/_core/php/qcubed_unit_tests.php
-        self.assertEqual(
-            self.cmp.lcsstr('hello world', 'world war 2'), 'world'
-        )
-        self.assertEqual(self.cmp.lcsstr('foo bar', 'bar foo'), 'foo')
-        self.assertEqual(self.cmp.lcsstr('aaa', 'aa'), 'aa')
-        self.assertEqual(self.cmp.lcsstr('cc', 'bbbbcccccc'), 'cc')
-        self.assertEqual(self.cmp.lcsstr('ccc', 'bcbb'), 'c')
-
-        # http://www.maplesoft.com/support/help/Maple/view.aspx?path=StringTools/LongestCommonSubString
-        self.assertEqual(self.cmp.lcsstr('abax', 'bax'), 'bax')
-        self.assertEqual(self.cmp.lcsstr('tsaxbaxyz', 'axcaxy'), 'axy')
-        self.assertEqual(self.cmp.lcsstr('abcde', 'uvabxycde'), 'cde')
-        self.assertEqual(self.cmp.lcsstr('abc', 'xyz'), '')
-        self.assertEqual(
-            self.cmp.lcsstr(
-                'TAAGGTCGGCGCGCACGCTGGCGAGTATGGTGCGGAGGCCCTGGA\
-GAGGTGAGGCTCCCTCCCCTGCTCCGACCCGGGCTCCTCGCCCGCCCGGACCCAC',
-                'AAGCGCCGCGCAGTCTGGG\
-CTCCGCACACTTCTGGTCCAGTCCGACTGAGAAGGAACCACCATGGTGCTGTCTCCCGCTGACAAGACCAACATCAAG\
-ACTGCCTGGGAAAAGATCGGCAGCCACGGTGGCGAGTATGGCGCCGAGGCCGT',
-            ),
-            'TGGCGAGTATGG',
-        )
-
-    def test_lcsstr_sim(self):
-        """Test abydos.distance.LCSstr.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('A', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'A'), 0)
-        self.assertEqual(self.cmp.sim('A', 'A'), 1)
-        self.assertEqual(self.cmp.sim('ABCD', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'ABCD'), 0)
-        self.assertEqual(self.cmp.sim('ABCD', 'ABCD'), 1)
-        self.assertAlmostEqual(self.cmp.sim('ABCD', 'BC'), 2 / 4)
-        self.assertAlmostEqual(self.cmp.sim('ABCD', 'AD'), 1 / 4)
-        self.assertAlmostEqual(self.cmp.sim('ABCD', 'AC'), 1 / 4)
-        self.assertAlmostEqual(self.cmp.sim('AB', 'CD'), 0)
-        self.assertAlmostEqual(self.cmp.sim('ABC', 'BCD'), 2 / 3)
-
-        self.assertAlmostEqual(self.cmp.sim('DIXON', 'DICKSONX'), 2 / 8)
-
-        # https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
-        self.assertAlmostEqual(self.cmp.sim('AGCAT', 'GAC'), 1 / 5)
-        self.assertAlmostEqual(self.cmp.sim('XMJYAUZ', 'MZJAWXU'), 1 / 7)
-
-        # https://github.com/jwmerrill/factor/blob/master/basis/lcs/lcs-tests.factor
-        self.assertAlmostEqual(self.cmp.sim('hell', 'hello'), 4 / 5)
-        self.assertAlmostEqual(self.cmp.sim('hello', 'hell'), 4 / 5)
-        self.assertAlmostEqual(self.cmp.sim('ell', 'hell'), 3 / 4)
-        self.assertAlmostEqual(self.cmp.sim('hell', 'ell'), 3 / 4)
-        self.assertAlmostEqual(self.cmp.sim('faxbcd', 'abdef'), 1 / 6)
-
-        # http://www.unesco.org/culture/languages-atlas/assets/_core/php/qcubed_unit_tests.php
-        self.assertAlmostEqual(
-            self.cmp.sim('hello world', 'world war 2'), 5 / 11
-        )
-        self.assertAlmostEqual(self.cmp.sim('foo bar', 'bar foo'), 3 / 7)
-        self.assertAlmostEqual(self.cmp.sim('aaa', 'aa'), 2 / 3)
-        self.assertAlmostEqual(self.cmp.sim('cc', 'bbbbcccccc'), 2 / 10)
-        self.assertAlmostEqual(self.cmp.sim('ccc', 'bcbb'), 1 / 4)
-
-    def test_lcsstr_dist(self):
-        """Test abydos.distance.LCSstr.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('A', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'A'), 1)
-        self.assertEqual(self.cmp.dist('A', 'A'), 0)
-        self.assertEqual(self.cmp.dist('ABCD', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'ABCD'), 1)
-        self.assertEqual(self.cmp.dist('ABCD', 'ABCD'), 0)
-        self.assertAlmostEqual(self.cmp.dist('ABCD', 'BC'), 2 / 4)
-        self.assertAlmostEqual(self.cmp.dist('ABCD', 'AD'), 3 / 4)
-        self.assertAlmostEqual(self.cmp.dist('ABCD', 'AC'), 3 / 4)
-        self.assertAlmostEqual(self.cmp.dist('AB', 'CD'), 1)
-        self.assertAlmostEqual(self.cmp.dist('ABC', 'BCD'), 1 / 3)
-
-        self.assertAlmostEqual(self.cmp.dist('DIXON', 'DICKSONX'), 6 / 8)
-
-        # https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
-        self.assertAlmostEqual(self.cmp.dist('AGCAT', 'GAC'), 4 / 5)
-        self.assertAlmostEqual(self.cmp.dist('XMJYAUZ', 'MZJAWXU'), 6 / 7)
-
-        # https://github.com/jwmerrill/factor/blob/master/basis/lcs/lcs-tests.factor
-        self.assertAlmostEqual(self.cmp.dist('hell', 'hello'), 1 / 5)
-        self.assertAlmostEqual(self.cmp.dist('hello', 'hell'), 1 / 5)
-        self.assertAlmostEqual(self.cmp.dist('ell', 'hell'), 1 / 4)
-        self.assertAlmostEqual(self.cmp.dist('hell', 'ell'), 1 / 4)
-        self.assertAlmostEqual(self.cmp.dist('faxbcd', 'abdef'), 5 / 6)
-
-        # http://www.unesco.org/culture/languages-atlas/assets/_core/php/qcubed_unit_tests.php
-        self.assertAlmostEqual(
-            self.cmp.dist('hello world', 'world war 2'), 6 / 11
-        )
-        self.assertAlmostEqual(self.cmp.dist('foo bar', 'bar foo'), 4 / 7)
-        self.assertAlmostEqual(self.cmp.dist('aaa', 'aa'), 1 / 3)
-        self.assertAlmostEqual(self.cmp.dist('cc', 'bbbbcccccc'), 8 / 10)
-        self.assertAlmostEqual(self.cmp.dist('ccc', 'bcbb'), 3 / 4)
+cmp = LCSstr()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_lcsstr():
+    """Test abydos.distance.LCSstr.lcsstr."""
+    assert cmp.lcsstr('', '') == ''
+    assert cmp.lcsstr('A', '') == ''
+    assert cmp.lcsstr('', 'A') == ''
+    assert cmp.lcsstr('A', 'A') == 'A'
+    assert cmp.lcsstr('ABCD', '') == ''
+    assert cmp.lcsstr('', 'ABCD') == ''
+    assert cmp.lcsstr('ABCD', 'ABCD') == 'ABCD'
+    assert cmp.lcsstr('ABCD', 'BC') == 'BC'
+    assert cmp.lcsstr('ABCD', 'AD') == 'A'
+    assert cmp.lcsstr('ABCD', 'AC') == 'A'
+    assert cmp.lcsstr('AB', 'CD') == ''
+    assert cmp.lcsstr('ABC', 'BCD') == 'BC'
+
+    assert cmp.lcsstr('DIXON', 'DICKSONX') == 'DI'
+
+    # https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+    assert cmp.lcsstr('AGCAT', 'GAC') == 'A'
+    assert cmp.lcsstr('XMJYAUZ', 'MZJAWXU') == 'X'
+
+    # https://github.com/jwmerrill/factor/blob/master/basis/lcs/lcs-tests.factor
+    assert cmp.lcsstr('hell', 'hello') == 'hell'
+    assert cmp.lcsstr('hello', 'hell') == 'hell'
+    assert cmp.lcsstr('ell', 'hell') == 'ell'
+    assert cmp.lcsstr('hell', 'ell') == 'ell'
+    assert cmp.lcsstr('faxbcd', 'abdef') == 'f'
+
+    # http://www.unesco.org/culture/languages-atlas/assets/_core/php/qcubed_unit_tests.php
+    assert cmp.lcsstr('hello world', 'world war 2') == 'world'
+    assert cmp.lcsstr('foo bar', 'bar foo') == 'foo'
+    assert cmp.lcsstr('aaa', 'aa') == 'aa'
+    assert cmp.lcsstr('cc', 'bbbbcccccc') == 'cc'
+    assert cmp.lcsstr('ccc', 'bcbb') == 'c'
+
+    # http://www.maplesoft.com/support/help/Maple/view.aspx?path=StringTools/LongestCommonSubString
+    assert cmp.lcsstr('abax', 'bax') == 'bax'
+    assert cmp.lcsstr('tsaxbaxyz', 'axcaxy') == 'axy'
+    assert cmp.lcsstr('abcde', 'uvabxycde') == 'cde'
+    assert cmp.lcsstr('abc', 'xyz') == ''
+    assert (
+        cmp.lcsstr( 'TAAGGTCGGCGCGCACGCTGGCGAGTATGGTGCGGAGGCCCTGGA\ GAGGTGAGGCTCCCTCCCCTGCTCCGACCCGGGCTCCTCGCCCGCCCGGACCCAC', 'AAGCGCCGCGCAGTCTGGG\ CTCCGCACACTTCTGGTCCAGTCCGACTGAGAAGGAACCACCATGGTGCTGTCTCCCGCTGACAAGACCAACATCAAG\ ACTGCCTGGGAAAAGATCGGCAGCCACGGTGGCGAGTATGGCGCCGAGGCCGT', )
+        == 'TGGCGAGTATGG'
+    )
+
+def test_lcsstr_sim():
+    """Test abydos.distance.LCSstr.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('A', '') == 0
+    assert cmp.sim('', 'A') == 0
+    assert cmp.sim('A', 'A') == 1
+    assert cmp.sim('ABCD', '') == 0
+    assert cmp.sim('', 'ABCD') == 0
+    assert cmp.sim('ABCD', 'ABCD') == 1
+    assert cmp.sim('ABCD', 'BC') == pytest.approx(abs=1e-7, expected=2 / 4)
+    assert cmp.sim('ABCD', 'AD') == pytest.approx(abs=1e-7, expected=1 / 4)
+    assert cmp.sim('ABCD', 'AC') == pytest.approx(abs=1e-7, expected=1 / 4)
+    assert cmp.sim('AB', 'CD') == pytest.approx(abs=1e-7, expected=0)
+    assert cmp.sim('ABC', 'BCD') == pytest.approx(abs=1e-7, expected=2 / 3)
+
+    assert cmp.sim('DIXON', 'DICKSONX') == pytest.approx(abs=1e-7, expected=2 / 8)
+
+    # https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+    assert cmp.sim('AGCAT', 'GAC') == pytest.approx(abs=1e-7, expected=1 / 5)
+    assert cmp.sim('XMJYAUZ', 'MZJAWXU') == pytest.approx(abs=1e-7, expected=1 / 7)
+
+    # https://github.com/jwmerrill/factor/blob/master/basis/lcs/lcs-tests.factor
+    assert cmp.sim('hell', 'hello') == pytest.approx(abs=1e-7, expected=4 / 5)
+    assert cmp.sim('hello', 'hell') == pytest.approx(abs=1e-7, expected=4 / 5)
+    assert cmp.sim('ell', 'hell') == pytest.approx(abs=1e-7, expected=3 / 4)
+    assert cmp.sim('hell', 'ell') == pytest.approx(abs=1e-7, expected=3 / 4)
+    assert cmp.sim('faxbcd', 'abdef') == pytest.approx(abs=1e-7, expected=1 / 6)
+
+    # http://www.unesco.org/culture/languages-atlas/assets/_core/php/qcubed_unit_tests.php
+    assert cmp.sim('hello world', 'world war 2') == pytest.approx(abs=1e-7, expected=5 / 11)
+    assert cmp.sim('foo bar', 'bar foo') == pytest.approx(abs=1e-7, expected=3 / 7)
+    assert cmp.sim('aaa', 'aa') == pytest.approx(abs=1e-7, expected=2 / 3)
+    assert cmp.sim('cc', 'bbbbcccccc') == pytest.approx(abs=1e-7, expected=2 / 10)
+    assert cmp.sim('ccc', 'bcbb') == pytest.approx(abs=1e-7, expected=1 / 4)
+
+def test_lcsstr_dist():
+    """Test abydos.distance.LCSstr.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('A', '') == 1
+    assert cmp.dist('', 'A') == 1
+    assert cmp.dist('A', 'A') == 0
+    assert cmp.dist('ABCD', '') == 1
+    assert cmp.dist('', 'ABCD') == 1
+    assert cmp.dist('ABCD', 'ABCD') == 0
+    assert cmp.dist('ABCD', 'BC') == pytest.approx(abs=1e-7, expected=2 / 4)
+    assert cmp.dist('ABCD', 'AD') == pytest.approx(abs=1e-7, expected=3 / 4)
+    assert cmp.dist('ABCD', 'AC') == pytest.approx(abs=1e-7, expected=3 / 4)
+    assert cmp.dist('AB', 'CD') == pytest.approx(abs=1e-7, expected=1)
+    assert cmp.dist('ABC', 'BCD') == pytest.approx(abs=1e-7, expected=1 / 3)
+
+    assert cmp.dist('DIXON', 'DICKSONX') == pytest.approx(abs=1e-7, expected=6 / 8)
+
+    # https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+    assert cmp.dist('AGCAT', 'GAC') == pytest.approx(abs=1e-7, expected=4 / 5)
+    assert cmp.dist('XMJYAUZ', 'MZJAWXU') == pytest.approx(abs=1e-7, expected=6 / 7)
+
+    # https://github.com/jwmerrill/factor/blob/master/basis/lcs/lcs-tests.factor
+    assert cmp.dist('hell', 'hello') == pytest.approx(abs=1e-7, expected=1 / 5)
+    assert cmp.dist('hello', 'hell') == pytest.approx(abs=1e-7, expected=1 / 5)
+    assert cmp.dist('ell', 'hell') == pytest.approx(abs=1e-7, expected=1 / 4)
+    assert cmp.dist('hell', 'ell') == pytest.approx(abs=1e-7, expected=1 / 4)
+    assert cmp.dist('faxbcd', 'abdef') == pytest.approx(abs=1e-7, expected=5 / 6)
+
+    # http://www.unesco.org/culture/languages-atlas/assets/_core/php/qcubed_unit_tests.php
+    assert cmp.dist('hello world', 'world war 2') == pytest.approx(abs=1e-7, expected=6 / 11)
+    assert cmp.dist('foo bar', 'bar foo') == pytest.approx(abs=1e-7, expected=4 / 7)
+    assert cmp.dist('aaa', 'aa') == pytest.approx(abs=1e-7, expected=1 / 3)
+    assert cmp.dist('cc', 'bbbbcccccc') == pytest.approx(abs=1e-7, expected=8 / 10)
+    assert cmp.dist('ccc', 'bcbb') == pytest.approx(abs=1e-7, expected=3 / 4)

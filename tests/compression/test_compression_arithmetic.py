@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.compression.Arithmetic
 """
 
-import unittest
+import pytest
+
 from fractions import Fraction
 
 from abydos.compression import Arithmetic
@@ -27,7 +28,7 @@ from abydos.compression import Arithmetic
 from .. import NIALL
 
 
-class ArithmeticCoderTestCases(unittest.TestCase):
+class TestArithmeticCoder:
     """Test abydos.compression.Arithmetic.train & .Arithmetic.encode."""
 
     niall_probs = {
@@ -59,53 +60,46 @@ class ArithmeticCoderTestCases(unittest.TestCase):
     def test_arithmetic_train(self):
         """Test abydos.compression.Arithmetic.train."""
         self.coder.train('')
-        self.assertEqual(self.coder.get_probs(), {'\x00': (0, 1)})
+        assert self.coder.get_probs() == {'\x00': (0, 1)}
         self.coder.train(' '.join(NIALL))
-        self.assertEqual(self.coder.get_probs(), self.niall_probs)
+        assert self.coder.get_probs() == self.niall_probs
         self.coder.train(' '.join(sorted(NIALL)))
-        self.assertEqual(self.coder.get_probs(), self.niall_probs)
+        assert self.coder.get_probs() == self.niall_probs
 
         self.coder.train(' '.join(NIALL))
         niall_probs_new = self.coder.get_probs()
         self.coder.train(' '.join(sorted(NIALL)))
-        self.assertEqual(niall_probs_new, self.coder.get_probs())
+        assert niall_probs_new == self.coder.get_probs()
 
         self.coder.train('\x00'.join(NIALL))
-        self.assertEqual(niall_probs_new, self.coder.get_probs())
+        assert niall_probs_new == self.coder.get_probs()
 
     def test_arithmetic_encode(self):
         """Test abydos.compression.Arithmetic.encode."""
         self.coder.set_probs(self.niall_probs)
-        self.assertEqual(self.coder.encode(''), (254, 8))
-        self.assertEqual(self.coder.encode('a'), (3268, 12))
-        self.assertEqual(self.coder.encode('Niall'), (3911665, 23))
-        self.assertEqual(self.coder.encode('Ni\x00ll'), (1932751, 22))
-        self.assertEqual(self.coder.encode('Niel'), (486801, 20))
-        self.assertEqual(self.coder.encode('Mean'), (243067161, 28))
-        self.assertEqual(
-            self.coder.encode('Neil Noígíallach'), (2133315320471368785758, 72)
-        )
-        self.assertRaises(KeyError, self.coder.encode, 'NIALL')
+        assert self.coder.encode('') == (254, 8)
+        assert self.coder.encode('a') == (3268, 12)
+        assert self.coder.encode('Niall') == (3911665, 23)
+        assert self.coder.encode('Ni\x00ll') == (1932751, 22)
+        assert self.coder.encode('Niel') == (486801, 20)
+        assert self.coder.encode('Mean') == (243067161, 28)
+        assert self.coder.encode('Neil Noígíallach') == (2133315320471368785758, 72)
+        with pytest.raises(KeyError):
+            self.coder.encode('NIALL')
         self.coder.set_probs({'\x00': (0, 1)})
-        self.assertEqual(self.coder.encode(''), (1, 1))
+        assert self.coder.encode('') == (1, 1)
 
     def test_arithmetic_decode(self):
         """Test abydos.compression.Arithmetic.decode."""
         self.coder.set_probs(self.niall_probs)
-        self.assertEqual(self.coder.decode(254, 8), '')
-        self.assertEqual(self.coder.decode(3268, 12), 'a')
-        self.assertEqual(self.coder.decode(3911665, 23), 'Niall')
-        self.assertEqual(self.coder.decode(1932751, 22), 'Ni ll')
-        self.assertEqual(self.coder.decode(486801, 20), 'Niel')
-        self.assertEqual(self.coder.decode(243067161, 28), 'Mean')
-        self.assertEqual(
-            self.coder.decode(2133315320471368785758, 72), 'Neil Noígíallach'
-        )
+        assert self.coder.decode(254, 8) == ''
+        assert self.coder.decode(3268, 12) == 'a'
+        assert self.coder.decode(3911665, 23) == 'Niall'
+        assert self.coder.decode(1932751, 22) == 'Ni ll'
+        assert self.coder.decode(486801, 20) == 'Niel'
+        assert self.coder.decode(243067161, 28) == 'Mean'
+        assert self.coder.decode(2133315320471368785758, 72) == 'Neil Noígíallach'
         self.coder.set_probs({})
-        self.assertEqual(self.coder.decode(0, 0), '')
+        assert self.coder.decode(0, 0) == ''
         self.coder.set_probs({'\x00': (0, 1)})
-        self.assertEqual(self.coder.decode(1, 1), '')
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.coder.decode(1, 1) == ''

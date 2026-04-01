@@ -18,9 +18,3 @@
 
 This module contains unit tests for abydos.compression
 """
-
-import unittest
-
-
-if __name__ == '__main__':
-    unittest.main()

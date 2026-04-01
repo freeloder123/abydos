@@ -19,39 +19,29 @@
 This module contains unit tests for abydos.distance.Clark
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Clark
 
 
-class ClarkTestCases(unittest.TestCase):
-    """Test Clark functions.
-
-    abydos.distance.Clark
-    """
-
-    cmp = Clark()
-
-    def test_clark_dist(self):
-        """Test abydos.distance.Clark.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.8164965809)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.8164965809)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.8164965809)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.8164965809)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.707106781
-        )
+cmp = Clark()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_clark_dist():
+    """Test abydos.distance.Clark.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('a', 'a') == 0.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.8164965809)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.8164965809)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.8164965809)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.8164965809)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.707106781)

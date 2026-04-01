@@ -19,12 +19,13 @@
 This module contains unit tests for abydos.distance.SoftCosine
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import SoftCosine
 
 
-class SoftCosineTestCases(unittest.TestCase):
+class TestSoftCosine:
     """Test SoftCosine functions.
 
     abydos.distance.SoftCosine
@@ -38,99 +39,83 @@ class SoftCosineTestCases(unittest.TestCase):
     def test_soft_cosine_sim(self):
         """Test abydos.distance.SoftCosine.sim."""
         # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.7428571428571427)
+        assert self.cmp.sim('', '') == 1.0
+        assert self.cmp.sim('a', '') == 0.0
+        assert self.cmp.sim('', 'a') == 0.0
+        assert self.cmp.sim('abc', '') == 0.0
+        assert self.cmp.sim('', 'abc') == 0.0
+        assert self.cmp.sim('abc', 'abc') == 1.0
+        assert self.cmp.sim('abcd', 'efgh') == 0.7428571428571427
 
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.898146239)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.898146239)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.9375)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.9375)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.9731507012
-        )
+        assert self.cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.898146239)
+        assert self.cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.898146239)
+        assert self.cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9375)
+        assert self.cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9375)
+        assert self.cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.9731507012)
 
         # Constructor exception
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             SoftCosine(sim_method='e')
 
         # Alternate sim_methods
         # Base cases
-        self.assertEqual(self.cmp_b.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_b.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_b.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_b.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_b.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_b.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp_b.sim('abcd', 'efgh'), 0.2)
+        assert self.cmp_b.sim('', '') == 1.0
+        assert self.cmp_b.sim('a', '') == 0.0
+        assert self.cmp_b.sim('', 'a') == 0.0
+        assert self.cmp_b.sim('abc', '') == 0.0
+        assert self.cmp_b.sim('', 'abc') == 0.0
+        assert self.cmp_b.sim('abc', 'abc') == 1.0
+        assert self.cmp_b.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.2)
 
-        self.assertAlmostEqual(self.cmp_b.sim('Nigel', 'Niall'), 0.721687836)
-        self.assertAlmostEqual(self.cmp_b.sim('Niall', 'Nigel'), 0.721687836)
-        self.assertAlmostEqual(self.cmp_b.sim('Colin', 'Coiln'), 1.0)
-        self.assertAlmostEqual(self.cmp_b.sim('Coiln', 'Colin'), 1.0)
-        self.assertAlmostEqual(
-            self.cmp_b.sim('ATCAACGAGT', 'AACGATTAG'), 0.98328200498
-        )
+        assert self.cmp_b.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.721687836)
+        assert self.cmp_b.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.721687836)
+        assert self.cmp_b.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1.0)
+        assert self.cmp_b.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1.0)
+        assert self.cmp_b.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.98328200498)
 
         # Base cases
-        self.assertEqual(self.cmp_c.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_c.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_c.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_c.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_c.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_c.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp_c.sim('abcd', 'efgh'), 0.2828427124746)
+        assert self.cmp_c.sim('', '') == 1.0
+        assert self.cmp_c.sim('a', '') == 0.0
+        assert self.cmp_c.sim('', 'a') == 0.0
+        assert self.cmp_c.sim('abc', '') == 0.0
+        assert self.cmp_c.sim('', 'abc') == 0.0
+        assert self.cmp_c.sim('abc', 'abc') == 1.0
+        assert self.cmp_c.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.2828427124746)
 
-        self.assertAlmostEqual(self.cmp_c.sim('Nigel', 'Niall'), 0.800818463)
-        self.assertAlmostEqual(self.cmp_c.sim('Niall', 'Nigel'), 0.800818463)
-        self.assertAlmostEqual(self.cmp_c.sim('Colin', 'Coiln'), 1.207106781)
-        self.assertAlmostEqual(self.cmp_c.sim('Coiln', 'Colin'), 1.207106781)
-        self.assertAlmostEqual(
-            self.cmp_c.sim('ATCAACGAGT', 'AACGATTAG'), 1.023072064
-        )
+        assert self.cmp_c.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.800818463)
+        assert self.cmp_c.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.800818463)
+        assert self.cmp_c.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1.207106781)
+        assert self.cmp_c.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1.207106781)
+        assert self.cmp_c.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1.023072064)
 
         # Base cases
-        self.assertEqual(self.cmp_d.sim('', ''), 1.0)
-        self.assertEqual(self.cmp_d.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp_d.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp_d.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp_d.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp_d.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp_d.sim('abcd', 'efgh'), 0.1)
+        assert self.cmp_d.sim('', '') == 1.0
+        assert self.cmp_d.sim('a', '') == 0.0
+        assert self.cmp_d.sim('', 'a') == 0.0
+        assert self.cmp_d.sim('abc', '') == 0.0
+        assert self.cmp_d.sim('', 'abc') == 0.0
+        assert self.cmp_d.sim('abc', 'abc') == 1.0
+        assert self.cmp_d.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.1)
 
-        self.assertAlmostEqual(self.cmp_d.sim('Nigel', 'Niall'), 0.6172133998)
-        self.assertAlmostEqual(self.cmp_d.sim('Niall', 'Nigel'), 0.6172133998)
-        self.assertAlmostEqual(self.cmp_d.sim('Colin', 'Coiln'), 0.75)
-        self.assertAlmostEqual(self.cmp_d.sim('Coiln', 'Colin'), 0.75)
-        self.assertAlmostEqual(
-            self.cmp_d.sim('ATCAACGAGT', 'AACGATTAG'), 0.89597867038
-        )
+        assert self.cmp_d.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6172133998)
+        assert self.cmp_d.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6172133998)
+        assert self.cmp_d.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.75)
+        assert self.cmp_d.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.75)
+        assert self.cmp_d.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.89597867038)
 
     def test_soft_cosine_dist(self):
         """Test abydos.distance.SoftCosine.dist."""
         # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp.dist('abcd', 'efgh'), 0.25714285714285734
-        )
+        assert self.cmp.dist('', '') == 0.0
+        assert self.cmp.dist('a', '') == 1.0
+        assert self.cmp.dist('', 'a') == 1.0
+        assert self.cmp.dist('abc', '') == 1.0
+        assert self.cmp.dist('', 'abc') == 1.0
+        assert self.cmp.dist('abc', 'abc') == 0.0
+        assert self.cmp.dist('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.25714285714285734)
 
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.101853761)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.101853761)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.0625)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.0625)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.0268492988
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.101853761)
+        assert self.cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.101853761)
+        assert self.cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0625)
+        assert self.cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.0625)
+        assert self.cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.0268492988)

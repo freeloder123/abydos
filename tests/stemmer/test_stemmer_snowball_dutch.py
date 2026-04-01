@@ -19,44 +19,34 @@
 This module contains unit tests for abydos.stemmer.SnowballDutch
 """
 
-import unittest
 
 from abydos.stemmer import SnowballDutch
 
 from .. import _corpus_file
 
 
-class SnowballDutchTestCases(unittest.TestCase):
-    """Test Snowball functions.
+stmr = SnowballDutch()
 
-    abydos.stemmer.SnowballDutch
+
+def test_snowball_dutch():
+    """Test abydos.stemmer.SnowballDutch (Snowball testset).
+
+    These test cases are from
+    http://snowball.tartarus.org/algorithms/dutch/diffs.txt
     """
+    # base case
+    assert stmr.stem('') == ''
 
-    stmr = SnowballDutch()
+    #  Snowball Dutch test set
+    with open(
+        _corpus_file('snowball_dutch.csv'), encoding='utf-8'
+    ) as snowball_ts:
+        next(snowball_ts)
+        for line in snowball_ts:
+            if line[0] != '#':
+                line = line.strip().split(',')
+                word, stem = line[0], line[1]
+                assert stmr.stem(word) == stem.lower()
 
-    def test_snowball_dutch(self):
-        """Test abydos.stemmer.SnowballDutch (Snowball testset).
-
-        These test cases are from
-        http://snowball.tartarus.org/algorithms/dutch/diffs.txt
-        """
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
-
-        #  Snowball Dutch test set
-        with open(
-            _corpus_file('snowball_dutch.csv'), encoding='utf-8'
-        ) as snowball_ts:
-            next(snowball_ts)
-            for line in snowball_ts:
-                if line[0] != '#':
-                    line = line.strip().split(',')
-                    word, stem = line[0], line[1]
-                    self.assertEqual(self.stmr.stem(word), stem.lower())
-
-        # missed branch test cases
-        self.assertEqual(self.stmr.stem('zondulielijk'), 'zondulie')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # missed branch test cases
+    assert stmr.stem('zondulielijk') == 'zondulie'

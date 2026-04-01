@@ -19,10 +19,11 @@
 This module contains unit tests for abydos.corpus._unigram_corpus
 """
 
+import pytest
+
 import os
 import sys
 import tempfile
-import unittest
 from collections import defaultdict
 
 from abydos.corpus import UnigramCorpus
@@ -32,7 +33,7 @@ from abydos.tokenizer import QSkipgrams
 from .. import _corpus_file
 
 
-class UnigramCorpusTestCases(unittest.TestCase):
+class TestUnigramCorpus:
     """Test abydos.corpus.UnigramCorpus."""
 
     simple_corpus = UnigramCorpus()
@@ -92,64 +93,32 @@ class UnigramCorpusTestCases(unittest.TestCase):
 
     def test_unigram_corpus_init(self):
         """Test abydos.corpus.UnigramCorpus.__init__."""
-        self.assertIsInstance(UnigramCorpus(), UnigramCorpus)
-        self.assertIsInstance(self.sotu2015_corpus, UnigramCorpus)
+        assert isinstance(UnigramCorpus(), UnigramCorpus)
+        assert isinstance(self.sotu2015_corpus, UnigramCorpus)
 
     def test_unigram_corpus_gng_importer(self):
         """Test abydos.corpus.UnigramCorpus.gng_importer."""
-        self.assertIsInstance(self.simple_corpus, UnigramCorpus)
-        self.assertIsInstance(self.simple_corpus.corpus, defaultdict)
+        assert isinstance(self.simple_corpus, UnigramCorpus)
+        assert isinstance(self.simple_corpus.corpus, defaultdict)
 
         # skip tests of UnigramCorpus on Python < 3.6 (lack ordered dict)
         if sys.version_info < (3, 6):
             return
 
         self.sdx_corpus.gng_importer('tests/corpora/simple-ngrams.txt')
-        self.assertEqual(
-            list(self.sdx_corpus.corpus.items()),
-            [
-                ('T000', (20, 20)),
-                ('Q200', (2, 2)),
-                ('B650', (3, 3)),
-                ('F200', (1, 1)),
-                ('J513', (4, 4)),
-                ('O160', (6, 6)),
-                ('L200', (1, 1)),
-                ('D200', (5, 5)),
-                ('T220', (2, 2)),
-                ('Q216', (1, 1)),
-                ('B651', (1, 1)),
-                ('F251', (1, 1)),
-                ('O163', (3, 3)),
-                ('T420', (2, 2)),
-                ('L232', (1, 1)),
-            ],
+        assert (
+            list(self.sdx_corpus.corpus.items())
+            == [ ('T000', (20, 20)), ('Q200', (2, 2)), ('B650', (3, 3)), ('F200', (1, 1)), ('J513', (4, 4)), ('O160', (6, 6)), ('L200', (1, 1)), ('D200', (5, 5)), ('T220', (2, 2)), ('Q216', (1, 1)), ('B651', (1, 1)), ('F251', (1, 1)), ('O163', (3, 3)), ('T420', (2, 2)), ('L232', (1, 1)), ]
         )
 
         self.qsg_corpus.gng_importer('tests/corpora/simple-ngrams.txt')
-        self.assertEqual(
-            list(self.qsg_corpus.corpus.items())[:30:2],
-            [
-                ('the', (27, 27)),
-                ('quc', (5, 5)),
-                ('qic', (5, 5)),
-                ('qck', (5, 5)),
-                ('uik', (5, 5)),
-                ('ick', (5, 5)),
-                ('brw', (5, 5)),
-                ('bow', (5, 5)),
-                ('bwn', (5, 5)),
-                ('ron', (5, 5)),
-                ('own', (5, 5)),
-                ('jum', (5, 5)),
-                ('jue', (6, 5)),
-                ('jmp', (5, 5)),
-                ('jmd', (5, 5)),
-            ],
+        assert (
+            list(self.qsg_corpus.corpus.items())[:30:2]
+            == [ ('the', (27, 27)), ('quc', (5, 5)), ('qic', (5, 5)), ('qck', (5, 5)), ('uik', (5, 5)), ('ick', (5, 5)), ('brw', (5, 5)), ('bow', (5, 5)), ('bwn', (5, 5)), ('ron', (5, 5)), ('own', (5, 5)), ('jum', (5, 5)), ('jue', (6, 5)), ('jmp', (5, 5)), ('jmd', (5, 5)), ]
         )
 
         for term, _ in self.pos_corpus.corpus.items():
-            self.assertTrue('_' not in term)
+            assert '_' not in term
 
     def test_unigram_corpus_save_load_corpus(self):
         """Test abydos.corpus.UnigramCorpus.save_corpus & .load_corpus."""
@@ -157,17 +126,13 @@ class UnigramCorpusTestCases(unittest.TestCase):
         self.sotu2015_corpus.save_corpus(path)
         self.sotu2015_corpus.load_corpus(path)
         statinfo = os.stat(path)
-        self.assertGreater(statinfo.st_size, 0)
+        assert statinfo.st_size > 0
         os.close(handle)
         os.remove(path)
 
     def test_unigram_corpus_idf(self):
         """Test abydos.corpus.UnigramCorpus.idf."""
         # string-style tests
-        self.assertAlmostEqual(self.simple_corpus.idf('the'), 0.69314718056)
-        self.assertAlmostEqual(self.simple_corpus.idf('quick'), 2.3978952728)
-        self.assertAlmostEqual(self.simple_corpus.idf('trolley'), float('inf'))
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.simple_corpus.idf('the') == pytest.approx(abs=1e-7, expected=0.69314718056)
+        assert self.simple_corpus.idf('quick') == pytest.approx(abs=1e-7, expected=2.3978952728)
+        assert self.simple_corpus.idf('trolley') == pytest.approx(abs=1e-7, expected=float('inf'))

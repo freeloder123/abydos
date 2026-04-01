@@ -19,66 +19,28 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import RegexpTokenizer
 
 
-class RegexpTokenizerTestCases(unittest.TestCase):
+def test_regexp_tokenizer():
     """Test abydos.tokenizer.RegexpTokenizer."""
+    assert sorted(RegexpTokenizer().tokenize('').get_list()) == []
+    assert sorted(RegexpTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_regexp_tokenizer(self):
-        """Test abydos.tokenizer.RegexpTokenizer."""
-        self.assertEqual(sorted(RegexpTokenizer().tokenize('').get_list()), [])
-        self.assertEqual(
-            sorted(RegexpTokenizer().tokenize('a').get_list()), ['a']
-        )
+    assert (
+        sorted(RegexpTokenizer().tokenize('NELSON').get_list())
+        == sorted(['NELSON'])
+    )
+    assert (
+        sorted(RegexpTokenizer().tokenize('NEILSEN').get_list())
+        == sorted(['NEILSEN'])
+    )
 
-        self.assertEqual(
-            sorted(RegexpTokenizer().tokenize('NELSON').get_list()),
-            sorted(['NELSON']),
-        )
-        self.assertEqual(
-            sorted(RegexpTokenizer().tokenize('NEILSEN').get_list()),
-            sorted(['NEILSEN']),
-        )
-
-        tweet = "Looking forward to hearing your ideas about what we can\
-        accomplish this year & beyond. I'll answer your questions on\
-        #AskPOTUS at 12:30p ET."
-        self.assertEqual(
-            sorted(RegexpTokenizer().tokenize(tweet).get_list()),
-            sorted(
-                [
-                    'Looking',
-                    'forward',
-                    'to',
-                    'hearing',
-                    'your',
-                    'ideas',
-                    'about',
-                    'what',
-                    'we',
-                    'can',
-                    'accomplish',
-                    'this',
-                    'year',
-                    'beyond',
-                    'I',
-                    'll',
-                    'answer',
-                    'your',
-                    'questions',
-                    'on',
-                    'AskPOTUS',
-                    'at',
-                    '12',
-                    '30p',
-                    'ET',
-                ]
-            ),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    tweet = "Looking forward to hearing your ideas about what we can\
+    accomplish this year & beyond. I'll answer your questions on\
+    #AskPOTUS at 12:30p ET."
+    assert (
+        sorted(RegexpTokenizer().tokenize(tweet).get_list())
+        == sorted( [ 'Looking', 'forward', 'to', 'hearing', 'your', 'ideas', 'about', 'what', 'we', 'can', 'accomplish', 'this', 'year', 'beyond', 'I', 'll', 'answer', 'your', 'questions', 'on', 'AskPOTUS', 'at', '12', '30p', 'ET', ] )
+    )

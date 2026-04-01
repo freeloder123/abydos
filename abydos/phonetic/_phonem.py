@@ -101,6 +101,8 @@ class Phonem(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         word = unicode_normalize('NFC', word.upper())
         for i, j in self._substitutions:
             word = word.replace(i, j)

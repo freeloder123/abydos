@@ -19,60 +19,51 @@
 This module contains unit tests for abydos.phonetic.SPFC
 """
 
-import unittest
+import pytest
 
 from abydos.phonetic import SPFC
 
 
-class SPFCTestCases(unittest.TestCase):
-    """Test SPFC functions.
+pa = SPFC()
 
-    test cases for abydos.phonetic.SPFC
-    """
+def test_spfc():
+    """Test abydos.phonetic.SPFC."""
+    assert pa.encode('') == ''
 
-    pa = SPFC()
+    # https://archive.org/stream/accessingindivid00moor#page/19/mode/1up
+    assert pa.encode(('J', 'KUHNS')) == '16760'
+    assert pa.encode(('G', 'ALTSHULER')) == '35797'
+    assert pa.encode('J KUHNS') == '16760'
+    assert pa.encode('G ALTSHULER') == '35797'
+    assert pa.encode('J. KUHNS') == '16760'
+    assert pa.encode('G. ALTSHULER') == '35797'
+    assert pa.encode('J. Kuhns') == '16760'
+    assert pa.encode('G. Altshuler') == '35797'
+    assert pa.encode('T. Vines') == '16760'
+    assert pa.encode('J. Butler') == '35779'
+    assert pa.encode('J. Kuhns') != pa.encode('J. Kuntz')
+    assert pa.encode('Jon Kuhns') == '16760'
+    assert pa.encode('James Kuhns') == '16760'
 
-    def test_spfc(self):
-        """Test abydos.phonetic.SPFC."""
-        self.assertEqual(self.pa.encode(''), '')
+    with pytest.raises(AttributeError):
+        pa.encode(('J', 'A', 'Kuhns'))
+    with pytest.raises(AttributeError):
+        pa.encode('JKuhns')
+    with pytest.raises(AttributeError):
+        pa.encode(5)
 
-        # https://archive.org/stream/accessingindivid00moor#page/19/mode/1up
-        self.assertEqual(self.pa.encode(('J', 'KUHNS')), '16760')
-        self.assertEqual(self.pa.encode(('G', 'ALTSHULER')), '35797')
-        self.assertEqual(self.pa.encode('J KUHNS'), '16760')
-        self.assertEqual(self.pa.encode('G ALTSHULER'), '35797')
-        self.assertEqual(self.pa.encode('J. KUHNS'), '16760')
-        self.assertEqual(self.pa.encode('G. ALTSHULER'), '35797')
-        self.assertEqual(self.pa.encode('J. Kuhns'), '16760')
-        self.assertEqual(self.pa.encode('G. Altshuler'), '35797')
-        self.assertEqual(self.pa.encode('T. Vines'), '16760')
-        self.assertEqual(self.pa.encode('J. Butler'), '35779')
-        self.assertNotEqual(
-            self.pa.encode('J. Kuhns'), self.pa.encode('J. Kuntz')
-        )
-        self.assertEqual(self.pa.encode('Jon Kuhns'), '16760')
-        self.assertEqual(self.pa.encode('James Kuhns'), '16760')
+    # etc. (for code coverage)
+    assert pa.encode('James Goldstein') == '77795'
+    assert pa.encode('James Hansen') == '57760'
+    assert pa.encode('James Hester') == '57700'
+    assert pa.encode('James Bardot') == '31745'
+    assert pa.encode('James Windsor') == '27765'
+    assert pa.encode('James Wenders') == '27760'
+    assert pa.encode('James Ventor') == '17760'
+    assert pa.encode('þ þ') == '00'
 
-        self.assertRaises(AttributeError, self.pa.encode, ('J', 'A', 'Kuhns'))
-        self.assertRaises(AttributeError, self.pa.encode, 'JKuhns')
-        self.assertRaises(AttributeError, self.pa.encode, 5)
-
-        # etc. (for code coverage)
-        self.assertEqual(self.pa.encode('James Goldstein'), '77795')
-        self.assertEqual(self.pa.encode('James Hansen'), '57760')
-        self.assertEqual(self.pa.encode('James Hester'), '57700')
-        self.assertEqual(self.pa.encode('James Bardot'), '31745')
-        self.assertEqual(self.pa.encode('James Windsor'), '27765')
-        self.assertEqual(self.pa.encode('James Wenders'), '27760')
-        self.assertEqual(self.pa.encode('James Ventor'), '17760')
-        self.assertEqual(self.pa.encode('þ þ'), '00')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('J. Kuhns'), 'CSGMS')
-        self.assertEqual(self.pa.encode_alpha('G. Altshuler'), 'ARGEG')
-        self.assertEqual(self.pa.encode_alpha('T. Vines'), 'CSGMS')
-        self.assertEqual(self.pa.encode_alpha('James Ventor'), 'CZGMS')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('J. Kuhns') == 'CSGMS'
+    assert pa.encode_alpha('G. Altshuler') == 'ARGEG'
+    assert pa.encode_alpha('T. Vines') == 'CSGMS'
+    assert pa.encode_alpha('James Ventor') == 'CZGMS'

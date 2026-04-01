@@ -990,6 +990,8 @@ class BeiderMorse(_Phonetic):
             Made comma-sepated instead of space-separated output
 
         """
+        self._validate_word(word)
+
         word = normalize('NFC', word.strip().lower())
 
         # Language choices are either all incompatible with the name mode or

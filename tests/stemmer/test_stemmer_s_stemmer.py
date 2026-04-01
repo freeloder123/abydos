@@ -19,42 +19,32 @@
 This module contains unit tests for abydos.stemmer.SStemmer
 """
 
-import unittest
 
 from abydos.stemmer import SStemmer
 
 
-class SStemmerTestCases(unittest.TestCase):
-    """Test S-stemmer functions.
-
-    abydos.stemmer.SStemmer
-    """
-
-    stmr = SStemmer()
-
-    def test_s_stemmer(self):
-        """Test abydos.stemmer.SStemmer."""
-        # Base case
-        self.assertEqual(self.stmr.stem(''), '')
-
-        # Tests from Harman paper
-        self.assertEqual(self.stmr.stem('panels'), 'panel')
-        self.assertEqual(self.stmr.stem('subjected'), 'subjected')
-        self.assertEqual(self.stmr.stem('aerodynamics'), 'aerodynamic')
-        self.assertEqual(self.stmr.stem('heating'), 'heating')
-
-        # Additional tests to complete coverage
-        self.assertEqual(self.stmr.stem('dairies'), 'dairy')
-        self.assertEqual(self.stmr.stem('census'), 'census')
-        self.assertEqual(self.stmr.stem('boss'), 'boss')
-        self.assertEqual(self.stmr.stem('bosses'), 'bosse')
-        self.assertEqual(self.stmr.stem('raises'), 'raise')
-        self.assertEqual(self.stmr.stem('fees'), 'fee')
-        self.assertEqual(self.stmr.stem('attourneies'), 'attourneie')
-        self.assertEqual(self.stmr.stem('portemonnaies'), 'portemonnaie')
-        self.assertEqual(self.stmr.stem('foes'), 'foe')
-        self.assertEqual(self.stmr.stem('sundaes'), 'sundae')
+stmr = SStemmer()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_s_stemmer():
+    """Test abydos.stemmer.SStemmer."""
+    # Base case
+    assert stmr.stem('') == ''
+
+    # Tests from Harman paper
+    assert stmr.stem('panels') == 'panel'
+    assert stmr.stem('subjected') == 'subjected'
+    assert stmr.stem('aerodynamics') == 'aerodynamic'
+    assert stmr.stem('heating') == 'heating'
+
+    # Additional tests to complete coverage
+    assert stmr.stem('dairies') == 'dairy'
+    assert stmr.stem('census') == 'census'
+    assert stmr.stem('boss') == 'boss'
+    assert stmr.stem('bosses') == 'bosse'
+    assert stmr.stem('raises') == 'raise'
+    assert stmr.stem('fees') == 'fee'
+    assert stmr.stem('attourneies') == 'attourneie'
+    assert stmr.stem('portemonnaies') == 'portemonnaie'
+    assert stmr.stem('foes') == 'foe'
+    assert stmr.stem('sundaes') == 'sundae'

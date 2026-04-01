@@ -180,14 +180,9 @@ class Phonix(_Phonetic):
             (3, 'MPTS', 'MPS'),
             (3, 'MPS', 'MS'),
             (3, 'MPT', 'MT'),
-        )  # type: Tuple[Tuple[Any, ...], ...]
+        )
 
-        # Clamp max_length to [4, 64]
-        if max_length != -1:
-            self._max_length = min(max(4, max_length), 64)
-        else:
-            self._max_length = 64
-
+        self._max_length = self._validate_max_length(max_length)
         self._zero_pad = zero_pad
 
     def encode_alpha(self, word: str) -> str:
@@ -253,6 +248,7 @@ class Phonix(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
 
         def _start_repl(
             word: str, src: str, tar: str, post: Optional[Set[str]] = None
@@ -281,9 +277,9 @@ class Phonix(_Phonetic):
             if post:
                 for i in post:
                     if word.startswith(src + i):
-                        return tar + word[len(src) :]
+                        return tar + word[len(src):]
             elif word.startswith(src):
-                return tar + word[len(src) :]
+                return tar + word[len(src):]
             return word
 
         def _end_repl(

@@ -19,12 +19,11 @@
 This module contains unit tests for abydos.phonetic.FuzzySoundex
 """
 
-import unittest
 
 from abydos.phonetic import FuzzySoundex
 
 
-class FuzzySoundexTestCases(unittest.TestCase):
+class TestFuzzySoundex:
     """Test Fuzzy Soundex functions.
 
     test cases for abydos.phonetic.FuzzySoundex
@@ -35,70 +34,56 @@ class FuzzySoundexTestCases(unittest.TestCase):
 
     def test_fuzzy_soundex(self):
         """Test abydos.phonetic.FuzzySoundex."""
-        self.assertEqual(self.pa.encode(''), '00000')
+        assert self.pa.encode('') == '00000'
         # http://wayback.archive.org/web/20100629121128/http://www.ir.iit.edu/publications/downloads/IEEESoundexV5.pdf
-        self.assertEqual(self.pa.encode('Kristen'), 'K6935')
-        self.assertEqual(self.pa.encode('Krissy'), 'K6900')
-        self.assertEqual(self.pa.encode('Christen'), 'K6935')
+        assert self.pa.encode('Kristen') == 'K6935'
+        assert self.pa.encode('Krissy') == 'K6900'
+        assert self.pa.encode('Christen') == 'K6935'
 
         # http://books.google.com/books?id=LZrT6eWf9NMC&lpg=PA76&ots=Tex3FqNwGP&dq=%22phonix%20algorithm%22&pg=PA75#v=onepage&q=%22phonix%20algorithm%22&f=false
-        self.assertEqual(self.pa_4.encode('peter'), 'P360')
-        self.assertEqual(self.pa_4.encode('pete'), 'P300')
-        self.assertEqual(self.pa_4.encode('pedro'), 'P360')
-        self.assertEqual(self.pa_4.encode('stephen'), 'S315')
-        self.assertEqual(self.pa_4.encode('steve'), 'S310')
-        self.assertEqual(self.pa_4.encode('smith'), 'S530')
-        self.assertEqual(self.pa_4.encode('smythe'), 'S530')
-        self.assertEqual(self.pa_4.encode('gail'), 'G400')
-        self.assertEqual(self.pa_4.encode('gayle'), 'G400')
-        self.assertEqual(self.pa_4.encode('christine'), 'K693')
-        self.assertEqual(self.pa_4.encode('christina'), 'K693')
-        self.assertEqual(self.pa_4.encode('kristina'), 'K693')
+        assert self.pa_4.encode('peter') == 'P360'
+        assert self.pa_4.encode('pete') == 'P300'
+        assert self.pa_4.encode('pedro') == 'P360'
+        assert self.pa_4.encode('stephen') == 'S315'
+        assert self.pa_4.encode('steve') == 'S310'
+        assert self.pa_4.encode('smith') == 'S530'
+        assert self.pa_4.encode('smythe') == 'S530'
+        assert self.pa_4.encode('gail') == 'G400'
+        assert self.pa_4.encode('gayle') == 'G400'
+        assert self.pa_4.encode('christine') == 'K693'
+        assert self.pa_4.encode('christina') == 'K693'
+        assert self.pa_4.encode('kristina') == 'K693'
 
         # etc. (for code coverage)
-        self.assertEqual(self.pa.encode('Wight'), 'W3000')
-        self.assertEqual(self.pa.encode('Hardt'), 'H6000')
-        self.assertEqual(self.pa.encode('Knight'), 'N3000')
-        self.assertEqual(self.pa.encode('Czech'), 'S7000')
-        self.assertEqual(self.pa.encode('Tsech'), 'S7000')
-        self.assertEqual(self.pa.encode('gnomic'), 'N5900')
-        self.assertEqual(self.pa.encode('Wright'), 'R3000')
-        self.assertEqual(self.pa.encode('Hrothgar'), 'R3760')
-        self.assertEqual(self.pa.encode('Hwaet'), 'W3000')
-        self.assertEqual(self.pa.encode('Grant'), 'G6300')
-        self.assertEqual(self.pa.encode('Hart'), 'H6000')
-        self.assertEqual(self.pa.encode('Hardt'), 'H6000')
+        assert self.pa.encode('Wight') == 'W3000'
+        assert self.pa.encode('Hardt') == 'H6000'
+        assert self.pa.encode('Knight') == 'N3000'
+        assert self.pa.encode('Czech') == 'S7000'
+        assert self.pa.encode('Tsech') == 'S7000'
+        assert self.pa.encode('gnomic') == 'N5900'
+        assert self.pa.encode('Wright') == 'R3000'
+        assert self.pa.encode('Hrothgar') == 'R3760'
+        assert self.pa.encode('Hwaet') == 'W3000'
+        assert self.pa.encode('Grant') == 'G6300'
+        assert self.pa.encode('Hart') == 'H6000'
+        assert self.pa.encode('Hardt') == 'H6000'
 
         # max_length bounds tests
-        self.assertEqual(
-            FuzzySoundex(max_length=-1).encode('Niall'),
-            'N400000000000000000000000000000000000000000000000000000000000000',
+        assert (
+            FuzzySoundex(max_length=-1).encode('Niall')
+            == 'N400000000000000000000000000000000000000000000000000000000000000'
         )
-        self.assertEqual(FuzzySoundex(max_length=0).encode('Niall'), 'N400')
+        assert FuzzySoundex(max_length=0).encode('Niall') == 'N400'
 
         # zero_pad tests
-        self.assertEqual(
-            FuzzySoundex(max_length=-1, zero_pad=False).encode('Niall'), 'N4'
-        )
-        self.assertEqual(
-            FuzzySoundex(max_length=0, zero_pad=False).encode('Niall'), 'N4'
-        )
-        self.assertEqual(
-            FuzzySoundex(max_length=0, zero_pad=True).encode('Niall'), 'N400'
-        )
-        self.assertEqual(
-            FuzzySoundex(max_length=4, zero_pad=False).encode(''), '0'
-        )
-        self.assertEqual(
-            FuzzySoundex(max_length=4, zero_pad=True).encode(''), '0000'
-        )
+        assert FuzzySoundex(max_length=-1, zero_pad=False).encode('Niall') == 'N4'
+        assert FuzzySoundex(max_length=0, zero_pad=False).encode('Niall') == 'N4'
+        assert FuzzySoundex(max_length=0, zero_pad=True).encode('Niall') == 'N400'
+        assert FuzzySoundex(max_length=4, zero_pad=False).encode('') == '0'
+        assert FuzzySoundex(max_length=4, zero_pad=True).encode('') == '0000'
 
         # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('pete'), 'PT')
-        self.assertEqual(self.pa.encode_alpha('pedro'), 'PTR')
-        self.assertEqual(self.pa.encode_alpha('stephen'), 'STPN')
-        self.assertEqual(self.pa.encode_alpha('steve'), 'STP')
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.pa.encode_alpha('pete') == 'PT'
+        assert self.pa.encode_alpha('pedro') == 'PTR'
+        assert self.pa.encode_alpha('stephen') == 'STPN'
+        assert self.pa.encode_alpha('steve') == 'STP'

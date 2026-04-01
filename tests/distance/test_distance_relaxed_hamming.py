@@ -19,70 +19,54 @@
 This module contains unit tests for abydos.distance.RelaxedHamming
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import RelaxedHamming
 
 
-class RelaxedHammingTestCases(unittest.TestCase):
-    """Test RelaxedHamming functions.
-
-    abydos.distance.RelaxedHamming
-    """
-
-    cmp = RelaxedHamming()
-
-    def test_relaxed_hamming_dist(self):
-        """Test abydos.distance.RelaxedHamming.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.24)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.08)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.08)
-        self.assertAlmostEqual(self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.36)
-
-        self.assertAlmostEqual(
-            self.cmp.dist('hamming', 'hamstring'), 0.37777777777
-        )
-
-        # coverage
-        self.assertAlmostEqual(
-            RelaxedHamming(qval=2).dist('Nigel', 'Niall'), 0.5
-        )
-        self.assertAlmostEqual(
-            RelaxedHamming(qval=2).dist('Nigal', 'Niall'), 0.3666666666666667
-        )
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall\1'), 0.5)
-
-    def test_relaxed_hamming_dist_abs(self):
-        """Test abydos.distance.RelaxedHamming.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 3.0)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 3.0)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 4.0)
-
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 2.0)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 1.2)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 0.4)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 3.6
-        )
-
-        self.assertAlmostEqual(self.cmp.dist_abs('hamming', 'hamstring'), 3.4)
+cmp = RelaxedHamming()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_relaxed_hamming_dist():
+    """Test abydos.distance.RelaxedHamming.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.24)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.08)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.08)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.36)
+
+    assert cmp.dist('hamming', 'hamstring') == pytest.approx(abs=1e-7, expected=0.37777777777)
+
+    # coverage
+    assert RelaxedHamming(qval=2).dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert RelaxedHamming(qval=2).dist('Nigal', 'Niall') == pytest.approx(abs=1e-7, expected=0.3666666666666667)
+    assert cmp.dist('Nigel', 'Niall\1') == pytest.approx(abs=1e-7, expected=0.5)
+
+def test_relaxed_hamming_dist_abs():
+    """Test abydos.distance.RelaxedHamming.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0.0
+    assert cmp.dist_abs('a', '') == 1.0
+    assert cmp.dist_abs('', 'a') == 1.0
+    assert cmp.dist_abs('abc', '') == 3.0
+    assert cmp.dist_abs('', 'abc') == 3.0
+    assert cmp.dist_abs('abc', 'abc') == 0.0
+    assert cmp.dist_abs('abcd', 'efgh') == 4.0
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=2.0)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=1.2)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=3.6)
+
+    assert cmp.dist_abs('hamming', 'hamstring') == pytest.approx(abs=1e-7, expected=3.4)

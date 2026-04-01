@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.corpus._n_gram_corpus
 """
 
-import unittest
+import pytest
+
 from collections import Counter
 
 from abydos.corpus import Corpus
@@ -28,7 +29,7 @@ from abydos.corpus import NGramCorpus
 from .. import _corpus_file
 
 
-class NGramCorpusTestCases(unittest.TestCase):
+class TestNGramCorpus:
     """Test abydos.corpus.NGramCorpus."""
 
     simple_corpus = NGramCorpus()
@@ -92,114 +93,77 @@ class NGramCorpusTestCases(unittest.TestCase):
 
     def test_init(self):
         """Test abydos.corpus.NGramCorpus.__init__."""
-        self.assertIsInstance(NGramCorpus(), NGramCorpus)
-        self.assertRaises(TypeError, NGramCorpus, ['a', 'b', 'c'])
-        self.assertIsInstance(NGramCorpus(self.sotu2015_corpus), NGramCorpus)
+        assert isinstance(NGramCorpus(), NGramCorpus)
+        with pytest.raises(TypeError):
+            NGramCorpus(['a', 'b', 'c'])
+        assert isinstance(NGramCorpus(self.sotu2015_corpus), NGramCorpus)
 
     def test_corpus_importer(self):
         """Test abydos.corpus.NGramCorpus.corpus_importer."""
-        self.assertRaises(
-            TypeError, self.sotu_ngcorpus_5.corpus_importer, 'a b c d'
-        )
-        self.assertRaises(TypeError, self.sotu_ngcorpus_5.corpus_importer)
+        with pytest.raises(TypeError):
+            self.sotu_ngcorpus_5.corpus_importer('a b c d')
+        with pytest.raises(TypeError):
+            self.sotu_ngcorpus_5.corpus_importer()
 
-        self.assertIsInstance(self.sotu_ngcorpus_uni, NGramCorpus)
-        self.assertIsInstance(self.sotu_ngcorpus_tri, NGramCorpus)
+        assert isinstance(self.sotu_ngcorpus_uni, NGramCorpus)
+        assert isinstance(self.sotu_ngcorpus_tri, NGramCorpus)
 
-        self.assertIsInstance(self.sotu_ngcorpus_uni.ngcorpus, Counter)
-        self.assertIsInstance(self.sotu_ngcorpus_tri.ngcorpus, Counter)
+        assert isinstance(self.sotu_ngcorpus_uni.ngcorpus, Counter)
+        assert isinstance(self.sotu_ngcorpus_tri.ngcorpus, Counter)
 
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 1)), 10
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 2)), 9
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 3)), 8
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 4)), 7
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 5)), 6
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 6)), 5
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 7)), 4
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 8)), 3
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 9)), 2
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 10)), 1
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 11)), 0
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 12)), 0
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 13)), 0
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 14)), 0
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count(' '.join('a' * 15)), 0
-        )
-        self.assertEqual(self.simple_ngcorpus_5.get_count('_START_ a'), 1)
-        self.assertEqual(self.simple_ngcorpus_5.get_count('a _END_'), 1)
-        self.assertEqual(self.simple_ngcorpus_5.get_count('_END_ a'), 0)
-        self.assertEqual(self.simple_ngcorpus_5.get_count('a _START_'), 0)
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count('_START_ a _END_'), 0
-        )
-        self.assertEqual(
-            self.simple_ngcorpus_5.get_count('_END_ a _START_'), 0
-        )
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 1)) == 10
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 2)) == 9
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 3)) == 8
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 4)) == 7
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 5)) == 6
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 6)) == 5
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 7)) == 4
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 8)) == 3
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 9)) == 2
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 10)) == 1
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 11)) == 0
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 12)) == 0
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 13)) == 0
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 14)) == 0
+        assert self.simple_ngcorpus_5.get_count(' '.join('a' * 15)) == 0
+        assert self.simple_ngcorpus_5.get_count('_START_ a') == 1
+        assert self.simple_ngcorpus_5.get_count('a _END_') == 1
+        assert self.simple_ngcorpus_5.get_count('_END_ a') == 0
+        assert self.simple_ngcorpus_5.get_count('a _START_') == 0
+        assert self.simple_ngcorpus_5.get_count('_START_ a _END_') == 0
+        assert self.simple_ngcorpus_5.get_count('_END_ a _START_') == 0
 
-        self.assertEqual(self.sotu_ngcorpus_uni.get_count('Mr'), 2)
-        self.assertEqual(self.sotu_ngcorpus_tri.get_count('Mr'), 2)
+        assert self.sotu_ngcorpus_uni.get_count('Mr') == 2
+        assert self.sotu_ngcorpus_tri.get_count('Mr') == 2
 
-        self.assertEqual(self.sotu_ngcorpus_uni.get_count('the'), 19)
-        self.assertEqual(self.sotu_ngcorpus_tri.get_count('the'), 19)
+        assert self.sotu_ngcorpus_uni.get_count('the') == 19
+        assert self.sotu_ngcorpus_tri.get_count('the') == 19
 
-        self.assertEqual(self.sotu_ngcorpus_uni.get_count('to come'), 0)
-        self.assertEqual(self.sotu_ngcorpus_tri.get_count('to come'), 2)
+        assert self.sotu_ngcorpus_uni.get_count('to come') == 0
+        assert self.sotu_ngcorpus_tri.get_count('to come') == 2
 
-        self.assertEqual(self.sotu_ngcorpus_tri.get_count('<SOS> And'), 3)
-        self.assertGreater(
-            self.sotu_ngcorpus_tri.get_count('<SOS> And'),
-            self.sotu_ngcorpus_5.get_count('<SOS> And'),
+        assert self.sotu_ngcorpus_tri.get_count('<SOS> And') == 3
+        assert (
+            self.sotu_ngcorpus_tri.get_count('<SOS> And')
+            > self.sotu_ngcorpus_5.get_count('<SOS> And')
         )
 
     def test_gng_importer(self):
         """Test abydos.corpus.NGramCorpus.gng_importer."""
-        self.assertIsInstance(self.simple_corpus, NGramCorpus)
-        self.assertIsInstance(self.simple_corpus.ngcorpus, Counter)
+        assert isinstance(self.simple_corpus, NGramCorpus)
+        assert isinstance(self.simple_corpus.ngcorpus, Counter)
 
-        self.assertEqual(self.simple_corpus.get_count('the'), 20)
-        self.assertEqual(self.double_corpus.get_count('the'), 40)
+        assert self.simple_corpus.get_count('the') == 20
+        assert self.double_corpus.get_count('the') == 40
 
     def test_get_count(self):
         """Test abydos.corpus.NGramCorpus.get_count."""
         # string-style tests
-        self.assertEqual(self.simple_corpus.get_count('the'), 20)
-        self.assertEqual(self.simple_corpus.get_count('the quick'), 2)
-        self.assertEqual(self.simple_corpus.get_count('trolley'), 0)
+        assert self.simple_corpus.get_count('the') == 20
+        assert self.simple_corpus.get_count('the quick') == 2
+        assert self.simple_corpus.get_count('trolley') == 0
 
         # list-style tests
-        self.assertEqual(self.simple_corpus.get_count(['the']), 20)
-        self.assertEqual(self.simple_corpus.get_count(['the', 'quick']), 2)
-        self.assertEqual(self.simple_corpus.get_count(['trolley']), 0)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.simple_corpus.get_count(['the']) == 20
+        assert self.simple_corpus.get_count(['the', 'quick']) == 2
+        assert self.simple_corpus.get_count(['trolley']) == 0

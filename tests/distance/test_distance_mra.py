@@ -19,73 +19,65 @@
 This module contains unit tests for abydos.distance.MRA
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import MRA
 
 
-class MraTestCases(unittest.TestCase):
-    """Test MRA functions.
-
-    abydos.distance.MRA
-    """
-
-    cmp = MRA()
-
-    def test_mra_dist_abs(self):
-        """Test abydos.distance.MRA.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 6)
-        self.assertEqual(self.cmp.dist_abs('a', 'a'), 6)
-        self.assertEqual(self.cmp.dist_abs('abcdefg', 'abcdefg'), 6)
-        self.assertEqual(self.cmp.dist_abs('abcdefg', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('', 'abcdefg'), 0)
-
-        # https://en.wikipedia.org/wiki/Match_rating_approach
-        self.assertEqual(self.cmp.dist_abs('Byrne', 'Boern'), 5)
-        self.assertEqual(self.cmp.dist_abs('Smith', 'Smyth'), 5)
-        self.assertEqual(self.cmp.dist_abs('Catherine', 'Kathryn'), 4)
-
-        self.assertEqual(self.cmp.dist_abs('ab', 'abcdefgh'), 0)
-        self.assertEqual(self.cmp.dist_abs('ab', 'ac'), 5)
-        self.assertEqual(self.cmp.dist_abs('abcdefik', 'abcdefgh'), 3)
-        self.assertEqual(self.cmp.dist_abs('xyz', 'abc'), 0)
-
-    def test_mra_sim(self):
-        """Test abydos.distance.MRA.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1)
-        self.assertEqual(self.cmp.sim('abcdefg', 'abcdefg'), 1)
-        self.assertEqual(self.cmp.sim('abcdefg', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'abcdefg'), 0)
-
-        # https://en.wikipedia.org/wiki/Match_rating_approach
-        self.assertEqual(self.cmp.sim('Byrne', 'Boern'), 5 / 6)
-        self.assertEqual(self.cmp.sim('Smith', 'Smyth'), 5 / 6)
-        self.assertEqual(self.cmp.sim('Catherine', 'Kathryn'), 4 / 6)
-
-        self.assertEqual(self.cmp.sim('ab', 'abcdefgh'), 0)
-        self.assertEqual(self.cmp.sim('ab', 'ac'), 5 / 6)
-        self.assertEqual(self.cmp.sim('abcdefik', 'abcdefgh'), 3 / 6)
-        self.assertEqual(self.cmp.sim('xyz', 'abc'), 0)
-
-    def test_mra_dist(self):
-        """Test abydos.distance.MRA.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('a', 'a'), 0)
-        self.assertEqual(self.cmp.dist('abcdefg', 'abcdefg'), 0)
-        self.assertEqual(self.cmp.dist('abcdefg', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'abcdefg'), 1)
-
-        # https://en.wikipedia.org/wiki/Match_rating_approach
-        self.assertAlmostEqual(self.cmp.dist('Byrne', 'Boern'), 1 / 6)
-        self.assertAlmostEqual(self.cmp.dist('Smith', 'Smyth'), 1 / 6)
-        self.assertAlmostEqual(self.cmp.dist('Catherine', 'Kathryn'), 2 / 6)
-
-        self.assertEqual(self.cmp.dist('ab', 'abcdefgh'), 1)
-        self.assertAlmostEqual(self.cmp.dist('ab', 'ac'), 1 / 6)
-        self.assertAlmostEqual(self.cmp.dist('abcdefik', 'abcdefgh'), 3 / 6)
-        self.assertEqual(self.cmp.dist('xyz', 'abc'), 1)
+cmp = MRA()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_mra_dist_abs():
+    """Test abydos.distance.MRA.dist_abs."""
+    assert cmp.dist_abs('', '') == 6
+    assert cmp.dist_abs('a', 'a') == 6
+    assert cmp.dist_abs('abcdefg', 'abcdefg') == 6
+    assert cmp.dist_abs('abcdefg', '') == 0
+    assert cmp.dist_abs('', 'abcdefg') == 0
+
+    # https://en.wikipedia.org/wiki/Match_rating_approach
+    assert cmp.dist_abs('Byrne', 'Boern') == 5
+    assert cmp.dist_abs('Smith', 'Smyth') == 5
+    assert cmp.dist_abs('Catherine', 'Kathryn') == 4
+
+    assert cmp.dist_abs('ab', 'abcdefgh') == 0
+    assert cmp.dist_abs('ab', 'ac') == 5
+    assert cmp.dist_abs('abcdefik', 'abcdefgh') == 3
+    assert cmp.dist_abs('xyz', 'abc') == 0
+
+def test_mra_sim():
+    """Test abydos.distance.MRA.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('a', 'a') == 1
+    assert cmp.sim('abcdefg', 'abcdefg') == 1
+    assert cmp.sim('abcdefg', '') == 0
+    assert cmp.sim('', 'abcdefg') == 0
+
+    # https://en.wikipedia.org/wiki/Match_rating_approach
+    assert cmp.sim('Byrne', 'Boern') == 5 / 6
+    assert cmp.sim('Smith', 'Smyth') == 5 / 6
+    assert cmp.sim('Catherine', 'Kathryn') == 4 / 6
+
+    assert cmp.sim('ab', 'abcdefgh') == 0
+    assert cmp.sim('ab', 'ac') == 5 / 6
+    assert cmp.sim('abcdefik', 'abcdefgh') == 3 / 6
+    assert cmp.sim('xyz', 'abc') == 0
+
+def test_mra_dist():
+    """Test abydos.distance.MRA.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('a', 'a') == 0
+    assert cmp.dist('abcdefg', 'abcdefg') == 0
+    assert cmp.dist('abcdefg', '') == 1
+    assert cmp.dist('', 'abcdefg') == 1
+
+    # https://en.wikipedia.org/wiki/Match_rating_approach
+    assert cmp.dist('Byrne', 'Boern') == pytest.approx(abs=1e-7, expected=1 / 6)
+    assert cmp.dist('Smith', 'Smyth') == pytest.approx(abs=1e-7, expected=1 / 6)
+    assert cmp.dist('Catherine', 'Kathryn') == pytest.approx(abs=1e-7, expected=2 / 6)
+
+    assert cmp.dist('ab', 'abcdefgh') == 1
+    assert cmp.dist('ab', 'ac') == pytest.approx(abs=1e-7, expected=1 / 6)
+    assert cmp.dist('abcdefik', 'abcdefgh') == pytest.approx(abs=1e-7, expected=3 / 6)
+    assert cmp.dist('xyz', 'abc') == 1

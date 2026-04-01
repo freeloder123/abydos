@@ -51,11 +51,7 @@ class Metaphone(_Phonetic):
         .. versionadded:: 0.4.0
 
         """
-        # Require a max_length of at least 4
-        if max_length != -1:
-            self._max_length = max(4, max_length)
-        else:
-            self._max_length = 64
+        self._max_length = self._validate_max_length(max_length)
 
     def encode(self, word: str) -> str:
         """Return the Metaphone code for a word.
@@ -93,6 +89,8 @@ class Metaphone(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         # As in variable sound--those modified by adding an "h"
         ename = ''.join(c for c in word.upper() if c.isalnum())
 

@@ -19,131 +19,124 @@
 This module contains unit tests for abydos.phonetic.Soundex
 """
 
-import unittest
+import pytest
 
 from abydos.phonetic import Soundex
 
 
-class SoundexTestCases(unittest.TestCase):
-    """Test Soundex functions.
+pa = Soundex()
 
-    test cases for abydos.phonetic.Soundex
-    """
+def test_soundex():
+    """Test abydos.phonetic.Soundex."""
+    assert pa.encode('') == '0000'
 
+    # https://archive.org/stream/accessingindivid00moor#page/14/mode/2up
+    assert pa.encode('Euler') == 'E460'
+    assert pa.encode('Gauss') == 'G200'
+    assert pa.encode('Hilbert') == 'H416'
+    assert pa.encode('Knuth') == 'K530'
+    assert pa.encode('Lloyd') == 'L300'
+    assert pa.encode('Lukasieicz') == 'L222'
+    assert pa.encode('Ellery') == 'E460'
+    assert pa.encode('Ghosh') == 'G200'
+    assert pa.encode('Heilbronn') == 'H416'
+    assert pa.encode('Kant') == 'K530'
+    assert pa.encode('Ladd') == 'L300'
+    assert pa.encode('Lissajous') == 'L222'
+    assert pa.encode('Rogers') == 'R262'
+    assert pa.encode('Rodgers') == 'R326'
+    assert pa.encode('Rogers') != pa.encode('Rodgers')
+    assert pa.encode('Sinclair') != pa.encode('St. Clair')
+    assert pa.encode('Tchebysheff') != pa.encode('Chebyshev')
+
+    # http://creativyst.com/Doc/Articles/SoundEx1/SoundEx1.htm#Related
+    assert pa.encode('Htacky') == 'H320'
+    assert pa.encode('Atacky') == 'A320'
+    assert pa.encode('Schmit') == 'S530'
+    assert pa.encode('Schneider') == 'S536'
+    assert pa.encode('Pfister') == 'P236'
+    assert pa.encode('Ashcroft') == 'A261'
+    assert pa.encode('Asicroft') == 'A226'
+
+    # https://en.wikipedia.org/wiki/Soundex
+    assert pa.encode('Robert') == 'R163'
+    assert pa.encode('Rupert') == 'R163'
+    assert pa.encode('Rubin') == 'R150'
+    assert pa.encode('Tymczak') == 'T522'
+
+    # https://en.wikipedia.org/wiki/Daitch%E2%80%93Mokotoff_Soundex
+    assert pa.encode('Peters') == 'P362'
+    assert pa.encode('Peterson') == 'P362'
+    assert pa.encode('Moskowitz') == 'M232'
+    assert pa.encode('Moskovitz') == 'M213'
+    assert pa.encode('Auerbach') == 'A612'
+    assert pa.encode('Uhrbach') == 'U612'
+    assert pa.encode('Jackson') == 'J250'
+    assert pa.encode('Jackson-Jackson') == 'J252'
+
+    # max_length tests
+    assert Soundex(10).encode('Lincoln') == 'L524500000'
+    assert Soundex(5).encode('Lincoln') == 'L5245'
+    assert Soundex(6).encode('Christopher') == 'C62316'
+
+    # max_length bounds tests
+    assert (
+        Soundex(max_length=-1).encode('Niall')
+        == 'N4000000000000000000000000000000000000000000000000'
+        + '00000000000000'
+    )
+    assert Soundex(max_length=0).encode('Niall') == 'N400'
+
+    # reverse tests
+    assert Soundex(reverse=True).encode('Rubin') == 'N160'
+    assert Soundex(reverse=True).encode('Llyod') == 'D400'
+    assert Soundex(reverse=True).encode('Lincoln') == 'N425'
+    assert Soundex(reverse=True).encode('Knuth') == 'H352'
+
+    # zero_pad tests
+    assert Soundex(max_length=-1, zero_pad=False).encode('Niall') == 'N4'
+    assert Soundex(max_length=0, zero_pad=False).encode('Niall') == 'N4'
+    assert Soundex(max_length=0, zero_pad=True).encode('Niall') == 'N400'
+    assert Soundex(max_length=4, zero_pad=False).encode('') == '0'
+    assert Soundex(max_length=4, zero_pad=True).encode('') == '0000'
+
+    # encode_alpha
+    assert pa.encode_alpha('Euler') == 'ELR'
+    assert pa.encode_alpha('Gauss') == 'GK'
+    assert pa.encode_alpha('Hilbert') == 'HLPR'
+    assert pa.encode_alpha('Knuth') == 'KNT'
+
+def test_soundex_special():
+    """Test abydos.phonetic.Soundex (special 1880-1910 variant method)."""
+    pa_special = Soundex(var='special')
+    assert pa_special.encode('Ashcroft') == 'A226'
+    assert pa_special.encode('Asicroft') == 'A226'
+    assert pa_special.encode('AsWcroft') == 'A226'
+    assert pa_special.encode('Rupert') == 'R163'
+    assert pa_special.encode('Rubin') == 'R150'
+
+def test_soundex_census():
+    """Test abydos.phonetic.Soundex(Census variant method)."""
+    pa_census = Soundex(var='Census')
+    assert pa_census.encode('Vandeusen') == 'V532,D250'
+    assert pa_census.encode('van Deusen') == 'V532,D250'
+    assert pa_census.encode('McDonald') == 'M235'
+    assert pa_census.encode('la Cruz') == 'L262,C620'
+    assert pa_census.encode('vanDamme') == 'V535,D500'
+
+
+def test_soundex_validation():
+    """Test input validation for Soundex."""
     pa = Soundex()
-
-    def test_soundex(self):
-        """Test abydos.phonetic.Soundex."""
-        self.assertEqual(self.pa.encode(''), '0000')
-
-        # https://archive.org/stream/accessingindivid00moor#page/14/mode/2up
-        self.assertEqual(self.pa.encode('Euler'), 'E460')
-        self.assertEqual(self.pa.encode('Gauss'), 'G200')
-        self.assertEqual(self.pa.encode('Hilbert'), 'H416')
-        self.assertEqual(self.pa.encode('Knuth'), 'K530')
-        self.assertEqual(self.pa.encode('Lloyd'), 'L300')
-        self.assertEqual(self.pa.encode('Lukasieicz'), 'L222')
-        self.assertEqual(self.pa.encode('Ellery'), 'E460')
-        self.assertEqual(self.pa.encode('Ghosh'), 'G200')
-        self.assertEqual(self.pa.encode('Heilbronn'), 'H416')
-        self.assertEqual(self.pa.encode('Kant'), 'K530')
-        self.assertEqual(self.pa.encode('Ladd'), 'L300')
-        self.assertEqual(self.pa.encode('Lissajous'), 'L222')
-        self.assertEqual(self.pa.encode('Rogers'), 'R262')
-        self.assertEqual(self.pa.encode('Rodgers'), 'R326')
-        self.assertNotEqual(
-            self.pa.encode('Rogers'), self.pa.encode('Rodgers')
-        )
-        self.assertNotEqual(
-            self.pa.encode('Sinclair'), self.pa.encode('St. Clair')
-        )
-        self.assertNotEqual(
-            self.pa.encode('Tchebysheff'), self.pa.encode('Chebyshev')
-        )
-
-        # http://creativyst.com/Doc/Articles/SoundEx1/SoundEx1.htm#Related
-        self.assertEqual(self.pa.encode('Htacky'), 'H320')
-        self.assertEqual(self.pa.encode('Atacky'), 'A320')
-        self.assertEqual(self.pa.encode('Schmit'), 'S530')
-        self.assertEqual(self.pa.encode('Schneider'), 'S536')
-        self.assertEqual(self.pa.encode('Pfister'), 'P236')
-        self.assertEqual(self.pa.encode('Ashcroft'), 'A261')
-        self.assertEqual(self.pa.encode('Asicroft'), 'A226')
-
-        # https://en.wikipedia.org/wiki/Soundex
-        self.assertEqual(self.pa.encode('Robert'), 'R163')
-        self.assertEqual(self.pa.encode('Rupert'), 'R163')
-        self.assertEqual(self.pa.encode('Rubin'), 'R150')
-        self.assertEqual(self.pa.encode('Tymczak'), 'T522')
-
-        # https://en.wikipedia.org/wiki/Daitch%E2%80%93Mokotoff_Soundex
-        self.assertEqual(self.pa.encode('Peters'), 'P362')
-        self.assertEqual(self.pa.encode('Peterson'), 'P362')
-        self.assertEqual(self.pa.encode('Moskowitz'), 'M232')
-        self.assertEqual(self.pa.encode('Moskovitz'), 'M213')
-        self.assertEqual(self.pa.encode('Auerbach'), 'A612')
-        self.assertEqual(self.pa.encode('Uhrbach'), 'U612')
-        self.assertEqual(self.pa.encode('Jackson'), 'J250')
-        self.assertEqual(self.pa.encode('Jackson-Jackson'), 'J252')
-
-        # max_length tests
-        self.assertEqual(Soundex(10).encode('Lincoln'), 'L524500000')
-        self.assertEqual(Soundex(5).encode('Lincoln'), 'L5245')
-        self.assertEqual(Soundex(6).encode('Christopher'), 'C62316')
-
-        # max_length bounds tests
-        self.assertEqual(
-            Soundex(max_length=-1).encode('Niall'),
-            'N4000000000000000000000000000000000000000000000000'
-            + '00000000000000',
-        )
-        self.assertEqual(Soundex(max_length=0).encode('Niall'), 'N400')
-
-        # reverse tests
-        self.assertEqual(Soundex(reverse=True).encode('Rubin'), 'N160')
-        self.assertEqual(Soundex(reverse=True).encode('Llyod'), 'D400')
-        self.assertEqual(Soundex(reverse=True).encode('Lincoln'), 'N425')
-        self.assertEqual(Soundex(reverse=True).encode('Knuth'), 'H352')
-
-        # zero_pad tests
-        self.assertEqual(
-            Soundex(max_length=-1, zero_pad=False).encode('Niall'), 'N4'
-        )
-        self.assertEqual(
-            Soundex(max_length=0, zero_pad=False).encode('Niall'), 'N4'
-        )
-        self.assertEqual(
-            Soundex(max_length=0, zero_pad=True).encode('Niall'), 'N400'
-        )
-        self.assertEqual(Soundex(max_length=4, zero_pad=False).encode(''), '0')
-        self.assertEqual(
-            Soundex(max_length=4, zero_pad=True).encode(''), '0000'
-        )
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('Euler'), 'ELR')
-        self.assertEqual(self.pa.encode_alpha('Gauss'), 'GK')
-        self.assertEqual(self.pa.encode_alpha('Hilbert'), 'HLPR')
-        self.assertEqual(self.pa.encode_alpha('Knuth'), 'KNT')
-
-    def test_soundex_special(self):
-        """Test abydos.phonetic.Soundex (special 1880-1910 variant method)."""
-        pa_special = Soundex(var='special')
-        self.assertEqual(pa_special.encode('Ashcroft'), 'A226')
-        self.assertEqual(pa_special.encode('Asicroft'), 'A226')
-        self.assertEqual(pa_special.encode('AsWcroft'), 'A226')
-        self.assertEqual(pa_special.encode('Rupert'), 'R163')
-        self.assertEqual(pa_special.encode('Rubin'), 'R150')
-
-    def test_soundex_census(self):
-        """Test abydos.phonetic.Soundex(Census variant method)."""
-        pa_census = Soundex(var='Census')
-        self.assertEqual(pa_census.encode('Vandeusen'), 'V532,D250')
-        self.assertEqual(pa_census.encode('van Deusen'), 'V532,D250')
-        self.assertEqual(pa_census.encode('McDonald'), 'M235')
-        self.assertEqual(pa_census.encode('la Cruz'), 'L262,C620')
-        self.assertEqual(pa_census.encode('vanDamme'), 'V535,D500')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    with pytest.raises(TypeError):
+        pa.encode(123)
+    with pytest.raises(TypeError):
+        pa.encode(None)
+    with pytest.raises(TypeError):
+        pa.encode(['Smith'])
+    with pytest.raises(ValueError):
+        Soundex(var='invalid')
+    with pytest.raises(TypeError):
+        Soundex(max_length='4')
+    with pytest.raises(TypeError):
+        Soundex(max_length=4.0)

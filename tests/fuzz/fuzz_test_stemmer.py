@@ -19,7 +19,6 @@
 This module contains fuzz tests for abydos.stemmer
 """
 
-import unittest
 from random import choice, randint, sample
 
 from abydos.stemmer import (
@@ -68,7 +67,7 @@ algorithms = {
 }
 
 
-class BigListOfNaughtyStringsTestCases(unittest.TestCase):
+class TestBigListOfNaughtyStrings:
     """Test each stemmer against the BLNS set.
 
     Here, we test each algorithm against each string, but we only care that it
@@ -99,7 +98,7 @@ class BigListOfNaughtyStringsTestCases(unittest.TestCase):
                     )
 
 
-class FuzzedWordsTestCases(unittest.TestCase):
+class TestFuzzedWords:
     """Test each stemmer against the base words set."""
 
     reps = 1000 * (10000 if EXTREME_TEST else 1)
@@ -253,7 +252,3 @@ class FuzzedWordsTestCases(unittest.TestCase):
                             inst, algo, fuzzed
                         )
                     )
-
-
-if __name__ == '__main__':
-    unittest.main()

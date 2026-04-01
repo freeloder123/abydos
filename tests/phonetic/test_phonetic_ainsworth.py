@@ -19,43 +19,31 @@
 This module contains unit tests for abydos.phonetic.Ainsworth
 """
 
-import unittest
-
 from abydos.phonetic import Ainsworth
 
 
-class AinsworthTestCases(unittest.TestCase):
-    """Test Ainsworth functions.
+pa = Ainsworth()
 
-    test cases for abydos.phonetic.Ainsworth
-    """
+def test_ainsworth_encode():
+    """Test abydos.phonetic.Ainsworth.encode."""
+    assert pa.encode('') == ''
 
-    pa = Ainsworth()
+    assert pa.encode('a') == 'ə'
+    assert pa.encode('I') == 'ɑi'
+    assert pa.encode('there') == 'ðɛə'
+    assert pa.encode('winning') == 'wɪnnɪŋg'
+    assert pa.encode('Daniel') == 'dænɑiɛl'
+    assert pa.encode('row') == 'rɑʊ'
+    assert pa.encode('dole') == 'doəl'
+    assert pa.encode('retired') == 'rɛtɜɛd'
+    assert pa.encode('Ainsworth') == 'ɛiɪnswɜrð'
+    assert pa.encode('snap') == 'snæp'
+    assert pa.encode('spinned') == 'spɪnnɛd'
+    assert pa.encode('zoo') == 'zu'
+    assert pa.encode('ooze') == 'uz'
+    assert pa.encode('parallelogram') == 'pɑɔlɛlogræm'
 
-    def test_ainsworth_encode(self):
-        """Test abydos.phonetic.Ainsworth.encode."""
-        self.assertEqual(self.pa.encode(''), '')
-
-        self.assertEqual(self.pa.encode('a'), 'ə')
-        self.assertEqual(self.pa.encode('I'), 'ɑi')
-        self.assertEqual(self.pa.encode('there'), 'ðɛə')
-        self.assertEqual(self.pa.encode('winning'), 'wɪnnɪŋg')
-        self.assertEqual(self.pa.encode('Daniel'), 'dænɑiɛl')
-        self.assertEqual(self.pa.encode('row'), 'rɑʊ')
-        self.assertEqual(self.pa.encode('dole'), 'doəl')
-        self.assertEqual(self.pa.encode('retired'), 'rɛtɜɛd')
-        self.assertEqual(self.pa.encode('Ainsworth'), 'ɛiɪnswɜrð')
-        self.assertEqual(self.pa.encode('snap'), 'snæp')
-        self.assertEqual(self.pa.encode('spinned'), 'spɪnnɛd')
-        self.assertEqual(self.pa.encode('zoo'), 'zu')
-        self.assertEqual(self.pa.encode('ooze'), 'uz')
-        self.assertEqual(self.pa.encode('parallelogram'), 'pɑɔlɛlogræm')
-
-        # Examples showing behavior when encountering unhandled characters
-        self.assertEqual(self.pa.encode('Schluss'), 'sklus')
-        self.assertEqual(self.pa.encode('Schlüsse'), 'sklsɛ')
-        self.assertEqual(self.pa.encode('Schluß'), 'sklu')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # Examples showing behavior when encountering unhandled characters
+    assert pa.encode('Schluss') == 'sklus'
+    assert pa.encode('Schlüsse') == 'sklsɛ'
+    assert pa.encode('Schluß') == 'sklu'

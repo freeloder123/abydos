@@ -19,41 +19,31 @@
 This module contains unit tests for abydos.stemmer.SnowballNorwegian
 """
 
-import unittest
 
 from abydos.stemmer import SnowballNorwegian
 
 from .. import _corpus_file
 
 
-class SnowballNorwegianTestCases(unittest.TestCase):
-    """Test Snowball functions.
+stmr = SnowballNorwegian()
 
-    abydos.stemmer.SnowballNorwegian
+
+def test_snowball_norwegian():
+    """Test abydos.stemmer.SnowballNorwegian (Snowball testset).
+
+    These test cases are from
+    http://snowball.tartarus.org/algorithms/norwegian/diffs.txt
     """
+    # base case
+    assert stmr.stem('') == ''
 
-    stmr = SnowballNorwegian()
-
-    def test_snowball_norwegian(self):
-        """Test abydos.stemmer.SnowballNorwegian (Snowball testset).
-
-        These test cases are from
-        http://snowball.tartarus.org/algorithms/norwegian/diffs.txt
-        """
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
-
-        #  Snowball Norwegian test set
-        with open(
-            _corpus_file('snowball_norwegian.csv'), encoding='utf-8'
-        ) as snowball_ts:
-            next(snowball_ts)
-            for line in snowball_ts:
-                if line[0] != '#':
-                    line = line.strip().split(',')
-                    word, stem = line[0], line[1]
-                    self.assertEqual(self.stmr.stem(word), stem.lower())
-
-
-if __name__ == '__main__':
-    unittest.main()
+    #  Snowball Norwegian test set
+    with open(
+        _corpus_file('snowball_norwegian.csv'), encoding='utf-8'
+    ) as snowball_ts:
+        next(snowball_ts)
+        for line in snowball_ts:
+            if line[0] != '#':
+                line = line.strip().split(',')
+                word, stem = line[0], line[1]
+                assert stmr.stem(word) == stem.lower()

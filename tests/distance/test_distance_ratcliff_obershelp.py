@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.distance.RatcliffObershelp
 """
 
-import unittest
+import pytest
+
 from difflib import SequenceMatcher
 
 from abydos.distance import RatcliffObershelp
@@ -27,100 +28,61 @@ from abydos.distance import RatcliffObershelp
 from .. import _corpus_file
 
 
-class RatcliffObershelpTestCases(unittest.TestCase):
-    """Test Ratcliff-Obserhelp functions.
-
-    abydos.distance.RatcliffObershelp
-    """
-
-    cmp = RatcliffObershelp()
-
-    def test_ratcliff_obershelp_sim(self):
-        """Test abydos.distance.RatcliffObershelp.sim."""
-        # https://github.com/rockymadden/stringmetric/blob/master/core/src/test/scala/com/rockymadden/stringmetric/similarity/RatcliffObershelpMetricSpec.scala
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('abc', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'xyz'), 0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1)
-        self.assertEqual(self.cmp.sim('123', '123'), 1)
-        self.assertEqual(self.cmp.sim('abc', 'xyz'), 0)
-        self.assertEqual(self.cmp.sim('123', '456'), 0)
-        self.assertAlmostEqual(
-            self.cmp.sim('aleksander', 'alexandre'), 0.7368421052631579
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim('alexandre', 'aleksander'), 0.7368421052631579
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim('pennsylvania', 'pencilvaneya'), 0.6666666666666666
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim('pencilvaneya', 'pennsylvania'), 0.6666666666666666
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim('abcefglmn', 'abefglmo'), 0.8235294117647058
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim('abefglmo', 'abcefglmn'), 0.8235294117647058
-        )
-
-        with open(_corpus_file('variantNames.csv')) as cav_testset:
-            next(cav_testset)
-            for line in cav_testset:
-                line = line.strip().split(',')
-                word1, word2 = line[0], line[4]
-                self.assertAlmostEqual(
-                    self.cmp.sim(word1, word2),
-                    SequenceMatcher(None, word1, word2).ratio(),
-                )
-
-        with open(_corpus_file('wikipediaCommonMisspellings.csv')) as missp:
-            next(missp)
-            for line in missp:
-                line = line.strip().upper()
-                line = ''.join(
-                    [
-                        _
-                        for _ in line.strip()
-                        if _ in tuple('ABCDEFGHIJKLMNOPQRSTUVWXYZ,')
-                    ]
-                )
-                word1, word2 = line.split(',')
-                # print(word1, word2e)
-                self.assertAlmostEqual(
-                    self.cmp.sim(word1, word2),
-                    SequenceMatcher(None, word1, word2).ratio(),
-                )
-
-    def test_ratcliff_obershelp_dist(self):
-        """Test abydos.distance.RatcliffObershelp.dist."""
-        # https://github.com/rockymadden/stringmetric/blob/master/core/src/test/scala/com/rockymadden/stringmetric/similarity/RatcliffObershelpMetricSpec.scala
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'xyz'), 1)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0)
-        self.assertEqual(self.cmp.dist('123', '123'), 0)
-        self.assertEqual(self.cmp.dist('abc', 'xyz'), 1)
-        self.assertEqual(self.cmp.dist('123', '456'), 1)
-        self.assertAlmostEqual(
-            self.cmp.dist('aleksander', 'alexandre'), 0.2631578947368421
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('alexandre', 'aleksander'), 0.2631578947368421
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('pennsylvania', 'pencilvaneya'), 0.3333333333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('pencilvaneya', 'pennsylvania'), 0.3333333333333333
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('abcefglmn', 'abefglmo'), 0.1764705882352941
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('abefglmo', 'abcefglmn'), 0.1764705882352941
-        )
+cmp = RatcliffObershelp()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_ratcliff_obershelp_sim():
+    """Test abydos.distance.RatcliffObershelp.sim."""
+    # https://github.com/rockymadden/stringmetric/blob/master/core/src/test/scala/com/rockymadden/stringmetric/similarity/RatcliffObershelpMetricSpec.scala
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('abc', '') == 0
+    assert cmp.sim('', 'xyz') == 0
+    assert cmp.sim('abc', 'abc') == 1
+    assert cmp.sim('123', '123') == 1
+    assert cmp.sim('abc', 'xyz') == 0
+    assert cmp.sim('123', '456') == 0
+    assert cmp.sim('aleksander', 'alexandre') == pytest.approx(abs=1e-7, expected=0.7368421052631579)
+    assert cmp.sim('alexandre', 'aleksander') == pytest.approx(abs=1e-7, expected=0.7368421052631579)
+    assert cmp.sim('pennsylvania', 'pencilvaneya') == pytest.approx(abs=1e-7, expected=0.6666666666666666)
+    assert cmp.sim('pencilvaneya', 'pennsylvania') == pytest.approx(abs=1e-7, expected=0.6666666666666666)
+    assert cmp.sim('abcefglmn', 'abefglmo') == pytest.approx(abs=1e-7, expected=0.8235294117647058)
+    assert cmp.sim('abefglmo', 'abcefglmn') == pytest.approx(abs=1e-7, expected=0.8235294117647058)
+
+    with open(_corpus_file('variantNames.csv')) as cav_testset:
+        next(cav_testset)
+        for line in cav_testset:
+            line = line.strip().split(',')
+            word1, word2 = line[0], line[4]
+            assert cmp.sim(word1, word2) == pytest.approx(abs=1e-7, expected=SequenceMatcher(None, word1, word2).ratio())
+
+    with open(_corpus_file('wikipediaCommonMisspellings.csv')) as missp:
+        next(missp)
+        for line in missp:
+            line = line.strip().upper()
+            line = ''.join(
+                [
+                    _
+                    for _ in line.strip()
+                    if _ in tuple('ABCDEFGHIJKLMNOPQRSTUVWXYZ,')
+                ]
+            )
+            word1, word2 = line.split(',')
+            # print(word1, word2e)
+            assert cmp.sim(word1, word2) == pytest.approx(abs=1e-7, expected=SequenceMatcher(None, word1, word2).ratio())
+
+def test_ratcliff_obershelp_dist():
+    """Test abydos.distance.RatcliffObershelp.dist."""
+    # https://github.com/rockymadden/stringmetric/blob/master/core/src/test/scala/com/rockymadden/stringmetric/similarity/RatcliffObershelpMetricSpec.scala
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('abc', '') == 1
+    assert cmp.dist('', 'xyz') == 1
+    assert cmp.dist('abc', 'abc') == 0
+    assert cmp.dist('123', '123') == 0
+    assert cmp.dist('abc', 'xyz') == 1
+    assert cmp.dist('123', '456') == 1
+    assert cmp.dist('aleksander', 'alexandre') == pytest.approx(abs=1e-7, expected=0.2631578947368421)
+    assert cmp.dist('alexandre', 'aleksander') == pytest.approx(abs=1e-7, expected=0.2631578947368421)
+    assert cmp.dist('pennsylvania', 'pencilvaneya') == pytest.approx(abs=1e-7, expected=0.3333333333333333)
+    assert cmp.dist('pencilvaneya', 'pennsylvania') == pytest.approx(abs=1e-7, expected=0.3333333333333333)
+    assert cmp.dist('abcefglmn', 'abefglmo') == pytest.approx(abs=1e-7, expected=0.1764705882352941)
+    assert cmp.dist('abefglmo', 'abcefglmn') == pytest.approx(abs=1e-7, expected=0.1764705882352941)

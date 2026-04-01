@@ -19,44 +19,32 @@
 This module contains unit tests for abydos.phonetic.Phonem
 """
 
-import unittest
-
 from abydos.phonetic import Phonem
 
 
-class PhonemTestCases(unittest.TestCase):
-    """Test Phonem functions.
+pa = Phonem()
 
-    test cases for abydos.phonetic.Phonem
-    """
+def test_phonem():
+    """Test abydos.phonetic.Phonem."""
+    assert pa.encode('') == ''
 
-    pa = Phonem()
+    # http://phonetik.phil-fak.uni-koeln.de/fileadmin/home/ritters/Allgemeine_Dateien/Martin_Wilz.pdf
+    assert pa.encode('müller') == 'MYLR'
+    assert pa.encode('schmidt') == 'CMYD'
+    assert pa.encode('schneider') == 'CNAYDR'
+    assert pa.encode('fischer') == 'VYCR'
+    assert pa.encode('weber') == 'VBR'
+    assert pa.encode('meyer') == 'MAYR'
+    assert pa.encode('wagner') == 'VACNR'
+    assert pa.encode('schulz') == 'CULC'
+    assert pa.encode('becker') == 'BCR'
+    assert pa.encode('hoffmann') == 'OVMAN'
+    assert pa.encode('schäfer') == 'CVR'
 
-    def test_phonem(self):
-        """Test abydos.phonetic.Phonem."""
-        self.assertEqual(self.pa.encode(''), '')
-
-        # http://phonetik.phil-fak.uni-koeln.de/fileadmin/home/ritters/Allgemeine_Dateien/Martin_Wilz.pdf
-        self.assertEqual(self.pa.encode('müller'), 'MYLR')
-        self.assertEqual(self.pa.encode('schmidt'), 'CMYD')
-        self.assertEqual(self.pa.encode('schneider'), 'CNAYDR')
-        self.assertEqual(self.pa.encode('fischer'), 'VYCR')
-        self.assertEqual(self.pa.encode('weber'), 'VBR')
-        self.assertEqual(self.pa.encode('meyer'), 'MAYR')
-        self.assertEqual(self.pa.encode('wagner'), 'VACNR')
-        self.assertEqual(self.pa.encode('schulz'), 'CULC')
-        self.assertEqual(self.pa.encode('becker'), 'BCR')
-        self.assertEqual(self.pa.encode('hoffmann'), 'OVMAN')
-        self.assertEqual(self.pa.encode('schäfer'), 'CVR')
-
-        # http://cpansearch.perl.org/src/MAROS/Text-Phonetic-2.05/t/008_phonem.t
-        self.assertEqual(self.pa.encode('mair'), 'MAYR')
-        self.assertEqual(self.pa.encode('bäker'), 'BCR')
-        self.assertEqual(self.pa.encode('schaeffer'), 'CVR')
-        self.assertEqual(self.pa.encode('computer'), 'COMBUDR')
-        self.assertEqual(self.pa.encode('pfeifer'), 'VAYVR')
-        self.assertEqual(self.pa.encode('pfeiffer'), 'VAYVR')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # http://cpansearch.perl.org/src/MAROS/Text-Phonetic-2.05/t/008_phonem.t
+    assert pa.encode('mair') == 'MAYR'
+    assert pa.encode('bäker') == 'BCR'
+    assert pa.encode('schaeffer') == 'CVR'
+    assert pa.encode('computer') == 'COMBUDR'
+    assert pa.encode('pfeifer') == 'VAYVR'
+    assert pa.encode('pfeiffer') == 'VAYVR'

@@ -132,6 +132,8 @@ class Caverphone(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         word = word.lower()
         word = ''.join(c for c in word if c in self._lc_set)
 

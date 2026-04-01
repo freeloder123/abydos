@@ -19,54 +19,41 @@
 This module contains unit tests for abydos.phonetic.RethSchek
 """
 
-import unittest
-
 from abydos.phonetic import RethSchek
 
 
-class RethSchekTestCases(unittest.TestCase):
-    """Test Reth-Schek Phonetik functions.
+pa = RethSchek()
 
-    test cases for abydos.phonetic.RethSchek
-    """
+def test_reth_schek_phonetik():
+    """Test abydos.phonetic.RethSchek."""
+    # Base cases
+    assert pa.encode('') == ''
 
-    pa = RethSchek()
+    # equivalents
+    assert pa.encode('Häschen') == pa.encode('Haeschen')
+    assert pa.encode('Schloß') == pa.encode('Schloss')
+    assert pa.encode('üben') == pa.encode('ueben')
+    assert pa.encode('Eichörnchen') == pa.encode('Eichoernchen'
+    )
 
-    def test_reth_schek_phonetik(self):
-        """Test abydos.phonetic.RethSchek."""
-        # Base cases
-        self.assertEqual(self.pa.encode(''), '')
-
-        # equivalents
-        self.assertEqual(self.pa.encode('Häschen'), self.pa.encode('Haeschen'))
-        self.assertEqual(self.pa.encode('Schloß'), self.pa.encode('Schloss'))
-        self.assertEqual(self.pa.encode('üben'), self.pa.encode('ueben'))
-        self.assertEqual(
-            self.pa.encode('Eichörnchen'), self.pa.encode('Eichoernchen')
-        )
-
-        self.assertEqual(self.pa.encode('Häschen'), 'HESCHEN')
-        self.assertEqual(self.pa.encode('Eichörnchen'), 'AIGHOERNGHEN')
-        self.assertEqual(self.pa.encode('Hexe'), 'HEXE')
-        self.assertEqual(self.pa.encode('Chemie'), 'GHEMI')
-        self.assertEqual(self.pa.encode('Brille'), 'BRILE')
-        self.assertEqual(self.pa.encode('Brilleille'), 'BRILAILE')
-        self.assertEqual(self.pa.encode('Niveau'), 'NIFEAU')
-        self.assertEqual(self.pa.encode('Korb'), 'GORB')
-        self.assertEqual(self.pa.encode('Heino'), 'HAINO')
-        self.assertEqual(self.pa.encode('Nekka'), 'NEKA')
-        self.assertEqual(self.pa.encode('Aleph'), 'ALEF')
-        self.assertEqual(self.pa.encode('Aleppo'), 'ALEBO')
-        self.assertEqual(self.pa.encode('Endzipfel'), 'ENDZIBFL')
-        self.assertEqual(self.pa.encode('verbrandt'), 'FERBRAND')
-        self.assertEqual(self.pa.encode('Cent'), 'GEND')
-        self.assertEqual(self.pa.encode('addiscendae'), 'ADISGENDE')
-        self.assertEqual(self.pa.encode('kickx'), 'GIGX')
-        self.assertEqual(self.pa.encode('sanctionen'), 'SANGDIONEN')
-        self.assertEqual(self.pa.encode('Kuh'), 'GU')
-        self.assertEqual(self.pa.encode('lecker'), 'LEGR')
-        self.assertEqual(self.pa.encode('rödlich'), 'ROEDLIG')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert pa.encode('Häschen') == 'HESCHEN'
+    assert pa.encode('Eichörnchen') == 'AIGHOERNGHEN'
+    assert pa.encode('Hexe') == 'HEXE'
+    assert pa.encode('Chemie') == 'GHEMI'
+    assert pa.encode('Brille') == 'BRILE'
+    assert pa.encode('Brilleille') == 'BRILAILE'
+    assert pa.encode('Niveau') == 'NIFEAU'
+    assert pa.encode('Korb') == 'GORB'
+    assert pa.encode('Heino') == 'HAINO'
+    assert pa.encode('Nekka') == 'NEKA'
+    assert pa.encode('Aleph') == 'ALEF'
+    assert pa.encode('Aleppo') == 'ALEBO'
+    assert pa.encode('Endzipfel') == 'ENDZIBFL'
+    assert pa.encode('verbrandt') == 'FERBRAND'
+    assert pa.encode('Cent') == 'GEND'
+    assert pa.encode('addiscendae') == 'ADISGENDE'
+    assert pa.encode('kickx') == 'GIGX'
+    assert pa.encode('sanctionen') == 'SANGDIONEN'
+    assert pa.encode('Kuh') == 'GU'
+    assert pa.encode('lecker') == 'LEGR'
+    assert pa.encode('rödlich') == 'ROEDLIG'

@@ -48,11 +48,7 @@ class DoubleMetaphone(_Phonetic):
         .. versionadded:: 0.4.0
 
         """
-        self._max_length = max_length
-
-        # Require a max_length of at least 4
-        if self._max_length != -1:
-            self._max_length = max(4, max_length)
+        self._max_length = self._validate_max_length(max_length)
 
     def encode_alpha(self, word: str) -> str:
         """Return the alphabetic Double Metaphone code for a word.
@@ -120,6 +116,8 @@ class DoubleMetaphone(_Phonetic):
             Made return a str only (comma-separated)
 
         """
+        self._validate_word(word)
+
         primary = ''
         secondary = ''
 

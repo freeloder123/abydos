@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.distance.Overlap
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Overlap
 from abydos.tokenizer import QGrams, WhitespaceTokenizer
@@ -27,114 +28,83 @@ from abydos.tokenizer import QGrams, WhitespaceTokenizer
 from .. import NONQ_FROM, NONQ_TO
 
 
-class OverlapTestCases(unittest.TestCase):
-    """Test overlap functions.
+cmp = Overlap()
 
-    abydos.distance.Overlap
-    """
+cmp_q2 = Overlap(tokenizer=QGrams(2))
 
-    cmp = Overlap()
-    cmp_q2 = Overlap(tokenizer=QGrams(2))
-    cmp_ws = Overlap(tokenizer=WhitespaceTokenizer())
-
-    def test_overlap_sim(self):
-        """Test abydos.distance.Overlap.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(self.cmp.sim('nelson', 'neilsen'), 4 / 7)
-
-        self.assertEqual(self.cmp_q2.sim('', ''), 1)
-        self.assertEqual(self.cmp_q2.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp_q2.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(self.cmp_q2.sim('nelson', 'neilsen'), 4 / 7)
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            0,
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            4 / 7,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.sim('', ''), 1)
-        self.assertEqual(self.cmp_ws.sim('the quick', ''), 0)
-        self.assertEqual(self.cmp_ws.sim('', 'the quick'), 0)
-        self.assertAlmostEqual(self.cmp_ws.sim(NONQ_FROM, NONQ_TO), 4 / 7)
-        self.assertAlmostEqual(self.cmp_ws.sim(NONQ_TO, NONQ_FROM), 4 / 7)
-
-    def test_overlap_dist(self):
-        """Test abydos.distance.Overlap.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp.dist('nelson', 'neilsen'), 3 / 7)
-
-        self.assertEqual(self.cmp_q2.dist('', ''), 0)
-        self.assertEqual(self.cmp_q2.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp_q2.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp_q2.dist('nelson', 'neilsen'), 3 / 7)
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            3 / 7,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.dist('', ''), 0)
-        self.assertEqual(self.cmp_ws.dist('the quick', ''), 1)
-        self.assertEqual(self.cmp_ws.dist('', 'the quick'), 1)
-        self.assertAlmostEqual(self.cmp_ws.dist(NONQ_FROM, NONQ_TO), 3 / 7)
-        self.assertAlmostEqual(self.cmp_ws.dist(NONQ_TO, NONQ_FROM), 3 / 7)
+cmp_ws = Overlap(tokenizer=WhitespaceTokenizer())
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_overlap_sim():
+    """Test abydos.distance.Overlap.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('nelson', '') == 0
+    assert cmp.sim('', 'neilsen') == 0
+    assert cmp.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=4 / 7)
+
+    assert cmp_q2.sim('', '') == 1
+    assert cmp_q2.sim('nelson', '') == 0
+    assert cmp_q2.sim('', 'neilsen') == 0
+    assert cmp_q2.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=4 / 7)
+
+    # supplied q-gram tests
+    assert (
+        cmp.sim( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.sim( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.sim( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 0
+    )
+    assert cmp.sim(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=4 / 7)
+
+    # non-q-gram tests
+    assert cmp_ws.sim('', '') == 1
+    assert cmp_ws.sim('the quick', '') == 0
+    assert cmp_ws.sim('', 'the quick') == 0
+    assert cmp_ws.sim(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=4 / 7)
+    assert cmp_ws.sim(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=4 / 7)
+
+def test_overlap_dist():
+    """Test abydos.distance.Overlap.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('nelson', '') == 1
+    assert cmp.dist('', 'neilsen') == 1
+    assert cmp.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=3 / 7)
+
+    assert cmp_q2.dist('', '') == 0
+    assert cmp_q2.dist('nelson', '') == 1
+    assert cmp_q2.dist('', 'neilsen') == 1
+    assert cmp_q2.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=3 / 7)
+
+    # supplied q-gram tests
+    assert (
+        cmp.dist( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.dist( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.dist( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 1
+    )
+    assert cmp.dist(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=3 / 7)
+
+    # non-q-gram tests
+    assert cmp_ws.dist('', '') == 0
+    assert cmp_ws.dist('the quick', '') == 1
+    assert cmp_ws.dist('', 'the quick') == 1
+    assert cmp_ws.dist(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=3 / 7)
+    assert cmp_ws.dist(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=3 / 7)

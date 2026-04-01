@@ -19,61 +19,27 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import WhitespaceTokenizer
 
 
-class WhitespaceTokenizerTestCases(unittest.TestCase):
+def test_whitespace_tokenizer():
     """Test abydos.tokenizer.WhitespaceTokenizer."""
+    assert sorted(WhitespaceTokenizer().tokenize('').get_list()) == []
+    assert sorted(WhitespaceTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_whitespace_tokenizer(self):
-        """Test abydos.tokenizer.WhitespaceTokenizer."""
-        self.assertEqual(
-            sorted(WhitespaceTokenizer().tokenize('').get_list()), []
-        )
-        self.assertEqual(
-            sorted(WhitespaceTokenizer().tokenize('a').get_list()), ['a']
-        )
+    assert (
+        sorted(WhitespaceTokenizer().tokenize('NELSON').get_list())
+        == sorted(['NELSON'])
+    )
+    assert (
+        sorted(WhitespaceTokenizer().tokenize('NEILSEN').get_list())
+        == sorted(['NEILSEN'])
+    )
 
-        self.assertEqual(
-            sorted(WhitespaceTokenizer().tokenize('NELSON').get_list()),
-            sorted(['NELSON']),
-        )
-        self.assertEqual(
-            sorted(WhitespaceTokenizer().tokenize('NEILSEN').get_list()),
-            sorted(['NEILSEN']),
-        )
-
-        tweet = 'Good to be home for a night. Even better to see the\
-        @chicagobulls start the season off right! #SeeRed'
-        self.assertEqual(
-            sorted(WhitespaceTokenizer().tokenize(tweet).get_list()),
-            sorted(
-                [
-                    'Good',
-                    'to',
-                    'be',
-                    'home',
-                    'for',
-                    'a',
-                    'night.',
-                    'Even',
-                    'better',
-                    'to',
-                    'see',
-                    'the',
-                    '@chicagobulls',
-                    'start',
-                    'the',
-                    'season',
-                    'off',
-                    'right!',
-                    '#SeeRed',
-                ]
-            ),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    tweet = 'Good to be home for a night. Even better to see the\
+    @chicagobulls start the season off right! #SeeRed'
+    assert (
+        sorted(WhitespaceTokenizer().tokenize(tweet).get_list())
+        == sorted( [ 'Good', 'to', 'be', 'home', 'for', 'a', 'night.', 'Even', 'better', 'to', 'see', 'the', '@chicagobulls', 'start', 'the', 'season', 'off', 'right!', '#SeeRed', ] )
+    )

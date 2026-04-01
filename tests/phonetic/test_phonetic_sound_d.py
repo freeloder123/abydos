@@ -19,47 +19,33 @@
 This module contains unit tests for abydos.phonetic.SoundD
 """
 
-import unittest
-
 from abydos.phonetic import SoundD
 
 
-class SoundDTestCases(unittest.TestCase):
-    """Test class SoundD functions.
+pa = SoundD()
 
-    test cases for abydos.phonetic.SoundD
-    """
+def test_sound_d():
+    """Test abydos.phonetic.SoundD."""
+    # Base cases
+    assert pa.encode('') == '0000'
+    assert SoundD(max_length=6).encode('') == '000000'
 
-    pa = SoundD()
+    assert pa.encode('knight') == '5300'
+    assert pa.encode('accept') == '2130'
+    assert pa.encode('pneuma') == '5500'
+    assert pa.encode('ax') == '2000'
+    assert pa.encode('wherever') == '6160'
+    assert pa.encode('pox') == '1200'
+    assert pa.encode('anywhere') == '5600'
+    assert pa.encode('adenosine') == '3525'
+    assert pa.encode('judge') == '2200'
+    assert pa.encode('rough') == '6000'
+    assert pa.encode('x-ray') == '2600'
+    assert SoundD(max_length=-1).encode('acetylcholine') == '234245'
+    assert SoundD(max_length=-1).encode('rough') == '6'
 
-    def test_sound_d(self):
-        """Test abydos.phonetic.SoundD."""
-        # Base cases
-        self.assertEqual(self.pa.encode(''), '0000')
-        self.assertEqual(SoundD(max_length=6).encode(''), '000000')
-
-        self.assertEqual(self.pa.encode('knight'), '5300')
-        self.assertEqual(self.pa.encode('accept'), '2130')
-        self.assertEqual(self.pa.encode('pneuma'), '5500')
-        self.assertEqual(self.pa.encode('ax'), '2000')
-        self.assertEqual(self.pa.encode('wherever'), '6160')
-        self.assertEqual(self.pa.encode('pox'), '1200')
-        self.assertEqual(self.pa.encode('anywhere'), '5600')
-        self.assertEqual(self.pa.encode('adenosine'), '3525')
-        self.assertEqual(self.pa.encode('judge'), '2200')
-        self.assertEqual(self.pa.encode('rough'), '6000')
-        self.assertEqual(self.pa.encode('x-ray'), '2600')
-        self.assertEqual(
-            SoundD(max_length=-1).encode('acetylcholine'), '234245'
-        )
-        self.assertEqual(SoundD(max_length=-1).encode('rough'), '6')
-
-        # encode_alpha
-        self.assertEqual(self.pa.encode_alpha('pox'), 'PK')
-        self.assertEqual(self.pa.encode_alpha('anywhere'), 'NR')
-        self.assertEqual(self.pa.encode_alpha('adenosine'), 'TNKN')
-        self.assertEqual(self.pa.encode_alpha('judge'), 'KK')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # encode_alpha
+    assert pa.encode_alpha('pox') == 'PK'
+    assert pa.encode_alpha('anywhere') == 'NR'
+    assert pa.encode_alpha('adenosine') == 'TNKN'
+    assert pa.encode_alpha('judge') == 'KK'

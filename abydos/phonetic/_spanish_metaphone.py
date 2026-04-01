@@ -92,6 +92,8 @@ class SpanishMetaphone(_Phonetic):
 
 
         """
+        self._validate_word(word)
+
 
         def _is_vowel(pos: int) -> bool:
             """Return True if the character at word[pos] is a vowel.

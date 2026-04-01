@@ -155,6 +155,8 @@ class MetaSoundex(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         word = self._sdx.encode(self._meta.encode(word))
         if self._lang == 'en':
             word = word[0].translate(self._trans) + word[1:]

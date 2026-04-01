@@ -19,36 +19,26 @@
 This module contains unit tests for abydos.stemmer.Schinke
 """
 
-import unittest
 
 from abydos.stemmer import Schinke
 
 from .. import _corpus_file
 
 
-class SchinkeTestCases(unittest.TestCase):
-    """Test Schinke functions.
+stmr = Schinke()
 
-    abydos.stemmer.Schinke
+
+def test_schinke():
+    """Test abydos.stemmer.Schinke.
+
+    These tests are copied from the Snowball testset at
+    http://snowball.tartarus.org/otherapps/schinke/schinke.tgz
     """
-
-    stmr = Schinke()
-
-    def test_schinke(self):
-        """Test abydos.stemmer.Schinke.
-
-        These tests are copied from the Snowball testset at
-        http://snowball.tartarus.org/otherapps/schinke/schinke.tgz
-        """
-        with open(_corpus_file('snowball_schinke.csv')) as schinke_ts:
-            for schinke_line in schinke_ts:
-                word, noun, verb = schinke_line.strip().split(',')
-                nv = self.stmr.stem_dict(word)
-                self.assertEqual(nv['n'], noun)
-                self.assertEqual(nv['v'], verb)
-                nv = self.stmr.stem(word)
-                self.assertEqual(nv, '{},{}'.format(noun, verb))
-
-
-if __name__ == '__main__':
-    unittest.main()
+    with open(_corpus_file('snowball_schinke.csv')) as schinke_ts:
+        for schinke_line in schinke_ts:
+            word, noun, verb = schinke_line.strip().split(',')
+            nv = stmr.stem_dict(word)
+            assert nv['n'] == noun
+            assert nv['v'] == verb
+            nv = stmr.stem(word)
+            assert nv == '{},{}'.format(noun, verb)

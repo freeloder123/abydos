@@ -19,65 +19,53 @@
 This module contains unit tests for abydos.distance.BLEU
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import BLEU
 from abydos.tokenizer import QSkipgrams, SAPSTokenizer
 
 
-class BLEUTestCases(unittest.TestCase):
-    """Test BLEU functions.
+cmp = BLEU()
 
-    abydos.distance.BLEU
-    """
+cmp_skip_saps = BLEU(
 
-    cmp = BLEU()
-    cmp_skip_saps = BLEU(
-        tokenizers=[QSkipgrams(), SAPSTokenizer()], weights=[0.33, 0.67]
+
+    tokenizers=[QSkipgrams(), SAPSTokenizer()], weights=[0.33, 0.67]
     )
 
-    def test_bleu_sim(self):
-        """Test abydos.distance.BLEU.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 0.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
+def test_bleu_sim():
+    """Test abydos.distance.BLEU.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 0.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
 
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.6223329773)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.6223329773)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.7071067812)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.7071067812)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.5119598032
-        )
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6223329773)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6223329773)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.7071067812)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.7071067812)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5119598032)
 
-        self.assertAlmostEqual(
-            self.cmp_skip_saps.sim('Nigel', 'Niall'), 0.7828303104
-        )
+    assert cmp_skip_saps.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.7828303104)
 
-    def test_bleu_dist(self):
-        """Test abydos.distance.BLEU.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 1.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
+def test_bleu_dist():
+    """Test abydos.distance.BLEU.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 1.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
 
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.3776670227)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.3776670227)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.2928932188)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.2928932188)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.4880401968
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3776670227)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3776670227)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.2928932188)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.2928932188)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.4880401968)

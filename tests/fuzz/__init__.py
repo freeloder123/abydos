@@ -13,8 +13,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Abydos. If not, see <http://www.gnu.org/licenses/>.
-
-
 """abydos.tests.fuzz.
 
 This module contains fuzz tests for Abydos
@@ -32,8 +30,6 @@ CORPORA = os.path.join(os.path.dirname(__file__), 'corpora')
 
 EXTREME_TEST = SUPER_EXTREME_TEST  # inherit setting from base tests
 EXTREME_TEST = False  # Set to True to test EVERY single case (NB: takes hours)
-
-
 if not EXTREME_TEST and os.path.isfile(
     os.path.join(os.path.dirname(__file__), 'EXTREME_TEST')
 ):
@@ -44,8 +40,6 @@ if not EXTREME_TEST and os.path.isfile(
 ):
     # EXTREME_TEST file detected -- switching to EXTREME_TEST mode...
     EXTREME_TEST = True
-
-
 def _corpus_file(name, corpora_dir=CORPORA):
     """Return the path to a corpus file.
 
@@ -63,8 +57,6 @@ def _corpus_file(name, corpora_dir=CORPORA):
 
     """
     return _super_corpus_file(name, corpora_dir)
-
-
 def _random_char(below=0x10FFFF, must_be=None):
     """Generate a random Unicode character below U+{below}.
 
@@ -89,8 +81,6 @@ def _random_char(below=0x10FFFF, must_be=None):
                 return char
         except ValueError:
             pass
-
-
 def _fuzz(word, fuzziness=0.2, must_be=None):
     """Fuzz a word with noise.
 

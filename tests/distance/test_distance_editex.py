@@ -19,85 +19,75 @@
 This module contains unit tests for abydos.distance.Editex
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Editex
 
 
-class EditexTestCases(unittest.TestCase):
-    """Test Editex functions.
+cmp = Editex()
 
-    abydos.distance.Editex
-    """
+cmp_local = Editex(local=True)
 
-    cmp = Editex()
-    cmp_local = Editex(local=True)
-    cmp_taper = Editex(taper=True)
-
-    def test_editex_dist_abs(self):
-        """Test abydos.distance.Editex.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('nelson', ''), 12)
-        self.assertEqual(self.cmp.dist_abs('', 'neilsen'), 14)
-        self.assertEqual(self.cmp.dist_abs('ab', 'a'), 2)
-        self.assertEqual(self.cmp.dist_abs('ab', 'c'), 4)
-        self.assertEqual(self.cmp.dist_abs('nelson', 'neilsen'), 2)
-        self.assertEqual(self.cmp.dist_abs('neilsen', 'nelson'), 2)
-        self.assertEqual(self.cmp.dist_abs('niall', 'neal'), 1)
-        self.assertEqual(self.cmp.dist_abs('neal', 'niall'), 1)
-        self.assertEqual(self.cmp.dist_abs('niall', 'nihal'), 2)
-        self.assertEqual(self.cmp.dist_abs('nihal', 'niall'), 2)
-        self.assertEqual(self.cmp.dist_abs('neal', 'nihl'), 3)
-        self.assertEqual(self.cmp.dist_abs('nihl', 'neal'), 3)
-
-        # Test tapering variant
-        self.assertAlmostEqual(
-            self.cmp_taper.dist_abs('nelson', 'neilsen'), 2.7142857143
-        )
-
-    def test_editex_dist_abs_local(self):
-        """Test abydos.distance.Editex.dist_abs (local variant)."""
-        self.assertEqual(self.cmp_local.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_local.dist_abs('nelson', ''), 12)
-        self.assertEqual(self.cmp_local.dist_abs('', 'neilsen'), 14)
-        self.assertEqual(self.cmp_local.dist_abs('ab', 'a'), 2)
-        self.assertEqual(self.cmp_local.dist_abs('ab', 'c'), 2)
-        self.assertEqual(self.cmp_local.dist_abs('nelson', 'neilsen'), 2)
-        self.assertEqual(self.cmp_local.dist_abs('neilsen', 'nelson'), 2)
-        self.assertEqual(self.cmp_local.dist_abs('niall', 'neal'), 1)
-        self.assertEqual(self.cmp_local.dist_abs('neal', 'niall'), 1)
-        self.assertEqual(self.cmp_local.dist_abs('niall', 'nihal'), 2)
-        self.assertEqual(self.cmp_local.dist_abs('nihal', 'niall'), 2)
-        self.assertEqual(self.cmp_local.dist_abs('neal', 'nihl'), 3)
-        self.assertEqual(self.cmp_local.dist_abs('nihl', 'neal'), 3)
-
-    def test_editex_sim(self):
-        """Test abydos.distance.Editex.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'neilsen'), 0)
-        self.assertEqual(self.cmp.sim('ab', 'a'), 0.5)
-        self.assertEqual(self.cmp.sim('ab', 'c'), 0)
-        self.assertAlmostEqual(self.cmp.sim('nelson', 'neilsen'), 12 / 14)
-        self.assertAlmostEqual(self.cmp.sim('neilsen', 'nelson'), 12 / 14)
-        self.assertEqual(self.cmp.sim('niall', 'neal'), 0.9)
-
-    def test_editex_dist(self):
-        """Test abydos.distance.Editex.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'neilsen'), 1)
-        self.assertEqual(self.cmp.dist('ab', 'a'), 0.5)
-        self.assertEqual(self.cmp.dist('ab', 'c'), 1)
-        self.assertAlmostEqual(self.cmp.dist('nelson', 'neilsen'), 2 / 14)
-        self.assertAlmostEqual(self.cmp.dist('neilsen', 'nelson'), 2 / 14)
-        self.assertEqual(self.cmp.dist('niall', 'neal'), 0.1)
-
-        # Test tapering variant
-        self.assertAlmostEqual(
-            self.cmp_taper.dist('nelson', 'neilsen'), 0.123376623
-        )
+cmp_taper = Editex(taper=True)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_editex_dist_abs():
+    """Test abydos.distance.Editex.dist_abs."""
+    assert cmp.dist_abs('', '') == 0
+    assert cmp.dist_abs('nelson', '') == 12
+    assert cmp.dist_abs('', 'neilsen') == 14
+    assert cmp.dist_abs('ab', 'a') == 2
+    assert cmp.dist_abs('ab', 'c') == 4
+    assert cmp.dist_abs('nelson', 'neilsen') == 2
+    assert cmp.dist_abs('neilsen', 'nelson') == 2
+    assert cmp.dist_abs('niall', 'neal') == 1
+    assert cmp.dist_abs('neal', 'niall') == 1
+    assert cmp.dist_abs('niall', 'nihal') == 2
+    assert cmp.dist_abs('nihal', 'niall') == 2
+    assert cmp.dist_abs('neal', 'nihl') == 3
+    assert cmp.dist_abs('nihl', 'neal') == 3
+
+    # Test tapering variant
+    assert cmp_taper.dist_abs('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=2.7142857143)
+
+def test_editex_dist_abs_local():
+    """Test abydos.distance.Editex.dist_abs (local variant)."""
+    assert cmp_local.dist_abs('', '') == 0
+    assert cmp_local.dist_abs('nelson', '') == 12
+    assert cmp_local.dist_abs('', 'neilsen') == 14
+    assert cmp_local.dist_abs('ab', 'a') == 2
+    assert cmp_local.dist_abs('ab', 'c') == 2
+    assert cmp_local.dist_abs('nelson', 'neilsen') == 2
+    assert cmp_local.dist_abs('neilsen', 'nelson') == 2
+    assert cmp_local.dist_abs('niall', 'neal') == 1
+    assert cmp_local.dist_abs('neal', 'niall') == 1
+    assert cmp_local.dist_abs('niall', 'nihal') == 2
+    assert cmp_local.dist_abs('nihal', 'niall') == 2
+    assert cmp_local.dist_abs('neal', 'nihl') == 3
+    assert cmp_local.dist_abs('nihl', 'neal') == 3
+
+def test_editex_sim():
+    """Test abydos.distance.Editex.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('nelson', '') == 0
+    assert cmp.sim('', 'neilsen') == 0
+    assert cmp.sim('ab', 'a') == 0.5
+    assert cmp.sim('ab', 'c') == 0
+    assert cmp.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=12 / 14)
+    assert cmp.sim('neilsen', 'nelson') == pytest.approx(abs=1e-7, expected=12 / 14)
+    assert cmp.sim('niall', 'neal') == 0.9
+
+def test_editex_dist():
+    """Test abydos.distance.Editex.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('nelson', '') == 1
+    assert cmp.dist('', 'neilsen') == 1
+    assert cmp.dist('ab', 'a') == 0.5
+    assert cmp.dist('ab', 'c') == 1
+    assert cmp.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=2 / 14)
+    assert cmp.dist('neilsen', 'nelson') == pytest.approx(abs=1e-7, expected=2 / 14)
+    assert cmp.dist('niall', 'neal') == 0.1
+
+    # Test tapering variant
+    assert cmp_taper.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=0.123376623)

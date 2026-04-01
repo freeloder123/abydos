@@ -19,7 +19,6 @@
 This module contains fuzz tests for abydos.tokenizer
 """
 
-import unittest
 from inspect import getdoc, getmembers, isclass
 from random import choice, randint, sample
 
@@ -61,7 +60,7 @@ algorithms['typo_dist_abs'] = ad.Typo(failsafe=True).dist_abs
 algorithms['typo_dist'] = ad.Typo(failsafe=True).dist
 
 
-class BigListOfNaughtyStringsTestCases(unittest.TestCase):
+class TestBigListOfNaughtyStrings:
     """Test each distance measure against the BLNS set.
 
     Here, we test each algorithm against each string, but we only care that it
@@ -92,7 +91,7 @@ class BigListOfNaughtyStringsTestCases(unittest.TestCase):
                     )
 
 
-class FuzzedWordsTestCases(unittest.TestCase):
+class TestFuzzedWords:
     """Test each distance measure against the base words set."""
 
     reps = 1000 * (10000 if EXTREME_TEST else 1)
@@ -150,7 +149,3 @@ class FuzzedWordsTestCases(unittest.TestCase):
                             inst, algo, chosen, fuzzed
                         )
                     )
-
-
-if __name__ == '__main__':
-    unittest.main()

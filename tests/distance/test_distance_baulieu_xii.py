@@ -19,58 +19,47 @@
 This module contains unit tests for abydos.distance.BaulieuXII
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import BaulieuXII
 
 
-class BaulieuXIITestCases(unittest.TestCase):
-    """Test BaulieuXII functions.
+cmp = BaulieuXII()
 
-    abydos.distance.BaulieuXII
-    """
-
-    cmp = BaulieuXII()
-    cmp_no_d = BaulieuXII(alphabet=0)
-
-    def test_baulieu_xii_dist(self):
-        """Test abydos.distance.BaulieuXII.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.75)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.75)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.75)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.75)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.5384615385
-        )
-
-    def test_baulieu_xii_sim(self):
-        """Test abydos.distance.BaulieuXII.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.25)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.25)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.25)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.25)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.4615384615
-        )
+cmp_no_d = BaulieuXII(alphabet=0)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_baulieu_xii_dist():
+    """Test abydos.distance.BaulieuXII.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.75)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.75)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.75)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.75)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5384615385)
+
+def test_baulieu_xii_sim():
+    """Test abydos.distance.BaulieuXII.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.25)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.25)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.25)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.25)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.4615384615)

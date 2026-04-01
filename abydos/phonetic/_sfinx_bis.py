@@ -234,6 +234,8 @@ class SfinxBis(_Phonetic):
             Made return a str only (comma-separated)
 
         """
+        self._validate_word(word)
+
 
         def _foersvensker(lokal_ordet: str) -> str:
             """Return the Swedish-ized form of the word.

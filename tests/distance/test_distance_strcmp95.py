@@ -19,63 +19,52 @@
 This module contains unit tests for abydos.distance.Strcmp95
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Strcmp95
 
 
-class Strcmp95TestCases(unittest.TestCase):
-    """Test Strcmp95 functions.
+cmp = Strcmp95()
 
-    abydos.distance.Strcmp95
-    """
-
-    cmp = Strcmp95()
-    cmp_ls = Strcmp95(True)
-
-    def test_strcmp95_sim(self):
-        """Test abydos.distance.Strcmp95.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('MARTHA', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'MARTHA'), 0)
-        self.assertEqual(self.cmp.sim('MARTHA', 'MARTHA'), 1)
-
-        self.assertAlmostEqual(self.cmp.sim('MARTHA', 'MARHTA'), 0.96111111)
-        self.assertAlmostEqual(self.cmp.sim('DWAYNE', 'DUANE'), 0.873)
-        self.assertAlmostEqual(self.cmp.sim('DIXON', 'DICKSONX'), 0.839333333)
-
-        self.assertAlmostEqual(self.cmp.sim('ABCD', 'EFGH'), 0.0)
-
-        # long_strings = True
-        self.assertAlmostEqual(
-            self.cmp_ls.sim('DIXON', 'DICKSONX'), 0.85393939
-        )
-        self.assertAlmostEqual(self.cmp_ls.sim('DWAYNE', 'DUANE'), 0.89609090)
-        self.assertAlmostEqual(self.cmp_ls.sim('MARTHA', 'MARHTA'), 0.97083333)
-
-        # cover case where we don't boost, etc.
-        self.assertAlmostEqual(self.cmp.sim('A', 'ABCDEFGHIJK'), 69 / 99)
-        self.assertAlmostEqual(self.cmp_ls.sim('A', 'ABCDEFGHIJK'), 69 / 99)
-        self.assertAlmostEqual(self.cmp.sim('d', 'abcdefgh'), 0.708333333)
-        self.assertAlmostEqual(self.cmp_ls.sim('d', 'abcdefgh'), 0.708333333)
-        self.assertAlmostEqual(self.cmp_ls.sim('1', 'abc1efgh'), 0.708333333)
-        self.assertAlmostEqual(
-            self.cmp_ls.sim('12hundredths', '12hundred'), 0.916666667
-        )
-
-    def test_strcmp95_dist(self):
-        """Test abydos.distance.Strcmp95.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('MARTHA', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'MARTHA'), 1)
-        self.assertEqual(self.cmp.dist('MARTHA', 'MARTHA'), 0)
-
-        self.assertAlmostEqual(self.cmp.dist('MARTHA', 'MARHTA'), 0.03888888)
-        self.assertAlmostEqual(self.cmp.dist('DWAYNE', 'DUANE'), 0.127)
-        self.assertAlmostEqual(self.cmp.dist('DIXON', 'DICKSONX'), 0.160666666)
-
-        self.assertAlmostEqual(self.cmp.dist('ABCD', 'EFGH'), 1.0)
+cmp_ls = Strcmp95(True)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_strcmp95_sim():
+    """Test abydos.distance.Strcmp95.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('MARTHA', '') == 0
+    assert cmp.sim('', 'MARTHA') == 0
+    assert cmp.sim('MARTHA', 'MARTHA') == 1
+
+    assert cmp.sim('MARTHA', 'MARHTA') == pytest.approx(abs=1e-7, expected=0.96111111)
+    assert cmp.sim('DWAYNE', 'DUANE') == pytest.approx(abs=1e-7, expected=0.873)
+    assert cmp.sim('DIXON', 'DICKSONX') == pytest.approx(abs=1e-7, expected=0.839333333)
+
+    assert cmp.sim('ABCD', 'EFGH') == pytest.approx(abs=1e-7, expected=0.0)
+
+    # long_strings = True
+    assert cmp_ls.sim('DIXON', 'DICKSONX') == pytest.approx(abs=1e-7, expected=0.85393939)
+    assert cmp_ls.sim('DWAYNE', 'DUANE') == pytest.approx(abs=1e-7, expected=0.89609090)
+    assert cmp_ls.sim('MARTHA', 'MARHTA') == pytest.approx(abs=1e-7, expected=0.97083333)
+
+    # cover case where we don't boost, etc.
+    assert cmp.sim('A', 'ABCDEFGHIJK') == pytest.approx(abs=1e-7, expected=69 / 99)
+    assert cmp_ls.sim('A', 'ABCDEFGHIJK') == pytest.approx(abs=1e-7, expected=69 / 99)
+    assert cmp.sim('d', 'abcdefgh') == pytest.approx(abs=1e-7, expected=0.708333333)
+    assert cmp_ls.sim('d', 'abcdefgh') == pytest.approx(abs=1e-7, expected=0.708333333)
+    assert cmp_ls.sim('1', 'abc1efgh') == pytest.approx(abs=1e-7, expected=0.708333333)
+    assert cmp_ls.sim('12hundredths', '12hundred') == pytest.approx(abs=1e-7, expected=0.916666667)
+
+def test_strcmp95_dist():
+    """Test abydos.distance.Strcmp95.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('MARTHA', '') == 1
+    assert cmp.dist('', 'MARTHA') == 1
+    assert cmp.dist('MARTHA', 'MARTHA') == 0
+
+    assert cmp.dist('MARTHA', 'MARHTA') == pytest.approx(abs=1e-7, expected=0.03888888)
+    assert cmp.dist('DWAYNE', 'DUANE') == pytest.approx(abs=1e-7, expected=0.127)
+    assert cmp.dist('DIXON', 'DICKSONX') == pytest.approx(abs=1e-7, expected=0.160666666)
+
+    assert cmp.dist('ABCD', 'EFGH') == pytest.approx(abs=1e-7, expected=1.0)

@@ -19,67 +19,47 @@
 This module contains unit tests for abydos.distance.Cao
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Cao
 
 
-class CaoTestCases(unittest.TestCase):
-    """Test Cao functions.
-
-    abydos.distance.Cao
-    """
-
-    cmp = Cao()
-
-    def test_cao_sim(self):
-        """Test abydos.distance.Cao.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.0)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.0)
-
-    def test_cao_dist_abs(self):
-        """Test abydos.distance.Cao.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-        self.assertAlmostEqual(self.cmp.dist_abs('a', ''), 0.649453598585)
-        self.assertAlmostEqual(self.cmp.dist_abs('', 'a'), 0.649453598585)
-        self.assertEqual(self.cmp.dist_abs('a', 'a'), 0.0)
-        self.assertAlmostEqual(self.cmp.dist_abs('abc', ''), 0.649453598585)
-        self.assertAlmostEqual(self.cmp.dist_abs('', 'abc'), 0.649453598585)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0.0)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('abcd', 'efgh'), 0.649453598585
-        )
-
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Nigel', 'Niall'), 0.324726799
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Niall', 'Nigel'), 0.324726799
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Colin', 'Coiln'), 0.324726799
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Coiln', 'Colin'), 0.324726799
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 0.21648453286
-        )
+cmp = Cao()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_cao_sim():
+    """Test abydos.distance.Cao.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.0)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.0)
+
+def test_cao_dist_abs():
+    """Test abydos.distance.Cao.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0.0
+    assert cmp.dist_abs('a', '') == pytest.approx(abs=1e-7, expected=0.649453598585)
+    assert cmp.dist_abs('', 'a') == pytest.approx(abs=1e-7, expected=0.649453598585)
+    assert cmp.dist_abs('a', 'a') == 0.0
+    assert cmp.dist_abs('abc', '') == pytest.approx(abs=1e-7, expected=0.649453598585)
+    assert cmp.dist_abs('', 'abc') == pytest.approx(abs=1e-7, expected=0.649453598585)
+    assert cmp.dist_abs('abc', 'abc') == 0.0
+    assert cmp.dist_abs('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.649453598585)
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.324726799)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.324726799)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.324726799)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.324726799)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.21648453286)

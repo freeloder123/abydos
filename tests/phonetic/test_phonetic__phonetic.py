@@ -19,7 +19,6 @@
 This module contains unit tests for abydos.phonetic._Phonetic
 """
 
-import unittest
 
 from abydos.phonetic import Davidson
 
@@ -27,7 +26,7 @@ from abydos.phonetic import Davidson
 from abydos.phonetic._phonetic import _Phonetic
 
 
-class PhoneticTestCases(unittest.TestCase):
+class TestPhonetic:
     """Test _Phonetic base class.
 
     test cases for abydos.phonetic._Phonetic
@@ -38,30 +37,20 @@ class PhoneticTestCases(unittest.TestCase):
 
     def test_phonetic_delete_consecutive_repeats(self):
         """Test abydos.phonetic._Phonetic_delete_consecutive_repeats."""
-        self.assertEqual(
-            self.pa._delete_consecutive_repeats('REDDEE'), 'REDE'  # noqa: SF01
-        )
-        self.assertEqual(
-            self.pa._delete_consecutive_repeats('AEIOU'), 'AEIOU'  # noqa: SF01
-        )
-        self.assertEqual(
-            self.pa._delete_consecutive_repeats('AAACCCTTTGGG'),  # noqa: SF01
-            'ACTG',
+        assert self.pa._delete_consecutive_repeats('REDDEE') == 'REDE' # noqa: SF01
+        assert self.pa._delete_consecutive_repeats('AEIOU') == 'AEIOU' # noqa: SF01
+        assert (
+            self.pa._delete_consecutive_repeats('AAACCCTTTGGG')
+            == 'ACTG'  # noqa: SF01
         )
 
     def test_phonetic_encode(self):
         """Test abydos.phonetic._Phonetic.encode."""
-        self.assertEqual(self.pa.encode(''), '')
-        self.assertEqual(self.pa.encode('word'), 'word')
+        assert self.pa.encode('') == ''
+        assert self.pa.encode('word') == 'word'
 
     def test_phonetic_encode_alpha(self):
         """Test abydos.phonetic._Phonetic.encode_alpha."""
-        self.assertEqual(self.pa.encode_alpha(''), '')
-        self.assertEqual(self.pa.encode_alpha('word'), 'word')
-        self.assertEqual(
-            self.dav.encode_alpha('word'), self.dav.encode('word')
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.pa.encode_alpha('') == ''
+        assert self.pa.encode_alpha('word') == 'word'
+        assert self.dav.encode_alpha('word') == self.dav.encode('word')

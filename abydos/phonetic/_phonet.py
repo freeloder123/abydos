@@ -1131,6 +1131,8 @@ class Phonet(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         phonet_hash = Counter()  # type: TCounter[str]
         alpha_pos = Counter()  # type: TCounter[str]
 

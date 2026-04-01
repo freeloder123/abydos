@@ -19,95 +19,73 @@
 This module contains unit tests for abydos.distance.MarkingMetric
 """
 
-import unittest
+
+import pytest
 
 from math import log2
 
 from abydos.distance import MarkingMetric
 
 
-class MarkingMetricTestCases(unittest.TestCase):
-    """Test MarkingMetric functions.
-
-    abydos.distance.MarkingMetric
-    """
-
-    cmp = MarkingMetric()
-
-    def test_marking_metric_dist(self):
-        """Test abydos.distance.MarkingMetric.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.6131471928)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.6131471928)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.6131471928)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.6131471928)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.4674468153
-        )
-
-    def test_marking_metric_sim(self):
-        """Test abydos.distance.MarkingMetric.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.3868528072)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.3868528072)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.3868528072)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.3868528072)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.5325531847
-        )
-
-    def test_marking_metric_dist_abs(self):
-        """Test abydos.distance.MarkingMetric.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 2.0)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 2.0)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 4.643856189774724)
-
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Nigel', 'Niall'), 3.1699250014
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Niall', 'Nigel'), 3.1699250014
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Colin', 'Coiln'), 3.1699250014
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Coiln', 'Colin'), 3.1699250014
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 3.1699250014
-        )
-
-        # Examples from paper
-        self.assertEqual(self.cmp.dist_abs('abba', 'a'), log2(3))
-        self.assertEqual(self.cmp.dist_abs('baab', 'a'), 2.0)
-        # The following are from the example on p. 196 of the paper, but are
-        # there given in reverse order.
-        self.assertEqual(self.cmp.dist_abs('ab', 'a'), 1)
-        self.assertEqual(self.cmp.dist_abs('abcabcabcab', 'ab'), 2)
-        self.assertEqual(self.cmp.dist_abs('abcabcabcab', 'a'), 3)
+cmp = MarkingMetric()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_marking_metric_dist():
+    """Test abydos.distance.MarkingMetric.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6131471928)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6131471928)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.6131471928)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.6131471928)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.4674468153)
+
+def test_marking_metric_sim():
+    """Test abydos.distance.MarkingMetric.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.3868528072)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.3868528072)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.3868528072)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.3868528072)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.5325531847)
+
+def test_marking_metric_dist_abs():
+    """Test abydos.distance.MarkingMetric.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0.0
+    assert cmp.dist_abs('a', '') == 1.0
+    assert cmp.dist_abs('', 'a') == 1.0
+    assert cmp.dist_abs('abc', '') == 2.0
+    assert cmp.dist_abs('', 'abc') == 2.0
+    assert cmp.dist_abs('abc', 'abc') == 0.0
+    assert cmp.dist_abs('abcd', 'efgh') == 4.643856189774724
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=3.1699250014)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=3.1699250014)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=3.1699250014)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=3.1699250014)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=3.1699250014)
+
+    # Examples from paper
+    assert cmp.dist_abs('abba', 'a') == log2(3)
+    assert cmp.dist_abs('baab', 'a') == 2.0
+    # The following are from the example on p. 196 of the paper, but are
+    # there given in reverse order.
+    assert cmp.dist_abs('ab', 'a') == 1
+    assert cmp.dist_abs('abcabcabcab', 'ab') == 2
+    assert cmp.dist_abs('abcabcabcab', 'a') == 3

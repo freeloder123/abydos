@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.distance.Euclidean
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Euclidean
 from abydos.tokenizer import QGrams, WhitespaceTokenizer
@@ -27,187 +28,120 @@ from abydos.tokenizer import QGrams, WhitespaceTokenizer
 from .. import NONQ_FROM, NONQ_TO
 
 
-class EuclideanTestCases(unittest.TestCase):
-    """Test Euclidean functions.
+cmp = Euclidean()
 
-    abydos.distance.Euclidean
-    """
+cmp_q2 = Euclidean(tokenizer=QGrams(2))
 
-    cmp = Euclidean()
-    cmp_q2 = Euclidean(tokenizer=QGrams(2))
-    cmp_ws = Euclidean(tokenizer=WhitespaceTokenizer())
-
-    def test_euclidean_dist_abs(self):
-        """Test abydos.distance.Euclidean.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('nelson', ''), 7 ** 0.5)
-        self.assertEqual(self.cmp.dist_abs('', 'neilsen'), 8 ** 0.5)
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('nelson', 'neilsen'), 7 ** 0.5
-        )
-
-        self.assertEqual(self.cmp_q2.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_q2.dist_abs('nelson', ''), 7 ** 0.5)
-        self.assertEqual(self.cmp_q2.dist_abs('', 'neilsen'), 8 ** 0.5)
-        self.assertAlmostEqual(
-            self.cmp_q2.dist_abs('nelson', 'neilsen'), 7 ** 0.5
-        )
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            7 ** 0.5,
-        )
-        self.assertEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            8 ** 0.5,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            7 ** 0.5,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_ws.dist_abs('the quick', ''), 2 ** 0.5)
-        self.assertEqual(self.cmp_ws.dist_abs('', 'the quick'), 2 ** 0.5)
-        self.assertAlmostEqual(
-            self.cmp_ws.dist_abs(NONQ_FROM, NONQ_TO), 8 ** 0.5
-        )
-        self.assertAlmostEqual(
-            self.cmp_ws.dist_abs(NONQ_TO, NONQ_FROM), 8 ** 0.5
-        )
-
-    def test_euclidean_sim(self):
-        """Test abydos.distance.Euclidean.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(
-            self.cmp.sim('nelson', 'neilsen'), 1 - 7 ** 0.5 / 23 ** 0.5
-        )
-
-        self.assertEqual(self.cmp_q2.sim('', ''), 1)
-        self.assertEqual(self.cmp_q2.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp_q2.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(
-            self.cmp_q2.sim('nelson', 'neilsen'), 1 - 7 ** 0.5 / 23 ** 0.5
-        )
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            0,
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1 - 7 ** 0.5 / 23 ** 0.5,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.sim('', ''), 1)
-        self.assertEqual(self.cmp_ws.sim('the quick', ''), 0)
-        self.assertEqual(self.cmp_ws.sim('', 'the quick'), 0)
-        self.assertAlmostEqual(
-            self.cmp_ws.sim(NONQ_FROM, NONQ_TO), 1 - 8 ** 0.5 / 24 ** 0.5
-        )
-        self.assertAlmostEqual(
-            self.cmp_ws.sim(NONQ_TO, NONQ_FROM), 1 - 8 ** 0.5 / 24 ** 0.5
-        )
-
-    def test_euclidean_dist(self):
-        """Test abydos.distance.Euclidean.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(
-            self.cmp.dist('nelson', 'neilsen'), 7 ** 0.5 / 23 ** 0.5
-        )
-
-        self.assertEqual(self.cmp_q2.dist('', ''), 0)
-        self.assertEqual(self.cmp_q2.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp_q2.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(
-            self.cmp_q2.dist('nelson', 'neilsen'), 7 ** 0.5 / 23 ** 0.5
-        )
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            7 ** 0.5 / 23 ** 0.5,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.dist('', ''), 0)
-        self.assertEqual(self.cmp_ws.dist('the quick', ''), 1)
-        self.assertEqual(self.cmp_ws.dist('', 'the quick'), 1)
-        self.assertAlmostEqual(
-            self.cmp_ws.dist(NONQ_FROM, NONQ_TO), 8 ** 0.5 / 24 ** 0.5
-        )
-        self.assertAlmostEqual(
-            self.cmp_ws.dist(NONQ_TO, NONQ_FROM), 8 ** 0.5 / 24 ** 0.5
-        )
+cmp_ws = Euclidean(tokenizer=WhitespaceTokenizer())
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_euclidean_dist_abs():
+    """Test abydos.distance.Euclidean.dist_abs."""
+    assert cmp.dist_abs('', '') == 0
+    assert cmp.dist_abs('nelson', '') == 7 ** 0.5
+    assert cmp.dist_abs('', 'neilsen') == 8 ** 0.5
+    assert cmp.dist_abs('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=7 ** 0.5)
+
+    assert cmp_q2.dist_abs('', '') == 0
+    assert cmp_q2.dist_abs('nelson', '') == 7 ** 0.5
+    assert cmp_q2.dist_abs('', 'neilsen') == 8 ** 0.5
+    assert cmp_q2.dist_abs('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=7 ** 0.5)
+
+    # supplied q-gram tests
+    assert (
+        cmp.dist_abs( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.dist_abs( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 7 ** 0.5
+    )
+    assert (
+        cmp.dist_abs( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 8 ** 0.5
+    )
+    assert cmp.dist_abs(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=7 ** 0.5)
+
+    # non-q-gram tests
+    assert cmp_ws.dist_abs('', '') == 0
+    assert cmp_ws.dist_abs('the quick', '') == 2 ** 0.5
+    assert cmp_ws.dist_abs('', 'the quick') == 2 ** 0.5
+    assert cmp_ws.dist_abs(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=8 ** 0.5)
+    assert cmp_ws.dist_abs(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=8 ** 0.5)
+
+def test_euclidean_sim():
+    """Test abydos.distance.Euclidean.sim."""
+    assert cmp.sim('', '') == 1
+    assert cmp.sim('nelson', '') == 0
+    assert cmp.sim('', 'neilsen') == 0
+    assert cmp.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=1 - 7 ** 0.5 / 23 ** 0.5)
+
+    assert cmp_q2.sim('', '') == 1
+    assert cmp_q2.sim('nelson', '') == 0
+    assert cmp_q2.sim('', 'neilsen') == 0
+    assert cmp_q2.sim('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=1 - 7 ** 0.5 / 23 ** 0.5)
+
+    # supplied q-gram tests
+    assert (
+        cmp.sim( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.sim( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.sim( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 0
+    )
+    assert cmp.sim(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=1 - 7 ** 0.5 / 23 ** 0.5)
+
+    # non-q-gram tests
+    assert cmp_ws.sim('', '') == 1
+    assert cmp_ws.sim('the quick', '') == 0
+    assert cmp_ws.sim('', 'the quick') == 0
+    assert cmp_ws.sim(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=1 - 8 ** 0.5 / 24 ** 0.5)
+    assert cmp_ws.sim(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=1 - 8 ** 0.5 / 24 ** 0.5)
+
+def test_euclidean_dist():
+    """Test abydos.distance.Euclidean.dist."""
+    assert cmp.dist('', '') == 0
+    assert cmp.dist('nelson', '') == 1
+    assert cmp.dist('', 'neilsen') == 1
+    assert cmp.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=7 ** 0.5 / 23 ** 0.5)
+
+    assert cmp_q2.dist('', '') == 0
+    assert cmp_q2.dist('nelson', '') == 1
+    assert cmp_q2.dist('', 'neilsen') == 1
+    assert cmp_q2.dist('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=7 ** 0.5 / 23 ** 0.5)
+
+    # supplied q-gram tests
+    assert (
+        cmp.dist( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.dist( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.dist( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 1
+    )
+    assert cmp.dist(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=7 ** 0.5 / 23 ** 0.5)
+
+    # non-q-gram tests
+    assert cmp_ws.dist('', '') == 0
+    assert cmp_ws.dist('the quick', '') == 1
+    assert cmp_ws.dist('', 'the quick') == 1
+    assert cmp_ws.dist(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=8 ** 0.5 / 24 ** 0.5)
+    assert cmp_ws.dist(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=8 ** 0.5 / 24 ** 0.5)

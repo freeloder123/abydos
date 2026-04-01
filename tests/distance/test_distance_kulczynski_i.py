@@ -19,46 +19,38 @@
 This module contains unit tests for abydos.distance.KulczynskiI
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import KulczynskiI
 
 
-class KulczynskiITestCases(unittest.TestCase):
-    """Test KulczynskiI functions.
-
-    abydos.distance.KulczynskiI
-    """
-
-    cmp = KulczynskiI()
-
-    def test_kulczynski_i_sim_score(self):
-        """Test abydos.distance.KulczynskiI.sim_score."""
-        # Base cases
-        self.assertEqual(self.cmp.sim_score('', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim_score('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim_score('abc', 'abc'), float('inf'))
-        self.assertEqual(self.cmp.sim_score('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim_score('Nigel', 'Niall'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim_score('Niall', 'Nigel'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim_score('Colin', 'Coiln'), 0.5)
-        self.assertAlmostEqual(self.cmp.sim_score('Coiln', 'Colin'), 0.5)
-        self.assertAlmostEqual(
-            self.cmp.sim_score('ATCAACGAGT', 'AACGATTAG'), 1.0
-        )
-
-    def test_kulczynski_i_dist(self):
-        """Test abydos.distance.KulczynskiI.dist."""
-        self.assertRaises(NotImplementedError, self.cmp.dist)
-
-    def test_kulczynski_i_sim(self):
-        """Test abydos.distance.KulczynskiI.sim."""
-        self.assertRaises(NotImplementedError, self.cmp.sim)
+cmp = KulczynskiI()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_kulczynski_i_sim_score():
+    """Test abydos.distance.KulczynskiI.sim_score."""
+    # Base cases
+    assert cmp.sim_score('', '') == 0.0
+    assert cmp.sim_score('a', '') == 0.0
+    assert cmp.sim_score('', 'a') == 0.0
+    assert cmp.sim_score('abc', '') == 0.0
+    assert cmp.sim_score('', 'abc') == 0.0
+    assert cmp.sim_score('abc', 'abc') == float('inf')
+    assert cmp.sim_score('abcd', 'efgh') == 0.0
+
+    assert cmp.sim_score('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim_score('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim_score('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim_score('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.5)
+    assert cmp.sim_score('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1.0)
+
+def test_kulczynski_i_dist():
+    """Test abydos.distance.KulczynskiI.dist."""
+    with pytest.raises(NotImplementedError):
+        cmp.dist()
+
+def test_kulczynski_i_sim():
+    """Test abydos.distance.KulczynskiI.sim."""
+    with pytest.raises(NotImplementedError):
+        cmp.sim()

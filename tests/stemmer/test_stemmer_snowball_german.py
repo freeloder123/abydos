@@ -19,92 +19,83 @@
 This module contains unit tests for abydos.stemmer.SnowballGerman
 """
 
-import unittest
 
 from abydos.stemmer import SnowballGerman
 
 from .. import _corpus_file
 
 
-class SnowballGermanTestCases(unittest.TestCase):
-    """Test Snowball German functions.
+stmr = SnowballGerman()
 
-    abydos.stemmer.SnowballGerman
+stmr_av = SnowballGerman(alternate_vowels=True)
+
+
+def test_snowball_german():
+    """Test abydos.stemmer.SnowballGerman (Snowball testset).
+
+    These test cases are from
+    http://snowball.tartarus.org/algorithms/german/diffs.txt
     """
+    # base case
+    assert stmr.stem('') == ''
 
-    stmr = SnowballGerman()
-    stmr_av = SnowballGerman(alternate_vowels=True)
+    #  Snowball German test set
+    with open(
+        _corpus_file('snowball_german.csv'), encoding='utf-8'
+    ) as snowball_ts:
+        next(snowball_ts)
+        for line in snowball_ts:
+            if line[0] != '#':
+                line = line.strip().split(',')
+                word, stem = line[0], line[1]
+                assert stmr.stem(word) == stem.lower()
 
-    def test_snowball_german(self):
-        """Test abydos.stemmer.SnowballGerman (Snowball testset).
+    # missed branch test cases
+    assert stmr.stem('ikeit') == 'ikeit'
 
-        These test cases are from
-        http://snowball.tartarus.org/algorithms/german/diffs.txt
-        """
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
+def test_sb_german_snowball_alt():
+    """Test abydos.stemmer.SnowballGerman (alternate vowels)."""
+    # base case
+    assert stmr_av.stem('') == ''
 
-        #  Snowball German test set
-        with open(
-            _corpus_file('snowball_german.csv'), encoding='utf-8'
-        ) as snowball_ts:
-            next(snowball_ts)
-            for line in snowball_ts:
-                if line[0] != '#':
-                    line = line.strip().split(',')
-                    word, stem = line[0], line[1]
-                    self.assertEqual(self.stmr.stem(word), stem.lower())
+    # dämmerung,dammer
+    assert stmr_av.stem('dämmerung') == 'dammer'
+    assert stmr_av.stem('daemmerung') == 'dammer'
+    assert stmr.stem('dämmerung') == 'dammer'
+    assert stmr.stem('daemmerung') == 'daemmer'
 
-        # missed branch test cases
-        self.assertEqual(self.stmr.stem('ikeit'), 'ikeit')
+    # brötchen,brotch
+    assert stmr_av.stem('brötchen') == 'brotch'
+    assert stmr_av.stem('broetchen') == 'brotch'
+    assert stmr.stem('brötchen') == 'brotch'
+    assert stmr.stem('broetchen') == 'broetch'
 
-    def test_sb_german_snowball_alt(self):
-        """Test abydos.stemmer.SnowballGerman (alternate vowels)."""
-        # base case
-        self.assertEqual(self.stmr_av.stem(''), '')
+    # büro,buro
+    assert stmr_av.stem('büro') == 'buro'
+    assert stmr_av.stem('buero') == 'buro'
+    assert stmr.stem('büro') == 'buro'
+    assert stmr.stem('buero') == 'buero'
 
-        # dämmerung,dammer
-        self.assertEqual(self.stmr_av.stem('dämmerung'), 'dammer')
-        self.assertEqual(self.stmr_av.stem('daemmerung'), 'dammer')
-        self.assertEqual(self.stmr.stem('dämmerung'), 'dammer')
-        self.assertEqual(self.stmr.stem('daemmerung'), 'daemmer')
+    # häufen,hauf
+    assert stmr_av.stem('häufen') == 'hauf'
+    assert stmr_av.stem('haeufen') == 'hauf'
+    assert stmr.stem('häufen') == 'hauf'
+    assert stmr.stem('haeufen') == 'haeuf'
 
-        # brötchen,brotch
-        self.assertEqual(self.stmr_av.stem('brötchen'), 'brotch')
-        self.assertEqual(self.stmr_av.stem('broetchen'), 'brotch')
-        self.assertEqual(self.stmr.stem('brötchen'), 'brotch')
-        self.assertEqual(self.stmr.stem('broetchen'), 'broetch')
+    # quelle,quell
+    assert stmr_av.stem('qülle') == 'qull'
+    assert stmr_av.stem('quelle') == 'quell'
+    assert stmr.stem('qülle') == 'qull'
+    assert stmr.stem('quelle') == 'quell'
 
-        # büro,buro
-        self.assertEqual(self.stmr_av.stem('büro'), 'buro')
-        self.assertEqual(self.stmr_av.stem('buero'), 'buro')
-        self.assertEqual(self.stmr.stem('büro'), 'buro')
-        self.assertEqual(self.stmr.stem('buero'), 'buero')
+    # feuer,feuer
+    assert stmr_av.stem('feür') == 'feur'
+    assert stmr_av.stem('feuer') == 'feu'
+    assert stmr.stem('feür') == 'feur'
+    assert stmr.stem('feuer') == 'feu'
 
-        # häufen,hauf
-        self.assertEqual(self.stmr_av.stem('häufen'), 'hauf')
-        self.assertEqual(self.stmr_av.stem('haeufen'), 'hauf')
-        self.assertEqual(self.stmr.stem('häufen'), 'hauf')
-        self.assertEqual(self.stmr.stem('haeufen'), 'haeuf')
-
-        # quelle,quell
-        self.assertEqual(self.stmr_av.stem('qülle'), 'qull')
-        self.assertEqual(self.stmr_av.stem('quelle'), 'quell')
-        self.assertEqual(self.stmr.stem('qülle'), 'qull')
-        self.assertEqual(self.stmr.stem('quelle'), 'quell')
-
-        # feuer,feuer
-        self.assertEqual(self.stmr_av.stem('feür'), 'feur')
-        self.assertEqual(self.stmr_av.stem('feuer'), 'feu')
-        self.assertEqual(self.stmr.stem('feür'), 'feur')
-        self.assertEqual(self.stmr.stem('feuer'), 'feu')
-
-        # über,uber
-        self.assertEqual(self.stmr_av.stem('über'), 'uber')
-        self.assertEqual(self.stmr_av.stem('ueber'), 'uber')
-        self.assertEqual(self.stmr.stem('über'), 'uber')
-        self.assertEqual(self.stmr.stem('ueber'), 'ueb')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # über,uber
+    assert stmr_av.stem('über') == 'uber'
+    assert stmr_av.stem('ueber') == 'uber'
+    assert stmr.stem('über') == 'uber'
+    assert stmr.stem('ueber') == 'ueb'

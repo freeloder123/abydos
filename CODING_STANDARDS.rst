@@ -1,11 +1,11 @@
 CODING STANDARDS
 ----------------
 
-- Nosetest will be used for testing.
-- Flake8 will be used for best practice conformance.
+- Pytest will be used for testing.
+- Ruff will be used for linting and best practice conformance.
 - Pydocstyle will be used to ensure documentation style conformance to PEP257
   (for the most part) and NumPy documentation style.
-- Black will be used to keep code style consistent.
+- Ruff formatter will be used to keep code style consistent.
 - 3rd party packages may be used, but must be present in both PyPI and conda
   or conda-forge. They must also support all supported Python versions.
 
@@ -25,10 +25,25 @@ git pushes
 A git push should be performed only under the following conditions:
 
 - library is syntactically correct (compiling correctly) in both Python 3
-- library passes all tests and doctests according to nosetests in Python 3
-- test coverage is 100% according to nosetests
-- flake8 and pydocstyle should report 0 issues
-- black code styling has been applied
+- library passes all tests and doctests according to pytest in Python 3
+- test coverage is 100% according to pytest
+- ruff should report 0 issues
+- ruff formatting has been applied
+
+
+git history
+~~~~~~~~~~~
+
+Maintain a clean, informative commit history:
+
+- Write commit messages in imperative mood (e.g., "Add validation to Soundex"
+  not "Added validation to Soundex")
+- Keep the subject line under 72 characters
+- Use the body to explain *why* a change was made, not just *what* changed
+- Reference issue numbers where applicable (e.g., "Fix #42")
+- Avoid squashing unrelated changes into a single commit
+- Rebase feature branches before merging to maintain a linear history
+- Never force-push to shared branches (main, develop)
 
 
 Notes on architecture
@@ -40,10 +55,7 @@ own. The distance, fingerprint, phonetic, & stemmer classes each inherit from
 respectively common classes that define basic methods for these four major
 types of classes.
 
-The old functional API for these subpackages has been retained for backwards
-compatibility until the release of version 0.6, but its use is deprecated as
-of version 0.4. New classes (those not present at the release of version 0.3.6)
-will not be given functional API wrappers.
+The old functional API for these subpackages was removed in version 0.6.
 
 Although, as of the 0.3.6 release, many of the classes that have are pre-0.3.6
 functions encapsulated in a class simply consist of a single method that

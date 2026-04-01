@@ -19,39 +19,29 @@
 This module contains unit tests for abydos.distance.HendersonHeron
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import HendersonHeron
 
 
-class HendersonHeronTestCases(unittest.TestCase):
-    """Test HendersonHeron functions.
-
-    abydos.distance.HendersonHeron
-    """
-
-    cmp = HendersonHeron()
-
-    def test_henderson_heron_dist(self):
-        """Test abydos.distance.HendersonHeron.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 1.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertAlmostEqual(self.cmp.dist('a', 'a'), 3.258008184e-06)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp.dist('abc', 'abc'), 6.40140979487e-11)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 0.9684367974410505)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 4.94203602e-06)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 4.94203602e-06)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 4.94203602e-06)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 4.94203602e-06)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 1.108779488e-12
-        )
+cmp = HendersonHeron()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_henderson_heron_dist():
+    """Test abydos.distance.HendersonHeron.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 1.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('a', 'a') == pytest.approx(abs=1e-7, expected=3.258008184e-06)
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == pytest.approx(abs=1e-7, expected=6.40140979487e-11)
+    assert cmp.dist('abcd', 'efgh') == 0.9684367974410505
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=4.94203602e-06)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=4.94203602e-06)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=4.94203602e-06)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=4.94203602e-06)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1.108779488e-12)

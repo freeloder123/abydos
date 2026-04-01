@@ -19,50 +19,39 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import SAPSTokenizer
 
 
-class SAPSTokenizerTestCases(unittest.TestCase):
+def test_saps_tokenizer():
     """Test abydos.tokenizer.SAPSTokenizer."""
+    assert sorted(SAPSTokenizer().tokenize('').get_list()) == []
+    assert sorted(SAPSTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_saps_tokenizer(self):
-        """Test abydos.tokenizer.SAPSTokenizer."""
-        self.assertEqual(sorted(SAPSTokenizer().tokenize('').get_list()), [])
-        self.assertEqual(
-            sorted(SAPSTokenizer().tokenize('a').get_list()), ['a']
-        )
+    tok = SAPSTokenizer()
 
-        tok = SAPSTokenizer()
-
-        self.assertEqual(
-            sorted(tok.tokenize('nelson').get_list()), sorted(['nel', 'son'])
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('neilson').get_list()), sorted(['neil', 'son'])
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('peninsular').get_list()),
-            sorted(['pe', 'nin', 'su', 'lar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('spectacular').get_list()),
-            sorted(['s', 'pec', 'ta', 'cu', 'lar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('sufficiently').get_list()),
-            sorted(['suf', 'fi', 'cien', 't', 'ly']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('yachting').get_list()),
-            sorted(['yac', 'h', 'tin', 'g']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('caterpillars').get_list()),
-            sorted(['ca', 'ter', 'pil', 'lar', 's']),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert sorted(tok.tokenize('nelson').get_list()) == sorted(['nel', 'son'])
+    assert (
+        sorted(tok.tokenize('neilson').get_list())
+        == sorted(['neil', 'son'])
+    )
+    assert (
+        sorted(tok.tokenize('peninsular').get_list())
+        == sorted(['pe', 'nin', 'su', 'lar'])
+    )
+    assert (
+        sorted(tok.tokenize('spectacular').get_list())
+        == sorted(['s', 'pec', 'ta', 'cu', 'lar'])
+    )
+    assert (
+        sorted(tok.tokenize('sufficiently').get_list())
+        == sorted(['suf', 'fi', 'cien', 't', 'ly'])
+    )
+    assert (
+        sorted(tok.tokenize('yachting').get_list())
+        == sorted(['yac', 'h', 'tin', 'g'])
+    )
+    assert (
+        sorted(tok.tokenize('caterpillars').get_list())
+        == sorted(['ca', 'ter', 'pil', 'lar', 's'])
+    )

@@ -19,7 +19,6 @@
 This module contains unit tests for abydos.fingerprint.Phonetic
 """
 
-import unittest
 
 from abydos.fingerprint import Phonetic
 from abydos.phonetic import Phonet, Soundex
@@ -28,35 +27,26 @@ from abydos.phonetic import Phonet, Soundex
 from .. import NIALL
 
 
-class PhoneticTestCases(unittest.TestCase):
-    """Test phonetic fingerprint functions.
+fp = Phonetic()
 
-    abydos.fingerprint.Phonetic
-    """
+fp_phonet = Phonetic(Phonet())
 
-    fp = Phonetic()
-    fp_phonet = Phonetic(Phonet())
-    fp_soundex = Phonetic(Soundex())
-    soundex = Soundex()
+fp_soundex = Phonetic(Soundex())
 
-    def test_phonetic_fingerprint(self):
-        """Test abydos.fingerprint.Phonetic."""
-        # Base case
-        self.assertEqual(self.fp.fingerprint(''), '')
-
-        self.assertEqual(
-            self.fp.fingerprint(' '.join(NIALL)), 'a anl mknl njl nklk nl'
-        )
-        self.assertEqual(
-            self.fp_phonet.fingerprint(' '.join(NIALL)),
-            'knile makneil maknele neil nel nele nial nigeli '
-            + 'nigl nil noigialach oneil ui',
-        )
-        self.assertEqual(
-            self.fp_soundex.fingerprint(' '.join(NIALL)),
-            'k540 m254 n240 n242 n400 o540 u000',
-        )
+soundex = Soundex()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_phonetic_fingerprint():
+    """Test abydos.fingerprint.Phonetic."""
+    # Base case
+    assert fp.fingerprint('') == ''
+
+    assert fp.fingerprint(' '.join(NIALL)) == 'a anl mknl njl nklk nl'
+    assert (
+        fp_phonet.fingerprint(' '.join(NIALL))
+        == 'knile makneil maknele neil nel nele nial nigeli ' + 'nigl nil noigialach oneil ui'
+    )
+    assert (
+        fp_soundex.fingerprint(' '.join(NIALL))
+        == 'k540 m254 n240 n242 n400 o540 u000'
+    )

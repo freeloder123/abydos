@@ -19,7 +19,7 @@
 This module contains unit tests for abydos.distance.Jaccard
 """
 
-import unittest
+import pytest
 from math import log2
 
 from abydos.distance import Jaccard
@@ -28,7 +28,7 @@ from abydos.tokenizer import QGrams, WhitespaceTokenizer
 from .. import NONQ_FROM, NONQ_TO
 
 
-class JaccardTestCases(unittest.TestCase):
+class TestJaccard:
     """Test Jaccard functions.
 
     abydos.distance.Jaccard
@@ -40,104 +40,96 @@ class JaccardTestCases(unittest.TestCase):
 
     def test_jaccard_sim(self):
         """Test abydos.distance.Jaccard.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertEqual(self.cmp.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(self.cmp.sim('nelson', 'neilsen'), 4 / 11)
+        assert self.cmp.sim('', '') == 1
+        assert self.cmp.sim('nelson', '') == 0
+        assert self.cmp.sim('', 'neilsen') == 0
+        assert self.cmp.sim('nelson', 'neilsen') == pytest.approx(
+            abs=1e-7, expected=4 / 11
+        )
 
-        self.assertEqual(self.cmp_q2.sim('', ''), 1)
-        self.assertEqual(self.cmp_q2.sim('nelson', ''), 0)
-        self.assertEqual(self.cmp_q2.sim('', 'neilsen'), 0)
-        self.assertAlmostEqual(self.cmp_q2.sim('nelson', 'neilsen'), 4 / 11)
+        assert self.cmp_q2.sim('', '') == 1
+        assert self.cmp_q2.sim('nelson', '') == 0
+        assert self.cmp_q2.sim('', 'neilsen') == 0
+        assert self.cmp_q2.sim('nelson', 'neilsen') == pytest.approx(
+            abs=1e-7, expected=4 / 11
+        )
 
         # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.sim(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            0,
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            4 / 11,
-        )
+        assert self.cmp.sim(
+            QGrams().tokenize('').get_counter(),
+            QGrams().tokenize('').get_counter(),
+        ) == 1
+        assert self.cmp.sim(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('').get_counter(),
+        ) == 0
+        assert self.cmp.sim(
+            QGrams().tokenize('').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == 0
+        assert self.cmp.sim(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=4 / 11)
 
         # non-q-gram tests
-        self.assertEqual(self.cmp_ws.sim('', ''), 1)
-        self.assertEqual(self.cmp_ws.sim('the quick', ''), 0)
-        self.assertEqual(self.cmp_ws.sim('', 'the quick'), 0)
-        self.assertAlmostEqual(self.cmp_ws.sim(NONQ_FROM, NONQ_TO), 1 / 3)
-        self.assertAlmostEqual(self.cmp_ws.sim(NONQ_TO, NONQ_FROM), 1 / 3)
+        assert self.cmp_ws.sim('', '') == 1
+        assert self.cmp_ws.sim('the quick', '') == 0
+        assert self.cmp_ws.sim('', 'the quick') == 0
+        assert self.cmp_ws.sim(NONQ_FROM, NONQ_TO) == pytest.approx(
+            abs=1e-7, expected=1 / 3
+        )
+        assert self.cmp_ws.sim(NONQ_TO, NONQ_FROM) == pytest.approx(
+            abs=1e-7, expected=1 / 3
+        )
 
     def test_jaccard_dist(self):
         """Test abydos.distance.Jaccard.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertEqual(self.cmp.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp.dist('nelson', 'neilsen'), 7 / 11)
+        assert self.cmp.dist('', '') == 0
+        assert self.cmp.dist('nelson', '') == 1
+        assert self.cmp.dist('', 'neilsen') == 1
+        assert self.cmp.dist('nelson', 'neilsen') == pytest.approx(
+            abs=1e-7, expected=7 / 11
+        )
 
-        self.assertEqual(self.cmp_q2.dist('', ''), 0)
-        self.assertEqual(self.cmp_q2.dist('nelson', ''), 1)
-        self.assertEqual(self.cmp_q2.dist('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp_q2.dist('nelson', 'neilsen'), 7 / 11)
+        assert self.cmp_q2.dist('', '') == 0
+        assert self.cmp_q2.dist('nelson', '') == 1
+        assert self.cmp_q2.dist('', 'neilsen') == 1
+        assert self.cmp_q2.dist('nelson', 'neilsen') == pytest.approx(
+            abs=1e-7, expected=7 / 11
+        )
 
         # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.dist(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            7 / 11,
-        )
+        assert self.cmp.dist(
+            QGrams().tokenize('').get_counter(),
+            QGrams().tokenize('').get_counter(),
+        ) == 0
+        assert self.cmp.dist(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('').get_counter(),
+        ) == 1
+        assert self.cmp.dist(
+            QGrams().tokenize('').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == 1
+        assert self.cmp.dist(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=7 / 11)
 
         # non-q-gram tests
-        self.assertEqual(self.cmp_ws.dist('', ''), 0)
-        self.assertEqual(self.cmp_ws.dist('the quick', ''), 1)
-        self.assertEqual(self.cmp_ws.dist('', 'the quick'), 1)
-        self.assertAlmostEqual(self.cmp_ws.dist(NONQ_FROM, NONQ_TO), 2 / 3)
-        self.assertAlmostEqual(self.cmp_ws.dist(NONQ_TO, NONQ_FROM), 2 / 3)
+        assert self.cmp_ws.dist('', '') == 0
+        assert self.cmp_ws.dist('the quick', '') == 1
+        assert self.cmp_ws.dist('', 'the quick') == 1
+        assert self.cmp_ws.dist(NONQ_FROM, NONQ_TO) == pytest.approx(
+            abs=1e-7, expected=2 / 3
+        )
+        assert self.cmp_ws.dist(NONQ_TO, NONQ_FROM) == pytest.approx(
+            abs=1e-7, expected=2 / 3
+        )
 
 
-class TanimotoTestCases(unittest.TestCase):
+class TestTanimoto:
     """Test Tanimoto functions.
 
     abydos.distance.Jaccard.tanimoto_coeff
@@ -149,69 +141,45 @@ class TanimotoTestCases(unittest.TestCase):
 
     def test_jaccard_tanimoto_coeff(self):
         """Test abydos.distance.Jaccard.tanimoto_coeff."""
-        self.assertEqual(self.cmp.tanimoto_coeff('', ''), 0)
-        self.assertEqual(self.cmp.tanimoto_coeff('nelson', ''), float('-inf'))
-        self.assertEqual(self.cmp.tanimoto_coeff('', 'neilsen'), float('-inf'))
-        self.assertAlmostEqual(
-            self.cmp.tanimoto_coeff('nelson', 'neilsen'), log2(4 / 11)
+        assert self.cmp.tanimoto_coeff('', '') == 0
+        assert self.cmp.tanimoto_coeff('nelson', '') == float('-inf')
+        assert self.cmp.tanimoto_coeff('', 'neilsen') == float('-inf')
+        assert self.cmp.tanimoto_coeff('nelson', 'neilsen') == pytest.approx(
+            abs=1e-7, expected=log2(4 / 11)
         )
 
-        self.assertEqual(self.cmp_q2.tanimoto_coeff('', ''), 0)
-        self.assertEqual(
-            self.cmp_q2.tanimoto_coeff('nelson', ''), float('-inf')
-        )
-        self.assertEqual(
-            self.cmp_q2.tanimoto_coeff('', 'neilsen'), float('-inf')
-        )
-        self.assertAlmostEqual(
-            self.cmp_q2.tanimoto_coeff('nelson', 'neilsen'), log2(4 / 11),
-        )
+        assert self.cmp_q2.tanimoto_coeff('', '') == 0
+        assert self.cmp_q2.tanimoto_coeff('nelson', '') == float('-inf')
+        assert self.cmp_q2.tanimoto_coeff('', 'neilsen') == float('-inf')
+        assert self.cmp_q2.tanimoto_coeff(
+            'nelson', 'neilsen'
+        ) == pytest.approx(abs=1e-7, expected=log2(4 / 11))
 
         # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.tanimoto_coeff(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.tanimoto_coeff(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            float('-inf'),
-        )
-        self.assertEqual(
-            self.cmp.tanimoto_coeff(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            float('-inf'),
-        )
-        self.assertAlmostEqual(
-            self.cmp.tanimoto_coeff(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            log2(4 / 11),
-        )
+        assert self.cmp.tanimoto_coeff(
+            QGrams().tokenize('').get_counter(),
+            QGrams().tokenize('').get_counter(),
+        ) == 0
+        assert self.cmp.tanimoto_coeff(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('').get_counter(),
+        ) == float('-inf')
+        assert self.cmp.tanimoto_coeff(
+            QGrams().tokenize('').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == float('-inf')
+        assert self.cmp.tanimoto_coeff(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=log2(4 / 11))
 
         # non-q-gram tests
-        self.assertEqual(self.cmp_ws.tanimoto_coeff('', ''), 0)
-        self.assertEqual(
-            self.cmp_ws.tanimoto_coeff('the quick', ''), float('-inf')
-        )
-        self.assertEqual(
-            self.cmp_ws.tanimoto_coeff('', 'the quick'), float('-inf')
-        )
-        self.assertAlmostEqual(
-            self.cmp_ws.tanimoto_coeff(NONQ_FROM, NONQ_TO), log2(1 / 3)
-        )
-        self.assertAlmostEqual(
-            self.cmp_ws.tanimoto_coeff(NONQ_TO, NONQ_FROM), log2(1 / 3)
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.cmp_ws.tanimoto_coeff('', '') == 0
+        assert self.cmp_ws.tanimoto_coeff('the quick', '') == float('-inf')
+        assert self.cmp_ws.tanimoto_coeff('', 'the quick') == float('-inf')
+        assert self.cmp_ws.tanimoto_coeff(
+            NONQ_FROM, NONQ_TO
+        ) == pytest.approx(abs=1e-7, expected=log2(1 / 3))
+        assert self.cmp_ws.tanimoto_coeff(
+            NONQ_TO, NONQ_FROM
+        ) == pytest.approx(abs=1e-7, expected=log2(1 / 3))

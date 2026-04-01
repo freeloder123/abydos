@@ -128,6 +128,8 @@ class Haase(_Phonetic):
             Made return a str only (comma-separated)
 
         """
+        self._validate_word(word)
+
 
         def _after(word: str, pos: int, letters: Set[str]) -> bool:
             """Return True if word[pos] follows one of the supplied letters.

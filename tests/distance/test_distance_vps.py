@@ -19,62 +19,38 @@
 This module contains unit tests for abydos.distance.VPS
 """
 
-import unittest
 
 from abydos.distance import VPS
 
 
-class VPSTestCases(unittest.TestCase):
-    """Test VPS functions.
-
-    abydos.distance.VPS
-    """
-
-    cmp = VPS()
-
-    def test_vps_sim(self):
-        """Test abydos.distance.VPS.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        # Testcases from paper
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'ANSCOMB'), 0.5972222222222222
-        )
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'ANSCOMBE'), 0.7083333333333334
-        )
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'BRANSCOMB'), 0.5879629629629629
-        )
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'DASCOMBE'), 0.5925925925925926
-        )
-        self.assertEqual(self.cmp.sim('AINSCOMBE', 'DUNSCOMBE'), 0.75)
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'HANSCOMB'), 0.6620370370370371
-        )
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'LIPSCOMBE'), 0.6666666666666666
-        )
-        self.assertEqual(
-            self.cmp.sim('AINSCOMBE', 'LUSCOMBE'), 0.5555555555555556
-        )
-        self.assertEqual(self.cmp.sim('JULIA', 'JULIAN'), 0.8)
-        self.assertEqual(self.cmp.sim('JULIA', 'JULIANA'), 0.7063492063492063)
-        self.assertEqual(self.cmp.sim('JULIA', 'JULIANNA'), 0.6011904761904762)
-        self.assertEqual(self.cmp.sim('JULIA', 'JULIE'), 0.75)
-        self.assertEqual(self.cmp.sim('JULIA', 'JULIET'), 0.6)
-        self.assertEqual(self.cmp.sim('JULIA', 'JULIUS'), 0.6333333333333333)
-        self.assertEqual(self.cmp.sim('ROBBINS', 'ROBYNS'), 0.5238095238095238)
+cmp = VPS()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_vps_sim():
+    """Test abydos.distance.VPS.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    # Testcases from paper
+    assert cmp.sim('AINSCOMBE', 'ANSCOMB') == 0.5972222222222222
+    assert cmp.sim('AINSCOMBE', 'ANSCOMBE') == 0.7083333333333334
+    assert cmp.sim('AINSCOMBE', 'BRANSCOMB') == 0.5879629629629629
+    assert cmp.sim('AINSCOMBE', 'DASCOMBE') == 0.5925925925925926
+    assert cmp.sim('AINSCOMBE', 'DUNSCOMBE') == 0.75
+    assert cmp.sim('AINSCOMBE', 'HANSCOMB') == 0.6620370370370371
+    assert cmp.sim('AINSCOMBE', 'LIPSCOMBE') == 0.6666666666666666
+    assert cmp.sim('AINSCOMBE', 'LUSCOMBE') == 0.5555555555555556
+    assert cmp.sim('JULIA', 'JULIAN') == 0.8
+    assert cmp.sim('JULIA', 'JULIANA') == 0.7063492063492063
+    assert cmp.sim('JULIA', 'JULIANNA') == 0.6011904761904762
+    assert cmp.sim('JULIA', 'JULIE') == 0.75
+    assert cmp.sim('JULIA', 'JULIET') == 0.6
+    assert cmp.sim('JULIA', 'JULIUS') == 0.6333333333333333
+    assert cmp.sim('ROBBINS', 'ROBYNS') == 0.5238095238095238

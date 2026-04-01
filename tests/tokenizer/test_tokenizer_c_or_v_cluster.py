@@ -19,66 +19,52 @@
 This module contains unit tests for abydos.tokenizer.COrVClusterTokenizer
 """
 
-import unittest
 
 from abydos.tokenizer import COrVClusterTokenizer
 
 
-class COrVClusterTokenizerTestCases(unittest.TestCase):
+def test_c_or_v_cluster_tokenizer():
     """Test abydos.tokenizer.COrVClusterTokenizer."""
+    assert sorted(COrVClusterTokenizer().tokenize('').get_list()) == []
+    assert sorted(COrVClusterTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_c_or_v_cluster_tokenizer(self):
-        """Test abydos.tokenizer.COrVClusterTokenizer."""
-        self.assertEqual(
-            sorted(COrVClusterTokenizer().tokenize('').get_list()), []
-        )
-        self.assertEqual(
-            sorted(COrVClusterTokenizer().tokenize('a').get_list()), ['a']
-        )
+    tok = COrVClusterTokenizer()
 
-        tok = COrVClusterTokenizer()
+    assert (
+        sorted(tok.tokenize('nelson').get_list())
+        == sorted(['n', 'e', 'ls', 'o', 'n'])
+    )
+    assert (
+        sorted(tok.tokenize('neilson').get_list())
+        == sorted(['n', 'ei', 'ls', 'o', 'n'])
+    )
+    assert (
+        sorted(tok.tokenize('peninsular').get_list())
+        == sorted(['p', 'e', 'n', 'i', 'ns', 'u', 'l', 'a', 'r'])
+    )
+    assert (
+        sorted(tok.tokenize('spectacular').get_list())
+        == sorted(['sp', 'e', 'ct', 'a', 'c', 'u', 'l', 'a', 'r'])
+    )
+    assert (
+        sorted(tok.tokenize('sufficiently').get_list())
+        == sorted(['s', 'u', 'ff', 'i', 'c', 'ie', 'ntl', 'y'])
+    )
+    assert (
+        sorted(tok.tokenize('yachting').get_list())
+        == sorted(['ya', 'cht', 'i', 'ng'])
+    )
+    assert (
+        sorted(tok.tokenize('caterpillars').get_list())
+        == sorted(['c', 'a', 't', 'e', 'rp', 'i', 'll', 'a', 'rs'])
+    )
+    assert (
+        sorted(tok.tokenize('Götterdämmerung').get_list())
+        == sorted( ['G', 'ö', 'tt', 'e', 'rd', 'ä', 'mm', 'e', 'r', 'u', 'ng'] )
+    )
 
-        self.assertEqual(
-            sorted(tok.tokenize('nelson').get_list()),
-            sorted(['n', 'e', 'ls', 'o', 'n']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('neilson').get_list()),
-            sorted(['n', 'ei', 'ls', 'o', 'n']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('peninsular').get_list()),
-            sorted(['p', 'e', 'n', 'i', 'ns', 'u', 'l', 'a', 'r']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('spectacular').get_list()),
-            sorted(['sp', 'e', 'ct', 'a', 'c', 'u', 'l', 'a', 'r']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('sufficiently').get_list()),
-            sorted(['s', 'u', 'ff', 'i', 'c', 'ie', 'ntl', 'y']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('yachting').get_list()),
-            sorted(['ya', 'cht', 'i', 'ng']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('caterpillars').get_list()),
-            sorted(['c', 'a', 't', 'e', 'rp', 'i', 'll', 'a', 'rs']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('Götterdämmerung').get_list()),
-            sorted(
-                ['G', 'ö', 'tt', 'e', 'rd', 'ä', 'mm', 'e', 'r', 'u', 'ng']
-            ),
-        )
-
-        tok = COrVClusterTokenizer(consonants='ptkbdgmn', vowels='aeiouwy')
-        self.assertEqual(
-            sorted(tok.tokenize('#winning #losing').get_list()),
-            sorted(['#', 'wi', 'nn', 'i', 'ng', '#', 'losing']),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    tok = COrVClusterTokenizer(consonants='ptkbdgmn', vowels='aeiouwy')
+    assert (
+        sorted(tok.tokenize('#winning #losing').get_list())
+        == sorted(['#', 'wi', 'nn', 'i', 'ng', '#', 'losing'])
+    )

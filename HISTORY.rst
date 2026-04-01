@@ -1,6 +1,30 @@
 Release History
 ---------------
 
+Unreleased
+++++++++++
+
+Changes:
+
+- Updated the project to support modern Python releases, with validation on
+  Python 3.14.
+- Modernized packaging and development tooling around ``pyproject.toml``,
+  refreshed requirements files, and updated CI, tox, lint, and docs build
+  configuration.
+- Updated dependencies to current compatible versions, including NumPy 2.x,
+  pytest, Ruff, Sphinx, and NLTK.
+- Fixed compatibility issues surfaced by modern Python and NumPy releases,
+  including removed NumPy scalar aliases and MinHash behavior on current
+  interpreters.
+- Added documentation reference sections needed for clean Sphinx builds on
+  current versions of Sphinx and ``sphinxcontrib-bibtex``.
+- Updated corpus and test file loading to use built-in ``open()`` rather than
+  deprecated ``codecs.open()``.
+- Made network-backed ``abydos-data`` tests skip cleanly when the remote index
+  is unavailable.
+- Added public Metaphone 3 and Polyphon phonetic implementations, including a
+  ``Polyphone`` compatibility alias for the naming used in the Word checklist.
+
 0.6.0 (2020-00-00) *frija*
 ++++++++++++++++++++++++++
 

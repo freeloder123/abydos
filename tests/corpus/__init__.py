@@ -18,9 +18,3 @@
 
 This module contains unit tests for abydos.corpus
 """
-
-import unittest
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -19,78 +19,68 @@
 This module contains unit tests for abydos.stemmer.CLEFSwedish
 """
 
-import unittest
 
 from abydos.stemmer import CLEFSwedish
 
 
-class CLEFTestCases(unittest.TestCase):
-    """Test CLEF Swedish functions.
-
-    abydos.stemmer.CLEFSwedish
-    """
-
-    stmr = CLEFSwedish()
-
-    def test_clef_swedish(self):
-        """Test abydos.stemmer.CLEFSwedish."""
-        # base case
-        self.assertEqual(self.stmr.stem(''), '')
-
-        # unstemmed
-        self.assertEqual(self.stmr.stem('konung'), 'konung')
-
-        # len <= 3
-        self.assertEqual(self.stmr.stem('km'), 'km')
-        self.assertEqual(self.stmr.stem('ja'), 'ja')
-        self.assertEqual(self.stmr.stem('de'), 'de')
-        self.assertEqual(self.stmr.stem('in'), 'in')
-        self.assertEqual(self.stmr.stem('a'), 'a')
-        self.assertEqual(self.stmr.stem('mer'), 'mer')
-        self.assertEqual(self.stmr.stem('s'), 's')
-        self.assertEqual(self.stmr.stem('e'), 'e')
-        self.assertEqual(self.stmr.stem('oss'), 'oss')
-        self.assertEqual(self.stmr.stem('hos'), 'hos')
-
-        # genitive
-        self.assertEqual(self.stmr.stem('svenskars'), 'svensk')
-        self.assertEqual(self.stmr.stem('stadens'), 'stad')
-        self.assertEqual(self.stmr.stem('kommuns'), 'kommu')
-        self.assertEqual(self.stmr.stem('aftonbladets'), 'aftonblad')
-
-        # len > 7
-        self.assertEqual(self.stmr.stem('fängelser'), 'fäng')
-        self.assertEqual(self.stmr.stem('möjligheten'), 'möjlig')
-
-        # len > 6
-        self.assertEqual(self.stmr.stem('svenskar'), 'svensk')
-        self.assertEqual(self.stmr.stem('myndigheterna'), 'myndighet')
-        self.assertEqual(self.stmr.stem('avgörande'), 'avgör')
-        self.assertEqual(self.stmr.stem('fängelse'), 'fäng')
-        self.assertEqual(self.stmr.stem('viktigaste'), 'viktig')
-        self.assertEqual(self.stmr.stem('kvinnorna'), 'kvinn')
-        self.assertEqual(self.stmr.stem('åklagaren'), 'åklag')
-
-        # len > 5
-        self.assertEqual(self.stmr.stem('tidigare'), 'tidig')
-        self.assertEqual(self.stmr.stem('senast'), 'sen')
-        self.assertEqual(self.stmr.stem('möjlighet'), 'möjlig')
-
-        # len > 4
-        self.assertEqual(self.stmr.stem('svenskar'), 'svensk')
-        self.assertEqual(self.stmr.stem('skriver'), 'skriv')
-        self.assertEqual(self.stmr.stem('människor'), 'människ')
-        self.assertEqual(self.stmr.stem('staden'), 'stad')
-        self.assertEqual(self.stmr.stem('kunnat'), 'kunn')
-        self.assertEqual(self.stmr.stem('samarbete'), 'samarbe')
-        self.assertEqual(self.stmr.stem('aftonbladet'), 'aftonblad')
-
-        # len > 3
-        self.assertEqual(self.stmr.stem('allt'), 'all')
-        self.assertEqual(self.stmr.stem('vilka'), 'vilk')
-        self.assertEqual(self.stmr.stem('länge'), 'läng')
-        self.assertEqual(self.stmr.stem('kommun'), 'kommu')
+stmr = CLEFSwedish()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_clef_swedish():
+    """Test abydos.stemmer.CLEFSwedish."""
+    # base case
+    assert stmr.stem('') == ''
+
+    # unstemmed
+    assert stmr.stem('konung') == 'konung'
+
+    # len <= 3
+    assert stmr.stem('km') == 'km'
+    assert stmr.stem('ja') == 'ja'
+    assert stmr.stem('de') == 'de'
+    assert stmr.stem('in') == 'in'
+    assert stmr.stem('a') == 'a'
+    assert stmr.stem('mer') == 'mer'
+    assert stmr.stem('s') == 's'
+    assert stmr.stem('e') == 'e'
+    assert stmr.stem('oss') == 'oss'
+    assert stmr.stem('hos') == 'hos'
+
+    # genitive
+    assert stmr.stem('svenskars') == 'svensk'
+    assert stmr.stem('stadens') == 'stad'
+    assert stmr.stem('kommuns') == 'kommu'
+    assert stmr.stem('aftonbladets') == 'aftonblad'
+
+    # len > 7
+    assert stmr.stem('fängelser') == 'fäng'
+    assert stmr.stem('möjligheten') == 'möjlig'
+
+    # len > 6
+    assert stmr.stem('svenskar') == 'svensk'
+    assert stmr.stem('myndigheterna') == 'myndighet'
+    assert stmr.stem('avgörande') == 'avgör'
+    assert stmr.stem('fängelse') == 'fäng'
+    assert stmr.stem('viktigaste') == 'viktig'
+    assert stmr.stem('kvinnorna') == 'kvinn'
+    assert stmr.stem('åklagaren') == 'åklag'
+
+    # len > 5
+    assert stmr.stem('tidigare') == 'tidig'
+    assert stmr.stem('senast') == 'sen'
+    assert stmr.stem('möjlighet') == 'möjlig'
+
+    # len > 4
+    assert stmr.stem('svenskar') == 'svensk'
+    assert stmr.stem('skriver') == 'skriv'
+    assert stmr.stem('människor') == 'människ'
+    assert stmr.stem('staden') == 'stad'
+    assert stmr.stem('kunnat') == 'kunn'
+    assert stmr.stem('samarbete') == 'samarbe'
+    assert stmr.stem('aftonbladet') == 'aftonblad'
+
+    # len > 3
+    assert stmr.stem('allt') == 'all'
+    assert stmr.stem('vilka') == 'vilk'
+    assert stmr.stem('länge') == 'läng'
+    assert stmr.stem('kommun') == 'kommu'

@@ -21,7 +21,6 @@ This module contains unit tests for Abydos
 """
 
 import os
-import unittest
 from random import random
 
 CORPORA = os.path.join(os.path.dirname(__file__), 'corpora')
@@ -126,5 +125,3 @@ def _one_in(inverse_probability):
         return False
 
 
-if __name__ == '__main__':
-    unittest.main()

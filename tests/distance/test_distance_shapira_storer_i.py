@@ -19,142 +19,95 @@
 This module contains unit tests for abydos.distance.ShapiraStorerI
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import ShapiraStorerI
 
 
-class ShapiraStorerITestCases(unittest.TestCase):
-    """Test ShapiraStorerI functions.
+cmp = ShapiraStorerI()
 
-    abydos.distance.ShapiraStorerI
-    """
-
-    cmp = ShapiraStorerI()
-    cmp_prime = ShapiraStorerI(prime=True)
-
-    def test_shapira_storer_i_dist(self):
-        """Test abydos.distance.ShapiraStorerI.dist."""
-        # Base cases
-        self.assertEqual(self.cmp.dist('', ''), 0.0)
-        self.assertEqual(self.cmp.dist('a', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'a'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', ''), 1.0)
-        self.assertEqual(self.cmp.dist('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.dist('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist('abcd', 'efgh'), 1.0)
-
-        self.assertAlmostEqual(self.cmp.dist('Nigel', 'Niall'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Niall', 'Nigel'), 0.4)
-        self.assertAlmostEqual(self.cmp.dist('Colin', 'Coiln'), 0.1)
-        self.assertAlmostEqual(self.cmp.dist('Coiln', 'Colin'), 0.1)
-        self.assertAlmostEqual(
-            self.cmp.dist('ATCAACGAGT', 'AACGATTAG'), 0.2105263158
-        )
-
-        self.assertAlmostEqual(
-            self.cmp.dist('AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'),
-            0.3409090909090909,
-        )
-        self.assertAlmostEqual(
-            self.cmp_prime.dist(
-                'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
-            ),
-            0.5454545454545454,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist('AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'),
-            0.3409090909090909,
-        )
-        self.assertAlmostEqual(
-            self.cmp_prime.dist(
-                'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
-            ),
-            0.5454545454545454,
-        )
-
-    def test_shapira_storer_i_sim(self):
-        """Test abydos.distance.ShapiraStorerI.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 0.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 0.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abcd', 'efgh'), 0.0)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.6)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.9)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.9)
-        self.assertAlmostEqual(
-            self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 0.7894736842
-        )
-
-        self.assertAlmostEqual(
-            self.cmp.sim('AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'),
-            0.6590909090909092,
-        )
-        self.assertAlmostEqual(
-            self.cmp_prime.sim(
-                'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
-            ),
-            0.4545454545454546,
-        )
-        self.assertAlmostEqual(
-            self.cmp.sim('AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'),
-            0.6590909090909092,
-        )
-        self.assertAlmostEqual(
-            self.cmp_prime.sim(
-                'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
-            ),
-            0.4545454545454546,
-        )
-
-    def test_shapira_storer_i_dist_abs(self):
-        """Test abydos.distance.ShapiraStorerI.dist_abs."""
-        # Base cases
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 3)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 3)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 8)
-
-        self.assertAlmostEqual(self.cmp.dist_abs('Nigel', 'Niall'), 4)
-        self.assertAlmostEqual(self.cmp.dist_abs('Niall', 'Nigel'), 4)
-        self.assertAlmostEqual(self.cmp.dist_abs('Colin', 'Coiln'), 1)
-        self.assertAlmostEqual(self.cmp.dist_abs('Coiln', 'Colin'), 1)
-        self.assertAlmostEqual(self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 4)
-
-        self.assertAlmostEqual(
-            self.cmp.dist_abs(
-                'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
-            ),
-            15,
-        )
-        self.assertAlmostEqual(
-            self.cmp_prime.dist_abs(
-                'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
-            ),
-            24,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs(
-                'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
-            ),
-            15,
-        )
-        self.assertAlmostEqual(
-            self.cmp_prime.dist_abs(
-                'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
-            ),
-            24,
-        )
+cmp_prime = ShapiraStorerI(prime=True)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_shapira_storer_i_dist():
+    """Test abydos.distance.ShapiraStorerI.dist."""
+    # Base cases
+    assert cmp.dist('', '') == 0.0
+    assert cmp.dist('a', '') == 1.0
+    assert cmp.dist('', 'a') == 1.0
+    assert cmp.dist('abc', '') == 1.0
+    assert cmp.dist('', 'abc') == 1.0
+    assert cmp.dist('abc', 'abc') == 0.0
+    assert cmp.dist('abcd', 'efgh') == 1.0
+
+    assert cmp.dist('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.4)
+    assert cmp.dist('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.1)
+    assert cmp.dist('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.1)
+    assert cmp.dist('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.2105263158)
+
+    assert cmp.dist('AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB') == pytest.approx(abs=1e-7, expected=0.3409090909090909)
+    assert cmp_prime.dist(
+            'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
+        ) == pytest.approx(abs=1e-7, expected=0.5454545454545454)
+    assert cmp.dist('AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB') == pytest.approx(abs=1e-7, expected=0.3409090909090909)
+    assert cmp_prime.dist(
+            'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
+        ) == pytest.approx(abs=1e-7, expected=0.5454545454545454)
+
+def test_shapira_storer_i_sim():
+    """Test abydos.distance.ShapiraStorerI.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 0.0
+    assert cmp.sim('', 'a') == 0.0
+    assert cmp.sim('abc', '') == 0.0
+    assert cmp.sim('', 'abc') == 0.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == 0.0
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.6)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=0.7894736842)
+
+    assert cmp.sim('AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB') == pytest.approx(abs=1e-7, expected=0.6590909090909092)
+    assert cmp_prime.sim(
+            'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
+        ) == pytest.approx(abs=1e-7, expected=0.4545454545454546)
+    assert cmp.sim('AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB') == pytest.approx(abs=1e-7, expected=0.6590909090909092)
+    assert cmp_prime.sim(
+            'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
+        ) == pytest.approx(abs=1e-7, expected=0.4545454545454546)
+
+def test_shapira_storer_i_dist_abs():
+    """Test abydos.distance.ShapiraStorerI.dist_abs."""
+    # Base cases
+    assert cmp.dist_abs('', '') == 0
+    assert cmp.dist_abs('a', '') == 1
+    assert cmp.dist_abs('', 'a') == 1
+    assert cmp.dist_abs('abc', '') == 3
+    assert cmp.dist_abs('', 'abc') == 3
+    assert cmp.dist_abs('abc', 'abc') == 0
+    assert cmp.dist_abs('abcd', 'efgh') == 8
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=4)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=4)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=1)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=1)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=4)
+
+    assert cmp.dist_abs(
+            'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
+        ) == pytest.approx(abs=1e-7, expected=15)
+    assert cmp_prime.dist_abs(
+            'AABAACADAB', 'AABAABAACADABADABAABAABAACADABADAB'
+        ) == pytest.approx(abs=1e-7, expected=24)
+    assert cmp.dist_abs(
+            'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
+        ) == pytest.approx(abs=1e-7, expected=15)
+    assert cmp_prime.dist_abs(
+            'AABAABAACADABADABAABAABAACADABADAB', 'AABAACADAB'
+        ) == pytest.approx(abs=1e-7, expected=24)

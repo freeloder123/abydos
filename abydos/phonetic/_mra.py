@@ -64,6 +64,8 @@ class MRA(_Phonetic):
             Encapsulated in class
 
         """
+        self._validate_word(word)
+
         if not word:
             return word
         word = word.upper()

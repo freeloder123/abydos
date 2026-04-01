@@ -19,7 +19,8 @@
 This module contains unit tests for abydos.distance.Chebyshev
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Chebyshev
 from abydos.tokenizer import QGrams, WhitespaceTokenizer
@@ -27,73 +28,56 @@ from abydos.tokenizer import QGrams, WhitespaceTokenizer
 from .. import NONQ_FROM, NONQ_TO
 
 
-class ChebyshevTestCases(unittest.TestCase):
-    """Test Chebyshev functions.
+cmp = Chebyshev()
 
-    abydos.distance.Chebyshev
-    """
+cmp_q2 = Chebyshev(tokenizer=QGrams(2))
 
-    cmp = Chebyshev()
-    cmp_q2 = Chebyshev(tokenizer=QGrams(2))
-    cmp_ws = Chebyshev(tokenizer=WhitespaceTokenizer())
-
-    def test_chebyshev_dist_abs(self):
-        """Test abydos.distance.Chebyshev.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp.dist_abs('nelson', ''), 1)
-        self.assertEqual(self.cmp.dist_abs('', 'neilsen'), 1)
-        self.assertEqual(self.cmp.dist_abs('nelson', 'neilsen'), 1)
-
-        self.assertEqual(self.cmp_q2.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_q2.dist_abs('nelson', ''), 1)
-        self.assertEqual(self.cmp_q2.dist_abs('', 'neilsen'), 1)
-        self.assertAlmostEqual(self.cmp_q2.dist_abs('nelson', 'neilsen'), 1)
-
-        # supplied q-gram tests
-        self.assertEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            0,
-        )
-        self.assertEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('').get_counter(),
-            ),
-            1,
-        )
-        self.assertEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1,
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs(
-                QGrams().tokenize('nelson').get_counter(),
-                QGrams().tokenize('neilsen').get_counter(),
-            ),
-            1,
-        )
-
-        # non-q-gram tests
-        self.assertEqual(self.cmp_ws.dist_abs('', ''), 0)
-        self.assertEqual(self.cmp_ws.dist_abs('the quick', ''), 1)
-        self.assertEqual(self.cmp_ws.dist_abs('', 'the quick'), 1)
-        self.assertAlmostEqual(self.cmp_ws.dist_abs(NONQ_FROM, NONQ_TO), 1)
-        self.assertAlmostEqual(self.cmp_ws.dist_abs(NONQ_TO, NONQ_FROM), 1)
-
-    def test_chebyshev_dist(self):
-        """Test abydos.distance.Chebyshev.dist."""
-        self.assertRaises(NotImplementedError, self.cmp.dist)
-
-    def test_chebyshev_sim(self):
-        """Test abydos.distance.Chebyshev.sim."""
-        self.assertRaises(NotImplementedError, self.cmp.sim)
+cmp_ws = Chebyshev(tokenizer=WhitespaceTokenizer())
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_chebyshev_dist_abs():
+    """Test abydos.distance.Chebyshev.dist_abs."""
+    assert cmp.dist_abs('', '') == 0
+    assert cmp.dist_abs('nelson', '') == 1
+    assert cmp.dist_abs('', 'neilsen') == 1
+    assert cmp.dist_abs('nelson', 'neilsen') == 1
+
+    assert cmp_q2.dist_abs('', '') == 0
+    assert cmp_q2.dist_abs('nelson', '') == 1
+    assert cmp_q2.dist_abs('', 'neilsen') == 1
+    assert cmp_q2.dist_abs('nelson', 'neilsen') == pytest.approx(abs=1e-7, expected=1)
+
+    # supplied q-gram tests
+    assert (
+        cmp.dist_abs( QGrams().tokenize('').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 0
+    )
+    assert (
+        cmp.dist_abs( QGrams().tokenize('nelson').get_counter(), QGrams().tokenize('').get_counter(), )
+        == 1
+    )
+    assert (
+        cmp.dist_abs( QGrams().tokenize('').get_counter(), QGrams().tokenize('neilsen').get_counter(), )
+        == 1
+    )
+    assert cmp.dist_abs(
+            QGrams().tokenize('nelson').get_counter(),
+            QGrams().tokenize('neilsen').get_counter(),
+        ) == pytest.approx(abs=1e-7, expected=1)
+
+    # non-q-gram tests
+    assert cmp_ws.dist_abs('', '') == 0
+    assert cmp_ws.dist_abs('the quick', '') == 1
+    assert cmp_ws.dist_abs('', 'the quick') == 1
+    assert cmp_ws.dist_abs(NONQ_FROM, NONQ_TO) == pytest.approx(abs=1e-7, expected=1)
+    assert cmp_ws.dist_abs(NONQ_TO, NONQ_FROM) == pytest.approx(abs=1e-7, expected=1)
+
+def test_chebyshev_dist():
+    """Test abydos.distance.Chebyshev.dist."""
+    with pytest.raises(NotImplementedError):
+        cmp.dist()
+
+def test_chebyshev_sim():
+    """Test abydos.distance.Chebyshev.sim."""
+    with pytest.raises(NotImplementedError):
+        cmp.sim()

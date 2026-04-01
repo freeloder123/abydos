@@ -19,54 +19,38 @@
 This module contains unit tests for abydos.distance.Millar
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import Millar
 
 
-class MillarTestCases(unittest.TestCase):
-    """Test Millar functions.
-
-    abydos.distance.Millar
-    """
-
-    cmp = Millar()
-
-    def test_millar_dist_abs(self):
-        """Test abydos.distance.Millar.dist_abs."""
-        self.assertEqual(self.cmp.dist_abs('', ''), 0.0)
-        self.assertEqual(self.cmp.dist_abs('a', ''), 1.3862943611198906)
-        self.assertEqual(self.cmp.dist_abs('', 'a'), 1.3862943611198906)
-        self.assertEqual(self.cmp.dist_abs('a', 'a'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('abc', ''), 2.772588722239781)
-        self.assertEqual(self.cmp.dist_abs('', 'abc'), 2.772588722239781)
-        self.assertEqual(self.cmp.dist_abs('abc', 'abc'), 0.0)
-        self.assertEqual(self.cmp.dist_abs('abcd', 'efgh'), 6.931471805599453)
-
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Nigel', 'Niall'), 4.1588830833596715
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Niall', 'Nigel'), 4.1588830833596715
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Colin', 'Coiln'), 4.1588830833596715
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('Coiln', 'Colin'), 4.1588830833596715
-        )
-        self.assertAlmostEqual(
-            self.cmp.dist_abs('ATCAACGAGT', 'AACGATTAG'), 4.852030263919617
-        )
-
-    def test_millar_dist(self):
-        """Test abydos.distance.Millar.dist."""
-        self.assertRaises(NotImplementedError, self.cmp.dist)
-
-    def test_millar_sim(self):
-        """Test abydos.distance.Millar.sim."""
-        self.assertRaises(NotImplementedError, self.cmp.sim)
+cmp = Millar()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_millar_dist_abs():
+    """Test abydos.distance.Millar.dist_abs."""
+    assert cmp.dist_abs('', '') == 0.0
+    assert cmp.dist_abs('a', '') == 1.3862943611198906
+    assert cmp.dist_abs('', 'a') == 1.3862943611198906
+    assert cmp.dist_abs('a', 'a') == 0.0
+    assert cmp.dist_abs('abc', '') == 2.772588722239781
+    assert cmp.dist_abs('', 'abc') == 2.772588722239781
+    assert cmp.dist_abs('abc', 'abc') == 0.0
+    assert cmp.dist_abs('abcd', 'efgh') == 6.931471805599453
+
+    assert cmp.dist_abs('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=4.1588830833596715)
+    assert cmp.dist_abs('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=4.1588830833596715)
+    assert cmp.dist_abs('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=4.1588830833596715)
+    assert cmp.dist_abs('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=4.1588830833596715)
+    assert cmp.dist_abs('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=4.852030263919617)
+
+def test_millar_dist():
+    """Test abydos.distance.Millar.dist."""
+    with pytest.raises(NotImplementedError):
+        cmp.dist()
+
+def test_millar_sim():
+    """Test abydos.distance.Millar.sim."""
+    with pytest.raises(NotImplementedError):
+        cmp.sim()

@@ -19,12 +19,12 @@
 This module contains unit tests for abydos.distance.NCDbwtrle
 """
 
-import unittest
+import pytest
 
 from abydos.distance import NCDbwtrle
 
 
-class NCDbwtrleTestCases(unittest.TestCase):
+class TestNCDbwtrle:
     """Test compression distance functions.
 
     abydos.distance.NCDbwtrle
@@ -34,30 +34,40 @@ class NCDbwtrleTestCases(unittest.TestCase):
 
     def test_ncd_bwtrle_dist(self):
         """Test abydos.distance.NCDbwtrle.dist."""
-        self.assertEqual(self.cmp.dist('', ''), 0)
-        self.assertGreater(self.cmp.dist('a', ''), 0)
-        self.assertGreater(self.cmp.dist('abcdefg', 'fg'), 0)
+        assert self.cmp.dist('', '') == 0
+        assert self.cmp.dist('a', '') > 0
+        assert self.cmp.dist('abcdefg', 'fg') > 0
 
-        self.assertAlmostEqual(self.cmp.dist('abc', 'abc'), 0)
-        self.assertAlmostEqual(self.cmp.dist('abc', 'def'), 0.75)
-
-        self.assertAlmostEqual(
-            self.cmp.dist('banana', 'banane'), 0.57142857142
+        assert self.cmp.dist('abc', 'abc') == pytest.approx(
+            abs=1e-7, expected=0
         )
-        self.assertAlmostEqual(self.cmp.dist('bananas', 'bananen'), 0.5)
+        assert self.cmp.dist('abc', 'def') == pytest.approx(
+            abs=1e-7, expected=0.75
+        )
+
+        assert self.cmp.dist('banana', 'banane') == pytest.approx(
+            abs=1e-7, expected=0.57142857142
+        )
+        assert self.cmp.dist('bananas', 'bananen') == pytest.approx(
+            abs=1e-7, expected=0.5
+        )
 
     def test_ncd_bwtrle_sim(self):
         """Test abydos.distance.NCDbwtrle.sim."""
-        self.assertEqual(self.cmp.sim('', ''), 1)
-        self.assertLess(self.cmp.sim('a', ''), 1)
-        self.assertLess(self.cmp.sim('abcdefg', 'fg'), 1)
+        assert self.cmp.sim('', '') == 1
+        assert self.cmp.sim('a', '') < 1
+        assert self.cmp.sim('abcdefg', 'fg') < 1
 
-        self.assertAlmostEqual(self.cmp.sim('abc', 'abc'), 1)
-        self.assertAlmostEqual(self.cmp.sim('abc', 'def'), 0.25)
+        assert self.cmp.sim('abc', 'abc') == pytest.approx(
+            abs=1e-7, expected=1
+        )
+        assert self.cmp.sim('abc', 'def') == pytest.approx(
+            abs=1e-7, expected=0.25
+        )
 
-        self.assertAlmostEqual(self.cmp.sim('banana', 'banane'), 0.42857142857)
-        self.assertAlmostEqual(self.cmp.sim('bananas', 'bananen'), 0.5)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert self.cmp.sim('banana', 'banane') == pytest.approx(
+            abs=1e-7, expected=0.42857142857
+        )
+        assert self.cmp.sim('bananas', 'bananen') == pytest.approx(
+            abs=1e-7, expected=0.5
+        )

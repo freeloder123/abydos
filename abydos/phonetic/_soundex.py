@@ -92,12 +92,13 @@ class Soundex(_Phonetic):
         .. versionadded:: 0.4.0
 
         """
-        # Require a max_length of at least 4 and not more than 64
-        if max_length != -1:
-            self._max_length = min(max(4, max_length), 64)
-        else:
-            self._max_length = 64
+        self._max_length = self._validate_max_length(max_length)
 
+        if var not in self.SOUNDEX_VARIANTS:
+            raise ValueError(
+                f'var must be one of {sorted(self.SOUNDEX_VARIANTS)}, '
+                f'got {var!r}'
+            )
         self._var = var
         self._reverse = reverse
         self._zero_pad = zero_pad
@@ -186,6 +187,8 @@ class Soundex(_Phonetic):
             Made return a str only (comma-separated)
 
         """
+        self._validate_word(word)
+
         # uppercase, normalize, decompose, and filter non-A-Z out
         word = unicode_normalize('NFKD', word.upper())
 

@@ -19,36 +19,24 @@
 This module contains unit tests for abydos.phonetic.MRA
 """
 
-import unittest
-
 from abydos.phonetic import MRA
 
 
-class MraTestCases(unittest.TestCase):
-    """Test MRA functions.
+pa = MRA()
 
-    test cases for abydos.phonetic.MRA
-    """
+def test_mra():
+    """Test abydos.phonetic.MRA."""
+    assert pa.encode('') == ''
 
-    pa = MRA()
+    # https://en.wikipedia.org/wiki/Match_rating_approach
+    assert pa.encode('Byrne') == 'BYRN'
+    assert pa.encode('Boern') == 'BRN'
+    assert pa.encode('Smith') == 'SMTH'
+    assert pa.encode('Smyth') == 'SMYTH'
+    assert pa.encode('Catherine') == 'CTHRN'
+    assert pa.encode('Kathryn') == 'KTHRYN'
 
-    def test_mra(self):
-        """Test abydos.phonetic.MRA."""
-        self.assertEqual(self.pa.encode(''), '')
-
-        # https://en.wikipedia.org/wiki/Match_rating_approach
-        self.assertEqual(self.pa.encode('Byrne'), 'BYRN')
-        self.assertEqual(self.pa.encode('Boern'), 'BRN')
-        self.assertEqual(self.pa.encode('Smith'), 'SMTH')
-        self.assertEqual(self.pa.encode('Smyth'), 'SMYTH')
-        self.assertEqual(self.pa.encode('Catherine'), 'CTHRN')
-        self.assertEqual(self.pa.encode('Kathryn'), 'KTHRYN')
-
-        # length checks
-        self.assertEqual(self.pa.encode('Christopher'), 'CHRPHR')
-        self.assertEqual(self.pa.encode('Dickensianistic'), 'DCKSTC')
-        self.assertEqual(self.pa.encode('Acetylcholinesterase'), 'ACTTRS')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # length checks
+    assert pa.encode('Christopher') == 'CHRPHR'
+    assert pa.encode('Dickensianistic') == 'DCKSTC'
+    assert pa.encode('Acetylcholinesterase') == 'ACTTRS'

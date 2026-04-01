@@ -19,37 +19,29 @@
 This module contains unit tests for abydos.distance.RaupCrick
 """
 
-import unittest
+
+import pytest
 
 from abydos.distance import RaupCrick
 
 
-class RaupCrickTestCases(unittest.TestCase):
-    """Test RaupCrick functions.
-
-    abydos.distance.RaupCrick
-    """
-
-    cmp = RaupCrick()
-
-    def test_raup_crick_sim(self):
-        """Test abydos.distance.RaupCrick.sim."""
-        # Base cases
-        self.assertEqual(self.cmp.sim('', ''), 1.0)
-        self.assertEqual(self.cmp.sim('a', ''), 1.0)
-        self.assertEqual(self.cmp.sim('', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('a', 'a'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', ''), 1.0)
-        self.assertEqual(self.cmp.sim('', 'abc'), 1.0)
-        self.assertEqual(self.cmp.sim('abc', 'abc'), 1.0)
-        self.assertAlmostEqual(self.cmp.sim('abcd', 'efgh'), 0.9684367974)
-
-        self.assertAlmostEqual(self.cmp.sim('Nigel', 'Niall'), 0.9999999857)
-        self.assertAlmostEqual(self.cmp.sim('Niall', 'Nigel'), 0.9999999857)
-        self.assertAlmostEqual(self.cmp.sim('Colin', 'Coiln'), 0.9999999857)
-        self.assertAlmostEqual(self.cmp.sim('Coiln', 'Colin'), 0.9999999857)
-        self.assertAlmostEqual(self.cmp.sim('ATCAACGAGT', 'AACGATTAG'), 1.0)
+cmp = RaupCrick()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_raup_crick_sim():
+    """Test abydos.distance.RaupCrick.sim."""
+    # Base cases
+    assert cmp.sim('', '') == 1.0
+    assert cmp.sim('a', '') == 1.0
+    assert cmp.sim('', 'a') == 1.0
+    assert cmp.sim('a', 'a') == 1.0
+    assert cmp.sim('abc', '') == 1.0
+    assert cmp.sim('', 'abc') == 1.0
+    assert cmp.sim('abc', 'abc') == 1.0
+    assert cmp.sim('abcd', 'efgh') == pytest.approx(abs=1e-7, expected=0.9684367974)
+
+    assert cmp.sim('Nigel', 'Niall') == pytest.approx(abs=1e-7, expected=0.9999999857)
+    assert cmp.sim('Niall', 'Nigel') == pytest.approx(abs=1e-7, expected=0.9999999857)
+    assert cmp.sim('Colin', 'Coiln') == pytest.approx(abs=1e-7, expected=0.9999999857)
+    assert cmp.sim('Coiln', 'Colin') == pytest.approx(abs=1e-7, expected=0.9999999857)
+    assert cmp.sim('ATCAACGAGT', 'AACGATTAG') == pytest.approx(abs=1e-7, expected=1.0)

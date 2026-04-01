@@ -19,49 +19,25 @@
 This module contains unit tests for abydos.distance._Distance
 """
 
-import unittest
 
 from abydos.distance import Dice, Levenshtein
 
 
-class DistanceTestCases(unittest.TestCase):
-    """Test _Distance base class.
+lev = Levenshtein()
 
-    abydos.distance._Distance.sim, .dist, & .dist_abs
-    """
-
-    lev = Levenshtein()
-    dice = Dice()
-
-    def test_sim(self):
-        """Test abydos.distance._Distance.sim."""
-        self.assertEqual(
-            self.lev.sim('Niall', 'Nigel'),
-            1.0 - self.lev.dist('Niall', 'Nigel'),
-        )
-        self.assertEqual(
-            self.dice.dist('Niall', 'Nigel'),
-            1.0 - self.dice.sim('Niall', 'Nigel'),
-        )
-
-    def test_dist(self):
-        """Test abydos.distance._Distance.dist."""
-        self.assertEqual(
-            1.0 - self.lev.sim('Niall', 'Nigel'),
-            self.lev.dist('Niall', 'Nigel'),
-        )
-        self.assertEqual(
-            1.0 - self.dice.dist('Niall', 'Nigel'),
-            self.dice.sim('Niall', 'Nigel'),
-        )
-
-    def test_dist_abs(self):
-        """Test abydos.distance._Distance.dist_abs."""
-        self.assertEqual(
-            self.dice.dist('Niall', 'Nigel'),
-            self.dice.dist_abs('Niall', 'Nigel'),
-        )
+dice = Dice()
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_sim():
+    """Test abydos.distance._Distance.sim."""
+    assert lev.sim('Niall', 'Nigel') == 1.0 - lev.dist('Niall', 'Nigel')
+    assert dice.dist('Niall', 'Nigel') == 1.0 - dice.sim('Niall', 'Nigel')
+
+def test_dist():
+    """Test abydos.distance._Distance.dist."""
+    assert 1.0 - lev.sim('Niall', 'Nigel') == lev.dist('Niall', 'Nigel')
+    assert 1.0 - dice.dist('Niall', 'Nigel') == dice.sim('Niall', 'Nigel')
+
+def test_dist_abs():
+    """Test abydos.distance._Distance.dist_abs."""
+    assert dice.dist('Niall', 'Nigel') == dice.dist_abs('Niall', 'Nigel')

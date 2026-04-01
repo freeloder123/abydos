@@ -19,74 +19,46 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import CharacterTokenizer
 
 
-class CharacterTokenizerTestCases(unittest.TestCase):
+def test_character_tokenizer():
     """Test abydos.tokenizer.CharacterTokenizer."""
+    assert sorted(CharacterTokenizer().tokenize('').get_list()) == []
+    assert sorted(CharacterTokenizer().tokenize('a').get_list()) == ['a']
 
-    def test_character_tokenizer(self):
-        """Test abydos.tokenizer.CharacterTokenizer."""
-        self.assertEqual(
-            sorted(CharacterTokenizer().tokenize('').get_list()), []
-        )
-        self.assertEqual(
-            sorted(CharacterTokenizer().tokenize('a').get_list()), ['a']
-        )
+    assert (
+        sorted(CharacterTokenizer().tokenize('NELSON').get_list())
+        == sorted(['N', 'E', 'L', 'S', 'O', 'N'])
+    )
 
-        self.assertEqual(
-            sorted(CharacterTokenizer().tokenize('NELSON').get_list()),
-            sorted(['N', 'E', 'L', 'S', 'O', 'N']),
-        )
+def test_character_tokenizer_intersections():
+    """Test abydos.tokenizer.CharacterTokenizer intersections."""
+    assert (
+        sorted( CharacterTokenizer().tokenize('NELSON') & CharacterTokenizer().tokenize('') )
+        == []
+    )
+    assert (
+        sorted( CharacterTokenizer().tokenize('') & CharacterTokenizer().tokenize('NEILSEN') )
+        == []
+    )
+    assert (
+        sorted( CharacterTokenizer().tokenize('NELSON') & CharacterTokenizer().tokenize('NEILSEN') )
+        == sorted(['N', 'E', 'L', 'S'])
+    )
+    assert (
+        sorted( CharacterTokenizer().tokenize('NAIL') & CharacterTokenizer().tokenize('LIAN') )
+        == sorted(['N', 'A', 'I', 'L'])
+    )
 
-    def test_character_tokenizer_intersections(self):
-        """Test abydos.tokenizer.CharacterTokenizer intersections."""
-        self.assertEqual(
-            sorted(
-                CharacterTokenizer().tokenize('NELSON')
-                & CharacterTokenizer().tokenize('')
-            ),
-            [],
-        )
-        self.assertEqual(
-            sorted(
-                CharacterTokenizer().tokenize('')
-                & CharacterTokenizer().tokenize('NEILSEN')
-            ),
-            [],
-        )
-        self.assertEqual(
-            sorted(
-                CharacterTokenizer().tokenize('NELSON')
-                & CharacterTokenizer().tokenize('NEILSEN')
-            ),
-            sorted(['N', 'E', 'L', 'S']),
-        )
-        self.assertEqual(
-            sorted(
-                CharacterTokenizer().tokenize('NAIL')
-                & CharacterTokenizer().tokenize('LIAN')
-            ),
-            sorted(['N', 'A', 'I', 'L']),
-        )
+def test_character_tokenizer_counts():
+    """Test abydos.tokenizer.CharacterTokenizer counts."""
+    assert CharacterTokenizer().tokenize('').count() == 0
+    assert len(CharacterTokenizer().tokenize('').get_list()) == 0
 
-    def test_character_tokenizer_counts(self):
-        """Test abydos.tokenizer.CharacterTokenizer counts."""
-        self.assertEqual(CharacterTokenizer().tokenize('').count(), 0)
-        self.assertEqual(len(CharacterTokenizer().tokenize('').get_list()), 0)
+    assert CharacterTokenizer().tokenize('NEILSEN').count() == 7
+    assert CharacterTokenizer().tokenize('NELSON').count() == 6
 
-        self.assertEqual(CharacterTokenizer().tokenize('NEILSEN').count(), 7)
-        self.assertEqual(CharacterTokenizer().tokenize('NELSON').count(), 6)
-
-        self.assertEqual(
-            len(CharacterTokenizer().tokenize('NEILSEN').get_list()), 7
-        )
-        self.assertEqual(
-            len(CharacterTokenizer().tokenize('NELSON').get_list()), 6
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert len(CharacterTokenizer().tokenize('NEILSEN').get_list()) == 7
+    assert len(CharacterTokenizer().tokenize('NELSON').get_list()) == 6

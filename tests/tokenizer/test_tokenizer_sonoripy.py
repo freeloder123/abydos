@@ -19,57 +19,44 @@
 This module contains unit tests for abydos.tokenizer.QGrams
 """
 
-import unittest
 
 from abydos.tokenizer import SonoriPyTokenizer
 
 
-class SonoriPyTokenizerTestCases(unittest.TestCase):
+def test_sonoripy_tokenizer():
     """Test abydos.tokenizer.SonoriPyTokenizer."""
+    try:
+        from syllabipy.sonoripy import SonoriPy  # noqa: F401
+    except ImportError:  # pragma: no cover
+        return
 
-    def test_sonoripy_tokenizer(self):
-        """Test abydos.tokenizer.SonoriPyTokenizer."""
-        try:
-            from syllabipy.sonoripy import SonoriPy  # noqa: F401
-        except ImportError:  # pragma: no cover
-            return
+    assert sorted(SonoriPyTokenizer().tokenize('').get_list()) == ['']
+    assert sorted(SonoriPyTokenizer().tokenize('a').get_list()) == ['a']
 
-        self.assertEqual(
-            sorted(SonoriPyTokenizer().tokenize('').get_list()), ['']
-        )
-        self.assertEqual(
-            sorted(SonoriPyTokenizer().tokenize('a').get_list()), ['a']
-        )
+    tok = SonoriPyTokenizer()
 
-        tok = SonoriPyTokenizer()
-
-        self.assertEqual(
-            sorted(tok.tokenize('nelson').get_list()), sorted(['nel', 'son'])
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('neilson').get_list()), sorted(['neil', 'son'])
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('peninsular').get_list()),
-            sorted(['pe', 'nin', 'su', 'lar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('spectacular').get_list()),
-            sorted(['spec', 'ta', 'cu', 'lar']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('sufficiently').get_list()),
-            sorted(['suf', 'fi', 'cien', 'tly']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('yachting').get_list()),
-            sorted(['yach', 'ting']),
-        )
-        self.assertEqual(
-            sorted(tok.tokenize('caterpillars').get_list()),
-            sorted(['ca', 'ter', 'pil', 'lars']),
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
+    assert sorted(tok.tokenize('nelson').get_list()) == sorted(['nel', 'son'])
+    assert (
+        sorted(tok.tokenize('neilson').get_list())
+        == sorted(['neil', 'son'])
+    )
+    assert (
+        sorted(tok.tokenize('peninsular').get_list())
+        == sorted(['pe', 'nin', 'su', 'lar'])
+    )
+    assert (
+        sorted(tok.tokenize('spectacular').get_list())
+        == sorted(['spec', 'ta', 'cu', 'lar'])
+    )
+    assert (
+        sorted(tok.tokenize('sufficiently').get_list())
+        == sorted(['suf', 'fi', 'cien', 'tly'])
+    )
+    assert (
+        sorted(tok.tokenize('yachting').get_list())
+        == sorted(['yach', 'ting'])
+    )
+    assert (
+        sorted(tok.tokenize('caterpillars').get_list())
+        == sorted(['ca', 'ter', 'pil', 'lars'])
+    )
