@@ -1,0 +1,8 @@
+# Development dependencies for the maintained toolchain.
+
+-r requirements-test.txt
+sphinx>=8.2
+sphinx-rtd-theme>=3.0
+sphinxcontrib-bibtex>=2.6
+tox>=4.24
+ruff>=0.15.8

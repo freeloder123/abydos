@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=78", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abydos"
+dynamic = ["version"]
+description = "Abydos NLP/IR library"
+readme = "README.rst"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Christopher C. Little", email = "chrisclittle+abydos@gmail.com" },
+]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.3",
+]
+keywords = [
+    "nlp",
+    "ir",
+    "linguistics",
+    "phonetic algorithms",
+    "string distance",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Indexing",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+[project.optional-dependencies]
+test = [
+    "nltk>=3.9.3",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+]
+docs = [
+    "sphinx>=8.2",
+    "sphinx-rtd-theme>=3.0",
+    "sphinxcontrib-bibtex>=2.6",
+]
+lint = [
+    "ruff>=0.15.8",
+]
+
+[project.urls]
+Homepage = "https://github.com/chrislit/abydos"
+Documentation = "https://abydos.readthedocs.io/"
+Repository = "https://github.com/chrislit/abydos"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "abydos.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["abydos*"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --cov=abydos --cov-branch"
+norecursedirs = [".tox", ".venv314", "docs/_build"]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["abydos"]
+
+[tool.ruff]
+line-length = 79
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

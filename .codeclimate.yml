@@ -1,0 +1,25 @@
+---
+version: "2"
+plugins:
+  sonar-python:
+    enabled: true
+  fixme:
+    enabled: true
+  pylint:
+    enabled: true
+  radon:
+    enabled: true
+  duplication:
+    enabled: true
+  git-legal:
+    enabled: true
+  shellcheck:
+    enabled: true
+exclude_patterns:
+- "tests/"
+- "data/"
+- "helpers/"
+- "docs/"
+- "setup.py"
+- "badge_update.py"
+- "_beider_morse_data.py"

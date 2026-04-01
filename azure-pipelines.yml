@@ -1,0 +1,67 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+jobs:
+
+- job: 'Test'
+
+  strategy:
+    matrix:
+      Python311Linux:
+        python.version: '3.11'
+        imageName: 'ubuntu-latest'
+        architecture: 'x64'
+      Python312Linux:
+        python.version: '3.12'
+        imageName: 'ubuntu-latest'
+        architecture: 'x64'
+      Python313Linux:
+        python.version: '3.13'
+        imageName: 'ubuntu-latest'
+        architecture: 'x64'
+      Python314Linux:
+        python.version: '3.14'
+        imageName: 'ubuntu-latest'
+        architecture: 'x64'
+      Python314Windows:
+        python.version: '3.14'
+        imageName: 'windows-latest'
+        architecture: 'x64'
+      Python314MacOS:
+        python.version: '3.14'
+        imageName: 'macOS-latest'
+        architecture: 'x64'
+    maxParallel: 10
+
+  pool:
+    vmImage: $(imageName)
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+      architecture: '$(architecture)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt -r requirements-test.txt
+      pip install -e .
+    displayName: 'Install dependencies'
+
+  - script: |
+      python -m pytest --junitxml=junit/test-results.xml --cov=abydos --cov-branch --cov-report=xml --cov-report=html
+    displayName: 'pytest'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Python $(python.version)'
+    condition: succeededOrFailed()
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'

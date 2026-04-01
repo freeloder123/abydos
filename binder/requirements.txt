@@ -1,0 +1,7 @@
+abydos
+numpy>=2.3
+pandas>=2.2
+scikit-learn>=1.5
+nltk>=3.9.3
+tensorflow; python_version < "3.14"
+keras; python_version < "3.14"
