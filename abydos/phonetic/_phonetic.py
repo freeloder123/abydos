@@ -20,7 +20,7 @@ The phonetic._phonetic module implements abstract class Phonetic.
 """
 
 from itertools import groupby
-from typing import Optional, Set
+from typing import Optional
 
 __all__ = ['_Phonetic']
 
